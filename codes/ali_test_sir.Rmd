@@ -32,7 +32,7 @@ Notes on other references: (1) [testing_flow.md](testing_flow.md)(I am using the
 
 ## Model
 
-![](../inst/pix/sir_test1.jpg)
+![](../pix/sir_test1.jpg)
 
 Let the force of infection $\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0}$, where $\eta$ is the isolation parameter with the following assumptions:
 
