@@ -15,6 +15,12 @@ Notes on other references: (1) [testing_flow.md](testing_flow.md)(I am using the
 
 # On Math and Weighting
 
+## Objectives
+
+1- What combination of testing intensity, $t$, and isolation, $\eta_w$ and $\eta_t$, will result in $R_0 <1$?
+
+
+
 ## Model and Definitions
 
 - Assume there are 3 groups of individuals: $S$, $I$ and $R$.
@@ -106,7 +112,8 @@ sir.model <- function(time,state,params){
 params <- c(N0=1000000, beta=1,gamma=1/3, omega=0.25, t=0.01, 
              W_s=0.01, W_i=1, W_r=0.01, #weights
              P_s=0, P_i=0.5, P_r=0.5, #prob of waiting for being tested positive
-            eta_w=0.02, eta_t=0.01 #isolation parameter   
+            eta_w=0.02, eta_t=0.01, #isolation parameter 
+            s=2 #eta_w/eta_t
             )
 class(params) <- "params_pansim"
 state_init <- c(S_u=params[["N0"]], S_n=0,
@@ -257,10 +264,30 @@ R0<-function(params){
     return((A*Su_dfe+B*Sn_dfe)*C)
 }
 
+# R0 expression with eta_w/eta_t factored
+R02<-function(params){
+    unpack(as.list(params))
+    Sn_dfe<- Sn_dfe(params)
+    Su_dfe<- N0-Sn_dfe
+    F_i <-t*N0*W_i/(W_s*Su_dfe) #at DFE
+    
+    A2 <- gamma*(P_i*F_i*omega*Sn_dfe+(omega+gamma)*(gamma*Sn_dfe+F_i*N0))
+    B2 <- P_i*F_i*omega*(gamma*Su_dfe+omega*N0)
+    D <- gamma*(omega+gamma)*(gamma*Su_dfe+omega*N0)
+    C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_i*(gamma+omega*P_i)))*(omega+gamma))
+    # s <- eta_w/eta_t
+    
+    # return((eta_w*A2+eta_t*B2+D)*C2)
+    return((eta_t*(s*A2+B2)+D)*C2)
+}
+
 # R0<1:
 R0(params=params)
 # R0>1:
 R0(params=update(params,beta=2))
+
+# check
+all.equal(R0(params=params),R02(params=params))
 ```
 
 Can we recover $R_0=\beta/\gamma$ of the simple SIR? -yes
@@ -275,25 +302,26 @@ all.equal(R0(params=update(params,eta_t=1,eta_w=1)), params[["beta"]]/params[["g
 ### On Behaviour of Testing at DFE Boundry
 (1) Note that once the only untested people are susceptibles, the FoI will be $\Lambda=0$, testing rate $F_s=t N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - t N_0 + \omega S_n$ which is a linear rate of leaving the $S_u$ compartment. That means that the testing rate will be no longer dependent on $S_u$.
 
-### Contour plot of $R_0=1$ and interpretations 
-```{r contour_R0, message=FALSE,warning=FALSE }
+### Contour plot of $R_0=1$ and interpretations approache 1
+```{r contour_R0_1, message=FALSE,warning=FALSE }
  # specify the ranges
  beta  <- 0.5  ## set beta high enough to allow R0>1 in worst case
- eta_w <- seq(0,1, length.out=5) 
- eta_t <- seq(0,1, length.out=5) 
+ eta_w <- seq(0,1, length.out=5)
+ eta_t <- seq(0.001,0.5, length.out=5) 
  t     <- seq(0,0.01, length.out=10)
  omega <- seq(0.1,1 , length.out=10) #note omega must be > t
+# s <- seq(1,2.5,length.out=10) 
  
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,t=t,
                     W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
                     P_s=params[["P_s"]],P_i=params[["P_i"]],P_r=params[["P_r"]],
-                    eta_w=eta_w,eta_t=eta_t)
+                    eta_w=eta_w,eta_t=eta_t,s=params[["s"]])
 
 df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
                       Fi= apply(df1,1,function(params_in)F_i(state=state_dfe,params=params_in)))
                                          
-which(df2[]<0)
+# which(df2[]<0)
 ```
 
 ```{r}
@@ -309,7 +337,7 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 }
 ```
 
-```{r show_contours, width=24,height=24,message=FALSE,warning=FALSE}
+```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
 p1 <- ggplot(df2,aes(x=omega,y=t,z=R0))+ theme_bw() +
     theme(panel.spacing=grid::unit(0,"lines"))
 (p1
@@ -317,6 +345,44 @@ p1 <- ggplot(df2,aes(x=omega,y=t,z=R0))+ theme_bw() +
                           alpha=0.5) ## breaks=0.2)
     + geom_contour(breaks=1,alpha=0.5,colour="black")
     + facet_grid(eta_w~eta_t, labeller=label_special)
+    + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
+    + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
+    + scale_fill_viridis_d(name=parse(text="R[0]"))
+)
+```
+
+### Contour plot of $R_0=1$ and interpretations approache 2, parametrization $s=\eta_w/\eta_t$
+
+```{r contour_R0_2, message=FALSE,warning=FALSE }
+ # specify the ranges
+ beta  <- 0.5  ## set beta high enough to allow R0>1 in worst case
+ # eta_w <- seq(0,1, length.out=5) 
+ eta_t <- seq(0.001,0.5, length.out=5) 
+ t     <- seq(0,0.01, length.out=10)
+ omega <- seq(0.1,1 , length.out=10) #note omega must be > t
+s <- seq(1,2.5,length.out=10) 
+ 
+
+ df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,t=t,
+                    W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
+                    P_s=params[["P_s"]],P_i=params[["P_i"]],P_r=params[["P_r"]],
+                    eta_w=params[["eta_w"]],eta_t=eta_t,s=s)
+
+df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
+                      Fi= apply(df1,1,function(params_in)F_i(state=state_dfe,params=params_in)))
+          
+```
+
+
+
+```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
+p11 <- ggplot(df22,aes(x=omega,y=t,z=R0))+ theme_bw() +
+    theme(panel.spacing=grid::unit(0,"lines"))
+(p11
+    + geom_contour_filled(breaks=pretty(unique(df22$R0),5),
+                          alpha=0.5) ## breaks=0.2)
+    + geom_contour(breaks=1,alpha=0.5,colour="black")
+    + facet_grid(s~eta_t, labeller=label_special)
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_fill_viridis_d(name=parse(text="R[0]"))
@@ -339,7 +405,8 @@ Let $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\
 **Interpretation of the R0 contour plot**
 
 Note that $\eta_t\leq \eta_w$, i.e., reported people have a lower transmission probability than awaiting individuals. The perfect isolation/quarantine occurs when $\eta_w=\eta_t=0$ (see the upper left corner panel). Thus, we only consider the lower-triangle panels in the plot [not sure how to extract them in ggplot?].
-(1) Looking at the first column of panels, there seems to be a compensatory relation between $t$ and $\omega$. i.e., higher $t$ requires smaller $\omega$ to keep R0 lower than 1. Also, for a fixed $\omega$, increasing $\eta_w$ requires higher $t$ to achive the critical R0.
+(1) Looking at the first column of panels, there seems to be a compensatory relation between $t$ and $\omega$. i.e., higher $t$ requires smaller $\omega$ to keep R0 lower than 1. Also, for a fixed $\omega$, increasing $\eta_w$ requires higher $t$ to achieve the critical R0.
+(2) A sensible result that we are expecting is $\partial{R_0}/\partial{\omega}<0$.
 
 
 
