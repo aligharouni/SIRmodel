@@ -25,4 +25,5 @@ What should or could be in this paper:
 
 ## Unresolved/open questions
 
-We will have to think a lot more about the relationship/mapping between testing policy (including contact tracing intensity) and the weighting (W_j) parameters.
+* We will have to think a lot more about the relationship/mapping between testing policy (including contact tracing intensity) and the weighting (W_j) parameters.
+* At present the model is ill-posed (i.e. it crashes due to the test-rate-scaling component). Is there a simple way to change this so that it's biologically well-posed (i.e. all trajectories that start non-negative remain non-negative), and has the properties we want?
