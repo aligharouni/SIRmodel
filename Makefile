@@ -14,6 +14,11 @@ Sources += codes/ali_test_sir.Rmd
 
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
 
+Sources += smoothing.tex
+Ignore += smoothing.pdf
+smoothing.pdf: smoothing.tex
+	$(pandocs)
+
 ######################################################################
 
 ### Makestuff
