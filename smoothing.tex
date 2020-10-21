@@ -1,0 +1,8 @@
+We don't want to test people from the \_u compartments if they're not there.
+
+There are two natural ways to do this. One is with a discontinuity: we define 
+the weighted number of people available for tests: $W = W_s S_u + W_i I_u + W_r R_u$ and then define the scaling parameter (can we not call it ``sc'', which looks like a product?) as $sc = \textrm{H}(W) tN_0/W$, where H is the Heaviside function. This makes the system well-defined, but is still ugly in a few ways.
+
+The second natural way is to define a time scale $\tau$ for the maximum rate of testing the whole untested population. If this is fast (e.g., 1d), it should have minimal effects on the system when we're in the usual domain. A simple way to do this is by using $sc = \frac{\tau tN_0}{\tau W + t N_0}$. Since $\tau \gg t$, this generally collapses to the original form. When $W$ is super-small, however, it collapses instead to $\tau$.
+
+My suggested notation for this equation is $$\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$$
