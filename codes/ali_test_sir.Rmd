@@ -111,7 +111,7 @@ sir.model <- function(time,state,params){
 ```{r model inputs, message=FALSE}
 params <- c(N0=1000000, beta=1,gamma=1/3, omega=0.25, t=0.01, 
              W_s=0.01, W_i=1, W_r=0.01, #weights
-             P_s=0, P_i=0.5, P_r=0.5, #prob of waiting for being tested positive
+             P_s=0, P_i=1, P_r=0.5, #prob of waiting for being tested positive
             eta_w=0.02, eta_t=0.01, #isolation parameter 
             s=2 #eta_w/eta_t
             )
