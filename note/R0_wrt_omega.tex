@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+
+\newcommand{\fady}[1]{\textcolor{cyan}{$\langle${\slshape{\bfseries Fady:} #1 }$\rangle$}}
+\newcommand{\Rnum}{\mathcal{R}_0}
+\setlength{\parindent}{0pt} 
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage[nameinlink,capitalize]{cleveref}
+\crefname{appendix}{Appendix}{Appendices}
+\Crefname{appendix}{Appendix}{Appendices}
+\title{SIRtesting}
+\setlength{\parskip}{1em}
+\begin{document}
+
+\maketitle
+
+\section{Intrdoctuion}
+
+Much of this document concerns the effect of $\omega$ (the rate at which test results are returned) on $\Rnum$. As shown by Ali, when the overall testing rate $t$ is small (i.e., $t \approx 0$), the sign of $\partial{\Rnum}/\partial{\omega}$ is determined by a quadratic. 
+
+For a relatively clean description of these roots, see starting from \cref{eq:defQ}. We show that there is always two real roots; one negative and one positive. For $w \in (0, \infty)$, there is a global maximum at the second root. For a necessary and sufficient condition (inequality) for having $\partial{\Rnum}/\partial{\omega} < 0$, see \cref{eq:necsuf}. Finally, we give a brief discussion on finding a local minimum of $\Rnum$ with respect to $w$ for $w \in (0,\infty)$. However, our analysis of this is complicated by the fact that we are analyzing the linearization of $\Rnum$ near $t = 0$, rather than the exact form of $\Rnum$. \fady{In section 3, I expand a bit on this and basically ask if it would be a good idea for me to try working with the exact form of $\Rnum$ to see if we can generalize some of our analysis for $t$ not close to 0.}
+
+\section{Behaviour of $\Rnum$ for $t \approx 0$}
+
+From Ali's analysis we know:
+
+the Taylor expansion of $\Rnum$ around $t=0$ is
+\begin{equation}
+\Rnum \approx \beta/\gamma + \frac{\beta t}{\omega (\omega+\gamma) \gamma^2 W_s} \Big(\gamma(\eta_w-1)(\gamma W_s+\omega W_i) + (\eta_t -1)P_iW_i \omega^2 \Big) + \mathcal{O}(t^2). 
+\end{equation}
+
+Based on the above Taylor expansion around $t=0$, $$\partial{\Rnum}/\partial{\omega}=  \frac{-\beta t}{\gamma W_s\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c), $$
+
+where $a=(\eta_w-1)W_i-(\eta_t-1)P_iW_i$, $b=2(\eta_w-1)\gamma W_s$ and $c=(\eta_w-1)\gamma^2 W_s$. Given that $\eta_t\leq \eta_w$, it is inferred that $a\geq 0$, $b\leq 0$ and $c \leq 0$. Let $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{\Rnum}/\partial{\omega}$. Thus, $\partial{\Rnum}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and $\partial{\Rnum}/\partial{\omega}<0$ for $\omega>\omega_2$.
+
+\hrulefill
+
+Defining the following quantity, $Q$, will help us write the roots of $\partial{\Rnum}/\partial{\omega}$ neatly. 
+\begin{align}\label{eq:defQ}
+    Q =& \frac{W_i}{W_s}\left(1-\frac{n_{t}-1}{n_{w}-1}P_{i}\right) \\
+\end{align}
+
+Since $n_w > n_t$ and $P_i \approx 1$, we know that $Q < 0$.
+
+With that in mind, we can write the roots of $\partial{\Rnum}/\partial{\omega}$ as
+
+\begin{align}
+    \omega_1 =& \frac{\gamma}{-\sqrt{1-Q}-1} \\
+    \omega_2 =& \frac{\gamma}{\sqrt{1-Q}-1}
+\end{align}
+
+It is easy to confirm that $\omega_1 < 0$ by looking at the denominator. To see that $\omega_2 > 0$, recall that $Q < 0$, so $\sqrt{1-Q} > 1$ and so $\sqrt{1-Q} -1 > 0$. Knowing that $\omega_1 < 0$, our only root of interest (i.e., biologically relevant) is $\omega_2$. 
+
+With some analysis, we can prove that $\partial{\Rnum}/\partial{\omega} > 0$ when $\omega \in (0,\omega_2)$ and $\partial{\Rnum}/\partial{\omega} < 0$ when $\omega \in (\omega_2,\infty)$. So we know that $\Rnum$ has a global maximum with respect to $\omega$ at $\omega = \omega_2$.
+
+Before we look for strategies to minimize $\Rnum$ wrt to $\omega$, let us first discuss the behaviour of $\omega_2$ first. This may give us biological insight into when it is beneficial (i.e., lowers $\Rnum$) to return test results faster, and when it is not. \textbf{It is extremely important to note that all of this analysis is done with the linearization of $\Rnum$ around $t = 0$ as shown above, thus, this analysis holds only for small $t$.}
+
+Suppose that $\omega > \omega_2$. By the previous analysis, this is equivalent to saying that increases in $\omega$ cause decreases in $\Rnum$. For what parameter regions is this true? To understand this, we examine the inequality
+
+\begin{align}\label{eq:necsuf}
+    &\omega > \omega_2 \nonumber \\
+    &\omega > \frac{\gamma}{\sqrt{1-Q}-1} \nonumber \\
+    &\vdots \nonumber \\
+    &\frac{1-n_{t}}{1-n_{w}}P_{i}>\frac{W_{s}}{W_{i}}\left(\frac{\gamma}{\omega}+1\right)^{2}
+\end{align}
+
+The previous inequality is a necessary and sufficient condition for $\Rnum$ to be \emph{decreasing} with respect to $\omega$. In other words, it tells us exactly under what circumstances tests should be returned more rapidly and when they should not be. We can give a biological interpretation as follows:
+
+The left hand side is a measure of the relative lowering in contact for the groups whose tests results are confirmed to be positive, compared to those whose test results are pending. As the difference between these two becomes extreme (i.e., as $\eta_t \ll \eta_{w}$), the LHS becomes larger, which means that returning test results faster may become beneficial. The whole left term is scaled by $P_i$, which is the sensitivity of the test. All of this makes sense with our biological intuition; it is useful to return test results quickly when the test is sensitive, and the benefit to positive individuals finding out they are positive outweighs the risk of negative individuals increasing their contact rate upon finding out they do not have the virus.
+
+\fady{The RHS doesn't have as clean an interpretation, I think. But I'll add in more stuff here later.}
+
+
+Now we focus our attention on minimizing $\Rnum$ wrt to $\omega$. Since $\Rnum(\omega)$ has a global (for $\omega \in [0,\infty)$) maximum at $\omega_2$, we know that $\Rnum$ attains its smallest values either near $\omega = 0$ or as $\omega$ approaches $+\infty$. We can study the behaviour of $\Rnum(\omega)$ on $(0,\infty)$, but in reality, there must be a bounded range of realistic values of $\omega$ that we should optimize on. However, optimizing on $(0,\infty)$ and this bounded range should be equally easy, given that $\Rnum(\omega)$ has only one critical point; so we know the minimum must occur at the boundaries of the domain.
+
+If $\Rnum$ attains its smallest values near $\omega = 0$, then testing results should never be returned (probably not a practical implementation, but it does tell us something interesting). On the other hand, if $\Rnum$ attains its lowest values as $\omega$ tends to infinity, then test results should be returned as quickly as possible. Of course, in reality, if test results were never returned, people may not continue to comply with being careful while ``awaiting" their test result; since it never comes. 
+
+Before doing any analysis, notice that ``never returning results" may be \fady{I'm not 100 \% sure} dynamically equivalent to having an ``SIR with lockdown model", except the lockdown period is permanent. This is because some people are lowering their contact rate while ``waiting" for their results (which will never come). In this case, the lowering of contact is given by the parameter $\eta_s$. 
+
+Looking at the limit as $\omega \rightarrow \infty$ we have
+\begin{align}
+&\lim_{w \rightarrow \infty} \beta/\gamma + \frac{\beta t}{\omega (\omega+\gamma) \gamma^2 W_s} \Big(\gamma(\eta_w-1)(\gamma W_s+\omega W_i) + (\eta_t -1)P_iW_i \omega^2 \Big) \nonumber \\
+&= \frac{\beta}{\gamma} - \frac{\beta t\left(1-t_n\right)P_{i}W_{i}}{\gamma^{2}W_{s}}
+\end{align}
+
+Naturally, we would now want to evaluate the limit as $\omega \rightarrow 0$. However, if we were to naively compute this limit assuming $t$ is constant, we would get $- \infty$. I suspect \fady {I'm not sure about this} the reason for this is because we're working with a linearization where $t \approx 0$, thus, we can only evaluate the limit as another variable (e.g., $\omega$) goes to 0 only if we insist that $t$ also goes to 0. But then, the value of the limit depends on the relative decay of $t$ and $\omega$ towards 0. \fady{I will not write down analysis here until I've talked to someone about this.} 
+
+\section{Rough thoughts: what about when $t$ is not close to 0?}
+
+Initially, I thought the exact formula for $\Rnum$ was linear with respect to $t$, which would have allowed us to generalize the results in the previous section. However, I remembered that during the meeting, someone (I think it was Jonathan) was asking about a quadratic term. I figured that someone had noticed that if $\Rnum$ was linear we would've been able to generalize the analysis above, so looking harder, I noticed that indeed $\Rnum$ is not linear wrt to $t$ because $F_i$ contain $t$'s that then get multiplied with the one explicit $t$ in the expression. So indeed it's not linear.
+
+I could try spending some time \emph{trying} to work on the exact $\Rnum$ function to see if I can get anywhere with it, if that's of interest. 
+
+\end{document}
+
+
