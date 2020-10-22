@@ -41,6 +41,7 @@ sensitivity over time, as in
 distancing measures. They found that community-introduction of SARS-CoV-2 infection onto campus can be
 relatively controlled with effective testing, isolation, contract tracing and quarantine.
 
+\citep{tuite2020mathematical} used an age-structured compartmental model of COVID-19 transmission in the population of Ontario, Canada. We compared a base case with limited testing, isolation and quarantine to different scenarios. 
 
 
 

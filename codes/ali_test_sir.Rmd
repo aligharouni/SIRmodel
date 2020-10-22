@@ -81,8 +81,7 @@ sir.model <- function(time,state,params){
     ## Force of Infection  
     Lambda <- beta * (I_u + eta_w*(I_n+I_p) + eta_t*I_t)/N0
     ## scaling the weights
-    sc <- t*N0/(W_s*S_u+W_i*I_u+W_r*R_u)
-    # sc <- t*N0
+    sc <- tau*t*N0/(tau*(W_s*S_u+W_i*I_u+W_r*R_u)+t*N0)
     F_s <- sc*W_s
     F_i <- sc*W_i
     F_r <- sc*W_r
@@ -109,34 +108,67 @@ sir.model <- function(time,state,params){
 ```
 
 ```{r model inputs, message=FALSE}
-params <- c(N0=1000000, beta=1,gamma=1/3, omega=0.25, t=0.01, 
+params <- c(N0=1000000, beta=0.8,gamma=1/3, omega=0.25, t=0.01, 
              W_s=0.01, W_i=1, W_r=0.01, #weights
              P_s=0, P_i=1, P_r=0.5, #prob of waiting for being tested positive
             eta_w=0.02, eta_t=0.01, #isolation parameter 
-            s=2 #eta_w/eta_t
+            s=2, #eta_w/eta_t
+            tau=1
             )
 class(params) <- "params_pansim"
 state_init <- c(S_u=params[["N0"]], S_n=0,
                 I_u=1,I_n=0,I_p=0,I_t=0,
                 R_u=0,R_n=0,R_p=0,R_t=0,
                 N=0,P=0)
-# Disease free equilibrium
-Sn_dfe <-function(params){
-  unpack(as.list(params))
-  return((t*(1-P_s)*N0)/omega)
-}
-Su_dfe<- params[["N0"]]-Sn_dfe(params)
-
-state_dfe <- c(S_u=Su_dfe, S_n=Sn_dfe(params),
-                I_u=0,I_n=0,I_p=0,I_t=0,
-                R_u=0,R_n=0,R_p=0,R_t=0,
-                N=0,P=0)
-
 d <- seq(0,200,by=0.1)
 # Conditional stop for desolver
 rootfun <- function (time, state,params) { 
   unpack(as.list(c(state,params)))
   return(I_u - 1) }
+```
+
+
+```{r DFE, message=FALSE}
+# DFE; numerical approach
+library(rootSolve)
+DFE <- function(S,params){
+  S_u <- S[1]
+  S_n <- S[2]
+  I_u <-0
+  R_u<-0
+  unpack(as.list(params))
+  sc <- tau*t*N0/(tau*(W_s*S_u+W_i*I_u+W_r*R_u)+t*N0)
+  F_s <- sc*W_s
+ 
+ return(c(eq1=S_u+S_n-N0,
+   eq2=-F_s*S_u+omega*S_n))
+}
+
+roots_dfe <- multiroot(DFE, c(1, 1), parms = params, positive = T)
+roots_dfe$root
+
+all.equal(sum(roots_dfe$root),params[["N0"]])
+
+# DFE; analytic approach
+Su_dfe <-function(params){
+  unpack(as.list(params))
+  a <- t
+  b <- -t+(1-t/omega)*tau*W_s
+  c <- -tau*W_s
+  d <- b^2-4*a*c
+  
+  return(N0*2*a/(-b+sqrt(d)))
+}
+
+Sn_dfe<- params[["N0"]]-Su_dfe(params)
+
+
+state_dfe <- c(S_u=Su_dfe(params), S_n=Sn_dfe,
+                I_u=0,I_n=0,I_p=0,I_t=0,
+                R_u=0,R_n=0,R_p=0,R_t=0,
+                N=0,P=0)
+
+all.equal(c(state_dfe[["S_u"]],state_dfe[["S_n"]]),roots_dfe$root)
 ```
 
 Test gradient
@@ -246,17 +278,18 @@ The Eigenvalues of $G_{11}$, are 0 and $R_0$.
 ```{r R0}
 F_i <- function(state,params){
    unpack(as.list(c(state,params)))
-   return(t*N0*W_i/(W_s*S_u+W_i*I_u+W_r*R_u))
+  sc <- tau*t*N0/(tau*(W_s*S_u+W_i*I_u+W_r*R_u)+t*N0)
+   return(sc*W_i)
  }
  # just a test
   F_i(state=state_dfe,params=update(params,t=0))
   
 R0<-function(params){
     unpack(as.list(params))
-    Sn_dfe<- Sn_dfe(params)
-    Su_dfe<- N0-Sn_dfe
-    F_i <-t*N0*W_i/(W_s*Su_dfe) #at DFE
-    # F_i <-t*N0*W_i
+    Su_dfe<- Su_dfe(params)
+    Sn_dfe<- N0-Su_dfe
+    F_i <- tau*t*N0*W_i/(tau*(W_s*Su_dfe)+t*N0) #at DFE
+    
     A <-gamma*(omega+gamma+eta_w*F_i) + omega*eta_t*P_i*F_i
     B <-(omega+eta_w*(F_i+gamma))*gamma+(eta_w*gamma+eta_t*omega)*(omega*P_i*F_i)/(omega+gamma)
       
@@ -267,9 +300,9 @@ R0<-function(params){
 # R0 expression with eta_w/eta_t factored
 R02<-function(params){
     unpack(as.list(params))
-    Sn_dfe<- Sn_dfe(params)
-    Su_dfe<- N0-Sn_dfe
-    F_i <-t*N0*W_i/(W_s*Su_dfe) #at DFE
+    Su_dfe<- Su_dfe(params)
+    Sn_dfe<- N0-Su_dfe
+    F_i <-tau*t*N0*W_i/(tau*(W_s*Su_dfe)+t*N0) #at DFE
     
     A2 <- gamma*(P_i*F_i*omega*Sn_dfe+(omega+gamma)*(gamma*Sn_dfe+F_i*N0))
     B2 <- P_i*F_i*omega*(gamma*Su_dfe+omega*N0)
@@ -316,7 +349,7 @@ all.equal(R0(params=update(params,eta_t=1,eta_w=1)), params[["beta"]]/params[["g
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,t=t,
                     W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
                     P_s=params[["P_s"]],P_i=params[["P_i"]],P_r=params[["P_r"]],
-                    eta_w=eta_w,eta_t=eta_t,s=params[["s"]])
+                    eta_w=eta_w,eta_t=eta_t,s=params[["s"]],tau=params[["tau"]])
 
 df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
                       Fi= apply(df1,1,function(params_in)F_i(state=state_dfe,params=params_in)))
@@ -366,7 +399,7 @@ s <- seq(1,2.5,length.out=10)
  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,t=t,
                     W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
                     P_s=params[["P_s"]],P_i=params[["P_i"]],P_r=params[["P_r"]],
-                    eta_w=params[["eta_w"]],eta_t=eta_t,s=s)
+                    eta_w=params[["eta_w"]],eta_t=eta_t,s=s,tau=params[["tau"]])
 
 df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
                       Fi= apply(df1,1,function(params_in)F_i(state=state_dfe,params=params_in)))
