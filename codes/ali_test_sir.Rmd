@@ -351,12 +351,14 @@ all.equal(R0(params=update(params,eta_t=1,eta_w=1)), params[["beta"]]/params[["g
 
 ### Contour plot of $R_0=1$ and interpretations approache 1
 ```{r contour_R0_1, message=FALSE,warning=FALSE }
+n_out <- 5 ## facets (rows/cols)
+n_in <- 41 ## grid N within facets
  # specify the ranges
  beta  <- 0.4  ## set beta high enough to allow R0>1 in worst case
- eta_w <- seq(0,1, length.out=5)
- eta_t <- seq(0.001,0.5, length.out=5) #0.001 to 0.5 
- rho     <- seq(0,0.01, length.out=10)
- omega <- seq(0.001,1 , length.out=10) #note omega must be > rho, was 0.1
+ eta_w <- seq(0,1, length.out=n_out)
+ eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 to 0.5 
+ rho     <- seq(0,0.01, length.out=n_in)
+ omega <- seq(0.001,1 , length.out=n_in) #note omega must be > rho, was 0.1
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
                     W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
@@ -403,10 +405,10 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
  # specify the ranges
  beta  <- 0.4  
  # eta_w <- seq(0,1, length.out=5) 
- eta_t <- seq(0.001,0.5, length.out=5) #0.001 
- rho     <- seq(0,0.01, length.out=5)
- omega <- seq(0.001,1 , length.out=10) #note omega must be > 0, was 0.1
-s <- seq(1,2,length.out=5) 
+ eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 
+ rho     <- seq(0,0.01, length.out=n_in)
+ omega <- seq(0.001,1 , length.out=n_in) #note omega must be > 0, was 0.1
+ s <- seq(1,2,length.out=n_out) 
  
 
  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
