@@ -6,3 +6,11 @@ the weighted number of people available for tests: $W = W_s S_u + W_i I_u + W_r 
 The second natural way is to define a time scale $\tau$ for the maximum rate of testing the whole untested population. If this is fast (e.g., 1d), it should have minimal effects on the system when we're in the usual domain. A simple way to do this is by using $sc = \frac{\tau tN_0}{\tau W + t N_0}$. Since $\tau \gg t$, this generally collapses to the original form. When $W$ is super-small, however, it collapses instead to $\tau$.
 
 My suggested notation for this equation is $$\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$$
+
+Questions/Clarifications:
+(1) We have two testing rates; (i) $\tau$ and (ii) $\rho$.
+$\tau$ is the testing rate when $W \approx 0$ so no one is left in the untested compartments. (Here I am not sure why "a time scale $\tau$ for the maximum rate of testing the whole untested population"?).
+On the other hand $\rho$ is the testing rate at the begining of the pandemic when $W \approx N_0$. The latter requires $\tau \gg \rho$. Am I thinking right here?  
+(2) $\tau$ has the same dimension as $\rho$ which is testing rate, thus 1/time per capita?
+(3) In the simmulation, I picked $\tau=1$. This made sense to me if the answeres to all above questions are "yes". Not sure what to pick if I was not thinking right in the above question.
+
