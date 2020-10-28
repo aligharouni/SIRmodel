@@ -11,6 +11,14 @@ Questions/Clarifications:
 (1) We have two testing rates; (i) $\tau$ and (ii) $\rho$.
 $\tau$ is the testing rate when $W \approx 0$ so no one is left in the untested compartments. (Here I am not sure why "a time scale $\tau$ for the maximum rate of testing the whole untested population"?).
 On the other hand $\rho$ is the testing rate at the begining of the pandemic when $W \approx N_0$. The latter requires $\tau \gg \rho$. Am I thinking right here?  
+
+JD: Yes, you are right that $\tau \gg \rho$. But it's not exactly about the beginning of the pandemic. In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible. So we impose a maximum rate of $\tau$ per testable person. It is consistent to think of both $\tau$ and $\rho$ as pure rates, but it might be clearer to think of $\rho$ as tests per capita per unit time, and $\tau$ as tests per testable person per unit time. It's not that we're switching through time, it's that we're imposing both of these as limitations. At the beginning, we expect the answer to be close to $\rho N_0$ since $\tau$ should be very fast. Once $W$ becomes small, the limitation imposed by $\tau W$ will become important.
+
 (2) $\tau$ has the same dimension as $\rho$ which is testing rate, thus 1/time per capita?
+
+JD: See above. Note that if you are thinking about ``people'' in the denominator as above, you need to remember there are also people in the numerator (you can choose to be specific, or to let them cancel). But it's a bit off to have people only in the denominator.
+
 (3) In the simmulation, I picked $\tau=1$. This made sense to me if the answeres to all above questions are "yes". Not sure what to pick if I was not thinking right in the above question.
+
+JD: Yes, but you need units. $\tau = 1 \mathrm{day}$ is exactly what I meant by a time scale of 1 day. 
 

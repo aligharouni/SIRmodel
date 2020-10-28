@@ -24,10 +24,13 @@ Notes on other references: (1) [testing_flow.md](testing_flow.md)(I am using the
 ## Model and Definitions
 
 ### Assumptions
+JD: Why are we assuming structurally that the test is perfectly specific? I guess it's better to put all of the boxes in and just sometimes assume that that $P_S=0$ 
 - Assume there are 3 groups of individuals: $S$, $I$ and $R$.
 - Each group splits into 4 subgroups to incorporate the testing mechanism, so overall the model framework has 12 compartments as follows. $S_u,$ $S_n$, $S_p$, $S_t$, $I_u$, $I_n$, $I_p$, $I_t$, $R_u$, $R_n$, $R_p$, $R_t$.
 - Further, assume that (1) a perfectly specific test, i.e. no false positives, then $S_p$ and $S_t$ are always zero (2) there are two 'integrator' or 'accumulator' compartments, $N$ and $P$, to collect cumulative reported negative or positive tests. 
 - There is a single FoI, $\Lambda$, all groups being exposed to all others. That is, where a susceptible individual move to does not depend on who infected it.
+
+JD: Can we do a better job with capitalization? When $I$ in a subscript refers to the infected class, for example, it should be capitalized. Also, I guess it would be good to always use $P$ for positive (thus $N$ for negative), and then use $p$ for the probabilities. I guess the concern is that $p_S$ looks awkward? But I think clarity is more important.
 
 ### Parameters
 
