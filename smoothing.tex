@@ -1,20 +1,26 @@
-We don't want to test people from the \_u compartments if they're not there.
+Note that the equation for the untested susciptable compartment is $d S_u/dt = -\Lambda S_u - F_S S_u + \omega S_n$, where $\Lambda$ is FoI, $F_Z$ in general form is the weighted testing rate defined as $F_Z=\sigma W_Z$, and $\sigma$ is the testing rate. Let $W = W_S S_u + W_I I_u + W_R R_u$ be the weighted number of people available for tests.
+
+\section{On testing rate}
+
+The testing rate, $\sigma$, should be formulated such that people from the \_u compartments will not be tested if they're not there.
 
 - The initial approache and the singularity issue;
-Initial approach and singularity issue (not sure if I call it structural or numerical singularity?); 
-$\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the population in $S$ compartments appeared to blow up when the DFE is achieved ( in the simulation when time, $t>200$). This is  once the only untested people are susceptibles, the FoI will become $\Lambda=0$, testing rate $F_s=t N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - t N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
+$\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is  once the only untested people are susceptibles, the FoI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - \rho N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
 
-- Solution;
-It was suggested that $$\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}.$$
-Note that $F_Z=\sigma * W_Z$.
-One natural way is to define a rate $\tau$ ($\mathrm{day}$) for the maximum rate of testing the whole untested population. In general, since $\tau \gg t$, this generally collapses to the original form. When $W$ is super-small, however, it collapses instead to $\tau$.
-In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible. So we impose a maximum rate of $\tau$ per testable person. It is consistent to think of both $\tau$ and $\rho$ as pure rates, but it might be clearer to think of $\rho$ as tests per capita per unit time, and $\tau$ as tests per testable person per unit time. It's not that we're switching through time, it's that we're imposing both of these as limitations. At the beginning, we expect the answer to be close to $\rho N_0$ since $\tau$ should be very fast. Once $W$ becomes small, the limitation imposed by $\tau W$ will become important.
+- The secondary approache;
+It was suggested that 
 
-To summerize, in general $\tau \gg \rho$, thus $\sigma=\rho \frac{\tau N0}{(\tau+\rho)N_0} \approx \rho \frac{\tau N0}{(\tau)N_0} = \rho$. When $W \approx 0$, $\sigma \approx \tau$.
+One natural way is to define $$\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}.$$
+Where  $\tau$ ($1/ \mathrm{day}$) is a rate for the maximum rate of testing the whole untested population. In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible. So we impose a maximum rate of $\tau$ per testable person. It is consistent to think of both $\tau$ and $\rho$ as pure rates, but it might be clearer to think of $\rho$ as tests per capita per unit time, and $\tau$ as tests per testable person per unit time. It's not that we're switching through time, it's that we're imposing both of these as limitations. Note that, in general, since $\tau \gg \rho$, thus $\sigma=\rho \frac{\tau N0}{(\tau+\rho)N_0} \approx \rho \frac{\tau N0}{(\tau)N_0} = \rho$. This generally collapses to the original form. On the other hand, when $W$ is super-small, however, it collapses instead to $\tau$.
+  In other words, at the beginning, we expect the answer to be close to $\rho N_0$ since $\tau$ should be very fast. Once $W$ becomes small, the limitation imposed by $\tau W$ will become important.
 
+\section{ On the testing strategies}
 
+- The testing weights, $W_S, W_I$ and $W_R$, are representing different testing strategies.
+- The only thing that matters is the relative proportions of W's.
+- Right now there are no restictions on the weights. If we impose $\sum_Z W_Z=1$, we are just reducing a degree of freedom. i.e., if we increase the $W_I$, the other two weights will decrease.
 
-(5) Right now there are no restictions on the weights, $W_S, W_I$ and $W_R$. These are representing different testing strategies. For example if $W_S=W_I=W_R$, it represents the random testing from the whole population with no tracing.
-(i) Does it make sense $W_S+W_I+W_R=1$? thus if we increase the $W_I$, the other two weights will decrease.
-(ii) I am thinking of somehow connect $W_*$ and testing rate of the whole population $\rho$. With the new definition of the $\sigma$ that JD suggested above, this is already incorporated in the rate of testing but not in the testing strategies. 
+- Two things to explore are: 
+(i) Random testing; this scenariocan be explored when $W_S=W_I=W_R$.
 
+(ii) Testing and tracing; this scenariocan be explored when $W_S \ll W_I$ and for example $W_I=W_R=1$.
