@@ -17,7 +17,7 @@ Notes on other references: (1) [testing_flow.md](testing_flow.md)(I am using the
 
 ## Objectives
 
-1- What combination of testing intensity, $\rho$, and isolation, $\eta_w$ and $\eta_t$, will result in $R_0 <1$?
+- An exploration of simple mathematical/computational models of COVID-19 to gain insight into the effects of different levels of testing and isolation on $R_t$/growth rates. The goal is insight.
 
 
 
@@ -48,9 +48,20 @@ knitr::include_graphics("../pix/sir_comp2.png")
 - $F_z$: Weighted testing rate defined as $F_z=\sigma W_z$. That is, $F_s = \sigma W_s$, $F_i=\sigma W_i$ and $F_r = \sigma W_r$.
 
 **Notes:** 
+
 - The complicated part is the flow rate from $Z_u$ to $Z_n$, $Z_p$. The (total, not per capita) flow from $Z_u$ to $Z_n$ is $\rho (1-P_z) F(W_z) Z_u$, from $Z_u$ to $Z_p$ is $\rho P_Z F(W_Z) Z_u$. Where, $P_z$ is the probability of positive test. Thus, $P_i$ represents the test accuracy. We assume $P_s=0$.
+
 - On testing and scaling; at the simplest $F_z=W_z$.  
+
 - JD: If this $\tau$ is fast (e.g., 1d), it should have minimal effects on the system when we're in the usual domain. Since $\tau \gg \rho$, this generally collapses to the original form. When $W$ is super-small, however, it collapses instead to $\tau$.
+ 
+### On Testing
+
+- Initial approach and singularity issue (not sure if I call it structural or numerical singularity?); 
+$\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the population in $S$ compartments appeared to blow up when the DFE is achieved ( in the simulation when time, $t>200$). This is  once the only untested people are susceptibles, the FoI will become $\Lambda=0$, testing rate $F_s=t N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - t N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
+
+
+
 
 ### Model
 The model is
@@ -116,7 +127,7 @@ sir.model <- function(time,state,params){
 
 ```{r model inputs, message=FALSE}
 params <- c(N0=1000000, beta=0.8,gamma=1/3, omega=0.25, rho=0.01, 
-             W_s=0.01, W_i=1, W_r=0.01, #weights
+             W_s=1, W_i=1, W_r=1, #weights
              P_s=0, P_i=1, P_r=0.5, #prob of waiting for being tested positive
             eta_w=0.02, eta_t=0.01, #isolation parameter 
             s=2, #eta_w/eta_t
@@ -216,7 +227,7 @@ direct.label(gg1,"last.bumpup")
 ```
 
 ```{r run2, message=FALSE}
-d_long <- seq(0,300,by=0.1)
+d_long <- seq(0,400,by=0.1)
 ## capturing badly behaved integrator warning messages
 cc <- capture.output(
     out_long <- as.data.frame(
@@ -308,12 +319,12 @@ R0<-function(params){
     Su_dfe<- Su_dfe(params)
     Sn_dfe<- N0-Su_dfe
     # print(c(Su_dfe,Sn_dfe,Su_dfe+Sn_dfe))
-    F_i <- F_i(params) #at DFE
+    Fi <- F_i(params) #at DFE
     
-    A <-gamma*(omega+gamma+eta_w*F_i) + omega*eta_t*P_i*F_i
-    B <-(omega+eta_w*(F_i+gamma))*gamma+(eta_w*gamma+eta_t*omega)*(omega*P_i*F_i)/(omega+gamma)
+    A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_t*P_i*Fi
+    B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_t*omega)*(omega*P_i*Fi)/(omega+gamma)
       
-    C <- beta/(N0*gamma*(gamma*(omega+gamma)+F_i*(gamma+omega*P_i)))
+    C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*P_i)))
     return((A*Su_dfe+B*Sn_dfe)*C)
 }
 
@@ -357,7 +368,7 @@ all.equal(R0(params=update(params,eta_t=1,eta_w=1)), params[["beta"]]/params[["g
 n_out <- 5 ## facets (rows/cols)
 n_in <- 41 ## grid N within facets
  # specify the ranges
- beta  <- 0.4  ## set beta high enough to allow R0>1 in worst case
+ beta  <- 0.5  ## set beta high enough to allow R0>1 in worst case
  eta_w <- seq(0,1, length.out=n_out)
  eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 to 0.5 
  rho     <- seq(0,0.01, length.out=n_in)
@@ -406,9 +417,9 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 
 ```{r contour_R0_2, message=FALSE,warning=FALSE }
  # specify the ranges
- beta  <- 0.4  
+ beta  <- 0.5
  # eta_w <- seq(0,1, length.out=5) 
- eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 
+ eta_t <- seq(0.0001,0.5, length.out=n_out) #0.001 
  rho     <- seq(0,0.01, length.out=n_in)
  omega <- seq(0.001,1 , length.out=n_in) #note omega must be > 0, was 0.1
  s <- seq(1,2,length.out=n_out) 
@@ -422,8 +433,8 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
                       Fi= apply(df11,1,function(params_in)F_i(params=params_in)),
                        Su=apply(df11,1,function(params_in)Su_dfe(params = params_in)))
-min(df22$Su)
-which(df22[]<0)          
+# min(df22$Su)
+# which(df22[]<0)          
 ```
 
 ```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
@@ -452,6 +463,10 @@ $$\partial{R_0}/\partial{\omega}=  \frac{-\beta \rho}{\gamma W_s\omega^2 (\gamma
 where $a=(\eta_w-1)W_i-(\eta_t-1)P_iW_i$, $b=2(\eta_w-1)\gamma W_s$ and $c=(\eta_w-1)\gamma^2 W_s$.
 Given that $\eta_t\leq \eta_w$, it is inferred that $a\geq 0$, $b\leq 0$ and $c \leq 0$.
 Let $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{R_0}/\partial{\omega}$. Thus, $\partial{R_0}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{R_0}/\partial{\omega}<0$ for $\omega>\omega_2$.
+
+4. Taylor expansion gives $R_0|_{(\rho=0,W_s=1)} = \beta/\gamma$.
+
+5. Taylor expansion gives $R_0|_{(\rho=0,W_s=0)} = \beta/\gamma \frac{\gamma \tau(\omega+\gamma)W_s+\tau\rho(\gamma\eta_w+\omega\eta_tP_i)W_i+ \gamma \rho(\gamma+\omega)}{\gamma \tau(\omega+\gamma)W_s+\tau\rho(\gamma+\omega P_i)W_i+ \gamma \rho(\gamma+\omega)}$.
 
 **Interpretation of the R0 contour plot**
 
