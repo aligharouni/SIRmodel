@@ -23,7 +23,7 @@ smoothing.pdf: smoothing.tex
 
 ### Makestuff
 
-Sources += Makefile
+Sources += Makefile .gitignore
 
 ## Sources += content.mk
 ## include content.mk
