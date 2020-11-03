@@ -127,7 +127,7 @@ sir.model <- function(time,state,params){
 
 ```{r model inputs, message=FALSE}
 params <- c(N0=1000000, beta=0.8,gamma=1/3, omega=0.25, rho=0.01, 
-             W_s=1, W_i=1, W_r=1, #weights
+             W_s=.01, W_i=1, W_r=1, #weights
              P_s=0, P_i=1, P_r=0.5, #prob of waiting for being tested positive
             eta_w=0.02, eta_t=0.01, #isolation parameter 
             s=2, #eta_w/eta_t
@@ -227,7 +227,7 @@ direct.label(gg1,"last.bumpup")
 ```
 
 ```{r run2, message=FALSE}
-d_long <- seq(0,400,by=0.1)
+d_long <- seq(0,300,by=0.1)
 ## capturing badly behaved integrator warning messages
 cc <- capture.output(
     out_long <- as.data.frame(
@@ -299,7 +299,6 @@ A\,S_n & B\,S_n
 
 The Eigenvalues of $G_{11}$, are 0 and $R_0$.
 ```{r R0}
-
 F_i <- function(params){
    # Returns F_i at DFE 
   unpack(as.list(params))
@@ -308,8 +307,6 @@ F_i <- function(params){
   sigma <- tau*rho*N0/(tau*(W_s*Su_dfe)+rho*N0) #at DFE 
   return(sigma*W_i)
 }
-
-
 
  # just a test
   F_i(params=update(params,rho=0))
@@ -417,11 +414,11 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 
 ```{r contour_R0_2, message=FALSE,warning=FALSE }
  # specify the ranges
- beta  <- 0.5
+ # beta  <- 0.5
  # eta_w <- seq(0,1, length.out=5) 
- eta_t <- seq(0.0001,0.5, length.out=n_out) #0.001 
- rho     <- seq(0,0.01, length.out=n_in)
- omega <- seq(0.001,1 , length.out=n_in) #note omega must be > 0, was 0.1
+ # eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 
+ # rho     <- seq(0,0.01, length.out=n_in)
+ # omega <- seq(0.001,1 , length.out=n_in) #note omega must be > 0, was 0.1
  s <- seq(1,2,length.out=n_out) 
  
 
@@ -433,8 +430,6 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
                       Fi= apply(df11,1,function(params_in)F_i(params=params_in)),
                        Su=apply(df11,1,function(params_in)Su_dfe(params = params_in)))
-# min(df22$Su)
-# which(df22[]<0)          
 ```
 
 ```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
