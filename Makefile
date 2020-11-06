@@ -12,6 +12,7 @@ vim_session:
 
 Sources += codes/ali_test_sir.Rmd
 
+Ignore += codes/ali_test_sir.html
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
 
 Sources += smoothing.tex
