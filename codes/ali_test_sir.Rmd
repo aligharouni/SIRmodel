@@ -24,7 +24,7 @@ Notes on other references: (1) [testing_flow.md](testing_flow.md)(I am using the
 ## Model and Definitions
 
 ### Assumptions
-JD: Why are we assuming structurally that the test is perfectly specific? I guess it's better to put all of the boxes in and just sometimes assume that that $P_S=0$ 
+JD: Why are we assuming structurally that the test is perfectly specific? I guess it's better to put all of the boxes in and just sometimes assume that that $p_S=0$ 
 - Assume there are 3 groups of individuals: $S$, $I$ and $R$.
 - Each group splits into 4 subgroups to incorporate the testing mechanism, so overall the model framework has 12 compartments as follows. $S_u,$ $S_n$, $S_p$, $S_t$, $I_u$, $I_n$, $I_p$, $I_t$, $R_u$, $R_n$, $R_p$, $R_t$.
 - Further, assume that (1) a perfectly specific test, i.e. no false positives, then $S_p$ and $S_t$ are always zero (2) there are two 'integrator' or 'accumulator' compartments, $N$ and $P$, to collect cumulative reported negative or positive tests. 
@@ -41,24 +41,21 @@ knitr::include_graphics("../pix/sir_comp2.png")
 - $\Lambda$: force of infection defined as $$\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},$$ where $\beta$ is transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. We assume that $\eta_t<\eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals.
 - $\omega$: the rate of *onward flow* from the awaiting positive compartment, $p$, to reported/tested compartment, $\rho$, or from awaiting negative compartment, $n$, back to $u$.  It has units of $1/time$.
 - $\gamma$: recovery rate ($1/time$).
-- $\rho$: per capita testing intensity ($1/time$).
-- $\tau$: the maximum rate of testing the whole untested population ($1/time$).
-- $W$: weighted number of people available for tests, defined as $W = W_s S_u + W_i I_u + W_r R_u$.
-- $\sigma$: scaling parameter for testing defined as $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$.
-- $F_z$: Weighted testing rate defined as $F_z=\sigma W_z$. That is, $F_s = \sigma W_s$, $F_i=\sigma W_i$ and $F_r = \sigma W_r$.
+- $\rho$: per capita testing intensity across the whole population ($1/time$).
+- $W$: weighted number of people available for tests, defined as $W = W_S S_u + W_I I_u + W_R R_u$.
+- $\sigma$: scaling parameter for testing defined as $\sigma = \frac{\rho N_0}{W}$.
+- $F_Z$: Weighted testing rate defined as $F_Z=\sigma W_Z$. That is, $F_S = \sigma W_S$, $F_I=\sigma W_I$ and $F_R = \sigma W_R$.
 
 **Notes:** 
 
-- The complicated part is the flow rate from $Z_u$ to $Z_n$, $Z_p$. The (total, not per capita) flow from $Z_u$ to $Z_n$ is $\rho (1-P_z) F(W_z) Z_u$, from $Z_u$ to $Z_p$ is $\rho P_Z F(W_Z) Z_u$. Where, $P_z$ is the probability of positive test. Thus, $P_i$ represents the test accuracy. We assume $P_s=0$.
+- The complicated part is the flow rate from $Z_u$ to $Z_n$, $Z_p$. The (total, not per capita) flow from $Z_u$ to $Z_n$ is $\rho (1-P_Z) F(W_Z) Z_u$, from $Z_u$ to $Z_p$ is $\rho P_Z F(W_Z) Z_u$. Where, $P_Z$ is the probability of positive test. Thus, $p_I$ represents the test accuracy. We assume $p_S=0$.
 
-- On testing and scaling; at the simplest $F_z=W_z$.  
+- On testing and scaling; at the simplest $F_Z=W_Z$.  
 
-- JD: If this $\tau$ is fast (e.g., 1d), it should have minimal effects on the system when we're in the usual domain. Since $\tau \gg \rho$, this generally collapses to the original form. When $W$ is super-small, however, it collapses instead to $\tau$.
- 
 ### On Testing
 
 - Initial approach and singularity issue (not sure if I call it structural or numerical singularity?); 
-$\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the population in $S$ compartments appeared to blow up when the DFE is achieved ( in the simulation when time, $t>200$). This is  once the only untested people are susceptibles, the FoI will become $\Lambda=0$, testing rate $F_s=t N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - t N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
+$\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the population in $S$ compartments appeared to blow up when the DFE is achieved ( in the simulation when time, $t>200$). This is  once the only untested people are susceptibles, the FoI will become $\Lambda=0$, testing rate $F_S=\rho N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - \rho N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
 
 
 
@@ -67,15 +64,15 @@ $\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the populat
 The model is
 \begin{align}
 \label{mod:1}
-1)\ d S_u/dt &= -\Lambda S_u - F_s S_u + \omega S_n \\
-2)\ d S_n/dt &= -\Lambda S_n + F_s S_u - \omega S_n \\
-3)\ d I_u/dt &= \Lambda S_u - F_i I_u + \omega I_n  - \gamma I_u  \\
-4)\ d I_n/dt &= \Lambda S_n + (1-P_i) F_i I_u - \omega I_n -\gamma I_n \\
-5)\ d I_p/dt &= P_i F_i I_u - \omega I_p -\gamma I_p \\
+1)\ d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n \\
+2)\ d S_n/dt &= -\Lambda S_n + F_S S_u - \omega S_n \\
+3)\ d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u  \\
+4)\ d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n \\
+5)\ d I_p/dt &= p_I F_I I_u - \omega I_p -\gamma I_p \\
 6)\ d I_t/dt &= \omega I_p - \gamma I_t  \\
-7)\ d R_u/dt &= \gamma I_u - F_r R_u + \omega R_n \\
-8)\ d R_n/dt &= \gamma I_n + (1-P_r) F_r R_u - \omega R_n  \\
-9)\ d R_p/dt &= \gamma I_p + P_r F_r R_u  - \omega R_p  \\
+7)\ d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n \\
+8)\ d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n  \\
+9)\ d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p  \\
 10)\ d R_t/dt&= \gamma I_t + \omega R_p  \\
 11)\ dN/dt &= \omega (S_n + I_n + R_n)   \\
 12)\ dP/dt &= \omega(I_p + R_p).
@@ -99,20 +96,21 @@ sir.model <- function(time,state,params){
     ## Force of Infection  
     Lambda <- beta * (I_u + eta_w*(I_n+I_p) + eta_t*I_t)/N0
     ## scaling the weights
-    sigma <- tau*rho*N0/(tau*(W_s*S_u+W_i*I_u+W_r*R_u)+rho*N0)
-    F_s <- sigma*W_s
-    F_i <- sigma*W_i
-    F_r <- sigma*W_r
+    W <- W_S*S_u+W_I*I_u+W_R*R_u
+    sigma <- rho*N0/W
+    F_S <- sigma*W_S
+    F_I <- sigma*W_I
+    F_R <- sigma*W_R
 
-    dS_u.dt <- -Lambda*S_u - (1-P_s) * F_s * S_u + omega * S_n
-    dS_n.dt <- -Lambda*S_n + (1-P_s) * F_s * S_u - omega * S_n 
-    dI_u.dt <-  Lambda*S_u + omega * I_n - F_i * I_u - gamma * I_u
-    dI_n.dt <-  Lambda*S_n + (1-P_i) * F_i * I_u  - omega * I_n - gamma * I_n
-    dI_p.dt <-  P_i * F_i * I_u - omega * I_p - gamma * I_p 
+    dS_u.dt <- -Lambda*S_u - (1-p_S) * F_S * S_u + omega * S_n
+    dS_n.dt <- -Lambda*S_n + (1-p_S) * F_S * S_u - omega * S_n 
+    dI_u.dt <-  Lambda*S_u + omega * I_n - F_I * I_u - gamma * I_u
+    dI_n.dt <-  Lambda*S_n + (1-p_I) * F_I * I_u  - omega * I_n - gamma * I_n
+    dI_p.dt <-  p_I * F_I * I_u - omega * I_p - gamma * I_p 
     dI_t.dt <-  omega * I_p - gamma * I_t 
-    dR_u.dt <- gamma * I_u + omega * R_n - F_r * R_u  
-    dR_n.dt <- gamma * I_n + (1-P_r) * F_r * R_u - omega * R_n
-    dR_p.dt <- gamma * I_p + P_r * F_r * R_u - omega * R_p
+    dR_u.dt <- gamma * I_u + omega * R_n - F_R * R_u  
+    dR_n.dt <- gamma * I_n + (1-p_R) * F_R * R_u - omega * R_n
+    dR_p.dt <- gamma * I_p + p_R * F_R * R_u - omega * R_p
     dR_t.dt <- gamma * I_t + omega * R_p
     dN.dt <- omega * (S_n + I_n + R_n)
     dP.dt <- omega *(I_p + R_p)
@@ -126,12 +124,11 @@ sir.model <- function(time,state,params){
 ```
 
 ```{r model inputs, message=FALSE}
-params <- c(N0=1000000, beta=0.8,gamma=1/3, omega=0.25, rho=0.01, 
-             W_s=.01, W_i=1, W_r=1, #weights
-             P_s=0, P_i=1, P_r=0.5, #prob of waiting for being tested positive
+params <- c(N0=1000000, beta=.8,gamma=1/3, omega=0.25, rho=0.01, 
+             W_S=1, W_I=1, W_R=1, #weights
+             p_S=0, p_I=1, p_R=0.5, #prob of waiting for being tested positive
             eta_w=0.02, eta_t=0.01, #isolation parameter 
-            s=2, #eta_w/eta_t
-            tau=1
+            s=2 #eta_w/eta_t
             )
 class(params) <- "params_pansim"
 state_init <- c(S_u=params[["N0"]], S_n=0,
@@ -140,9 +137,9 @@ state_init <- c(S_u=params[["N0"]], S_n=0,
                 N=0,P=0)
 d <- seq(0,200,by=0.1)
 # Conditional stop for desolver
-rootfun <- function (time, state,params) { 
-  unpack(as.list(c(state,params)))
-  return(I_u - 1) }
+# rootfun <- function (time, state,params) { 
+#   unpack(as.list(c(state,params)))
+#   return(I_u - 1) }
 ```
 
 
@@ -153,40 +150,32 @@ DFE <- function(S,params){
   S_u <- S[1]
   S_n <- S[2]
   I_u <-0
-  R_u<-0
+  R_u <-0
   unpack(as.list(params))
-  sigma <- tau*rho*N0/(tau*(W_s*S_u+W_i*I_u+W_r*R_u)+rho*N0)
-  F_s <- sigma*W_s
+  W <- W_S*S_u+W_I*I_u+W_R*R_u
+  sigma <- rho*N0/W
+  F_S <- sigma*W_S
  
  return(c(eq1=S_u+S_n-N0,
-   eq2=-F_s*S_u+omega*S_n))
+          eq2=-F_S*S_u+omega*S_n))
 }
 
 roots_dfe <- multiroot(DFE, c(1, 1), parms = params, positive = T)
 roots_dfe$root
 
-
 # DFE; analytic approach
-
-Su_dfe <-function(params){
+Sn_dfe <-function(params){
   unpack(as.list(params))
-  a <- rho
-  b <- -rho+(1-rho/omega)*tau*W_s
-  c <- -tau*W_s
-  d <- b^2-4*a*c
-  
-  if(rho){return(N0*2*a/(-b+sqrt(d)))}
-    else {return(N0)}
-}
+  return((rho*(1-p_S)*N0)/omega)
+  }
 
-Sn_dfe<- params[["N0"]]-Su_dfe(params)
+Su_dfe<- params[["N0"]]-Sn_dfe(params)
 
-
-state_dfe <- c(S_u=Su_dfe(params), S_n=Sn_dfe,
+state_dfe <- c(S_u=Su_dfe, S_n=Sn_dfe(params),
                 I_u=0,I_n=0,I_p=0,I_t=0,
                 R_u=0,R_n=0,R_p=0,R_t=0,
                 N=0,P=0)
-
+# check:
 all.equal(c(state_dfe[["S_u"]],state_dfe[["S_n"]]),roots_dfe$root)
 ```
 
@@ -194,8 +183,6 @@ Test gradient
 ```{r}
 g1 <- sir.model(time=0,state=state_init, params=params)
 all.equal(sum(g1[[1]]),0)
-## debug(sir.model)
-## g1 <- sir.model(time=0,state=state_init, params=params)
 ```
 
 
@@ -253,21 +240,18 @@ direct.label(gg1 %+% out_long2,"last.bumpup")
 ### Steady States
 
 The Disease-Free Equilibrium, namely $E_1$, for the above SIR model is given by the solution of the following system:
-$S_u+S_n=N0$ and $F_s S_u-\omega S_n=0$.
-Let $\tilde{S_u}=N_0/S_u$, the positive solution of the quadratic $$a \tilde{S_u}+b \tilde{S_u}^2+c=0,$$
-where $a=\rho$, $b= -\rho+(1-\rho/\omega) \tau W_s$ and $c=-\tau W_s$. Let
-  $d = b^2-4ac$, the DFE of the model is
-  
-$$S_u^* =N_0 2 a/(-b+\sqrt d), \\ S_n^*=N_0-S_u^* \\ I_j=R_j=0 \ \forall j$$
+$S_u+S_n=N0$ and $F_S S_u-\omega S_n=0$. The DFE is
+
+$S_n^*= \frac{\rho}{\omega} N_0, S_u^*= N_0-S_n^*$, and $I_j=R_j=0 \ \forall j$.
 
 ### Basic Reproduction Number
 
 The next generation matrix, $G = F V^{-1}$, is in the lower triangular form with $F$ and $G$ as follows.
 
 $$R_0= (A \times S_u^* + B \times S_n^*) \times C,$$ where
-$A=\gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t P_i) F_i$,
-$B=\big(\omega+(F_i+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega P_i F_i }{\omega+\gamma}$ and 
-$C=\frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_i(\gamma+\omega P_i))}$.
+$A=\gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t p_I) F_I$,
+$B=\big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega p_I F_I }{\omega+\gamma}$ and 
+$C=\frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}$.
 
 \begin{equation}\label{FV}
 F= \beta/N_0 \left[ \begin {array}{cccc} 
@@ -278,9 +262,9 @@ S_n&\eta_w\,S_n&\eta_w\,S_n&\eta_t\,S_n\\
  \end {array} \right],
  V=
  \left[ \begin {array}{cccc}  
-F_i+\gamma&-\omega&0&0\\
--(1-P_i)F_i&\omega+\gamma&0&0\\
--P_i F_i&0&\omega+\gamma&0\\
+F_I+\gamma&-\omega&0&0\\
+-(1-p_I)F_I&\omega+\gamma&0&0\\
+-p_I F_I&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
 \end {array} \right],
 \end{equation}
@@ -299,46 +283,42 @@ A\,S_n & B\,S_n
 
 The Eigenvalues of $G_{11}$, are 0 and $R_0$.
 ```{r R0}
-F_i <- function(params){
-   # Returns F_i at DFE 
+F_I <- function(params){
+   # Returns F_I at DFE 
   unpack(as.list(params))
-  Su_dfe<- Su_dfe(params)
-  Sn_dfe<- N0-Su_dfe
-  sigma <- tau*rho*N0/(tau*(W_s*Su_dfe)+rho*N0) #at DFE 
-  return(sigma*W_i)
+  Sn<- Sn_dfe(params)
+  Su<- N0-Sn
+  sigma <- rho*N0/(W_S*Su) #at DFE 
+  return(sigma*W_I)
 }
 
  # just a test
-  F_i(params=update(params,rho=0))
+  F_I(params=update(params,rho=0))
   
 R0<-function(params){
     unpack(as.list(params))
-    Su_dfe<- Su_dfe(params)
-    Sn_dfe<- N0-Su_dfe
+    Sn <- Sn_dfe(params)
+    Su <- N0-Sn
     # print(c(Su_dfe,Sn_dfe,Su_dfe+Sn_dfe))
-    Fi <- F_i(params) #at DFE
-    
-    A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_t*P_i*Fi
-    B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_t*omega)*(omega*P_i*Fi)/(omega+gamma)
-      
-    C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*P_i)))
-    return((A*Su_dfe+B*Sn_dfe)*C)
+    Fi <- F_I(params) #at DFE
+    A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_t*p_I*Fi
+    B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_t*omega)*(omega*p_I*Fi)/(omega+gamma)
+    C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))
+    return((A*Su+B*Sn)*C)
 }
 
 # R0 expression with eta_w/eta_t factored
 R02<-function(params){
     unpack(as.list(params))
-    Su_dfe<- Su_dfe(params)
-    Sn_dfe<- N0-Su_dfe
-    F_i <-F_i(params)  #at DFE
+    Sn<- Sn_dfe(params)
+    Su<- N0-Sn
+    F_I <-F_I(params)  #at DFE
     
-    A2 <- gamma*(P_i*F_i*omega*Sn_dfe+(omega+gamma)*(gamma*Sn_dfe+F_i*N0))
-    B2 <- P_i*F_i*omega*(gamma*Su_dfe+omega*N0)
-    D <- gamma*(omega+gamma)*(gamma*Su_dfe+omega*N0)
-    C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_i*(gamma+omega*P_i)))*(omega+gamma))
+    A2 <- gamma*(p_I*F_I*omega*Sn+(omega+gamma)*(gamma*Sn+F_I*N0))
+    B2 <- p_I*F_I*omega*(gamma*Su+omega*N0)
+    D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
+    C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_I*(gamma+omega*p_I)))*(omega+gamma))
     # s <- eta_w/eta_t
-    
-    # return((eta_w*A2+eta_t*B2+D)*C2)
     return((eta_t*(s*A2+B2)+D)*C2)
 }
 
@@ -365,22 +345,22 @@ all.equal(R0(params=update(params,eta_t=1,eta_w=1)), params[["beta"]]/params[["g
 n_out <- 5 ## facets (rows/cols)
 n_in <- 41 ## grid N within facets
  # specify the ranges
- beta  <- 0.5  ## set beta high enough to allow R0>1 in worst case
+ beta  <- 0.4  ## set beta high enough to allow R0>1 in worst case
  eta_w <- seq(0,1, length.out=n_out)
- eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 to 0.5 
+ eta_t <- seq(0,1, length.out=n_out) #0.001 to 0.5 
  rho     <- seq(0,0.01, length.out=n_in)
- omega <- seq(0.001,1 , length.out=n_in) #note omega must be > rho, was 0.1
+ omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
-                    P_s=params[["P_s"]],P_i=params[["P_i"]],P_r=params[["P_r"]],
-                    eta_w=eta_w,eta_t=eta_t,s=params[["s"]],tau=params[["tau"]])
+                    W_S=params[["W_S"]],W_I=params[["W_I"]],W_R=params[["W_R"]],
+                    p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+                    eta_w=eta_w,eta_t=eta_t,s=params[["s"]])
  
-# Need to be corrected: in F_i, state_dfe should be changed according to the df1!
+# Need to be corrected: in F_I, state_dfe should be changed according to the df1!
 df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
-                      Fi= apply(df1,1,function(params_in)F_i(params=params_in)))
+                      Fi= apply(df1,1,function(params_in)F_I(params=params_in)))
                                          
-# which(df2[]<0)
+which(df2[]<0)
 ```
 
 ```{r}
@@ -414,22 +394,22 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 
 ```{r contour_R0_2, message=FALSE,warning=FALSE }
  # specify the ranges
- # beta  <- 0.5
- # eta_w <- seq(0,1, length.out=5) 
- # eta_t <- seq(0.001,0.5, length.out=n_out) #0.001 
- # rho     <- seq(0,0.01, length.out=n_in)
- # omega <- seq(0.001,1 , length.out=n_in) #note omega must be > 0, was 0.1
- s <- seq(1,2,length.out=n_out) 
+beta  <- 0.35  ## set beta high enough to allow R0>1 in worst case
+ eta_w <- seq(0,1, length.out=n_out)
+ rho     <- seq(0,0.01, length.out=n_in)
+ omega <- seq(0.1,1.5 , length.out=n_in) #note omega must be > rho, was 0.011
  
+eta_t <- seq(0.001,0.01, length.out=n_out)  
+s <- seq(1,2,length.out=n_out) 
 
  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_s=params[["W_s"]],W_i=params[["W_i"]],W_r=params[["W_r"]],
-                    P_s=params[["P_s"]],P_i=params[["P_i"]],P_r=params[["P_r"]],
-                    eta_w=params[["eta_w"]],eta_t=eta_t,s=s,tau=params[["tau"]])
+                    W_S=params[["W_S"]],W_I=params[["W_I"]],W_R=params[["W_R"]],
+                    p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+                    eta_w=params[["eta_w"]],eta_t=eta_t,s=s)
 
 df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
-                      Fi= apply(df11,1,function(params_in)F_i(params=params_in)),
-                       Su=apply(df11,1,function(params_in)Su_dfe(params = params_in)))
+                      Fi= apply(df11,1,function(params_in)F_I(params=params_in)),
+                       Sn=apply(df11,1,function(params_in)Sn_dfe(params = params_in)))
 ```
 
 ```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
@@ -446,22 +426,22 @@ p11 <- ggplot(df22,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 )
 ```
 
-Let call the $F_i$ the critical testing rate in the above plot.
+Let call the $F_I$ the critical testing rate in the above plot.
 
 **Propositions**
 
 1. $\partial{R_0}/\partial{\eta_t} \geq 0$ and $\partial{R_0}/\partial{\eta_w} \geq 0$.
 2. $\partial{R_0}/\partial{\rho} \leq 0$; this is concluded from the Taylor expansion of $R_0$ around $\rho=0$ which is
-$R_0 \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 W_s} \Big(\gamma(\eta_w-1)(\gamma W_s+\omega W_i) + (\eta_t -1)P_iW_i \omega^2 \Big) + \mathcal{O}(\rho^2)$.
+$R_0 \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 W_S} \Big(\gamma(\eta_w-1)(\gamma W_S+\omega W_I) + (\eta_t -1)P_iW_i \omega^2 \Big) + \mathcal{O}(\rho^2)$.
 3. Based on the above Taylor expansion around $\rho=0$,
-$$\partial{R_0}/\partial{\omega}=  \frac{-\beta \rho}{\gamma W_s\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c), $$
-where $a=(\eta_w-1)W_i-(\eta_t-1)P_iW_i$, $b=2(\eta_w-1)\gamma W_s$ and $c=(\eta_w-1)\gamma^2 W_s$.
+$$\partial{R_0}/\partial{\omega}=  \frac{-\beta \rho}{\gamma W_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c), $$
+where $a=(\eta_w-1)W_I-(\eta_t-1)P_iW_i$, $b=2(\eta_w-1)\gamma W_S$ and $c=(\eta_w-1)\gamma^2 W_S$.
 Given that $\eta_t\leq \eta_w$, it is inferred that $a\geq 0$, $b\leq 0$ and $c \leq 0$.
 Let $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{R_0}/\partial{\omega}$. Thus, $\partial{R_0}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{R_0}/\partial{\omega}<0$ for $\omega>\omega_2$.
 
-4. Taylor expansion gives $R_0|_{(\rho=0,W_s=1)} = \beta/\gamma$.
+4. Taylor expansion gives $R_0|_{(\rho=0,W_S=1)} = \beta/\gamma$.
 
-5. Taylor expansion gives $R_0|_{(\rho=0,W_s=0)} = \beta/\gamma \frac{\gamma \tau(\omega+\gamma)W_s+\tau\rho(\gamma\eta_w+\omega\eta_tP_i)W_i+ \gamma \rho(\gamma+\omega)}{\gamma \tau(\omega+\gamma)W_s+\tau\rho(\gamma+\omega P_i)W_i+ \gamma \rho(\gamma+\omega)}$.
+5. Taylor expansion gives $R_0|_{(\rho=0,W_S=0)} = \beta/\gamma \frac{\gamma \tau(\omega+\gamma)W_S+\tau\rho(\gamma\eta_w+\omega\eta_tP_i)W_I+ \gamma \rho(\gamma+\omega)}{\gamma \tau(\omega+\gamma)W_S+\tau\rho(\gamma+\omega p_I)W_I+ \gamma \rho(\gamma+\omega)}$.
 
 **Interpretation of the R0 contour plot**
 
