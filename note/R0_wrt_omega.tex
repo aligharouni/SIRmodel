@@ -16,13 +16,13 @@
 
 \maketitle
 
-\section{Intrdoctuion}
+\section{Introduction}
 
 Much of this document concerns the effect of $\omega$ (the rate at which test results are returned) on $\Rnum$. As shown by Ali, when the overall testing rate $t$ is small (i.e., $t \approx 0$), the sign of $\partial{\Rnum}/\partial{\omega}$ is determined by a quadratic. 
 
-For a relatively clean description of these roots, see starting from \cref{eq:defQ}. We show that there is always two real roots; one negative and one positive. For $w \in (0, \infty)$, there is a global maximum at the second root. For a necessary and sufficient condition (inequality) for having $\partial{\Rnum}/\partial{\omega} < 0$, see \cref{eq:necsuf}. Finally, we give a brief discussion on finding a local minimum of $\Rnum$ with respect to $w$ for $w \in (0,\infty)$. However, our analysis of this is complicated by the fact that we are analyzing the linearization of $\Rnum$ near $t = 0$, rather than the exact form of $\Rnum$. \fady{In section 3, I expand a bit on this and basically ask if it would be a good idea for me to try working with the exact form of $\Rnum$ to see if we can generalize some of our analysis for $t$ not close to 0.}
+For a relatively clean description of these roots, see starting from \cref{eq:defQ}. We show that there is always two real roots; one negative and one positive. For $w \in (0, \infty)$, there is a global maximum at the second root. For a necessary and sufficient condition (inequality) for having $\partial{\Rnum}/\partial{\omega} < 0$, see \cref{eq:necsuf}.
 
-\section{Behaviour of $\Rnum$ for $t \approx 0$}
+\section{Effect of speed of returning test results, $\omega$}
 
 From Ali's analysis we know:
 
@@ -72,26 +72,46 @@ The left hand side is a measure of the relative lowering in contact for the grou
 
 \fady{The RHS doesn't have as clean an interpretation, I think. But I'll add in more stuff here later.}
 
+\section{Few high sensitivity tests vs. many low sensitivity tests}
 
-Now we focus our attention on minimizing $\Rnum$ wrt to $\omega$. Since $\Rnum(\omega)$ has a global (for $\omega \in [0,\infty)$) maximum at $\omega_2$, we know that $\Rnum$ attains its smallest values either near $\omega = 0$ or as $\omega$ approaches $+\infty$. We can study the behaviour of $\Rnum(\omega)$ on $(0,\infty)$, but in reality, there must be a bounded range of realistic values of $\omega$ that we should optimize on. However, optimizing on $(0,\infty)$ and this bounded range should be equally easy, given that $\Rnum(\omega)$ has only one critical point; so we know the minimum must occur at the boundaries of the domain.
+Let us consider the linearization of $\Rnum$ around $\Rnum \approx 0$. \fady{As Ali pointed out to me, working with the linearization is okay since $\rho$ is the \text{daily per capita testing rate}, so it is expected to be fairly small. I was somehow thinking values of $\rho$ weren't gonna be small, but now I understand.}
 
-If $\Rnum$ attains its smallest values near $\omega = 0$, then testing results should never be returned (probably not a practical implementation, but it does tell us something interesting). On the other hand, if $\Rnum$ attains its lowest values as $\omega$ tends to infinity, then test results should be returned as quickly as possible. Of course, in reality, if test results were never returned, people may not continue to comply with being careful while ``awaiting" their test result; since it never comes. 
+\begin{equation}
+\Rnum \approx \beta/\gamma + \frac{\beta t}{\omega (\omega+\gamma) \gamma^2 W_s} \Big(\gamma(\eta_w-1)(\gamma W_s+\omega W_i) + (\eta_t -1)P_iW_i \omega^2 \Big). 
+\end{equation}
 
-Before doing any analysis, notice that ``never returning results" may be \fady{I'm not 100 \% sure} dynamically equivalent to having an ``SIR with lockdown model", except the lockdown period is permanent. This is because some people are lowering their contact rate while ``waiting" for their results (which will never come). In this case, the lowering of contact is given by the parameter $\eta_s$. 
+One can conceptualize two extremes of testing strategies: use only expensive high-sensitivity tests, but have a low testing rate as a result vs. use cheap low-sensitivity tests (thus, risking many false negatives), but have a high testing rate as a result. 
 
-Looking at the limit as $\omega \rightarrow \infty$ we have
-\begin{align}
-&\lim_{w \rightarrow \infty} \beta/\gamma + \frac{\beta t}{\omega (\omega+\gamma) \gamma^2 W_s} \Big(\gamma(\eta_w-1)(\gamma W_s+\omega W_i) + (\eta_t -1)P_iW_i \omega^2 \Big) \nonumber \\
-&= \frac{\beta}{\gamma} - \frac{\beta t\left(1-t_n\right)P_{i}W_{i}}{\gamma^{2}W_{s}}
+As a first step, consider a test that allows us to test at rate $\rho_1$ and has sensitivity $P_{i,1}$, and another test that allows us to test at $\rho_2$ and has sensitivity $P_{i,2}$. Under the assumption that $\rho_1 > \rho_2$, \cref{eq:rho1vsrho2} tells us exactly when the second test causes a lower $\Rnum$ compared to the first. 
+\begin{align}\label{eq:rho1vsrho2}
+    &\rho_1\left(\gamma(\eta_w-1)(\gamma W_s + \omega W_i) + (\eta_t-1)P_{i, 1}W_i\omega^2\right) - \rho_2\left(\gamma(\eta_w-1)(\gamma W_s + \omega W_i) + (\eta_t-1)P_{i, 2}W_i\omega^2\right) > 0 \nonumber \\
+    &\vdots \nonumber \\
+    &\frac{\rho_2P_{i, 2}-\rho_1P_{i, 1} }{\rho_1-\rho_2} > \frac{1-\eta_w}{1-\eta_t}\cdot \frac{\gamma(\gamma W_s + \omega W_i)}{\omega^2 W_i}
 \end{align}
 
-Naturally, we would now want to evaluate the limit as $\omega \rightarrow 0$. However, if we were to naively compute this limit assuming $t$ is constant, we would get $- \infty$. I suspect \fady {I'm not sure about this} the reason for this is because we're working with a linearization where $t \approx 0$, thus, we can only evaluate the limit as another variable (e.g., $\omega$) goes to 0 only if we insist that $t$ also goes to 0. But then, the value of the limit depends on the relative decay of $t$ and $\omega$ towards 0. \fady{I will not write down analysis here until I've talked to someone about this.} 
+The previous inequality tells us precisely when a test corresponding to $\rho_2, P_{i,2}$ will yield a lower $\Rnum$ than a test corresponding to $\rho_1, P_{i,1}$, where $\rho_1 > \rho_2$. It is then natural to ask, what hypothetical test corresponding to $\rho^*, P_{i,*}$ will \textit{minimize} $\Rnum$? In order to examine this question, we can consider $P_i$ (which is the sensitivity of the test) as a function of the testing rate, $\rho$. So let $P_i(\rho)$. We expect that $P_i(\rho)$ is decreasing. 
 
-\section{Rough thoughts: what about when $t$ is not close to 0?}
+We can then compute $\frac{\partial \Rnum}{\partial \rho}$ using the chain rule. Doing so, we obtain:
+\begin{equation}
+\frac{\partial \Rnum}{\partial \rho} = \dfrac{\beta\left(\left(\eta_\text{t}-1\right)\omega^2W_iP_i't+\left(\eta_t-1\right)\omega^2W_iP_i+\left(\eta_w-1\right)W_s\gamma^2+\left(\eta_w-1\right)\omega W_i\gamma\right)}{\omega W_s\gamma^2\left(\gamma+\omega\right)}\,,
+\end{equation}
 
-Initially, I thought the exact formula for $\Rnum$ was linear with respect to $t$, which would have allowed us to generalize the results in the previous section. However, I remembered that during the meeting, someone (I think it was Jonathan) was asking about a quadratic term. I figured that someone had noticed that if $\Rnum$ was linear we would've been able to generalize the analysis above, so looking harder, I noticed that indeed $\Rnum$ is not linear wrt to $t$ because $F_i$ contain $t$'s that then get multiplied with the one explicit $t$ in the expression. So indeed it's not linear.
+Setting $\frac{\partial \Rnum}{\partial \rho} = 0$:
 
-I could try spending some time \emph{trying} to work on the exact $\Rnum$ function to see if I can get anywhere with it, if that's of interest. 
+\begin{align}\label{eq:r0rho=0}
+    &\frac{\partial \Rnum(\rho^*)}{\partial \rho} = 0 \nonumber \\
+    &\Longleftrightarrow P_i'(\rho^*) = \frac{1}{\rho^*} \left( \frac{1-\eta_w}{1-\eta_t}\cdot\frac{\gamma}{\omega}\cdot\big(\frac{\gamma}{\omega}+\frac{W_i}{W_s}\big) - P_i(\rho^*)\right)
+\end{align}
+
+In order to check if this critical point is a minimum, we can check the sign of the second derivative. For convenience, let $Q = \frac{1-\eta_w}{1-\eta_t}\cdot\frac{\gamma}{\omega}\cdot\big(\frac{\gamma}{\omega}+\frac{W_i}{W_s}\big)$
+
+\begin{align}
+    P_i''(\rho^*) &= \frac{-1}{{\rho^*}^2}(Q-P_i(\rho^*)) -\frac{1}{{\rho^*}^2}P_i'(\rho^*) \\
+    &= -\frac{1}{{\rho^*}}P_i'(\rho^*) -\frac{1}{{\rho^*}^2}P_i'(\rho^*) > 0
+\end{align}
+Where the final inequality follows since $\rho^* > 0$ and $P_i'(\rho^*) < 0$. So indeed, the critical point we found is a minimum. 
+
+To gain some intuition, let us assume that $P_i(\rho)$ is of the form $1-k\rho$ for some $k > 0$. \fady{to be continued...}
 
 \end{document}
 
