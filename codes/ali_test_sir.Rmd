@@ -345,14 +345,16 @@ all.equal(R0(params=update(params,eta_t=1,eta_w=1)), params[["beta"]]/params[["g
 n_out <- 5 ## facets (rows/cols)
 n_in <- 41 ## grid N within facets
  # specify the ranges
- beta  <- 0.4  ## set beta high enough to allow R0>1 in worst case
+ beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case
  eta_w <- seq(0,1, length.out=n_out)
  eta_t <- seq(0,1, length.out=n_out) #0.001 to 0.5 
  rho     <- seq(0,0.01, length.out=n_in)
  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
+ W_S <- .3 #choose 0.3 for TTI testing plan and 1 for the random testing.
+ 
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_S=params[["W_S"]],W_I=params[["W_I"]],W_R=params[["W_R"]],
+                    W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
                     eta_w=eta_w,eta_t=eta_t,s=params[["s"]])
  
@@ -394,16 +396,14 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
 
 ```{r contour_R0_2, message=FALSE,warning=FALSE }
  # specify the ranges
-beta  <- 0.35  ## set beta high enough to allow R0>1 in worst case
- eta_w <- seq(0,1, length.out=n_out)
- rho     <- seq(0,0.01, length.out=n_in)
- omega <- seq(0.1,1.5 , length.out=n_in) #note omega must be > rho, was 0.011
- 
-eta_t <- seq(0.001,0.01, length.out=n_out)  
-s <- seq(1,2,length.out=n_out) 
+beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case 
+rho     <- seq(0,0.01, length.out=n_in)
+omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, 
+eta_t <- seq(0.001,0.1, length.out=n_out)
+s <- seq(1,10,length.out=n_out) 
 
  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_S=params[["W_S"]],W_I=params[["W_I"]],W_R=params[["W_R"]],
+                    W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
                     eta_w=params[["eta_w"]],eta_t=eta_t,s=s)
 
@@ -431,6 +431,7 @@ Let call the $F_I$ the critical testing rate in the above plot.
 **Propositions**
 
 1. $\partial{R_0}/\partial{\eta_t} \geq 0$ and $\partial{R_0}/\partial{\eta_w} \geq 0$.
+That is, the lower isolation the higher $R_0$. Note that perfect isolation occurs at $\eta_w = 0$. 
 2. $\partial{R_0}/\partial{\rho} \leq 0$; this is concluded from the Taylor expansion of $R_0$ around $\rho=0$ which is
 $R_0 \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 W_S} \Big(\gamma(\eta_w-1)(\gamma W_S+\omega W_I) + (\eta_t -1)P_iW_i \omega^2 \Big) + \mathcal{O}(\rho^2)$.
 3. Based on the above Taylor expansion around $\rho=0$,
@@ -443,15 +444,21 @@ In general, $a \geq 0$ is not true. $$a \geq 0 \iff (s-p_I) \eta_t \geq (1-p_I),
 
 **Perfect isolation**; When $\eta_w=0$ and consequently $\eta_t=0$. This leads to $a \leq 0$, $b<0$, $c<0$, thus $\partial{R_0}/\partial{\omega} \geq 0$. Intuitively, returning the test results back to the awaiting individuals while they are in a perfect isolation results in an increase of $R_0$.
 
+**Insights from the R0-contour plots**
+
+1. TTI requires lower testing rate than random testing to achieve $R_0=1$.
+
+2. When random testing regime is applied, $W_S=W_I=W_R$,
+
+(i) in the case of perfect isolation of the reported individuals, $\eta_t=0$, the followings are inferred (see the first few columns of the panel plot); 
+ - variations of the $\eta_w$ has a negligible effect on the critical testing.
+ - for low $\omega$, $R_0$ increases as $\omega$ increases but saturates. This means that when the reporting process is very very slow, increasing the speed of the reporting causes higher $R_0$. Maybe because more people will move to $I_u$ [?, not very sure here.]
+ (ii) in case of the non-perfect isolation (see the last column), when $\eta_w$ increases (more awaiting people follow the isolation rules) faster reporting reduces $R_0$.  
+Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here we showed that this can be less true. 
+
+3. When TTI regime is applied,
 
 
-
-
-**Interpretation of the R0 contour plot**
-
-Note that $\eta_t\leq \eta_w$, i.e., reported people have a lower transmission probability than awaiting individuals. The perfect isolation/quarantine occurs when $\eta_w=\eta_t=0$ (see the upper left corner panel). Thus, we only consider the lower-triangle panels in the plot [not sure how to extract them in ggplot?].
-(1) Looking at the first column of panels, there seems to be a compensatory relation between $\rho$ and $\omega$. i.e., higher $\rho$ requires smaller $\omega$ to keep R0 lower than 1. Also, for a fixed $\omega$, increasing $\eta_w$ requires higher $\rho$ to achieve the critical R0.
-(2) A sensible result that we are expecting is $\partial{R_0}/\partial{\omega}<0$.
 
 ```{r  chnages of R0 wrt omega,message=FALSE,warning=FALSE }
 R0_omega <- function(params){
