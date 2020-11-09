@@ -74,7 +74,7 @@ The left hand side is a measure of the relative lowering in contact for the grou
 
 \section{Few high sensitivity tests vs. many low sensitivity tests}
 
-Let us consider the linearization of $\Rnum$ around $\Rnum \approx 0$. \fady{As Ali pointed out to me, working with the linearization is okay since $\rho$ is the \text{daily per capita testing rate}, so it is expected to be fairly small. I was somehow thinking values of $\rho$ weren't gonna be small, but now I understand.}
+Let us consider the linearization of $\Rnum$ around $\rho \approx 0$. \fady{As Ali pointed out to me, working with the linearization is okay since $\rho$ is the \text{daily per capita testing rate}, so it is expected to be fairly small. I was somehow thinking values of $\rho$ weren't gonna be small, but now I understand.}
 
 \begin{equation}
 \Rnum \approx \beta/\gamma + \frac{\beta t}{\omega (\omega+\gamma) \gamma^2 W_s} \Big(\gamma(\eta_w-1)(\gamma W_s+\omega W_i) + (\eta_t -1)P_iW_i \omega^2 \Big). 
@@ -103,7 +103,8 @@ Setting $\frac{\partial \Rnum}{\partial \rho} = 0$:
     &\Longleftrightarrow P_i'(\rho^*) = \frac{1}{\rho^*} \left( \frac{1-\eta_w}{1-\eta_t}\cdot\frac{\gamma}{\omega}\cdot\big(\frac{\gamma}{\omega}+\frac{W_i}{W_s}\big) - P_i(\rho^*)\right)
 \end{align}
 
-In order to check if this critical point is a minimum, we can check the sign of the second derivative. For convenience, let $Q = \frac{1-\eta_w}{1-\eta_t}\cdot\frac{\gamma}{\omega}\cdot\big(\frac{\gamma}{\omega}+\frac{W_i}{W_s}\big)$
+In order to check if this critical point is a minimum, we can check the sign of the second derivative. For convenience, let $Q = \frac{1-\eta_w}{1-\eta_t}\cdot\frac{\gamma}{\omega}\cdot\big(\frac{\gamma}{\omega}+\frac{W_i}{W_s}\big)$ 
+AGh: Call $Q$ something else to avoid confussion with the Q in eq 2.
 
 \begin{align}
     P_i''(\rho^*) &= \frac{-1}{{\rho^*}^2}(Q-P_i(\rho^*)) -\frac{1}{{\rho^*}^2}P_i'(\rho^*) \\
