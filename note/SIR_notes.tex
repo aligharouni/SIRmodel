@@ -51,6 +51,9 @@
 \usepackage{alltt}
 \usepackage{natbib}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
 \bibliographystyle{apalike}
 
 \title{SIR Model with Testing and Isolation Mechanisms}
@@ -61,13 +64,109 @@
 % %%%%%%%
 \section{Method}
 
-% %%%%%%%
-\section{Analysis}
-    
+\subsection{model and parameters}
+\begin{itemize}
+\item $\Lambda$: force of infection defined as $$\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},$$ where $\beta$ is transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. We assume that $\eta_t<\eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals.
+\item $\omega$: the rate of *onward flow* from the awaiting positive compartment, $p$, to reported/tested compartment, $\rho$, or from awaiting negative compartment, $n$, back to $u$.  It has units of $1/time$.
+\item $\gamma$: recovery rate ($1/time$).
+\item $\rho$: per capita testing intensity across the whole population ($1/time$).
+\item $W$: weighted number of people available for tests, defined as $W = W_S S_u + W_I I_u + W_R R_u$.
+\item $\sigma$: scaling parameter for testing defined as $\sigma = \frac{\rho N_0}{W}$.
+\item $F_Z$: Weighted testing rate defined as $F_Z=\sigma W_Z$. That is, $F_S = \sigma W_S$, $F_I=\sigma W_I$ and $F_R = \sigma W_R$.
+\end{itemize}
 
+\includegraphics[width=\linewidth]{../pix/sir_comp2.png}
+
+The model is
+
+\begin{align}
+\label{mod:1}
+ d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n \\
+ d S_n/dt &= -\Lambda S_n + F_S S_u - \omega S_n \\
+ d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u  \\
+ d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n \\
+ d I_p/dt &= p_I F_I I_u - \omega I_p -\gamma I_p \\
+ d I_t/dt &= \omega I_p - \gamma I_t  \\
+ d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n \\
+ d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n  \\
+ d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p  \\
+ d R_t/dt&= \gamma I_t + \omega R_p  \\
+ dN/dt &= \omega (S_n + I_n + R_n)   \\
+ dP/dt &= \omega(I_p + R_p).
+\end{align}
+
+% %%%%%%%
+\section{Results}
+
+\newpage
+\begin{figure}
+\centering
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../pix/R0contour_random.png}
+        \caption{}\label{fig:fig_a}
+\end{subfigure}
+%
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../pix/R0contour_TTI.png}
+\caption{}\label{fig:fig_b}
+\end{subfigure}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../pix/R0contour_random_s.png}
+        \caption{}\label{fig:fig_a}
+\end{subfigure}
+%
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../pix/R0contour_TTI_s.png}
+\caption{}\label{fig:fig_b}
+\end{subfigure}
+\end{figure}
+
+% %%%%%%%
+\section{Thoughts/Objectives}
+
+
+
+\begin{enumerate}
+\item 
+\begin{itemize}
+\item analysis of the basic SIR model with testing: analytical results as far as possible, supplemented by numerical results as necessary/for illustration. Heuristic explanations/insights of what we learn from this.
+\item Maybe?? order-of-magnitude/back-of-the-envelope calculations of the magnitudes of testing and isolation necessary. (However, the model may be too simplified for even back-of-the-envelope calculations to be meaningful.)
+\item Maybe?? comparison with strength-and-speed framework (since T/T/I is essentially a speed-based intervention)
+\end{itemize}
+
+\item
+\begin{itemize}
+\item extension to a SEPAIR model (i.e. including latent/exposed, presymptomatic, asymptomatic)
+  (i) analytical results will probably be out of reach
+	(ii) but it may be possible to extend some of the insights gained in part 1
+	(iii) in any case, some numerical results (the space of relevant/interesting parameters will be larger: figure out a sensible way to show results from this parameter space. Are there useful dimensionless parameters that could help frame this?)
+\item more detailed quantitative exploration: in particular, *either* Latin hypercube *or* (nearly the same!) a sample over estimated ('prior') distributions of the parameters. Goal: answer the general question "how likely is TTI to be able to control COVID?"
+\end{itemize}
+\end{enumerate}
+
+
+
+
+% \item extension to a SEPAIR model (i.e. including latent/exposed, presymptomatic, asymptomatic)
+%     * analytical results will probably be out of reach
+% 	* but it _may_ be possible to extend some of the insights gained in part 1
+% 	* in any case, some numerical results (the space of relevant/interesting parameters will be larger: figure out a sensible way to show results from this parameter space. Are there useful dimensionless parameters that could help frame this?)
+% \item more detailed quantitative exploration: in particular, *either* Latin hypercube *or* (nearly the same!) a sample over estimated ('prior') distributions of the parameters. Goal: answer the general question "how likely is TTI to be able to control COVID?"
+
+
+
+
+% %%%%%%%
 \section{Literature Review}
 
-% %%%%%%%
 \subsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
 
 \citep{endo2020implication} [Ali: It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!] Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.
