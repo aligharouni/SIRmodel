@@ -12,7 +12,11 @@ vim_session:
 
 Sources += codes/ali_test_sir.Rmd
 
+Ignore += codes/ali_test_sir.html
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
+
+note/SIR_notes.pdf:
+note/SIR_notes.pdf:
 
 Sources += smoothing.tex
 Ignore += smoothing.pdf
@@ -23,7 +27,7 @@ smoothing.pdf: smoothing.tex
 
 ### Makestuff
 
-Sources += Makefile .gitignore
+Sources += Makefile
 
 ## Sources += content.mk
 ## include content.mk
