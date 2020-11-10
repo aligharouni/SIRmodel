@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{natbib}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \bibliographystyle{apalike}
 
 \title{SIR Model with Testing and Isolation Mechanisms}
@@ -10,14 +12,47 @@
 
 % %%%%%%%
 \section{Method}
+- $\Lambda$: force of infection defined as $$\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},$$ where $\beta$ is transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. We assume that $\eta_t<\eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals.
+- $\omega$: the rate of *onward flow* from the awaiting positive compartment, $p$, to reported/tested compartment, $\rho$, or from awaiting negative compartment, $n$, back to $u$.  It has units of $1/time$.
+- $\gamma$: recovery rate ($1/time$).
+- $\rho$: per capita testing intensity across the whole population ($1/time$).
+- $W$: weighted number of people available for tests, defined as $W = W_S S_u + W_I I_u + W_R R_u$.
+- $\sigma$: scaling parameter for testing defined as $\sigma = \frac{\rho N_0}{W}$.
+- $F_Z$: Weighted testing rate defined as $F_Z=\sigma W_Z$. That is, $F_S = \sigma W_S$, $F_I=\sigma W_I$ and $F_R = \sigma W_R$.
+
+\includegraphics[width=\linewidth]{../pix/sir_comp2.png}
 
 % %%%%%%%
-\section{Analysis}
-    
+\section{Results}
 
+\newpage
+\begin{figure}
+\centering
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../pix/R0contour_random.png}
+        \caption{}\label{fig:fig_a}
+\end{subfigure}
+%
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../pix/R0contour_TTI.png}
+\caption{}\label{fig:fig_b}
+\end{subfigure}
+\end{figure}
+
+
+% %%%%%%%
+\section{Thoughts/Objectives}
+
+\begin{enumerate}
+\item aa
+\end{enumerate}
+
+
+% %%%%%%%
 \section{Literature Review}
 
-% %%%%%%%
 \subsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
 
 \citep{endo2020implication} [Ali: It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!] Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.

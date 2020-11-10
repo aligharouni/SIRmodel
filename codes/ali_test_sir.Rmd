@@ -350,7 +350,7 @@ n_in <- 41 ## grid N within facets
  eta_t <- seq(0,1, length.out=n_out) #0.001 to 0.5 
  rho     <- seq(0,0.01, length.out=n_in)
  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
- W_S <- .3 #choose 0.3 for TTI testing plan and 1 for the random testing.
+ W_S <- 0.3 #choose 0.3 for TTI testing plan and 1 for the random testing.
  
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
@@ -381,7 +381,7 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 ```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
 p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
     theme(panel.spacing=grid::unit(0,"lines"))
-(p1
+p1_temp <- (p1
     + geom_contour_filled(breaks=pretty(unique(df2$R0),5),
                           alpha=0.5) ## breaks=0.2)
     + geom_contour(breaks=1,alpha=0.5,colour="black")
@@ -389,7 +389,12 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_fill_viridis_d(name=parse(text="R[0]"))
+    + ggtitle("W[S]=0.3, W[I]=W[R]=1")
 )
+p1_temp
+# filename = "R0contour_TTI.png"
+# filename = "R0contour_random.png"
+ggsave(p1_temp,filename = "R0contour_TTI.png" , path="../pix/")
 ```
 
 ### Contour plot of $R_0=1$ and interpretations approache 2, parametrization $s=\eta_w/\eta_t$
@@ -423,6 +428,7 @@ p11 <- ggplot(df22,aes(x=omega,y=rho,z=R0))+ theme_bw() +
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_fill_viridis_d(name=parse(text="R[0]"))
+    + ggtitle("W[S]=0.3, W[I]=W[R]=1")
 )
 ```
 
