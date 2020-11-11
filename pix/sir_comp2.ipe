@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70212" creator="Ipe 7.2.13">
-<info created="D:20201024050019" modified="D:20201025172221"/>
+<info created="D:20201024050019" modified="D:20201111094640"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -257,184 +257,202 @@ h
 <layer name="EDIT-GROUP*"/>
 <layer name="EDIT-GROUP-alpha"/>
 <view layers="alpha EDIT-GROUP EDIT-GROUP* EDIT-GROUP-alpha" active="EDIT-GROUP-alpha"/>
-<group layer="EDIT-GROUP" matrix="1 0 0 1 0 -32">
-<path stroke="red">
+<path layer="EDIT-GROUP*" matrix="1.163 0 0 0.998164 106.2 -94.3233" stroke="black">
 48 816 m
 48 800 l
 64 800 l
 64 816 l
 h
 </path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="red" type="label" width="11.318" height="6.812" depth="1.49" valign="baseline" style="math">S_u
+<text matrix="1.163 0 0 0.998164 99.6859 -96.8776" transformations="translations" pos="56 808" stroke="black" type="label" width="11.072" height="6.812" depth="1.49" valign="baseline" style="math">R_t</text>
+<path layer="EDIT-GROUP-alpha" matrix="1.163 0 0 0.998164 -5.66697 1.5005" stroke="black" fill="white" arrow="normal/small">
+60 800 m
+60 784 l
+</path>
+<text matrix="1.163 0 0 0.998164 9.5274 5.80645" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.206" depth="0" valign="top" size="footnote">$\omega$</text>
+<path matrix="1.163 0 0 0.998164 50.6271 1.65715" stroke="black" fill="white" arrow="normal/small">
+60 800 m
+60 784 l
+</path>
+<path matrix="1.163 0 0 0.998164 46.2411 -62.6953" stroke="black" fill="white" arrow="normal/small">
+60 800 m
+60 784 l
+</path>
+<text matrix="1.163 0 0 0.998164 53.556 -58.7026" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.206" depth="0" valign="top" size="footnote">$\omega$</text>
+<path matrix="1.163 0 0 0.998164 102.222 -62.6953" stroke="black" fill="white" arrow="normal/small">
+60 800 m
+60 784 l
+</path>
+<text matrix="1.163 0 0 0.998164 109.38 -59.0159" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.206" depth="0" valign="top" size="footnote">$\omega$</text>
+<path matrix="1.163 0 0 0.998164 -5.44825 1.5005" stroke="black" fill="black" arrow="normal/small">
+64 808 m
+96 808 l
+</path>
+<text matrix="1.163 0 0 0.998164 -10.1003 5.49316" transformations="translations" pos="80 808" stroke="black" type="label" width="5.873" height="5.446" depth="0" valign="baseline" size="footnote" style="math">\Lambda</text>
+<path matrix="1.163 0 0 0.998164 -5.44825 -30.4408" stroke="black" fill="black" arrow="normal/small">
+64 808 m
+96 808 l
+</path>
+<text matrix="1.163 0 0 0.998164 -10.1003 -26.4481" transformations="translations" pos="80 808" stroke="black" type="label" width="5.873" height="5.446" depth="0" valign="baseline" size="footnote" style="math">\Lambda</text>
+<path matrix="1.163 0 0 0.998164 50.3759 1.5005" stroke="black" fill="black" arrow="normal/small">
+64 808 m
+96 808 l
+</path>
+<text matrix="1.163 0 0 0.998164 45.7238 5.49316" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
+<path matrix="1.163 0 0 0.998164 50.3759 -30.4408" stroke="black" fill="black" arrow="normal/small">
+64 808 m
+96 808 l
+</path>
+<text matrix="1.163 0 0 0.998164 45.7238 -26.4481" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
+<path matrix="1.163 0 0 0.998164 50.3759 -62.382" stroke="black" fill="black" arrow="normal/small">
+64 808 m
+96 808 l
+</path>
+<text matrix="1.163 0 0 0.998164 45.7238 -58.3894" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
+<path matrix="1.163 0 0 0.998164 50.3759 -94.3233" stroke="black" fill="black" arrow="normal/small">
+64 808 m
+96 808 l
+</path>
+<text matrix="1.163 0 0 0.998164 45.7238 -90.3306" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
+<path matrix="1.163 0 0 0.998164 0.362342 49.4124" stroke="black" rarrow="normal/small">
+48 752 m
+48 736 l
+</path>
+<text matrix="1.01753 0 0 1.03142 -45.6771 -26.0657" transformations="translations" pos="64 796" stroke="black" type="label" width="36.476" height="3.737" depth="3.68" valign="top" size="tiny">$(1-p_{_{_S}})F_S$</text>
+<path matrix="1.163 0 0 0.998164 112.95 49.569" stroke="black" rarrow="normal/small">
+48 752 m
+48 736 l
+</path>
+<text matrix="1.163 0 0 0.998164 57.0891 0.272724" transformations="translations" pos="64 796" stroke="black" type="label" width="37.22" height="3.74" depth="2.68" valign="top" size="tiny">$(1-p_{_R})F_R$</text>
+<text matrix="66.6749 3.3431 -0.0615064 0.903599 -4139.42 -138.404" transformations="translations" pos="64 796" stroke="black" type="label" width="33.951" height="3.74" depth="2.68" valign="top" size="tiny" style="math">(1-p_{_I})F_I</text>
+<path matrix="1.163 0 0 0.998164 46.2411 -30.4408" stroke="black" fill="white" arrow="normal/small">
+60 800 m
+60 784 l
+</path>
+<text matrix="1.163 0 0 0.998164 43.782 -26.6047" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="5.538" depth="0.55" valign="top" size="tiny">$p_{_I}F_I$</text>
+<path matrix="1.163 0 0 0.998164 102.065 -30.5974" stroke="black" fill="white" arrow="normal/small">
+60 800 m
+60 784 l
+</path>
+<text matrix="1.163 0 0 0.998164 96.1917 -26.1895" transformations="translations" pos="48 792" stroke="black" type="label" width="19.777" height="3.408" depth="2.68" valign="top" size="tiny">$p_{_R}F_R$</text>
+<path matrix="1.163 0 0 0.998164 106.2 -30.4408" stroke="red">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 98.9411 -32.9951" transformations="translations" pos="56 808" stroke="red" type="label" width="12.773" height="6.812" depth="1.49" valign="baseline" style="math">R_u</text>
+<path matrix="1.163 0 0 0.998164 106.2 1.5005" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 99.1273 -1.53329" transformations="translations" pos="56 808" stroke="black" type="label" width="12.988" height="6.812" depth="1.49" valign="baseline" style="math">R_n</text>
+<path matrix="1.163 0 0 0.998164 106.2 -62.382" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 99.8721 -64.6167" transformations="translations" pos="56 808" stroke="black" type="label" width="12.17" height="6.808" depth="2.85" valign="baseline" style="math">R_p</text>
+<path matrix="1.163 0 0 0.998164 50.3759 1.5005" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 45.1652 -1.37348" transformations="translations" pos="56 808" stroke="black" type="label" width="9.802" height="6.812" depth="1.49" valign="baseline" style="math">I_n</text>
+<path matrix="1.163 0 0 0.998164 50.3759 -30.4408" stroke="red">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 45.3514 -32.9951" transformations="translations" pos="56 808" stroke="red" type="label" width="9.588" height="6.812" depth="1.49" valign="baseline" style="math">I_u</text>
+<path matrix="1.163 0 0 0.998164 50.3759 -62.382" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 45.3514 -64.9364" transformations="translations" pos="56 808" stroke="black" type="label" width="8.984" height="6.808" depth="2.85" valign="baseline" style="math">I_p</text>
+<path matrix="1.163 0 0 0.998164 50.3759 -94.3233" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 45.7238 -96.7178" transformations="translations" pos="56 808" stroke="black" type="label" width="7.887" height="6.812" depth="1.49" valign="baseline" style="math">I_t</text>
+<path matrix="1.163 0 0 0.998164 -5.44825 1.5005" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 -11.2175 -0.734234" transformations="translations" pos="56 808" stroke="black" type="label" width="11.532" height="6.812" depth="1.49" valign="baseline" style="math">S_n</text>
+<path matrix="1.163 0 0 0.998164 -5.44825 -30.4408" stroke="red">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
+</path>
+<text matrix="1.163 0 0 0.998164 -11.0313 -32.8353" transformations="translations" pos="56 808" stroke="red" type="label" width="11.318" height="6.812" depth="1.49" valign="baseline" style="math">S_u
 </text>
-</group>
-<group layer="EDIT-GROUP*" matrix="1 0 0 1 48 0">
-<path stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="black" type="label" width="9.802" height="6.812" depth="1.49" valign="baseline" style="math">I_n</text>
-</group>
-<group matrix="1 0 0 1 48 -32">
-<path stroke="red">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="red" type="label" width="9.588" height="6.812" depth="1.49" valign="baseline" style="math">I_u</text>
-</group>
-<group matrix="1 0 0 1 48 -64">
-<path stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="black" type="label" width="8.984" height="6.808" depth="2.85" valign="baseline" style="math">I_p</text>
-</group>
-<group matrix="1 0 0 1 48 -96">
-<path stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="black" type="label" width="7.887" height="6.812" depth="1.49" valign="baseline" style="math">I_t</text>
-</group>
-<group matrix="1 0 0 1 96 0">
-<path stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="black" type="label" width="12.988" height="6.812" depth="1.49" valign="baseline" style="math">R_n</text>
-</group>
-<group matrix="1 0 0 1 96 -32">
-<path stroke="red">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="red" type="label" width="12.773" height="6.812" depth="1.49" valign="baseline" style="math">R_u</text>
-</group>
-<group matrix="1 0 0 1 96 -64">
-<path stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="black" type="label" width="12.17" height="6.808" depth="2.85" valign="baseline" style="math">R_p</text>
-</group>
-<path matrix="1 0 0 1 96 -96" stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 92 -100" transformations="translations" pos="56 808" stroke="black" type="label" width="11.072" height="6.812" depth="1.49" valign="baseline" style="math">R_t</text>
-<group layer="EDIT-GROUP-alpha">
-<path stroke="black">
-48 816 m
-48 800 l
-64 800 l
-64 816 l
-h
-</path>
-<text matrix="1 0 0 1 -4 -4" transformations="translations" pos="56 808" stroke="black" type="label" width="11.532" height="6.812" depth="1.49" valign="baseline">$S_n$</text>
-</group>
-<path matrix="1 0 0 1 -8 0" stroke="black" fill="white" arrow="normal/small">
+<path matrix="1.163 0 0 0.998164 -9.74701 -62.548" stroke="black" fill="white" arrow="normal/small">
 60 800 m
 60 784 l
 </path>
-<text matrix="1 0 0 1 -8 4" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.421" depth="0" valign="top" size="small">$\omega$</text>
-<path matrix="1 0 0 1 40 0" stroke="black" fill="white" arrow="normal/small">
+<text matrix="1.163 0 0 0.998164 -2.902 -59.1819" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.206" depth="0" valign="top" size="footnote">$\omega$</text>
+<path matrix="1.163 0 0 0.998164 -9.59036 -30.7634" stroke="black" fill="white" arrow="normal/small">
 60 800 m
 60 784 l
 </path>
-<text matrix="1 0 0 1 44 4" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.421" depth="0" valign="top" size="small">$\omega$</text>
-<path matrix="1 0 0 1 40 -64" stroke="black" fill="white" arrow="normal/small">
-60 800 m
-60 784 l
+<text matrix="1.163 0 0 0.998164 -15.5074 -26.4065" transformations="translations" pos="48 792" stroke="black" type="label" width="19.034" height="3.405" depth="3.68" valign="top" size="tiny">$p_{_{_S}}F_S$</text>
+<path matrix="1.163 0 0 0.998164 -5.29892 -62.8613" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
 </path>
-<text matrix="1 0 0 1 44 -60" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.421" depth="0" valign="top" size="small">$\omega$</text>
-<path matrix="1 0 0 1 88 0" stroke="black" fill="white" arrow="normal/small">
-60 800 m
-60 784 l
+<text matrix="1.163 0 0 0.998164 -10.3233 -65.4157" transformations="translations" pos="56 808" stroke="black" type="label" width="10.714" height="6.808" depth="2.85" valign="baseline" style="math">S_p</text>
+<path matrix="1.163 0 0 0.998164 -5.29892 -94.8026" stroke="black">
+48 816 m
+48 800 l
+64 800 l
+64 816 l
+h
 </path>
-<text matrix="1 0 0 1 96 4" transformations="translations" pos="48 792" stroke="black" type="label" width="5.551" height="3.432" depth="0" valign="top" size="footnote">$\omega$</text>
-<path matrix="1 0 0 1 88 -64" stroke="black" fill="white" arrow="normal/small">
-60 800 m
-60 784 l
-</path>
-<text matrix="1 0 0 1 92 -60" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.421" depth="0" valign="top" size="small">$\omega$</text>
-<path stroke="black" fill="black" arrow="normal/small">
+<text matrix="1.163 0 0 0.998164 -9.95093 -97.1972" transformations="translations" pos="56 808" stroke="black" type="label" width="9.617" height="6.812" depth="1.49" valign="baseline" style="math">S_t</text>
+<path matrix="1.163 0 0 0.998164 -5.07618 -62.4241" stroke="black" fill="black" arrow="normal/small">
 64 808 m
 96 808 l
 </path>
-<text matrix="1 0 0 1 -4 4" transformations="translations" pos="80 808" stroke="black" type="label" width="5.873" height="5.446" depth="0" valign="baseline" size="footnote">$\Lambda$</text>
-<path matrix="1 0 0 1 0 -32" stroke="black" fill="black" arrow="normal/small">
+<text matrix="1.163 0 0 0.998164 -9.72819 -58.4315" transformations="translations" pos="80 808" stroke="black" type="label" width="5.873" height="5.446" depth="0" valign="baseline" size="footnote" style="math">\Lambda</text>
+<path matrix="1.163 0 0 0.998164 -5.54698 -94.6199" stroke="black" fill="black" arrow="normal/small">
 64 808 m
 96 808 l
 </path>
-<text matrix="1 0 0 1 -4 -28" transformations="translations" pos="80 808" stroke="black" type="label" width="5.873" height="5.446" depth="0" valign="baseline" size="footnote" style="math">\Lambda</text>
-<path matrix="1 0 0 1 48 0" stroke="black" fill="black" arrow="normal/small">
-64 808 m
-96 808 l
-</path>
-<text matrix="1 0 0 1 44 4" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
-<path matrix="1 0 0 1 48 -32" stroke="black" fill="black" arrow="normal/small">
-64 808 m
-96 808 l
-</path>
-<text matrix="1 0 0 1 44 -28" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
-<path matrix="1 0 0 1 48 -64" stroke="black" fill="black" arrow="normal/small">
-64 808 m
-96 808 l
-</path>
-<text matrix="1 0 0 1 44 -60" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
-<path matrix="1 0 0 1 48 -96" stroke="black" fill="black" arrow="normal/small">
-64 808 m
-96 808 l
-</path>
-<text matrix="1 0 0 1 44 -92" transformations="translations" pos="80 808" stroke="black" type="label" width="4.832" height="3.431" depth="1.55" valign="baseline" size="footnote" style="math">\gamma</text>
-<path matrix="1 0 0 1 12 48" stroke="black" rarrow="normal/small">
+<text matrix="1.163 0 0 0.998164 -10.199 -90.6273" transformations="translations" pos="80 808" stroke="black" type="label" width="5.873" height="5.446" depth="0" valign="baseline" size="footnote" style="math">\Lambda</text>
+<text matrix="1.163 0 0 0.998164 66.2322 5.4935" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.206" depth="0" valign="top" size="footnote">$\omega$</text>
+<path matrix="1.163 0 0 0.998164 56.5968 49.569" stroke="black" rarrow="normal/small">
 48 752 m
 48 736 l
 </path>
-<text transformations="translations" pos="64 796" stroke="black" type="minipage" width="0" height="5.713" depth="0.73" valign="top" size="footnote">$F_s$</text>
-<path matrix="1 0 0 1 60 48" stroke="black" rarrow="normal/small">
-48 752 m
-48 736 l
-</path>
-<path matrix="1 0 0 1 108 48" stroke="black" rarrow="normal/small">
-48 752 m
-48 736 l
-</path>
-<text matrix="1 0 0 1 92 -4" transformations="rigid" pos="64 796" stroke="black" type="label" width="34.154" height="3.741" depth="1.24" valign="top" size="tiny">$(1-P_r)F_r$</text>
-<text matrix="57.33 3.34925 -0.0528859 0.905261 -3519.15 -141.417" transformations="translations" pos="64 796" stroke="black" type="label" width="32.436" height="3.74" depth="1.6" valign="top" size="tiny">$(1-P_i)F_i$</text>
-<path matrix="1 0 0 1 40 -32" stroke="black" fill="white" arrow="normal/small">
+<path matrix="1.163 0 0 0.998164 106.548 1.65712" stroke="black" fill="white" arrow="normal/small">
 60 800 m
 60 784 l
 </path>
-<text matrix="1 0 0 1 36 -28" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.998" depth="0.01" valign="top" size="tiny">$P_iF_i$</text>
-<path matrix="1 0 0 1 88 -32" stroke="black" fill="white" arrow="normal/small">
-60 800 m
-60 784 l
-</path>
-<text matrix="1 0 0 1 84 -28" transformations="translations" pos="48 792" stroke="black" type="minipage" width="0" height="4.691" depth="0" valign="top" size="tiny">$P_rF_r$</text>
+<text matrix="1.163 0 0 0.998164 122.154 5.49278" transformations="translations" pos="48 792" stroke="black" type="label" width="5.551" height="3.432" depth="0" valign="top" size="footnote">$\omega$</text>
 </page>
 </ipe>
