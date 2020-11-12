@@ -27,7 +27,7 @@ smoothing.pdf: smoothing.tex
 Sources += SIR_manuscript.tex
 Ignore += SIR_manuscript.pdf
 SIR_manuscript.pdf: SIR_manuscript.tex SIRlibrary.bib
-	$(pandocs)
+	$(pdflatex)
 ######################################################################
 
 ### Makestuff
