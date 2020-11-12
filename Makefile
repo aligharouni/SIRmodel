@@ -23,6 +23,11 @@ Ignore += smoothing.pdf
 smoothing.pdf: smoothing.tex
 	$(pandocs)
 
+## Ali et all manuscript
+Sources += SIR_manuscript.tex
+Ignore += SIR_manuscript.pdf
+SIR_manuscript.pdf: SIR_manuscript.tex SIRlibrary.bib
+	$(pandocs)
 ######################################################################
 
 ### Makestuff
