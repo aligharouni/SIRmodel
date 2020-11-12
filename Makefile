@@ -27,7 +27,7 @@ smoothing.pdf: smoothing.tex
 Sources += SIR_manuscript.tex
 Ignore += SIR_manuscript.pdf
 SIR_manuscript.pdf: SIR_manuscript.tex SIRlibrary.bib
-	$(pdflatex)
+
 ######################################################################
 
 ### Makestuff
@@ -49,7 +49,8 @@ makestuff/Makefile:
 
 -include makestuff/os.mk
 
-## -include makestuff/makeR.mk
+-include makestuff/texdeps.mk
+-include makestuff/makeR.mk
 -include makestuff/pandoc.mk
 
 -include makestuff/git.mk
