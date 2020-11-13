@@ -90,8 +90,8 @@ The model is
  d S_t/dt &= -\Lambda S_t + \omega S_p \\
  d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u  \\
  d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n \\
- d I_p/dt &= p_I F_I I_u - \omega I_p -\gamma I_p \\
- d I_t/dt &= \omega I_p - \gamma I_t  \\
+ d I_p/dt &= \Lambda S_p + p_I F_I I_u - \omega I_p -\gamma I_p \\
+ d I_t/dt &= \Lambda S_t + \omega I_p - \gamma I_t  \\
  d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n \\
  d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n  \\
  d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p  \\
