@@ -25,12 +25,12 @@
 \item $F_Z$: Weighted testing rate defined as $F_Z=\sigma W_Z$. That is, $F_S = \sigma W_S$, $F_I=\sigma W_I$ and $F_R = \sigma W_R$.
 \end{itemize}
 
-\includegraphics[width=\linewidth]{../pix/sir_comp2.png}
+\includegraphics[width=\linewidth]{../pix/sir_comp.png}
 
 The model is
 
 \begin{align}
-\label{mod:1}
+\label{model}
  d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n \\
  d S_n/dt &= -\Lambda S_n + F_S S_u - \omega S_n \\
  d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u  \\
