@@ -30,7 +30,8 @@ infectious disease (ref: Ross R. The Prevention of Malaria, 2nd edn. London: Mur
 - Covid-19 and chalanges, questions to be addressed with a simple model.
 This study provides a framework/platform to study a pandamic in a population with a determinstic system of differential equations with testing mechinisms and isolation. 
 
-- Our work; we developed a deterministic compartmental model which incorporates testing strategies and isolation mechanism. 
+- What did we do? Why novel? 
+we developed a deterministic compartmental model which incorporates testing strategies and isolation mechanism. 
 - The basic reproduction number was derived analytically as a threshold of the dynamics. 
 - Our simulation shows ...
 
@@ -74,20 +75,18 @@ relatively controlled with effective testing, isolation, contract tracing and qu
 
 % %%%%%%%
 \section{Method}
-\begin{itemize}
-\item $\Lambda$: force of infection defined as $$\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},$$ where $\beta$ is transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. We assume that $\eta_t \leq \eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals.
-\item $\omega$: the rate of onward flow from the awaiting positive compartment, $p$, to reported/tested compartment, $\rho$, or from awaiting negative compartment, $n$, back to $u$.  It has units of 1/time.
-\item $\gamma$: recovery rate (1/time).
-\item $\rho$: per capita testing intensity across the whole population (1/time).
-\item $W$: weighted number of people available for tests, defined as $W = W_S S_u + W_I I_u + W_R R_u$.
-\item $\sigma$: scaling parameter for testing defined as $\sigma = \frac{\rho N_0}{W}$.
-\item $F_Z$: Weighted testing rate defined as $F_Z=\sigma W_Z$. That is, $F_S = \sigma W_S$, $F_I=\sigma W_I$ and $F_R = \sigma W_R$.
-\end{itemize}
 
-\includegraphics[width=\linewidth]{./pix/sir_comp.png}
+We used a SIR (Susceptible-Infectious-Recovered) deterministic model. In order to collect cumulative reported negative or positive tests, two 'integrator' or 'accumulator' compartments, $N$ and $P$, were incorporated. The flowchart is 
+
+\begin{figure}[!h] 
+\begin{center} 
+\includegraphics[scale=0.3]{./pix/sir_comp.png}
+\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model. Say more here to make it stand on its own.
+\label{fig:flowchart}} 
+\end{center} 
+\end{figure}
 
 The model is
-
 \begin{align}
 \label{model}
  d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n \\
@@ -103,14 +102,59 @@ The model is
  d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p  \\
  d R_t/dt&= \gamma I_t + \omega R_p  \\
  dN/dt &= \omega (S_n + I_n + R_n)   \\
- dP/dt &= \omega(I_p + R_p).
+ dP/dt &= \omega(I_p + R_p),
 \end{align}
 
-- Assumptions of this model:
+where $\beta$, (1/day), is the disease transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively, $\Lambda$ is the force of infection and defined as 
+\begin{equation}
+\label{Lambda}
+\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},
+\end{equation}
+where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as \begin{equation}
+\label{sigma}
+\sigma = \frac{\rho N_0}{W}.
+\end{equation}
+Thus, the weighted testing rate defined as $F_Z=\sigma W_Z$, for $Z \in \{S,I,R\}$. 
+
+- In this model we assumed: (i) all groups being exposed to all others, (ii) there is a single force of infection, $\Lambda$, that is, where a susceptible individual move to does not depend on who infected it, (iii) for simplicity of the analysis, a perfectly specific test, $p_S=0$, was assumed, (iv)  $\eta_t \leq \eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals. 
 -why not bith and death are included?
 
 % %%%%%%%
 \section{Results}
+
+The Disease-Free Equilibrium, DFE hearafter, for the above SIR model is given by the solution of the following system $S_u+S_n=N0$ and $F_S S_u-\omega S_n=0$. The DFE is
+
+\begin{equation}
+\label{dfe}
+S_n^*= \frac{\rho}{\omega} N_0, S_u^*= N_0-S_n^*, \text{and} I_j=R_j=0 \ \forall j.
+\end{equation}
+
+The Basic reproduction number, $\Rnum$, was calculated by using the method of next generation matrix \cite{van2002reproduction}. See the Appendix for details.
+
+
+\begin{equation}
+\label{R0}
+\Rnum= (A \times S_u^* + B \times S_n^*) \times C, 
+\end{equation}
+where
+$A=\gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t p_I) F_I$,
+$B=\big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega p_I F_I }{\omega+\gamma}$ and 
+$C=\frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}$.
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{./pix/R0contour_random.png}
+        \caption{}\label{fig:res1_a}
+\end{subfigure}
+%
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{./pix/R0contour_TTI.png}
+\caption{}\label{fig:res1_b}
+\end{subfigure}
+\end{figure}
 
 \subsection{rate of returning tests}
 The linearization of $\Rnum$ around $\rho=0$ is
@@ -213,6 +257,40 @@ When testing of infected individuals is more intense than susceptible individual
 
 % %%%%%%%
 \section{supplementary material}
+
+The next generation matrix, $G = F V^{-1}$, is in the lower triangular form with $F$ and $G$ as follows.
+
+
+\begin{equation}\label{FV}
+F= \beta/N_0 \left[ \begin {array}{cccc} 
+S_u&\eta_w\,S_u&\eta_w\,S_u&\eta_t\,S_u\\
+S_n&\eta_w\,S_n&\eta_w\,S_n&\eta_t\,S_n\\ 
+0&0&0&0\\
+0&0&0&0
+ \end {array} \right],
+ V=
+ \left[ \begin {array}{cccc}  
+F_I+\gamma&-\omega&0&0\\
+-(1-p_I)F_I&\omega+\gamma&0&0\\
+-p_I F_I&0&\omega+\gamma&0\\
+0&0&-\omega&\gamma
+\end {array} \right],
+\end{equation}
+
+\begin{equation}
+G = \left[ \begin {array}{cc}
+G_{11}&G_{12}\\
+0&0
+\end {array} \right], \text{ where } \\
+G_{11} =C
+\left[\begin {array}{cc}
+A\,S_u & B\,S_u\\
+A\,S_n & B\,S_n
+\end {array}\right],
+\end{equation}
+
+The Eigenvalues of $G_{11}$, are 0 and $\Rnum$.
+
 
 \end{document}
 

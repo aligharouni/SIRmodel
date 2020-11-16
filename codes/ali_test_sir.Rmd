@@ -35,7 +35,7 @@ JD: Can we do a better job with capitalization? When $I$ in a subscript refers t
 ### Parameters
 
 ```{r, out.width = "400px"}
-knitr::include_graphics("../pix/sir_comp2.png")
+knitr::include_graphics("../pix/sir_comp.png")
 ```
 
 - $\Lambda$: force of infection defined as $$\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},$$ where $\beta$ is transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. We assume that $\eta_t<\eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals.
@@ -86,6 +86,7 @@ library(ggplot2)
 library(tidyr)
 library(McMasterPandemic)
 library(directlabels)
+library(latex2exp)
 unpack <- McMasterPandemic::unpack
 
 ```
@@ -350,7 +351,7 @@ n_in <- 41 ## grid N within facets
  eta_t <- seq(0,1, length.out=n_out) #0.001 to 0.5 
  rho     <- seq(0,0.01, length.out=n_in)
  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
- W_S <- 1 #choose 0.3 for TTI testing plan and 1 for the random testing.
+ W_S <- 0.3 #choose 0.3 for TTI testing plan and 1 for the random testing.
  
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
@@ -361,6 +362,9 @@ n_in <- 41 ## grid N within facets
 # Need to be corrected: in F_I, state_dfe should be changed according to the df1!
 df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
                       Fi= apply(df1,1,function(params_in)F_I(params=params_in)))
+
+
+df2 <- df2 %>% dplyr::mutate(R0_sub = ifelse(eta_w<eta_t, NA, R0))  
                                          
 which(df2[]<0)
 ```
@@ -379,22 +383,24 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 ```
 
 ```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0))+ theme_bw() +
+p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
+  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
+  ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
     theme(panel.spacing=grid::unit(0,"lines"))
 p1_temp <- (p1
-    + geom_contour_filled(breaks=pretty(unique(df2$R0),5),
+    + geom_contour_filled(breaks=pretty(unique(df2$R0_sub),5),
                           alpha=0.5) ## breaks=0.2)
     + geom_contour(breaks=1,alpha=0.5,colour="black")
     + facet_grid(eta_w~eta_t, labeller=label_special)
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_fill_viridis_d(name=parse(text="R[0]"))
-    + ggtitle("W[S]=0.3, W[I]=W[R]=1")
+    + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
 )
 p1_temp
-# filename = "R0contour_TTI.png"
-# filename = "R0contour_random.png"
+# ggsave(p1_temp,filename = "R0contour_random.png" , path="../pix/")
 ggsave(p1_temp,filename = "R0contour_TTI.png" , path="../pix/")
+
 ```
 
 ### Contour plot of $R_0=1$ and interpretations approache 2, parametrization $s=\eta_w/\eta_t$
@@ -431,7 +437,7 @@ p2_temp <- (p11
     + ggtitle("W[S]=1, W[I]=W[R]=1")
 )
 p2_temp
-ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
+# ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
 ```
 
 Let call the $F_I$ the critical testing rate in the above plot.
