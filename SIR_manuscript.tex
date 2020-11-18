@@ -22,24 +22,29 @@
 \maketitle
 
 % %%%%%%%
+\section{Abstract}
+
+% %%%%%%%
 \section{Introduction}
 
-One of the real chalanges interpreting COVID-19 dynamics is to unravel/investigate information gained from data. One of the strongest singnals we get to see is the daily case reports which are driven by a combination of two processes: (i) epidemic processes and (ii) testing processes. The real chalange here is to seperate these two processes. Simple mathematical models have a long history in providing useful insights facing with real epidemiological chalanges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model to incorporate mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies and slow-fast reporting testing result. 
+One of the real challenges interpreting COVID-19 dynamics is to unravel/investigate information gained from data. One of the strongest signals we get to see is the daily case reports which are driven by a combination of two processes: (i) epidemic processes and (ii) testing processes. The real challenge here is to separate these two processes. Simple mathematical models have a long history in providing useful insights facing with real epidemiological challenges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model to incorporate mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies and slow-fast reporting testing result. 
 
-There are different testing strategies with test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two broad cathegories including (i) random testing across the whole population and (ii) Non-random/bios testing. Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during COVID-19 pandemic (refs). Further, lots of efforts have been invested in developing widely accessible and fast tests in order to metigate the spread of the pandemic (refs). As a comparison of slow versus fast test, the viral PCR test, which is the most accessible test and takes about four days, is very slow relative to the potential tests such as breath-based test \citep{ruszkiewicz2020diagnosis}, which is still in trial stage and takes a few seconds. The point to be made is that there can be a potential advantage of slow test.
+There are different testing strategies with test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two broad categories including (i) random testing across the whole population and (ii) Non-random testing. Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during COVID-19 pandemic (refs). 
 
-In this work we developed a model to incorporate epidemic processes and testing processes mechanisticly to study the potential effect of testing strategies and slow-fast testing. The analysis of the deterministic model included deriving the basic reproduction number, $\Rnum$, as the index of threshold dynamics and the effect of underlying parameters on this key index. We found that the non-random testing strategy is more effective than the random testing. Specifically, the required critical testing intensity to keep $\Rnum$ lower than the threshold value of one, is much lower in the non-random testing than the random one. Further, we show that there is a potential advantage of slow reporting of test result on the spread of the infection.  
+Further, lots of efforts have been invested in developing widely accessible and fast tests in order to mitigate the spread of the pandemic (refs). In order to have a sense and as a comparison of slow versus fast test, we provide an example. The viral PCR test, which is the most accessible test and takes about four days, is very slow relative to the potential tests such as breath-based test \citep{ruszkiewicz2020diagnosis}, which is still in trial stage and takes a few seconds. The point to be made is that there can be a potential advantage of slow test.
+
+In this work we developed a model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies and slow-fast testing. The analysis of the deterministic model included deriving the basic reproduction number, $\Rnum$, as the index of threshold dynamics and the effect of underlying parameters on this key index. We found that the non-random testing strategy is more effective than the random testing. Specifically, the required critical testing intensity to keep $\Rnum$ lower than the threshold value of one, is much lower in the non-random testing than the random one. Further, we show that there is a potential advantage of slow reporting of test result on the spread of the infection.  
 
 
 % %%%%%%%
 \section{Method}
 
-We used a SIR (Susceptible-Infectious-Recovered) deterministic model. In order to collect cumulative reported negative or positive tests, two 'integrator' or 'accumulator' compartments, $N$ and $P$, were incorporated. The flowchart is 
+We developed a deterministic model as a platform of our study. A generic individual is identified in a model compartment based on the disease-specific and test-specific criteria. The former criterion includes Susceptible, Infectious and Recovered, thus SIR, and the latter criterion group people in either untested, awaiting for the test result with expectation of positive or negative outcome, or reported positive, thus $u$, $p$, $n$ and $t$, respectively, reflected as subscript. Also, two 'integrator' or 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The flowchart model is as follows 
 
 \begin{figure}[!h] 
 \begin{center} 
 \includegraphics[scale=0.3]{./pix/sir_comp.png}
-\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model. Say more here to make it stand on its own.
+\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model. [Fady] Say more about the compartments and parameters here to make it stand on its own.
 \label{fig:flowchart}} 
 \end{center} 
 \end{figure}
@@ -47,61 +52,71 @@ We used a SIR (Susceptible-Infectious-Recovered) deterministic model. In order t
 The model is
 \begin{align}
 \label{model}
- d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n \\
- d S_n/dt &= -\Lambda S_n + (1-p_S) F_S S_u - \omega S_n \\
- d S_p/dt &= -\Lambda S_p + p_S F_S S_u - \omega S_p \\
- d S_t/dt &= -\Lambda S_t + \omega S_p \\
- d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u  \\
- d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n \\
- d I_p/dt &= \Lambda S_p + p_I F_I I_u - \omega I_p -\gamma I_p \\
- d I_t/dt &= \Lambda S_t + \omega I_p - \gamma I_t  \\
- d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n \\
- d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n  \\
- d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p  \\
- d R_t/dt&= \gamma I_t + \omega R_p  \\
- dN/dt &= \omega (S_n + I_n + R_n)   \\
+ d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n, \\
+ d S_n/dt &= -\Lambda S_n + (1-p_S) F_S S_u - \omega S_n, \\
+ d S_p/dt &= -\Lambda S_p + p_S F_S S_u - \omega S_p, \\
+ d S_t/dt &= -\Lambda S_t + \omega S_p, \\
+ d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u,  \\
+ d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n, \\
+ d I_p/dt &= \Lambda S_p + p_I F_I I_u - \omega I_p -\gamma I_p, \\
+ d I_t/dt &= \Lambda S_t + \omega I_p - \gamma I_t,  \\
+ d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n, \\
+ d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n,  \\
+ d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p,  \\
+ d R_t/dt&= \gamma I_t + \omega R_p,  \\
+ dN/dt &= \omega (S_n + I_n + R_n),   \\
  dP/dt &= \omega(I_p + R_p),
 \end{align}
 
 where $\beta$, (1/day), is the disease transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively, $\Lambda$ is the force of infection and defined as 
+
 \begin{equation}
 \label{Lambda}
 \Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},
 \end{equation}
-where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as \begin{equation}
+
+where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their reltive proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susiptibles. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
+
+\begin{equation}
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
 \end{equation}
-Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, for $Z \in \{S,I,R\}$. 
-
-- In this model we assumed: (i) all groups being exposed to all others, (ii) there is a single force of infection, $\Lambda$, that is, where a susceptible individual move to does not depend on who infected it, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iv)  $\eta_t \leq \eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals. 
--why not bith and death are included?
+Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that the particular form of $\sigma$ \eqref{sigma} in the case when no one is left untested, $W \approx 0$, leads to a singularity issue in the simulation. We refer the reader to the Appendix for further details and the solution. 
 
 
-The Disease-Free Equilibrium, DFE hearafter, for the SIR model \ref{model} is given by the solution of the following system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
+
+Some of the underlying assumptions of the model \eqref{model} are as follows: (i) all groups being exposed to all others, (ii) there is a single force of infection, $\Lambda$, that is, where a susceptible individual move to does not depend on who infected it, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iv)  $\eta_t \leq \eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals. 
+- [Q] why not birth and death are included?
+
+The Disease-Free Equilibrium, DFE hereafter, for the SIR model \ref{model} is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
 
 \begin{equation}
 \label{dfe}
 S_n^*= \frac{\rho}{\omega} N_0, \ S_u^*= N_0-S_n^*, \text{and} I_j=R_j=0 \ \text{for all j}.
 \end{equation}
 
-The Basic reproduction number, $\Rnum$, is 
+The Basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
+
 \begin{equation}
 \label{R0}
 \Rnum= (A \times S_u^* + B \times S_n^*) \times C, 
 \end{equation}
 where
-$A=\gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t p_I) F_I$,
-$B=\big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega p_I F_I }{\omega+\gamma}$ and 
-$C=\frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}$.
-
-$\Rnum$ was calculated by using the generation matrix metod developed by \cite{van2002reproduction}. Further details are provided in the Appendix.
+\begin{align*}
+A=& \gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t p_I) F_I, \\
+B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
+C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+\end{align*}
+Further details are provided in the Appendix.
+ 
+ [Fady?] 
+ Something needs to be said here about simulation part which was done by using R, using the expression on $\Rnum$ and not the approximation, which give the panel plot in Figure \ref{pan}.
+The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. The numerical simulation of $\Rnum$ in the specified parameter space and plotting the contours of $\Rnum$ was carried out in R by using ggplot (ref?). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}.
 
 % %%%%%%%
 \section{Results}
 
-
-The following propositions are restlted from the expression of $\Rnum$ and its partial derivatives with respect to the underlying parameters.
+The explicit expression of the basic reproduction number, $\Rnum$ \eqref{R0}, provids an oppotunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controled by changing in isolation, testing intensity and test resulting, i.e., $\eta_t$ and $\eta_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial drivative of $\Rnum$ \eqref{R0} with respect to selected parameters. 
 
 \begin{proposition}
 \label{prop1}
@@ -110,31 +125,20 @@ Using the expression of $\Rnum$ \eqref{R0},
 \item \label{p1:eta}
 $\partial{R_0}/\partial{\eta_t} \geq 0$ and $\partial{R_0}/\partial{\eta_w} \geq 0$. 
 \item \label{p1:rho}
-$\partial{\Rnum}/\partial{\rho} \leq 0$ for $\rho \approx 0$.
+$\partial{\Rnum}/\partial{\rho} \leq 0$ when $\rho \approx 0$.
 \item \label{p1:omega}
 $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 0$.
 \end{enumerate}
 \end{proposition}
 
-[Thinking of putting most of these stuff in the Appendix] Given that the perfect isolation occurs when $\eta_t=\eta_w = 0$, \ref{p1:eta} means that lifting isolation results in greater $\Rnum$ and consequently greater number of infected individuals.
-\ref{p1:rho} and \ref{p1:omega} are concluded from the following Taylor approximation of $\Rnum$ at $\rho=0$ given by 
-\begin{equation}
-\label{eq:R0appr}
-R_0 \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 W_S} \Big(\gamma(\eta_w-1)(\gamma W_S+\omega W_I) + (\eta_t -1)P_iW_i \omega^2 \Big) + \mathcal{O}(\rho^2).
-\end{equation}
-
-It is straight forward to have
-\begin{equation}
-\label{eq:R0wrtOm}
-\partial{R_0}/\partial{\omega}=  \frac{-\beta \rho}{\gamma W_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),
-\end{equation}
-
-where $a=(\eta_w-1)W_I-(\eta_t-1)P_I W_I = ((s-p_I)\eta_t + (p_I-1)) W_I$, $b=2(\eta_w-1)\gamma W_S$ and $c=(\eta_w-1)\gamma^2 W_S$.
-Given that $0 \leq \eta_t\leq \eta_w \leq 1 $, one can easily derive $b\leq 0$ and $c \leq 0$. Note that in general, the necessary and sufficient condition for $a \geq 0$ is $(s-p_I) \eta_t \geq (1-p_I)$, where $s=\frac{\eta_w}{\eta_t} \geq 1$. As an example, in the case of a very accurate testing regime,  i.e., $P_I=1$, $a \geq 0$ is achieved. If $a\geq 0$, the quadratic expression in \eqref{eq:R0wrtOm}, has Real roots. Assuming that $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{R_0}/\partial{\omega}$. Thus, $\partial{R_0}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{R_0}/\partial{\omega}<0$ for $\omega>\omega_2$.
-
+ Given that the perfect isolation occurs at $\eta_t=\eta_w = 0$, Prop. \ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. We used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive. See the Appendix for details. It is straight forward to derive \ref{p1:rho} and \ref{p1:omega} from the linear approximation of $\Rnum$ at $\rho=0$.
  
-Note that in case of ``Perfect isolation``, i.e., when $\eta_w=0$ and consequently $\eta_t=0$, it is straight forward to see that $a \leq 0$, $b<0$ and $c<0$. Thus, $\partial{\Rnum}/\partial{\omega} \geq 0$. Intuitively, this means that returning the test results back to the awaiting individuals while they were following a perfect isolation, results in an increase of $\Rnum$ and consequently an increase in the number of infected individuals (see Figure \ref{fig:panels} at lower $\omega$).
+ Prop. \ref{p1:rho} indicates that increasing testing intensity reduces the $\Rnum$. This is sensible since as people are moved to test compartments, $I_p$ or $I_n$, the higher probability of being subject to isolation and the lower the transmission \eqref{Lambda} will become.
+ 
+ Prop. \ref{p1:omega} is the most intresting and somehow the unexpected one. It shows that the influence of the test reporting rate, $\omega$, on the epidemic dynamics is dependant on a combination of test reporting rate itself, testing processes/strategies ($W$'s), testing efficacy ($P_I$) and isolation ($\eta$'s). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting proccess become faster. This can be easily noticed from expression \eqref{Rom} in the case of ``perfect isolation``, when $\eta_w=0$ and consequently $\eta_t=0$. This provides insight that returning the test results back to the awaiting individuals while they were following a perfect isolation, results in an increase of $\Rnum$ and consequently an increase in the number of infected individuals (see Figure \ref{pan} at lower $\omega$). This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemy.   
 
+We also carried out simulation to support the analytical results in Proposition \ref{prop1}.
+ 
 [comments about the figure:]
 1- use a single legend, change the range manually.
 \begin{figure}[h!]
@@ -149,9 +153,19 @@ Note that in case of ``Perfect isolation``, i.e., when $\eta_w=0$ and consequent
 \includegraphics[width=\linewidth]{./pix/R0contour_TTI.png}
 \end{subfigure}
 \caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; remind the reader about the parameters and their values in this simulations.}
-\label{fig:panels}
+\label{pan}
 \end{figure}
 
+When random testing regime is applied, $W_S=W_I=W_R$,
+
+(i) in the case of perfect isolation of the reported individuals, $\eta_t=0$, the followings are inferred (see the first few columns of the panel plot); 
+ - variations of the $\eta_w$ has a negligible effect on the critical testing.
+ - for low $\omega$, $R_0$ increases as $\omega$ increases but saturates. This means that when the reporting process is very very slow, increasing the speed of the reporting causes higher $R_0$. Maybe because more people will move to $I_u$ [?, not very sure here.]
+ (ii) in case of the non-perfect isolation (see the last column), when $\eta_w$ increases (more awaiting people follow the isolation rules) faster reporting reduces $R_0$.  
+Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here we showed that this can be less true. 
+%%%%%%%%%%%%
+[Fady: this subsection and the next belong to the Appendix since they are very detailed. Would you 
+(i) clean up the writing, there are some repeated expressions that can be referenced, (ii) write a paragraph for each to reflect what the message/application is?]
 \subsection{rate of returning tests}
 The linearization of $\Rnum$ around $\rho=0$ is
 \begin{equation}\label{linearization}
@@ -162,7 +176,7 @@ So when $\rho \approx 0$ we have $$\partial{\Rnum}/\partial{\omega} \approx  \fr
 
 where $a=(\eta_w-1)W_i-(\eta_t-1)P_iW_i$, $b=2(\eta_w-1)\gamma W_s$ and $c=(\eta_w-1)\gamma^2 W_s$. 
 
-Perhaps counter-intuitively, the equation above does not predict that $\Rnum$ is monotone decreasing with respect to $\omega$. In other words; our model does not predict that returning test results more rapidly \textit{always} lower $\Rnum$. In order to gain insight into this intriguing behaviour, we examine the zeroes of $\frac{\partial{\Rnum}}{\partial{\omega}}(\omega)$.
+Perhaps counter-intuitively, the equation above does not predict that $\Rnum$ is monotone decreasing with respect to $\omega$. In other words; our model does not predict that returning test results more rapidly \textit{always} lower $\Rnum$. In order to gain insight into this intriguing behavior, we examine the zeroes of $\frac{\partial{\Rnum}}{\partial{\omega}}(\omega)$.
 
 Defining the following quantity, $Q$, will help us write the roots of $\partial{\Rnum}/\partial{\omega}$ neatly. 
 \begin{align}\label{eq:defQ}
@@ -182,7 +196,7 @@ Assuming $\omega_1, \omega_2$ are real, it is easy to confirm that $\omega_1 < 0
 
 We can prove that $\partial{\Rnum}/\partial{\omega} > 0$ when $\omega \in (0,\omega_2)$ and $\partial{\Rnum}/\partial{\omega} < 0$ when $\omega \in (\omega_2,\infty)$ by computing the limits of $\partial{\Rnum}/\partial{\omega}$ at $0$ and $\infty$ respectively. So it follows that $\Rnum$ has a global maximum with respect to $\omega$ at $\omega = \omega_2$.
 
-Now we want to characterize the parameter regions on which $\partial{\Rnum}/\partial{\omega} < 0$ (i.e., the conditions under which returning test results more rapidly is favourable). By the previous analysis, this is equivalent to solving for $\omega > \omega_2$. So
+Now we want to characterize the parameter regions on which $\partial{\Rnum}/\partial{\omega} < 0$ (i.e., the conditions under which returning test results more rapidly is favorable). By the previous analysis, this is equivalent to solving for $\omega > \omega_2$. So
 
 \begin{align}\label{eq:necsuf}
     &\omega > \omega_2 \nonumber \\
@@ -191,7 +205,7 @@ Now we want to characterize the parameter regions on which $\partial{\Rnum}/\par
     &\frac{1-n_{t}}{1-n_{w}}P_{i}>\frac{W_{s}}{W_{i}}\left(\frac{\gamma}{\omega}+1\right)^{2}
 \end{align}
 
-This inequality quantifies the exact relationships between model parameters that result in returning tests more rapidly being favourable. To give a biological interpretation, we describe the qualitative \textit{trends} predicted by the inequality. Returning test results more rapidly \textit{tends} to be more favourable when
+This inequality quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable. To give a biological interpretation, we describe the qualitative \textit{trends} predicted by the inequality. Returning test results more rapidly \textit{tends} to be more favorable when
 
 \begin{itemize}
     \item individuals who have tested positive lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_t \ll \eta_w$).
@@ -221,9 +235,9 @@ Note that the RHS is positive, thus a necessary condition for the inequality abo
 \frac{P_{i,2}}{P_{i,1}} > \frac{\rho_1}{\rho_2}.
 \end{equation}
 
-To state an example of this, if test $A$ is three times as expensive as test $B$ (and hence one can test three times as many people with test $B$), using test $A$ rather than $B$ will be favourable only if test $A$ is at least 3 times more sensitive than test $B$. Note that this is a necessary but not sufficient condition, so even if test $A$ is three times more sensitive, it is still possible for test $B$ to be more effective. 
+To state an example of this, if test $A$ is three times as expensive as test $B$ (and hence one can test three times as many people with test $B$), using test $A$ rather than $B$ will be favorable only if test $A$ is at least 3 times more sensitive than test $B$. Note that this is a necessary but not sufficient condition, so even if test $A$ is three times more sensitive, it is still possible for test $B$ to be more effective. 
 
-\cref{eq:rho1vsrho2} tells us precisely when a test corresponding to $\rho_2, P_{i,2}$ will yield a lower $\Rnum$ than a test corresponding to $\rho_1, P_{i,1}$, where $\rho_1 > \rho_2$. Some of the qualitative \textit{trends} that favour test 2 (the higher-sensitivity test) include
+\cref{eq:rho1vsrho2} tells us precisely when a test corresponding to $\rho_2, P_{i,2}$ will yield a lower $\Rnum$ than a test corresponding to $\rho_1, P_{i,1}$, where $\rho_1 > \rho_2$. Some of the qualitative \textit{trends} that favor test 2 (the higher-sensitivity test) include
 
 \begin{itemize}
     \item individuals who test positive self-isolate much more than individuals who are waiting for their test result.
@@ -263,25 +277,28 @@ When testing of infected individuals is more intense than susceptible individual
 % %%%%%%%
 \section{supplementary material}
 
-The next generation matrix, $G = F V^{-1}$, is in the lower triangular form with $F$ and $G$ as follows.
+\subsection{Calculation of $\Rnum$}
 
+The next generation matrix is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susiptable. For model \eqref{model}, $F$ and $V$ are
 
-\begin{equation}\label{FV}
-F= \beta/N_0 \left[ \begin {array}{cccc} 
+\begin{align}
+\label{FV}
+F =& \beta/N_0 \left[ \begin {array}{cccc} 
 S_u&\eta_w\,S_u&\eta_w\,S_u&\eta_t\,S_u\\
 S_n&\eta_w\,S_n&\eta_w\,S_n&\eta_t\,S_n\\ 
 0&0&0&0\\
 0&0&0&0
- \end {array} \right],
- V=
+ \end {array} \right], \\
+  V =&
  \left[ \begin {array}{cccc}  
 F_I+\gamma&-\omega&0&0\\
 -(1-p_I)F_I&\omega+\gamma&0&0\\
 -p_I F_I&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
-\end {array} \right],
-\end{equation}
+\end {array} \right].
+\end{align}
 
+The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as 
 \begin{equation}
 G = \left[ \begin {array}{cc}
 G_{11}&G_{12}\\
@@ -291,15 +308,47 @@ G_{11} =C
 \left[\begin {array}{cc}
 A\,S_u & B\,S_u\\
 A\,S_n & B\,S_n
-\end {array}\right],
+\end {array}\right].
 \end{equation}
 
-The Eigenvalues of $G_{11}$, are 0 and $\Rnum$.
+Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the spectral radius of $G$. All matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}.
 
 % %%%%%%%
-\section{Literature Review}
+\subsection{On Testing Rate and Numerical Singularity}
+The testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there. The numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - \rho N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
 
-\subsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
+One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
+
+% %%%%%%%
+\subsection{Taylor Approximation of $\Rnum$ at $\rho=0$ }
+
+The basic reproduction number, $\Rnum$, close to $\rho=0$ can be approximated linearly in $\rho$ by using Taylor approximation. it follows
+
+\begin{equation}
+\label{eq:R0appr}
+R_0 \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 W_S} \Big(\gamma(\eta_w-1)(\gamma W_S+\omega W_I) + (\eta_t -1)P_iW_i \omega^2 \Big) + \mathcal{O}(\rho^2).
+\end{equation}
+
+Also, to analyze the influence of $\omega$ on $\Rnum$, the approximation \eqref{eq:R0appr} was used. Then it is straight forward to have
+
+\begin{equation}
+\label{Rom}
+\partial{R_0}/\partial{\omega}=  \frac{-\beta \rho}{\gamma W_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),
+\end{equation}
+
+where $a=(\eta_w-1)W_I-(\eta_t-1)P_I W_I = ((s-p_I)\eta_t + (p_I-1)) W_I$, $b=2(\eta_w-1)\gamma W_S$ and $c=(\eta_w-1)\gamma^2 W_S$.
+Given that $0 \leq \eta_t\leq \eta_w \leq 1 $, one can easily derive $b\leq 0$ and $c \leq 0$. 
+
+Note that in general, the necessary and sufficient condition for $a \geq 0$ is $(s-p_I) \eta_t \geq (1-p_I)$, where $s=\frac{\eta_w}{\eta_t} \geq 1$. 
+
+Note that in case of ``perfect isolation``, i.e., when $\eta_w=0$ and consequently $\eta_t=0$, it is straight forward to see that $a \leq 0$, $b<0$ and $c<0$. Thus, $\partial{\Rnum}/\partial{\omega} \geq 0$. 
+As an example, in the case of a very accurate testing regime,  i.e., $P_I=1$, $a \geq 0$ is achieved. If $a\geq 0$, the quadratic expression in \eqref{Rom}, has Real roots. Assuming that $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{R_0}/\partial{\omega}$. Thus, $\partial{R_0}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{R_0}/\partial{\omega}<0$ for $\omega>\omega_2$.
+
+
+% %%%%%%%
+\subsection{Literature Review}
+
+\subsubsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
 \citep{endo2020implication} [Ali: It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!] Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.
 
 \citep{jenness2020modeling} developed a network-based transmission model for SARS-CoV-2 on the Diamond Princess outbreak to characterize transmission dynamics and to estimate the epidemiological impact of outbreak control and prevention measures. 
@@ -312,7 +361,7 @@ Stringency index as a control force lowering $\beta$.
 
 \citep{rice2020effect} Effect of school closures on mortality. Reproduce Report 9 results by spatial agent based CovidSim. 
 % %%%%%%%
-\subsection{Models of repeated random testing of isolated populations}
+\subsubsection{Models of repeated random testing of isolated populations}
 \cite{bergstrom2020frequency}
 (1) Model, assumptions: They developed a function, namely expected exposure $E(C,\tau)$, to approximate trade-offs between the frequency of testing, n, the sensitivity of testing, q, and the delay between
 testing and results, d. This function is explicitly derived and was connected the effective reproduction number $R=R_0 S$, where $S$ is the proportion of population susceptible.
@@ -329,7 +378,7 @@ relatively controlled with effective testing, isolation, contract tracing and qu
 
 \citep{tuite2020mathematical} used an age-structured compartmental model of COVID-19 transmission in the population of Ontario, Canada. We compared a base case with limited testing, isolation and quarantine to different scenarios. 
 % %%%%%%%
-\subsection{Other maybe-related works}
+\subsubsection{Other maybe-related works}
 \citep{arino2020simple} developed a SLIAR compartmental model to study the spread of an epidemic, specifically COVID-19, in a population. The model incorporates an Erlang distribution of times of sojourn in incubating, symptomatically and asymptomatically infectious compartments. Basic reproduction number is derived. Also, sensitivity analysis with respect to the underlying parameters for the following two outputs was carried out; (i) the number of observable cases during the course of the epidemic and at the peak, and (ii) the timing of the peak of the outbreak. Sensitivity analysis is performed using the R package multisensi.
 
 \citep{ruszkiewicz2020diagnosis} novel with-in-a-minute breath testing with 80\% accuracy. 
