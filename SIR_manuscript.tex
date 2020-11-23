@@ -27,19 +27,19 @@
 % %%%%%%%
 \section{Introduction}
 
-One of the real challenges interpreting COVID-19 dynamics is to unravel/investigate information gained from data. One of the strongest signals we get to see is the daily case reports which are driven by a combination of two processes: (i) epidemic processes and (ii) testing processes. The real challenge here is to separate these two processes. Simple mathematical models have a long history in providing useful insights facing with real epidemiological challenges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model to incorporate mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies and slow-fast reporting testing result. 
+One of the main challenges in interpreting COVID-19 dynamics is to unravel/investigate information gained from data. The daily case count is a highly accessible form of data where observations are driven by two clusters of processes: (i) epidemic processes and (ii) testing processes. The challenge is then to separate these processes and understand how they interact. Simple mathematical models have a long history in providing useful insights facing with real epidemiological challenges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model that incorporates mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies and slow-fast reporting testing result. 
 
-There are different testing strategies with test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two broad categories including (i) random testing across the whole population and (ii) Non-random testing. Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during COVID-19 pandemic (refs). 
+There are different testing strategies with different test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two broad categories including (i) random testing across the whole population and (ii) Non-random testing. Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during the COVID-19 pandemic (refs). 
 
-Further, lots of efforts have been invested in developing widely accessible and fast tests in order to mitigate the spread of the pandemic (refs). In order to have a sense and as a comparison of slow versus fast test, we provide an example. The viral PCR test, which is the most accessible test and takes about four days, is very slow relative to the potential tests such as breath-based test \citep{ruszkiewicz2020diagnosis}, which is still in trial stage and takes a few seconds. The point to be made is that there can be a potential advantage of slow test.
+Much effort has been invested in developing widely accessible and fast tests in order to mitigate the spread of the pandemic (refs). In order to have a sense and as a comparison of slow versus fast test, we provide an example. The viral PCR test, which is the most commonly used test and takes about four days, is very slow relative to the potential tests such as breath-based test \citep{ruszkiewicz2020diagnosis}, which is still in trial stage and takes a few seconds. The point to be made is that there can be a potential advantage of slow test.
 
-In this work we developed a model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies and slow-fast testing. The analysis of the deterministic model included deriving the basic reproduction number, $\Rnum$, as the index of threshold dynamics and the effect of underlying parameters on this key index. We found that the non-random testing strategy is more effective than the random testing. Specifically, the required critical testing intensity to keep $\Rnum$ lower than the threshold value of one, is much lower in the non-random testing than the random one. Further, we show that there is a potential advantage of slow reporting of test result on the spread of the infection.  
+In this work we developed a model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies and slow-fast testing. The analysis of the deterministic model included deriving the basic reproduction number, $\Rnum$, as the index of threshold dynamics and the effect of underlying parameters on this key index. We found that the non-random testing strategy is more effective than the random testing. Specifically, the required critical testing intensity to keep $\Rnum$ lower than the threshold value of one is much lower in the non-random testing than the random one. Further, we show that for certain parameter combinations, there may be a potential advantage to slow reporting of test results on the spread of the infection.  
 
 
 % %%%%%%%
 \section{Method}
 
-We developed a deterministic model as a platform of our study. A generic individual is identified in a model compartment based on the disease-specific and test-specific criteria. The former criterion includes Susceptible, Infectious and Recovered, thus SIR, and the latter criterion group people in either untested, awaiting for the test result with expectation of positive or negative outcome, or reported positive, thus $u$, $p$, $n$ and $t$, respectively, reflected as subscript. Also, two 'integrator' or 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The flowchart model is as follows 
+We developed a deterministic model as a platform of our study. A generic individual is identified in a model compartment based on the disease-specific and test-specific criteria. The former criteria include Susceptible, Infectious and Recovered, thus SIR, and the latter criteria group people in either untested, awaiting for the test result with expectation of positive or negative outcome, or reported positive, thus $u$, $p$, $n$ and $t$, respectively, reflected as subscript. Also, two 'integrator' or 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The flowchart model is as follows 
 
 \begin{figure}[!h] 
 \begin{center} 
@@ -68,14 +68,14 @@ The model is
  dP/dt &= \omega(I_p + R_p),
 \end{align}
 
-where $\beta$, (1/day), is the disease transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively, $\Lambda$ is the force of infection and defined as 
+where $\beta$, (in units of 1/day), is the disease transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. $\Lambda$ is the force of infection and is defined as 
 
 \begin{equation}
 \label{Lambda}
 \Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},
 \end{equation}
 
-where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their reltive proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susiptibles. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
+where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
 
 \begin{equation}
 \label{sigma}
@@ -85,7 +85,7 @@ Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S
 
 
 
-Some of the underlying assumptions of the model \eqref{model} are as follows: (i) all groups being exposed to all others, (ii) there is a single force of infection, $\Lambda$, that is, where a susceptible individual move to does not depend on who infected it, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iv)  $\eta_t \leq \eta_w$, i.e., the awaiting individuals for test results have a higher transmission probability than the reported individuals. 
+Some of the underlying assumptions of the model \eqref{model} are as follows: (i) all groups are being exposed to all others, (ii) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iv)  $\eta_t \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. 
 - [Q] why not birth and death are included?
 
 The Disease-Free Equilibrium, DFE hereafter, for the SIR model \ref{model} is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
@@ -109,7 +109,7 @@ C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
 \end{align*}
 Further details are provided in the Appendix.
  
- [Fady?] 
+ [Fady? \fady{I didn't do any simulations though}] 
  Something needs to be said here about simulation part which was done by using R, using the expression on $\Rnum$ and not the approximation, which give the panel plot in Figure \ref{pan}.
 The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. The numerical simulation of $\Rnum$ in the specified parameter space and plotting the contours of $\Rnum$ was carried out in R by using ggplot (ref?). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simmulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
 
@@ -117,7 +117,7 @@ The analytical calculation of the next generation matrix, $G$, and the derivatio
 % %%%%%%%
 \section{Results}
 
-The explicit expression of the basic reproduction number, $\Rnum$ \eqref{R0}, provids an oppotunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controled by changing in isolation, testing intensity and test resulting, i.e., $\eta_t$ and $\eta_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial drivative of $\Rnum$ \eqref{R0} with respect to selected parameters. 
+The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controlled by changing in isolation, testing intensity and test resulting, i.e., $\eta_t$ and $\eta_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial derivative of $\Rnum$ \eqref{R0} with respect to selected parameters. 
 
 \begin{proposition}
 \label{prop1}
@@ -132,11 +132,11 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 \end{enumerate}
 \end{proposition}
 
- Given that the perfect isolation occurs at $\eta_t=\eta_w = 0$, Prop. \ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. We used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive. See the Appendix for details. It is straight forward to derive \ref{p1:rho} and \ref{p1:omega} from the linear approximation of $\Rnum$ at $\rho=0$.
+ Given that the perfect isolation occurs at $\eta_t=\eta_w = 0$, Prop. \ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. We used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive. See the Appendix for details. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the linear approximation of $\Rnum$ at $\rho=0$.
  
- Prop. \ref{p1:rho} indicates that increasing testing intensity reduces the $\Rnum$. This is sensible since as people are moved to test compartments, $I_p$ or $I_n$, the higher probability of being subject to isolation and the lower the transmission \eqref{Lambda} will become.
+ Prop. \ref{p1:rho} indicates that increasing testing intensity reduces the $\Rnum$. This is sensible since as people are moved to test compartments ($I_p$, $I_n$ \fady{the susceptibles also reduce contact and transmission}) the higher probability of being subject to isolation and the lower the transmission \eqref{Lambda} will become.
  
- Prop. \ref{p1:omega} is the most intresting and somehow the unexpected one. It shows that the influence of the test reporting rate, $\omega$, on the epidemic dynamics is dependant on a combination of test reporting rate itself, testing processes/strategies ($W$'s), testing efficacy ($P_I$) and isolation ($\eta$'s). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting proccess become faster. This can be easily noticed from expression \eqref{Rom} in the case of ``perfect isolation``, when $\eta_w=0$ and consequently $\eta_t=0$. This provides insight that returning the test results back to the awaiting individuals while they were following a perfect isolation, results in an increase of $\Rnum$ and consequently an increase in the number of infected individuals (see Figure \ref{pan} at lower $\omega$). This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemy.   
+ Of these results, prop. \ref{p1:omega} is the most surprising. It states that returning test results more rapidly (i.e., increasing $\omega$) does not necessarily lower $\Rnum$, rather, whether increasing $\omega$ lowers $\Rnum$ is dependant on the precise combination of model parameters (test reporting rate itself, testing processes/strategies ($W$'s), testing efficacy ($P_I$) and isolation ($\eta$'s). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting proccess become faster. This can be seen from expression \eqref{Rom} in the case of ``perfect isolation``, when $\eta_w=0$ and $\eta_t=0$. The underlying mechanism for this result is that individuals may take more precautionary behaviours (e.g., physical distancing) when they are awaiting test results compared to when they are untested or their test has returned negative. An example of a situation that would favour slow return of tests is if the test being employed produces many false negatives, because many infected individuals will believe they are negative and thus may unknowingly spread the virus to many others.  For an example of the behaviour of $\Rnum$ see Figure \ref{pan} at varying values of $\omega$. This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemic.   
 
 [comments about the figure:]
 1- use a single legend, change the range manually.
@@ -159,7 +159,7 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 
 Our numerical simulation in support of the analytical results in Proposition \ref{prop1} are presented in Figure \ref{pan}. It can be infered that when random testing strategy is applied, Figure \ref{p.a}, comparing to the non-random testing strategy, Figure \ref{p.a}, the critical testing intensity of the coresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people follow the isolation perfectly, i.e., $\eta_w$ is closer to 0. However, speeding the test reporting reduces the epidemy more when the awaiting people less follow the isolation, i.e., $\eta_w$ is closer to 1. 
 
-Further, we derived an expression that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}. To give a biological interpretation, we describe the qualitative \textit{trends} predicted by the inequality. Returning test results more rapidly \textit{tends} to be more favorable when
+Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}. To give a biological interpretation, we describe the qualitative \textit{trends} predicted by the inequality. Returning test results more rapidly \textit{tends} to be more favorable when
 
 \begin{itemize}
     \item individuals who have tested positive lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_t \ll \eta_w$).
@@ -168,7 +168,16 @@ Further, we derived an expression that quantifies the exact relationships betwee
 \end{itemize}
 An in-depth discussion of these results is presented in the discussion section. 
 
-[Fady, would you sumerize the results of "Expensive vs. cheap tests" into a paragraph and leave the Mathy stuff in the Appendix.]
+The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the COVID-19 pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. Using our Taylor approximation of $\Rnum$ near $\rho = 0$, we examined what circumstances (i.e., model parameters) make the use of one test more favourable than another, and give a complete description through inequality \ref{eq:rho1vsrho2}. In general, we found that the expensive test \textit{tends} to more effectively lower $\Rnum$ when
+
+\begin{itemize}
+    \item individuals who test positive self-isolate much more than individuals who are waiting for their test result.
+    \item the time it takes to return tests is much shorter than the mean infectious period.
+    \item the testing intensity is much greater for infected individuals than susceptible individuals.
+\end{itemize}
+
+Our model also predicts an asymmetry between cheap and expensive tests: if a cheap test can identify on average more infected individuals as an expensive test, then our model predicts that the cheap test will lower $\Rnum$ more. In contrast, if an expensive test can identify on average more infected individuals, it will not necessarily lower $\Rnum$ more than the cheap test. \fady{we can state this as a formal proposition in equations rather than in words, if that would be better.}
+
 %%%%%%%%%%%%
 
 % %%%%%%%
@@ -188,13 +197,14 @@ situation, identification of hot spots, contact-tracing, etc.
 - "delay negative results" result
 
 \subsection{Rate of returning tests}
-\fady{needs to be expanded}
-When the difference in self-isolation between individuals waiting for their tests and individuals who are confirmed positive is small, returning tests rapidly is not beneficial because the benefit in doing so (i.e., the extra self-isolating when an individual tests positive) is minimal and outweighed by the fact that those who test negative may increase their contacts. Similarly, if the test is not sensitive, many infected individuals will test negative, and thus may increase their contacts under the false belief that they are not infectious, hence returning test results more quickly in this case may not be beneficial. 
 
-When testing of infected individuals is more intense than susceptible individuals, returning test results rapidly is beneficial because those infected individuals will be informed and self-isolate. Conversely, if testing of susceptible individuals is much greater, very few tests be positive, and the benefit of informing those few positive cases will be outweighed by the potential increase in contacts of the individuals testing negative. 
+Our model predicts that when the difference in self-isolation between individuals waiting for their tests and individuals who are confirmed positive is small, returning tests rapidly is not beneficial. The underlying mechanism for this prediction is that the benefit in returning tests rapidly so (i.e., the extra self-isolation an individual does when they test positive) is minimal and outweighed by the fact that those who test negative may increase their contacts. Thus, in such a case, returning tests more rapidly is expected to increase $\Rnum$. Similarly, if the test is not sensitive, many infected individuals will test negative, and thus may increase their contacts under the false belief that they are not infectious, so returning tests rapidly in this case may also contribute to increased transmission.
+
+When testing of infected individuals is more intense than susceptible individuals, returning test results rapidly is beneficial because those infected individuals will be informed and self-isolate. Conversely, if testing of susceptible individuals is much greater, very few tests will be positive, and the benefit of informing those few positive cases will be outweighed by the potential increase in contacts of the individuals testing negative. 
+
 
 \subsection{Expensive vs. cheap tests}
-\fady{needs to be written \dots must discuss the fact that our analysis holds only when $\rho$ is relatively small, so if there is a test so cheap that $\rho$ does not stay small, our results do not apply.}
+\fady{I think we should discuss this before I write it. I'm a little hesitant to really expand on these results because of the points JD brought up over email.}
 
 
 % %%%%%%%
