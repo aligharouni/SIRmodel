@@ -8,6 +8,10 @@
 \usepackage{xspace}
 \usepackage[nameinlink,capitalize]{cleveref}
 
+\usepackage{xspace}
+\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]
+{pix/Rlogo.pdf}\xspace}
+
 \newcommand{\fady}[1]{\textcolor{cyan}{$\langle${\slshape{\bfseries Fady:} #1 }$\rangle$}}
 \newcommand{\Rnum}{\mathcal{R}_0}
 \theoremstyle{definition} % amsthm only
@@ -83,12 +87,9 @@ where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rat
 \end{equation}
 Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that the particular form of $\sigma$ \eqref{sigma} in the case when no one is left untested, $W \approx 0$, leads to a singularity issue in the simulation. We refer the reader to the Appendix for further details and the solution. 
 
+The classical SIR model is based on the following implicite assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model \eqref{model} assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iii)  $\eta_t \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. - [Q] why not birth and death are included? say it or not? 
 
-
-Some of the underlying assumptions of the model \eqref{model} are as follows: (i) all groups are being exposed to all others, (ii) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iv)  $\eta_t \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. 
-- [Q] why not birth and death are included?
-
-The Disease-Free Equilibrium, DFE hereafter, for the SIR model \ref{model} is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
+The Disease-Free Equilibrium (Ali, not sure if this is the right term?), DFE hereafter, for the SIR model \ref{model} is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
 
 \begin{equation}
 \label{dfe}
@@ -109,9 +110,8 @@ C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
 \end{align*}
 Further details are provided in the Appendix.
  
- [Fady? \fady{I didn't do any simulations though}] 
- Something needs to be said here about simulation part which was done by using R, using the expression on $\Rnum$ and not the approximation, which give the panel plot in Figure \ref{pan}.
-The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. The numerical simulation of $\Rnum$ in the specified parameter space and plotting the contours of $\Rnum$ was carried out in R by using ggplot (ref?). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simmulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
+  [to be completed! Something needs to be said here about simulation part]. The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. 
+  We used \Rlogo for the simulation part which included using the explicite expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ by using ggplot package in \Rlogo. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are as follows (I like using a table here, with the param, their units and values). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simmulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
 
 
 % %%%%%%%
