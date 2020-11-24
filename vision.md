@@ -12,7 +12,7 @@ What should or could be in this paper:
 ## Part 1
 
 * analysis of the basic SIR model with testing: analytical results as far as possible, supplemented by numerical results as necessary/for illustration. Heuristic explanations/insights of what we learn from this.
-* Maybe?? order-of-magnitude/back-of-the-envelope calculations of the magnitudes of testing & isolation necessary. (However, the model may be too simplified for even back-of-the-envelope calculations to be meaningful.)
+* Maybe?? order-of-magnitude/back-of-the-envelope calculations of the magnitudes of tracing & isolation necessary. (However, the model may be too simplified for even back-of-the-envelope calculations to be meaningful.)
 * Maybe?? comparison with strength-and-speed framework (since T/T/I is essentially a speed-based intervention)
 
 ## Part 2
