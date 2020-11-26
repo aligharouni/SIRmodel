@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage{natbib}
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -31,19 +31,21 @@
 % %%%%%%%
 \section{Introduction}
 
-One of the main challenges in interpreting COVID-19 dynamics is to unravel/investigate information gained from data. The daily case count is a highly accessible form of data where observations are driven by two clusters of processes: (i) epidemic processes and (ii) testing processes. The challenge is then to separate these processes and understand how they interact. Simple mathematical models have a long history in providing useful insights facing with real epidemiological challenges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model that incorporates mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies and slow-fast reporting testing result. 
+One of the main challenges in understanding COVID-19 dynamics is to unravel information available from data. The daily case count is a highly accessible form of data where observations are driven by two clusters of processes: (i) epidemic processes and (ii) testing processes. The challenge is then to separate these processes and understand how they interact. Simple mathematical models have a long history in providing useful insights facing with real epidemiological challenges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model that incorporates mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies on disease dynamics. 
 
-There are different testing strategies with different test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two broad categories including (i) random testing across the whole population and (ii) Non-random testing. Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during the COVID-19 pandemic (refs). 
+[[JD: There is a gap here between unravelling data and what we actually do.]]
 
-Much effort has been invested in developing widely accessible and fast tests in order to mitigate the spread of the pandemic (refs). In order to have a sense and as a comparison of slow versus fast test, we provide an example. The viral PCR test, which is the most commonly used test and takes about four days, is very slow relative to the potential tests such as breath-based test \citep{ruszkiewicz2020diagnosis}, which is still in trial stage and takes a few seconds. The point to be made is that there can be a potential advantage of slow test.
+[[JD: This \P\ is confusing. The topic sentence seems to be about kinds of tests, and then there is a jump to sampling strategies.]]
+There are different testing strategies with different test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two broad categories including (i) random testing across the whole population and (ii) Non-random testing. [[JD: Random testing is not a broad category, and non-random testing is very vague. What are we trying to convey with this \P?]] Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during the COVID-19 pandemic (refs). 
 
-In this work we developed a model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies and slow-fast testing. The analysis of the deterministic model included deriving the basic reproduction number, $\Rnum$, as the index of threshold dynamics and the effect of underlying parameters on this key index. We found that the non-random testing strategy is more effective than the random testing. Specifically, the required critical testing intensity to keep $\Rnum$ lower than the threshold value of one is much lower in the non-random testing than the random one. Further, we show that for certain parameter combinations, there may be a potential advantage to slow reporting of test results on the spread of the infection.  
+Much effort has been invested in developing widely accessible and fast tests in order to mitigate the spread of the pandemic (refs). For example, PCR tests are commonly used, and very sensitive, but take longer compared to more recent tests, such as a breath-based test currently in trial stage, which can provide a result in seconds. 
 
+Here, we develop a model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies and test speed on epidemic control. We investigate the effect of underlying parameters on the basic reproduction number, $\Rnum$. While focused testing strategies are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is viral spread is expected to be stronger for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing). 
 
 % %%%%%%%
-\section{Method}
+\section{Methods}
 
-We developed a deterministic model as a platform of our study. A generic individual is identified in a model compartment based on the disease-specific and test-specific criteria. The former criteria include Susceptible, Infectious and Recovered, thus SIR, and the latter criteria group people in either untested, awaiting for the test result with expectation of positive or negative outcome, or reported positive, thus $u$, $p$, $n$ and $t$, respectively, reflected as subscript. Also, two 'integrator' or 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The flowchart model is as follows 
+We developed a deterministic model which groups individuals based on disease status and testing status. The former includes Susceptible, Infectious and Recovered, thus SIR, and the latter categorizes people as \emph untested, waiting-for-\emph positive, waiting-for-\emph negative, or reported posi{}\emph tive [[JD: would it be better to use $c$ confirmed?]]. Also, two 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The flowchart model is as follows 
 
 \begin{figure}[!h] 
 \begin{center} 
@@ -53,6 +55,7 @@ We developed a deterministic model as a platform of our study. A generic individ
 \end{center} 
 \end{figure}
 
+[[JD: It would be nice to modularize the model somehow, but probably not worth anyone's time. It would also be nice to put the model into Supp. Do we need these equations in the main text for any reason?]]
 The model is
 \begin{align}
 \label{model}
@@ -85,11 +88,11 @@ where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rat
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
 \end{equation}
-Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that the particular form of $\sigma$ \eqref{sigma} in the case when no one is left untested, $W \approx 0$, leads to a singularity issue in the simulation. We refer the reader to the Appendix for further details and the solution. 
+Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that requiring a fixed testing rate as in \eqref{sigma} can lead to a singularity when no one is left untested. We discuss this issue, and a practical solution, in the Appendix. 
 
-The classical SIR model is based on the following implicite assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model \eqref{model} assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iii)  $\eta_t \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. - [Q] why not birth and death are included? say it or not? 
+The classical SIR model is based on the following implicit assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model \eqref{model} assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iii)  $\eta_t \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. - [Q] why not birth and death are included? say it or not? [[JD: The way perfect specificity is presented is confusing here. We need to distinguish between the model we first develop (12 boxes) and the model we analyze (10 boxes)]]
 
-The Disease-Free Equilibrium (Ali, not sure if this is the right term?), DFE hereafter, for the SIR model \ref{model} is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
+The Disease-Free Equilibrium (DFE) for the SIR model \ref{model} is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
 
 \begin{equation}
 \label{dfe}
@@ -111,7 +114,7 @@ C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
 Further details are provided in the Appendix.
  
   [to be completed! Something needs to be said here about simulation part]. The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. 
-  We used \Rlogo for the simulation part which included using the explicite expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ by using ggplot package in \Rlogo. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are as follows (I like using a table here, with the param, their units and values). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simmulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
+  We used \Rlogo for the simulation part which included using the explicit expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ by using ggplot package in \Rlogo. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are as follows (I like using a table here, with the param, their units and values). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simmulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
 
 
 % %%%%%%%
