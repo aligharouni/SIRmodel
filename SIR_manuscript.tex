@@ -45,44 +45,19 @@ Here, we develop a model to incorporate epidemic processes and testing processes
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model which groups individuals based on disease status and testing status. The former includes Susceptible, Infectious and Recovered, thus SIR, and the latter categorizes people as \emph untested, waiting-for-\emph positive, waiting-for-\emph negative, or reported posi{}\emph tive [[JD: would it be better to use $c$ confirmed?]]. Also, two 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The flowchart model is as follows 
+We developed a deterministic model \eqref{model} which groups individuals based on disease status and testing status. The former includes Susceptible, Infectious and Recovered, thus SIR, and the latter categorizes people as \emph untested, waiting-for-\emph positive, waiting-for-\emph negative, or reported posi{}\emph tive [[JD: would it be better to use $c$ confirmed? Ali: yes]]. Also, two 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The model \ref{model} and details of calculation of $\Rnum$ are presented in the Supplimentary Materials. The flowchart model is as follows 
 
 \begin{figure}[!h] 
 \begin{center} 
 \includegraphics[scale=0.3]{./pix/sir_comp.png}
-\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model. [Fady] Say more about the compartments and parameters here to make it stand on its own.
-\label{fig:flowchart}} 
+\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model \eqref{model}. [Fady] Say more about the compartments and parameters here to make it stand on its own. The equations of the model are in Supplimentary Materials.
+\label{fig:flowchart}}
 \end{center} 
 \end{figure}
 
-[[JD: It would be nice to modularize the model somehow, but probably not worth anyone's time. It would also be nice to put the model into Supp. Do we need these equations in the main text for any reason?]]
-The model is
-\begin{align}
-\label{model}
- d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n, \\
- d S_n/dt &= -\Lambda S_n + (1-p_S) F_S S_u - \omega S_n, \\
- d S_p/dt &= -\Lambda S_p + p_S F_S S_u - \omega S_p, \\
- d S_t/dt &= -\Lambda S_t + \omega S_p, \\
- d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u,  \\
- d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n, \\
- d I_p/dt &= \Lambda S_p + p_I F_I I_u - \omega I_p -\gamma I_p, \\
- d I_t/dt &= \Lambda S_t + \omega I_p - \gamma I_t,  \\
- d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n, \\
- d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n,  \\
- d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p,  \\
- d R_t/dt&= \gamma I_t + \omega R_p,  \\
- dN/dt &= \omega (S_n + I_n + R_n),   \\
- dP/dt &= \omega(I_p + R_p),
-\end{align}
+[[JD: It would be nice to modularize the model somehow, but probably not worth anyone's time.]]
 
-where $\beta$, (in units of 1/day), is the disease transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. $\Lambda$ is the force of infection and is defined as 
-
-\begin{equation}
-\label{Lambda}
-\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},
-\end{equation}
-
-where $N_0$ is the total population size. Further, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
+[Ali: not sure if these should go to the Supp material?] In our model the following parameters are used. $N_0$ is the total population size, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
 
 \begin{equation}
 \label{sigma}
@@ -105,12 +80,6 @@ The Basic reproduction number, $\Rnum$, was calculated by using the next generat
 \label{R0}
 \Rnum= (A \times S_u^* + B \times S_n^*) \times C, 
 \end{equation}
-where
-\begin{align*}
-A=& \gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t p_I) F_I, \\
-B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
-C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
-\end{align*}
 Further details are provided in the Appendix.
  
   [to be completed! Something needs to be said here about simulation part]. The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. 
@@ -139,7 +108,7 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
  
  Prop. \ref{p1:rho} indicates that increasing testing intensity reduces the $\Rnum$. This is sensible since as people are moved to test compartments ($I_p$, $I_n$ \fady{the susceptibles also reduce contact and transmission}) the higher probability of being subject to isolation and the lower the transmission \eqref{Lambda} will become.
  
- Of these results, prop. \ref{p1:omega} is the most surprising. It states that returning test results more rapidly (i.e., increasing $\omega$) does not necessarily lower $\Rnum$, rather, whether increasing $\omega$ lowers $\Rnum$ is dependant on the precise combination of model parameters (test reporting rate itself, testing processes/strategies ($W$'s), testing efficacy ($P_I$) and isolation ($\eta$'s). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting proccess become faster. This can be seen from expression \eqref{Rom} in the case of ``perfect isolation``, when $\eta_w=0$ and $\eta_t=0$. The underlying mechanism for this result is that individuals may take more precautionary behaviours (e.g., physical distancing) when they are awaiting test results compared to when they are untested or their test has returned negative. An example of a situation that would favour slow return of tests is if the test being employed produces many false negatives, because many infected individuals will believe they are negative and thus may unknowingly spread the virus to many others.  For an example of the behaviour of $\Rnum$ see Figure \ref{pan} at varying values of $\omega$. This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemic.   
+ Of these results, prop. \ref{p1:omega} is the most surprising. It states that returning test results more rapidly (i.e., increasing $\omega$) does not necessarily lower $\Rnum$, rather, whether increasing $\omega$ lowers $\Rnum$ is defendant on the precise combination of model parameters (test reporting rate itself, testing processes/strategies ($W$'s), testing efficacy ($P_I$) and isolation ($\eta$'s). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting process become faster. This can be seen from expression \eqref{Rom} in the case of ``perfect isolation``, when $\eta_w=0$ and $\eta_t=0$. The underlying mechanism for this result is that individuals may take more precautionary behaviors (e.g., physical distancing) when they are awaiting test results compared to when they are untested or their test has returned negative. An example of a situation that would favour slow return of tests is if the test being employed produces many false negatives, because many infected individuals will believe they are negative and thus may unknowingly spread the virus to many others.  For an example of the behaviour of $\Rnum$ see Figure \ref{pan} at varying values of $\omega$. This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemic.   
 
 [comments about the figure:]
 1- use a single legend, change the range manually.
@@ -214,9 +183,37 @@ When testing of infected individuals is more intense than susceptible individual
 \bibliography{SIRlibrary.bib}
 
 % %%%%%%%
-\section{supplementary material}
+\section{Supplementary Material}
 
-\subsection{Calculation of $\Rnum$}
+\subsection{Model and Calculation of $\Rnum$}
+
+The model is 
+\begin{align}
+\label{model}
+ d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n, \\
+ d S_n/dt &= -\Lambda S_n + (1-p_S) F_S S_u - \omega S_n, \\
+ d S_p/dt &= -\Lambda S_p + p_S F_S S_u - \omega S_p, \\
+ d S_t/dt &= -\Lambda S_t + \omega S_p, \\
+ d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u,  \\
+ d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n, \\
+ d I_p/dt &= \Lambda S_p + p_I F_I I_u - \omega I_p -\gamma I_p, \\
+ d I_t/dt &= \Lambda S_t + \omega I_p - \gamma I_t,  \\
+ d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n, \\
+ d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n,  \\
+ d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p,  \\
+ d R_t/dt&= \gamma I_t + \omega R_p,  \\
+ dN/dt &= \omega (S_n + I_n + R_n),   \\
+ dP/dt &= \omega(I_p + R_p),
+\end{align}
+
+where $\beta$, (in units of 1/day), is the disease transmission rate, $\eta_w$ and $\eta_t$ are the isolation parameters for awaiting and reported individuals, respectively. $\Lambda$ is the force of infection and is defined as 
+
+\begin{equation}
+\label{Lambda}
+\Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_t I_t)}{N_0},
+\end{equation}
+
+% %
 
 The next generation matrix is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susiptable. For model \eqref{model}, $F$ and $V$ are
 
@@ -234,6 +231,21 @@ F_I+\gamma&-\omega&0&0\\
 -(1-p_I)F_I&\omega+\gamma&0&0\\
 -p_I F_I&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
+\end {array} \right], \text{thus}\\
+V^{-1} =&
+\left[ \begin {array}{cccc}
+\frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
+\noalign{\medskip}
+\frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}& 
+\frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
+\frac{\omega}{(\omega+\gamma) \gamma}&
+\frac{1}{\gamma}
 \end {array} \right].
 \end{align}
 
@@ -250,7 +262,14 @@ A\,S_n & B\,S_n
 \end {array}\right].
 \end{equation}
 
-Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the spectral radius of $G$. All matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}.
+Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the spectral radius of $G$. All matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}, 
+where
+\begin{align*}
+A=& \gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_t p_I) F_I, \\
+B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_t\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
+C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+\end{align*}
+
 
 % %%%%%%%
 \subsection{On Testing Rate and Numerical Singularity}
