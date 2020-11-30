@@ -365,8 +365,9 @@ df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
 
 
 df2 <- df2 %>% dplyr::mutate(R0_sub = ifelse(eta_w<eta_t, NA, R0))  
-                                         
-which(df2[]<0)
+
+df2_fake <- df2 %>% dplyr::select(eta_t,eta_w)
+df2_fake <- unique(df2_fake) %>% dplyr::mutate(flag=ifelse(eta_t<=eta_w,1,0))
 ```
 
 ```{r}
@@ -396,10 +397,32 @@ p1_temp <- (p1
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_fill_viridis_d(name=parse(text="R[0]"))
     + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
-)
+    + geom_rect(data=df2,
+                          fill=ifelse(df2$eta_t>df2$eta_w,"white","NA" ),
+                          color= NA,
+                          ymin=-1,
+                          ymax=10,
+                          xmin=-1,
+                          xmax=2)
+    )
 p1_temp
+
+# ## hack (By Dr. Ben Bolker) white rectangle to cover grid
+#   ggplot() + 
+#   scale_x_continuous(name="x") + 
+#   scale_y_continuous(name="y") +
+#   facet_grid(eta_w~eta_t, labeller=label_special) +
+#     geom_rect(data=df2_fake,
+#                           fill=ifelse(df2_fake$eta_t>df2_fake$eta_w,"white","black"),
+#                           color= NA,
+#                           ymin=-1,
+#                           ymax=10,
+#                           xmin=-1,
+#                           xmax=2)
+
+
 # ggsave(p1_temp,filename = "R0contour_random.png" , path="../pix/")
-ggsave(p1_temp,filename = "R0contour_TTI.png" , path="../pix/")
+# ggsave(p1_temp,filename = "R0contour_TTI.png" , path="../pix/")
 
 ```
 
