@@ -6,6 +6,11 @@ output: html_document
 # output: pdf_document
 ---
 
+**TO DO** (for contour plots):
+
+- save as PDF
+- separate code for these plots into a separate .R file that can be run with a single batch command
+- consider using `tikzDevice`
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -384,6 +389,7 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 ```
 
 ```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
+brks_vec <- seq(0.8,1.05,by=0.05)
 p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
   xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
   ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
@@ -408,13 +414,12 @@ p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
 #     )
 
 p1_temp <- (p1
-    + geom_contour_filled(breaks=seq(0.80,1.05,by=0.05)
-                          )
+    + geom_contour_filled(breaks=brks_vec)
     + geom_contour(breaks=1,alpha=0.5,colour="black")
     + facet_grid(eta_w~eta_c, labeller=label_special)
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="R[0]"))
+    + scale_fill_viridis_d(name=parse(text="R[0]"), breaks=brks_vec)
     + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
     + geom_rect(data=df2,
                           fill=ifelse(df2$eta_c>df2$eta_w,"white","NA" ),
@@ -474,11 +479,12 @@ p2_temp <- (p11
     + facet_grid(s~eta_c, labeller=label_special)
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="R[0]"))
+    + scale_fill_viridis_d(name=parse(text="R[0]"),breaks=brks_vec)
     + ggtitle("W[S]=1, W[I]=W[R]=1")
 )
 p2_temp
-# ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
+## ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
+ggsave(p2_temp,filename = "R0contour_random_s.pdf" , path="../pix/")
 ```
 
 Let call the $F_I$ the critical testing rate in the above plot.
