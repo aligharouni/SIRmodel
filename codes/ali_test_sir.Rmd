@@ -92,6 +92,7 @@ library(tidyr)
 library(McMasterPandemic)
 library(directlabels)
 library(latex2exp)
+library(rootSolve)
 unpack <- McMasterPandemic::unpack
 
 ```
@@ -151,7 +152,6 @@ d <- seq(0,200,by=0.1)
 
 ```{r DFE, message=FALSE}
 # DFE; numerical approach
-library(rootSolve)
 DFE <- function(S,params){
   S_u <- S[1]
   S_n <- S[2]
@@ -356,7 +356,7 @@ n_in <- 41 ## grid N within facets
  eta_c <- seq(0,1, length.out=n_out) #0.001 to 0.5 
  rho     <- seq(0,0.01, length.out=n_in)
  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
- W_S <- 1 #choose 0.3 for TTI testing plan and 1 for the random testing.
+ W_S <- 0.3 #choose 0.3 for TTI testing plan and 1 for the random testing.
  
 
  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
@@ -369,10 +369,6 @@ df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
                       Fi= apply(df1,1,function(params_in)F_I(params=params_in)))
 
 df2 <- df2 %>% dplyr::mutate(R0_sub = ifelse(eta_w<eta_c, NA, R0))  
-
-# df2_fake <- df2 %>% dplyr::select(eta_c,eta_w)
-# df2_fake <- unique(df2_fake) %>% dplyr::mutate(flag=ifelse(eta_c<=eta_w,1,0))
-
 ```
 
 ```{r}
@@ -389,40 +385,23 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 ```
 
 ```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-brks_vec <- seq(0.8,1.05,by=0.05)
+brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Random and TTI testing cases. 
+
 p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
   xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
   ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-    # theme(panel.spacing=grid::unit(0,"lines")) # initial theme, comment it for TTI testing plot
-    theme(panel.spacing=grid::unit(0,"lines"),legend.position = "none") #AG, uncomment for Random Case
-# p1_temp <- (p1
-#     + geom_contour_filled(breaks=pretty(unique(df2$R0_sub),5),
-#                           alpha=0.5) ## breaks=0.2)
-#     + geom_contour(breaks=1,alpha=0.5,colour="black")
-#     + facet_grid(eta_w~eta_c, labeller=label_special)
-#     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_fill_viridis_d(name=parse(text="R[0]"))
-#     + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
-#     + geom_rect(data=df2,
-#                           fill=ifelse(df2$eta_c>df2$eta_w,"white","NA" ),
-#                           color= NA,
-#                           ymin=-1,
-#                           ymax=10,
-#                           xmin=-1,
-#                           xmax=2)
-#     )
-
+  theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.89, 0.73)) # initial theme, comment it for TTI testing plot
+  # theme(panel.spacing=grid::unit(0,"lines"),legend.position = "none") #AG, uncomment for Random Case
 p1_temp <- (p1
     + geom_contour_filled(breaks=brks_vec)
     + geom_contour(breaks=1,alpha=0.5,colour="black")
+    # + scale_fill_manual(palette=mycolors(brks_vec),drop=FALSE)
     + facet_grid(eta_w~eta_c, labeller=label_special)
     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="R[0]"), breaks=brks_vec)
+    + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
     + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
-    + geom_rect(data=df2,
-                          fill=ifelse(df2$eta_c>df2$eta_w,"white","NA" ),
+    + geom_rect(data=df2, fill=ifelse(df2$eta_c>df2$eta_w,"grey90","NA" ),
                           color= NA,
                           ymin=-1,
                           ymax=10,
@@ -430,61 +409,50 @@ p1_temp <- (p1
                           xmax=2)
     )
 p1_temp
-# ## hack (By Dr. Ben Bolker) white rectangle to cover grid
-#   ggplot() + 
-#   scale_x_continuous(name="x") + 
-#   scale_y_continuous(name="y") +
-#   facet_grid(eta_w~eta_c, labeller=label_special) +
-#     geom_rect(data=df2_fake,
-#                           fill=ifelse(df2_fake$eta_c>df2_fake$eta_w,"white","black"),
-#                           color= NA,
-#                           ymin=-1,
-#                           ymax=10,
-#                           xmin=-1,
-#                           xmax=2)
 
-
-ggsave(p1_temp,filename = "R0contour_random.png" , path="../pix/")
-# ggsave(p1_temp,filename = "R0contour_TTI.png" , path="../pix/")
+# ggsave(p1_temp,filename = "R0contour_random.pdf" , path="../pix/")
+ggsave(p1_temp,filename = "R0contour_TTI.pdf" , path="../pix/")
 
 ```
 
 ### Contour plot of $R_0=1$ and interpretations approache 2, parametrization $s=\eta_w/\eta_c$
 
 ```{r contour_R0_2, message=FALSE,warning=FALSE }
- # specify the ranges
-beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case 
-rho     <- seq(0,0.01, length.out=n_in)
-omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, 
-eta_c <- seq(0.001,0.1, length.out=n_out)
-s <- seq(1,10,length.out=n_out) 
+# This part is done to carry our simulation when s=eta_c/eta_w is involved. Also to fill the upper triangle panels in the panel plot. 
+#  # specify the ranges
+# beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case 
+# rho     <- seq(0,0.01, length.out=n_in)
+# omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, 
+# eta_c <- seq(0.001,0.1, length.out=n_out)
+# s <- seq(1,10,length.out=n_out) 
+# 
+#  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
+#                     W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
+#                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+#                     eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
+# 
+# df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
+#                       Fi= apply(df11,1,function(params_in)F_I(params=params_in)),
+#                        Sn=apply(df11,1,function(params_in)Sn_dfe(params = params_in)))
 
- df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-                    p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-                    eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
-
-df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
-                      Fi= apply(df11,1,function(params_in)F_I(params=params_in)),
-                       Sn=apply(df11,1,function(params_in)Sn_dfe(params = params_in)))
 ```
 
 ```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
-p11 <- ggplot(df22,aes(x=omega,y=rho,z=R0))+ theme_bw() +
-    theme(panel.spacing=grid::unit(0,"lines"))
-p2_temp <- (p11
-    + geom_contour_filled(breaks=pretty(unique(df22$R0),5),
-                          alpha=0.5) ## breaks=0.2)
-    + geom_contour(breaks=1,alpha=0.5,colour="black")
-    + facet_grid(s~eta_c, labeller=label_special)
-    + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="R[0]"),breaks=brks_vec)
-    + ggtitle("W[S]=1, W[I]=W[R]=1")
-)
-p2_temp
-## ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
-ggsave(p2_temp,filename = "R0contour_random_s.pdf" , path="../pix/")
+# p11 <- ggplot(df22,aes(x=omega,y=rho,z=R0))+ theme_bw() +
+#     theme(panel.spacing=grid::unit(0,"lines"))
+# p2_temp <- (p11
+#     + geom_contour_filled(breaks=pretty(unique(df22$R0),5),
+#                           alpha=0.5) ## breaks=0.2)
+#     + geom_contour(breaks=1,alpha=0.5,colour="black")
+#     + facet_grid(s~eta_c, labeller=label_special)
+#     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
+#     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
+#     + scale_fill_viridis_d(name=parse(text="R[0]"),breaks=brks_vec)
+#     + ggtitle("W[S]=1, W[I]=W[R]=1")
+# )
+# p2_temp
+# ## ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
+# # ggsave(p2_temp,filename = "R0contour_random_s.pdf" , path="../pix/")
 ```
 
 Let call the $F_I$ the critical testing rate in the above plot.
@@ -522,63 +490,63 @@ Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here
 
 
 ```{r  chnages of R0 wrt omega,message=FALSE,warning=FALSE }
-R0_omega <- function(params){
-  unpack(as.list(params))
-         # a <- (eta_w-1)*W_I-(eta_c-1)*p_I*W_I
-         a <- ((s-p_I)*eta_c + (p_I-1))*W_I  #involving s
-         b <- 2*(eta_w-1)*gamma*W_S
-         c <- b*gamma/2
-         
-         d <- (-beta*rho)/(gamma*W_S*omega^2*(gamma+omega)^2)*(a*omega^2 + b*omega + c)
-         return(d)
-}
-
-R0_omega(params)
+# R0_omega <- function(params){
+#   unpack(as.list(params))
+#          # a <- (eta_w-1)*W_I-(eta_c-1)*p_I*W_I
+#          a <- ((s-p_I)*eta_c + (p_I-1))*W_I  #involving s
+#          b <- 2*(eta_w-1)*gamma*W_S
+#          c <- b*gamma/2
+#          
+#          d <- (-beta*rho)/(gamma*W_S*omega^2*(gamma+omega)^2)*(a*omega^2 + b*omega + c)
+#          return(d)
+# }
+# 
+# R0_omega(params)
   
 ```
 
 ```{r }
  # specify the ranges
-if(F){
-beta  <- 0.5  ## set beta 
-gamma <- seq(0.1,0.5, length.out=n_out)
-p_I <- 0.9
-
-# eta_w <- seq(0,1, length.out=n_out)
-eta_c <- seq(0.001,1, length.out=n_out)
-s <- seq(1,2,length.out=n_out)
-
-rho <- seq(0,0.01, length.out=n_in)
-omega <- seq(0.011,2 , length.out=n_in) #note omega must be > rho, was 0.011
-
-W_S <- 1/100
-W_I <- 1/3
-W_R <- 1/3
-
- df3_1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=gamma,omega=omega,rho=rho,
-                    W_S=W_S,W_I=W_I,W_R=W_R,
-                    p_S=params[["p_S"]],p_I=p_I,p_R=params[["p_R"]],
-                    eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
-
-df3_2 <- data.frame(df3_1,R0=apply(df3_1,1,function(params_in)R02(params=params_in)),
-                      R0_omega= apply(df3_1,1,function(params_in)R0_omega(params=params_in))
-                       )
-}
+# if(F){
+# beta  <- 0.5  ## set beta 
+# gamma <- seq(0.1,0.5, length.out=n_out)
+# p_I <- 0.9
+# 
+# # eta_w <- seq(0,1, length.out=n_out)
+# eta_c <- seq(0.001,1, length.out=n_out)
+# s <- seq(1,2,length.out=n_out)
+# 
+# rho <- seq(0,0.01, length.out=n_in)
+# omega <- seq(0.011,2 , length.out=n_in) #note omega must be > rho, was 0.011
+# 
+# W_S <- 1/100
+# W_I <- 1/3
+# W_R <- 1/3
+# 
+#  df3_1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=gamma,omega=omega,rho=rho,
+#                     W_S=W_S,W_I=W_I,W_R=W_R,
+#                     p_S=params[["p_S"]],p_I=p_I,p_R=params[["p_R"]],
+#                     eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
+# 
+# df3_2 <- data.frame(df3_1,R0=apply(df3_1,1,function(params_in)R02(params=params_in)),
+#                       R0_omega= apply(df3_1,1,function(params_in)R0_omega(params=params_in))
+#                        )
+# }
 ```
 
 ```{r show_contours_3, width=24,height=24,message=FALSE,warning=FALSE}
-if(F){
-p3 <- ggplot(df3_2,aes(x=omega,y=gamma,z=R0_omega))+ theme_bw() +
-    theme(panel.spacing=grid::unit(0,"lines"))
-(p3
-    + geom_contour_filled(breaks=pretty(unique(df3_2$R0_omega),5),
-                          alpha=0.5) ## breaks=0.2)
-    + geom_contour(breaks=0,alpha=0.5,colour="black")
-    + facet_grid(s~eta_c, labeller=label_special)
-    + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="dR[0]"))
-)
-}
+# if(F){
+# p3 <- ggplot(df3_2,aes(x=omega,y=gamma,z=R0_omega))+ theme_bw() +
+#     theme(panel.spacing=grid::unit(0,"lines"))
+# (p3
+#     + geom_contour_filled(breaks=pretty(unique(df3_2$R0_omega),5),
+#                           alpha=0.5) ## breaks=0.2)
+#     + geom_contour(breaks=0,alpha=0.5,colour="black")
+#     + facet_grid(s~eta_c, labeller=label_special)
+#     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
+#     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
+#     + scale_fill_viridis_d(name=parse(text="dR[0]"))
+# )
+# }
 ```
 
