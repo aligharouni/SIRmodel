@@ -1,0 +1,925 @@
+SIR model with testing and isolation mechanisms, (by Ali Gharouni)
+> non zero P_s was assumed from the begining in the equations restart:
+> with(LinearAlgebra): with(linalg): with(plots):
+> #sc:=tau*t*N_0/(tau*(W_s*S_u+W_i*I_u+W_r*R_u)+t*N_0);scale note that in the
+> Rmd file, t is replaced by rho sc:=t*N_0/(W_s*S_u+W_i*I_u+W_r*R_u);
+> F1:=sc*W_s; F2:=sc*W_i; F3:=sc*W_r;
+                                    t N_0           
+                         ---------------------------
+                         W_s S_u + W_i I_u + W_r R_u
+                                  t N_0 W_s         
+                         ---------------------------
+                         W_s S_u + W_i I_u + W_r R_u
+                                  t N_0 W_i         
+                         ---------------------------
+                         W_s S_u + W_i I_u + W_r R_u
+                                  t N_0 W_r         
+                         ---------------------------
+                         W_s S_u + W_i I_u + W_r R_u
+> the FOI Lambda:= beta*(I_u+eta1*(I_n+I_p)+eta2*I_t)/N_0;
+                   beta (I_u + eta1 (I_n + I_p) + eta2 I_t)
+                   ----------------------------------------
+                                     N_0                   
+> The equations of the model: eq1:= -Lambda*S_u - F1*S_u+ omega*S_n;
+   beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_u          t N_0 W_s S_u       
+ - -------------------------------------------- - ---------------------------
+                       N_0                        W_s S_u + W_i I_u + W_r R_u
+
+    + omega S_n
+> eq2:= -Lambda*S_n + (1-P_s)*F1*S_u - omega*S_n;
+   beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_n     (1 - P_s) t N_0 W_s S_u  
+ - -------------------------------------------- + ---------------------------
+                       N_0                        W_s S_u + W_i I_u + W_r R_u
+
+    - omega S_n
+> eq21:= -Lambda*S_p + P_s*F1*S_u - omega*S_p;
+   beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_p        P_s t N_0 W_s S_u     
+ - -------------------------------------------- + ---------------------------
+                       N_0                        W_s S_u + W_i I_u + W_r R_u
+
+    - omega S_p
+> eq22:= -Lambda*S_t + omega*S_p;
+            beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_t            
+          - -------------------------------------------- + omega S_p
+                                N_0                                 
+> eq3:= Lambda*S_u + omega*I_n - F2*I_u - gamma*I_u;
+           beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_u            
+           -------------------------------------------- + omega I_n
+                               N_0                                 
+
+                       t N_0 W_i I_u                   
+              - --------------------------- - gamma I_u
+                W_s S_u + W_i I_u + W_r R_u            
+> eq4:= Lambda*S_n + (1-P_i)*F2*I_u - omega*I_n -gamma*I_n;
+  beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_n     (1 - P_i) t N_0 W_i I_u  
+  -------------------------------------------- + ---------------------------
+                      N_0                        W_s S_u + W_i I_u + W_r R_u
+
+     - omega I_n - gamma I_n
+> eq5:= Lambda*S_p + P_i*F2*I_u - omega*I_p -gamma*I_p;
+  beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_p        P_i t N_0 W_i I_u     
+  -------------------------------------------- + ---------------------------
+                      N_0                        W_s S_u + W_i I_u + W_r R_u
+
+     - omega I_p - gamma I_p
+> eq6:= Lambda*S_t + omega*I_p - gamma*I_t;
+     beta (I_u + eta1 (I_n + I_p) + eta2 I_t) S_t                        
+     -------------------------------------------- + omega I_p - gamma I_t
+                         N_0                                             
+> eq7:= gamma*I_u + omega*R_n - F3*R_u;
+                                            t N_0 W_r R_u       
+             gamma I_u + omega R_n - ---------------------------
+                                     W_s S_u + W_i I_u + W_r R_u
+> eq8:= gamma*I_n + (1-P_r)*F3*R_u - omega*R_n;
+                           (1 - P_r) t N_0 W_r R_u              
+             gamma I_n + --------------------------- - omega R_n
+                         W_s S_u + W_i I_u + W_r R_u            
+> eq9:= P_r*F3*R_u + gamma*I_p - omega*R_p;
+                  P_r t N_0 W_r R_u                             
+             --------------------------- + gamma I_p - omega R_p
+             W_s S_u + W_i I_u + W_r R_u                        
+> eq10:= gamma*I_t + omega*R_p;
+                            gamma I_t + omega R_p
+Sanity Check:
+> simplify(eq1+eq2+eq21+eq22+eq3+eq4+eq5+eq6+eq7+eq8+eq9+eq10);
+                                      0
+> 
+> 
+Stability of Disease Free Equilibrium When p_S=0 is assumed (that is the prob
+that a S individual be tested positive, thus eq21 and eq22 are not included
+here)
+> with(linalg): with(LinearAlgebra): with(VectorCalculus): We need this library
+> to calculate the Jacobian matrix. with(ArrayTools):
+The bifurcation parameter is assumed to be the testing intensity, t
+> G[1]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq1:
+> G[2]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq2:
+> G[3]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq3:
+> G[4]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq4:
+> G[5]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq5:
+> G[6]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq6:
+> G[7]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq7:
+> G[8]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq8:
+> G[9]:=
+> (S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau) -> eq9:
+> 
+> G[10]:=(S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s
+> ,W_i,W_r,N_0,eta1,eta2,tau) -> eq10:
+> J:= Jacobian([
+> G[1](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[2](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[3](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[4](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[5](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[6](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[7](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[8](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[9](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[10](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W
+> _i,W_r,N_0,eta1,eta2,tau) ], [S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t]):
+> J;
+Matrix(10, 10, {(1, 1) =
+-beta*(I_u+eta1*(I_n+I_p)+eta2*I_t)/N_0+t*N_0*W_s^2*S_u/(W_s*S_u+W_i*I_u+W_r*R_u
+)^2-t*N_0*W_s/(W_s*S_u+W_i*I_u+W_r*R_u), (1, 2) = omega, (1, 3) =
+-beta*S_u/N_0+t*N_0*W_s*S_u*W_i/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (1, 4) =
+-beta*eta1*S_u/N_0, (1, 5) = -beta*eta1*S_u/N_0, (1, 6) = -beta*eta2*S_u/N_0,
+(1, 7) = t*N_0*W_s*S_u*W_r/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (1, 8) = 0, (1, 9) = 0,
+(1, 10) = 0, (2, 1) =
+-(1-P_s)*t*N_0*W_s^2*S_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+(1-P_s)*t*N_0*W_s/(W_s*S_u+
+W_i*I_u+W_r*R_u), (2, 2) = -beta*(I_u+eta1*(I_n+I_p)+eta2*I_t)/N_0-omega, (2, 3)
+= -beta*S_n/N_0-(1-P_s)*t*N_0*W_s*S_u*W_i/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (2, 4) =
+-beta*eta1*S_n/N_0, (2, 5) = -beta*eta1*S_n/N_0, (2, 6) = -beta*eta2*S_n/N_0,
+(2, 7) = -(1-P_s)*t*N_0*W_s*S_u*W_r/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (2, 8) = 0, (2,
+9) = 0, (2, 10) = 0, (3, 1) =
+beta*(I_u+eta1*(I_n+I_p)+eta2*I_t)/N_0+t*N_0*W_i*I_u*W_s/(W_s*S_u+W_i*I_u+W_r*R_
+u)^2, (3, 2) = 0, (3, 3) =
+beta*S_u/N_0+t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2-t*N_0*W_i/(W_s*S_u+W_i*
+I_u+W_r*R_u)-gamma, (3, 4) = beta*eta1*S_u/N_0+omega, (3, 5) =
+beta*eta1*S_u/N_0, (3, 6) = beta*eta2*S_u/N_0, (3, 7) =
+t*N_0*W_i*I_u*W_r/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (3, 8) = 0, (3, 9) = 0, (3, 10) =
+0, (4, 1) = -(1-P_i)*t*N_0*W_i*I_u*W_s/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (4, 2) =
+beta*(I_u+eta1*(I_n+I_p)+eta2*I_t)/N_0, (4, 3) =
+beta*S_n/N_0-(1-P_i)*t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+(1-P_i)*t*N_0*W
+_i/(W_s*S_u+W_i*I_u+W_r*R_u), (4, 4) = beta*eta1*S_n/N_0-omega-gamma, (4, 5) =
+beta*eta1*S_n/N_0, (4, 6) = beta*eta2*S_n/N_0, (4, 7) =
+-(1-P_i)*t*N_0*W_i*I_u*W_r/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (4, 8) = 0, (4, 9) = 0,
+(4, 10) = 0, (5, 1) = -P_i*t*N_0*W_i*I_u*W_s/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (5, 2)
+= 0, (5, 3) =
+beta*S_p/N_0-P_i*t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+P_i*t*N_0*W_i/(W_s*
+S_u+W_i*I_u+W_r*R_u), (5, 4) = beta*eta1*S_p/N_0, (5, 5) =
+beta*eta1*S_p/N_0-omega-gamma, (5, 6) = beta*eta2*S_p/N_0, (5, 7) =
+-P_i*t*N_0*W_i*I_u*W_r/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (5, 8) = 0, (5, 9) = 0, (5,
+10) = 0, (6, 1) = 0, (6, 2) = 0, (6, 3) = beta*S_t/N_0, (6, 4) =
+beta*eta1*S_t/N_0, (6, 5) = beta*eta1*S_t/N_0+omega, (6, 6) =
+beta*eta2*S_t/N_0-gamma, (6, 7) = 0, (6, 8) = 0, (6, 9) = 0, (6, 10) = 0, (7, 1)
+= t*N_0*W_r*R_u*W_s/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (7, 2) = 0, (7, 3) =
+gamma+t*N_0*W_r*R_u*W_i/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (7, 4) = 0, (7, 5) = 0, (7,
+6) = 0, (7, 7) =
+t*N_0*W_r^2*R_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2-t*N_0*W_r/(W_s*S_u+W_i*I_u+W_r*R_u),
+(7, 8) = omega, (7, 9) = 0, (7, 10) = 0, (8, 1) =
+-(1-P_r)*t*N_0*W_r*R_u*W_s/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (8, 2) = 0, (8, 3) =
+-(1-P_r)*t*N_0*W_r*R_u*W_i/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (8, 4) = gamma, (8, 5) =
+0, (8, 6) = 0, (8, 7) =
+-(1-P_r)*t*N_0*W_r^2*R_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+(1-P_r)*t*N_0*W_r/(W_s*S_u+
+W_i*I_u+W_r*R_u), (8, 8) = -omega, (8, 9) = 0, (8, 10) = 0, (9, 1) =
+-P_r*t*N_0*W_r*R_u*W_s/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (9, 2) = 0, (9, 3) =
+-P_r*t*N_0*W_r*R_u*W_i/(W_s*S_u+W_i*I_u+W_r*R_u)^2, (9, 4) = 0, (9, 5) = gamma,
+(9, 6) = 0, (9, 7) =
+-P_r*t*N_0*W_r^2*R_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+P_r*t*N_0*W_r/(W_s*S_u+W_i*I_u+
+W_r*R_u), (9, 8) = 0, (9, 9) = -omega, (9, 10) = 0, (10, 1) = 0, (10, 2) = 0,
+(10, 3) = 0, (10, 4) = 0, (10, 5) = 0, (10, 6) = gamma, (10, 7) = 0, (10, 8) =
+0, (10, 9) = omega, (10, 10) = 0})
+> Difine the Jacobian as a function of all params: JJ :=
+> unapply(J,S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W
+> _s,W_i,W_r,N_0,eta1,eta2,tau):
+> Jacobian at DFE, ie when all I and R compartments are = 0 ;
+> J_eval:=JJ(Su,Sn,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_r,N_0,et
+> a1,eta2,tau);
+J_eval := Matrix(10, 10, {(1, 1) = 0, (1, 2) = omega, (1, 3) =
+-beta*Su/N_0+t*N_0*W_i/(W_s*Su), (1, 4) = -beta*eta1*Su/N_0, (1, 5) =
+-beta*eta1*Su/N_0, (1, 6) = -beta*eta2*Su/N_0, (1, 7) = t*N_0*W_r/(W_s*Su), (1,
+8) = 0, (1, 9) = 0, (1, 10) = 0, (2, 1) = 0, (2, 2) = -omega, (2, 3) =
+-beta*Sn/N_0-(1-P_s)*t*N_0*W_i/(W_s*Su), (2, 4) = -beta*eta1*Sn/N_0, (2, 5) =
+-beta*eta1*Sn/N_0, (2, 6) = -beta*eta2*Sn/N_0, (2, 7) =
+-(1-P_s)*t*N_0*W_r/(W_s*Su), (2, 8) = 0, (2, 9) = 0, (2, 10) = 0, (3, 1) = 0,
+(3, 2) = 0, (3, 3) = beta*Su/N_0-t*N_0*W_i/(W_s*Su)-gamma, (3, 4) =
+beta*eta1*Su/N_0+omega, (3, 5) = beta*eta1*Su/N_0, (3, 6) = beta*eta2*Su/N_0,
+(3, 7) = 0, (3, 8) = 0, (3, 9) = 0, (3, 10) = 0, (4, 1) = 0, (4, 2) = 0, (4, 3)
+= beta*Sn/N_0+(1-P_i)*t*N_0*W_i/(W_s*Su), (4, 4) = beta*eta1*Sn/N_0-omega-gamma,
+(4, 5) = beta*eta1*Sn/N_0, (4, 6) = beta*eta2*Sn/N_0, (4, 7) = 0, (4, 8) = 0,
+(4, 9) = 0, (4, 10) = 0, (5, 1) = 0, (5, 2) = 0, (5, 3) =
+beta*S_p/N_0+P_i*t*N_0*W_i/(W_s*Su), (5, 4) = beta*eta1*S_p/N_0, (5, 5) =
+beta*eta1*S_p/N_0-omega-gamma, (5, 6) = beta*eta2*S_p/N_0, (5, 7) = 0, (5, 8) =
+0, (5, 9) = 0, (5, 10) = 0, (6, 1) = 0, (6, 2) = 0, (6, 3) = beta*S_t/N_0, (6,
+4) = beta*eta1*S_t/N_0, (6, 5) = beta*eta1*S_t/N_0+omega, (6, 6) =
+beta*eta2*S_t/N_0-gamma, (6, 7) = 0, (6, 8) = 0, (6, 9) = 0, (6, 10) = 0, (7, 1)
+= 0, (7, 2) = 0, (7, 3) = gamma, (7, 4) = 0, (7, 5) = 0, (7, 6) = 0, (7, 7) =
+-t*N_0*W_r/(W_s*Su), (7, 8) = omega, (7, 9) = 0, (7, 10) = 0, (8, 1) = 0, (8, 2)
+= 0, (8, 3) = 0, (8, 4) = gamma, (8, 5) = 0, (8, 6) = 0, (8, 7) =
+(1-P_r)*t*N_0*W_r/(W_s*Su), (8, 8) = -omega, (8, 9) = 0, (8, 10) = 0, (9, 1) =
+0, (9, 2) = 0, (9, 3) = 0, (9, 4) = 0, (9, 5) = gamma, (9, 6) = 0, (9, 7) =
+P_r*t*N_0*W_r/(W_s*Su), (9, 8) = 0, (9, 9) = -omega, (9, 10) = 0, (10, 1) = 0,
+(10, 2) = 0, (10, 3) = 0, (10, 4) = 0, (10, 5) = 0, (10, 6) = gamma, (10, 7) =
+0, (10, 8) = 0, (10, 9) = omega, (10, 10) = 0})
+> #
+> algsubs(S_n+S_u=N_0,JJ(S_u,S_n,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i,P_r,W_s,
+> W_i,W_r,N_0,eta1,eta2));
+> # Eigenvalues(J_eval);
+What is the eigenvalues of the last 4 equations, the recovery?
+> J_subR:=Jacobian([
+> G[7](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[8](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau) ],[R_u,R_n]);
+J_subR := Matrix(2, 2, {(1, 1) =
+t*N_0*W_r^2*R_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2-t*N_0*W_r/(W_s*S_u+W_i*I_u+W_r*R_u),
+(1, 2) = omega, (2, 1) =
+-(1-P_r)*t*N_0*W_r^2*R_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+(1-P_r)*t*N_0*W_r/(W_s*S_u+
+W_i*I_u+W_r*R_u), (2, 2) = -omega})
+> JJ_subR :=
+> unapply(J_subR,S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,
+> P_r,W_s,W_i,W_r,N_0,eta1,eta2,tau):
+> 
+> JJ_subR(S_u,S_n,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_r,N_0,eta
+> 1,eta2,tau);
+Matrix(2, 2, {(1, 1) = -t*N_0*W_r/(W_s*S_u), (1, 2) = omega, (2, 1) =
+(1-P_r)*t*N_0*W_r/(W_s*S_u), (2, 2) = -omega})
+> Both eigenvalues are negative.
+> Eigenvalues(JJ_subR(S_u,S_n,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i,P_r,W_s,W_i
+> ,W_r,N_0,eta1,eta2,tau));
+Vector(2, {(1) =
+-(1/2)*(omega*W_s*S_u+t*N_0*W_r-sqrt(omega^2*W_s^2*S_u^2+2*omega*W_s*S_u*t*N_0*W
+_r+t^2*N_0^2*W_r^2-4*omega*W_s*S_u*t*N_0*W_r*P_r))/(W_s*S_u), (2) =
+-(1/2)*(omega*W_s*S_u+t*N_0*W_r+sqrt(omega^2*W_s^2*S_u^2+2*omega*W_s*S_u*t*N_0*W
+_r+t^2*N_0^2*W_r^2-4*omega*W_s*S_u*t*N_0*W_r*P_r))/(W_s*S_u)})
+> J_subI:= Jacobian([
+> G[3](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[4](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[5](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau),
+> G[6](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,P_r,W_s,W_
+> i,W_r,N_0,eta1,eta2,tau) ],[I_u,I_n,I_p,I_t]);
+J_subI := Matrix(4, 4, {(1, 1) =
+beta*S_u/N_0+t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2-t*N_0*W_i/(W_s*S_u+W_i*
+I_u+W_r*R_u)-gamma, (1, 2) = beta*eta1*S_u/N_0+omega, (1, 3) =
+beta*eta1*S_u/N_0, (1, 4) = beta*eta2*S_u/N_0, (2, 1) =
+beta*S_n/N_0-(1-P_i)*t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+(1-P_i)*t*N_0*W
+_i/(W_s*S_u+W_i*I_u+W_r*R_u), (2, 2) = beta*eta1*S_n/N_0-omega-gamma, (2, 3) =
+beta*eta1*S_n/N_0, (2, 4) = beta*eta2*S_n/N_0, (3, 1) =
+beta*S_p/N_0-P_i*t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+P_i*t*N_0*W_i/(W_s*
+S_u+W_i*I_u+W_r*R_u), (3, 2) = beta*eta1*S_p/N_0, (3, 3) =
+beta*eta1*S_p/N_0-omega-gamma, (3, 4) = beta*eta2*S_p/N_0, (4, 1) =
+beta*S_t/N_0, (4, 2) = beta*eta1*S_t/N_0, (4, 3) = beta*eta1*S_t/N_0+omega, (4,
+4) = beta*eta2*S_t/N_0-gamma})
+> JJ_subI :=
+> unapply(J_subI,S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_i,
+> P_r,W_s,W_i,W_r,N_0,eta1,eta2,tau):
+> 
+> simplify(JJ_subI(S_u,S_n,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i,P_r,W_s,W_i,W_
+> r,N_0,eta1,eta2,tau));
+Matrix(4, 4, {(1, 1) =
+-(-beta*S_u^2*W_s+t*N_0^2*W_i+gamma*N_0*W_s*S_u)/(N_0*W_s*S_u), (1, 2) =
+(beta*eta1*S_u+omega*N_0)/N_0, (1, 3) = beta*eta1*S_u/N_0, (1, 4) =
+beta*eta2*S_u/N_0, (2, 1) =
+-(-beta*S_n*W_s*S_u-t*N_0^2*W_i+P_i*t*N_0^2*W_i)/(N_0*W_s*S_u), (2, 2) =
+-(-beta*eta1*S_n+omega*N_0+gamma*N_0)/N_0, (2, 3) = beta*eta1*S_n/N_0, (2, 4) =
+beta*eta2*S_n/N_0, (3, 1) = (beta*S_p*W_s*S_u+P_i*t*N_0^2*W_i)/(N_0*W_s*S_u),
+(3, 2) = beta*eta1*S_p/N_0, (3, 3) = -(-beta*eta1*S_p+omega*N_0+gamma*N_0)/N_0,
+(3, 4) = beta*eta2*S_p/N_0, (4, 1) = beta*S_t/N_0, (4, 2) = beta*eta1*S_t/N_0,
+(4, 3) = (beta*eta1*S_t+omega*N_0)/N_0, (4, 4) =
+-(-beta*eta2*S_t+gamma*N_0)/N_0})
+> 
+> #Eigenvalues(JJ_subI(Su_dfe,Sn_dfe,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i,P_r,
+> W_s,W_i,W_r,N_0,eta1,eta2));
+> 
+> #CharacteristicPolynomial(JJ_subI(Su,Sn,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_i
+> ,P_r,W_s,W_i,W_r,N_0,eta1,eta2,tau),lambda);
+Let's define Matrix JJ_subI as simple as possible and see how the eigenvalues
+are:
+> 
+> JJ_subI2:=Matrix([[a1,a2,a3,a4],[b1,b2,b3,b4],[P_i*F2,0,-omega-gamma,0],[0,0,o
+> mega,-gamma]]);
+JJ_subI2 := Matrix(4, 4, {(1, 1) = a1, (1, 2) = a2, (1, 3) = a3, (1, 4) = a4,
+(2, 1) = b1, (2, 2) = b2, (2, 3) = b3, (2, 4) = b4, (3, 1) =
+P_i*t*N_0*W_i/(W_s*S_u+W_i*I_u+W_r*R_u), (3, 2) = 0, (3, 3) = -omega-gamma, (3,
+4) = 0, (4, 1) = 0, (4, 2) = 0, (4, 3) = omega, (4, 4) = -gamma})
+> CharacteristicPolynomial(JJ_subI2,lambda);
+      4                                     3                1              
+lambda  + (2 gamma + omega - b2 - a1) lambda  + --------------------------- 
+                                                W_s S_u + W_i I_u + W_r R_u 
+
+  //                                                               
+  \\gamma omega W_s S_u + gamma omega W_i I_u + gamma omega W_r R_u
+
+   - omega b2 W_s S_u - omega b2 W_i I_u - omega b2 W_r R_u - omega a1 W_s S_u
+
+   - omega a1 W_i I_u - omega a1 W_r R_u - b1 a2 W_s S_u - b1 a2 W_i I_u
+
+   - b1 a2 W_r R_u + b2 a1 W_s S_u + b2 a1 W_i I_u + b2 a1 W_r R_u
+
+   - 2 gamma b2 W_s S_u - 2 gamma b2 W_i I_u - 2 gamma b2 W_r R_u
+
+   - 2 gamma a1 W_s S_u - 2 gamma a1 W_i I_u - 2 gamma a1 W_r R_u
+
+                             2                2                2        \ 
+   - P_i t N_0 W_i a3 + gamma  W_s S_u + gamma  W_i I_u + gamma  W_r R_u/ 
+
+        2\                1              //                   
+  lambda / - --------------------------- \\P_i t N_0 W_i a2 b3
+             W_s S_u + W_i I_u + W_r R_u                      
+
+   - P_i t N_0 W_i a3 b2 + gamma P_i t N_0 W_i a3 + omega b1 a2 W_s S_u
+
+   + omega b1 a2 W_i I_u + omega b1 a2 W_r R_u - omega b2 a1 W_s S_u
+
+   - omega b2 a1 W_i I_u - omega b2 a1 W_r R_u + 2 gamma b1 a2 W_s S_u
+
+   + 2 gamma b1 a2 W_i I_u + 2 gamma b1 a2 W_r R_u - 2 gamma b2 a1 W_s S_u
+
+   - 2 gamma b2 a1 W_i I_u - 2 gamma b2 a1 W_r R_u + omega P_i t N_0 W_i a4
+
+          2                   2                   2           
+   + gamma  b2 W_s S_u + gamma  b2 W_i I_u + gamma  b2 W_r R_u
+
+          2                   2                   2           
+   + gamma  a1 W_s S_u + gamma  a1 W_i I_u + gamma  a1 W_r R_u
+
+   + gamma omega b2 W_s S_u + gamma omega b2 W_i I_u + gamma omega b2 W_r R_u
+
+                                                                             \ 
+   + gamma omega a1 W_s S_u + gamma omega a1 W_i I_u + gamma omega a1 W_r R_u/ 
+
+        \                1              /                          
+  lambda/ + --------------------------- \-W_i N_0 t P_i omega a2 b4
+            W_s S_u + W_i I_u + W_r R_u                            
+
+   + omega P_i t N_0 W_i a4 b2 - gamma P_i t N_0 W_i a2 b3
+
+   + gamma P_i t N_0 W_i a3 b2 - gamma omega b1 a2 W_s S_u
+
+   - gamma omega b1 a2 W_i I_u - gamma omega b1 a2 W_r R_u
+
+   + gamma omega b2 a1 W_s S_u + gamma omega b2 a1 W_i I_u
+
+                                      2                      2              
+   + gamma omega b2 a1 W_r R_u - gamma  b1 a2 W_s S_u - gamma  b1 a2 W_i I_u
+
+          2                      2                      2              
+   - gamma  b1 a2 W_r R_u + gamma  b2 a1 W_s S_u + gamma  b2 a1 W_i I_u
+
+          2              \
+   + gamma  b2 a1 W_r R_u/
+the I_u and I_n gives another decoppled part of the whole Jacobian Matrix
+> J_sub2:= Jacobian([
+> G[3](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_s,P_i,P_r,W_
+> s,W_i,W_r,N_0,eta1,eta2,tau),
+> G[4](S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_s,P_i,P_r,W_
+> s,W_i,W_r,N_0,eta1,eta2,tau) ],[I_u,I_n]);
+J_sub2 := Matrix(2, 2, {(1, 1) =
+beta*S_u/N_0+t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2-t*N_0*W_i/(W_s*S_u+W_i*
+I_u+W_r*R_u)-gamma, (1, 2) = beta*eta1*S_u/N_0+omega, (2, 1) =
+beta*S_n/N_0-(1-P_i)*t*N_0*W_i^2*I_u/(W_s*S_u+W_i*I_u+W_r*R_u)^2+(1-P_i)*t*N_0*W
+_i/(W_s*S_u+W_i*I_u+W_r*R_u), (2, 2) = beta*eta1*S_n/N_0-omega-gamma})
+> #JJ_sub2 :=
+> unapply(J_sub2,S_u,S_n,I_u,I_n,I_p,I_t,R_u,R_n,R_p,R_t,t,omega,beta,gamma,P_s,
+> P_i,P_r,W_s,W_i,W_r,N_0,eta1,eta2,tau);
+> 
+> #JJ_sub2(S_u,S_n,0,0,0,0,0,0,0,0,t,omega,beta,gamma,P_s,P_i,P_r,W_s,W_i,W_r,N_
+> 0,eta1,eta2);
+> 
+> #(collect(CharacteristicPolynomial(JJ_sub2(S_u,S_n,0,0,0,0,0,0,0,0,t,omega,bet
+> a,gamma,P_s,P_i,P_r,W_s,W_i,W_r,N_0,eta1,eta2),lambda),lambda));
+> 
+> 
+> 
+SIR with isolation parameters eta1 and eta2
+> restart:
+> with(LinearAlgebra): with(linalg): with(plots): with(DEtools):
+> F:= Matrix([ [beta*S_u/N_0, beta*eta1*S_u/N_0, beta*eta1*S_u/N_0,
+> beta*eta2*S_u/N_0], [beta*S_n/N_0, beta*eta1*S_n/N_0, beta*eta1*S_n/N_0,
+> beta*eta2*S_n/N_0], [beta*S_p/N_0, beta*eta1*S_p/N_0, beta*eta1*S_p/N_0,
+> beta*eta2*S_p/N_0], [beta*S_t/N_0, beta*eta1*S_t/N_0, beta*eta1*S_t/N_0,
+> beta*eta2*S_t/N_0] ]);
+
+> V:= Matrix([ [F2+gamma, -omega, 0,0], [-(1-P_i)*F2, omega+gamma,0,0],
+> [-P_i*F2, 0,omega+gamma,0], [0,0,-omega,gamma] ]);
+
+> V^-1 Vi:=MatrixInverse(V);
+
+> Assumption: p_S=0, thus S_p=S_t=0
+> G:=subs([S_p=0,S_t=0],simplify(Multiply(F,Vi)));
+
+> Charactristic poly in x: collect(simplify(CharacteristicPolynomial(G,x)),x);
+                                    1                                      //    
+-------------------------------------------------------------------------- \\N_0 
+                    /                              2               \             
+N_0 (omega + gamma) \omega gamma + gamma F2 + gamma  + omega F2 P_i/ gamma       
+
+       2      2            2                       3      
+  gamma  omega  + N_0 gamma  omega F2 + 2 N_0 gamma  omega
+
+                    2                   3               4
+   + N_0 gamma omega  P_i F2 + N_0 gamma  F2 + N_0 gamma 
+
+              2             \  4\   
+   + N_0 gamma  P_i F2 omega/ x / + 
+
+                                      1                                      //
+  -------------------------------------------------------------------------- \\
+                      /                              2               \         
+  N_0 (omega + gamma) \omega gamma + gamma F2 + gamma  + omega F2 P_i/ gamma   
+               2                             2                      2      
+-beta S_n omega  gamma - beta S_n omega gamma  - beta S_n eta1 gamma  omega
+
+                        2                         3
+   - beta S_n eta1 gamma  F2 - beta S_n eta1 gamma 
+
+   - beta S_n eta1 gamma omega F2 - beta eta1 S_n P_i F2 omega gamma
+
+                        2                        2      
+   - beta eta2 S_n omega  P_i F2 - beta S_u omega  gamma
+
+                           2                 3                               
+   - 2 beta S_u omega gamma  - beta S_u gamma  - beta S_u eta1 gamma omega F2
+
+                        2                         2       
+   - beta S_u eta1 gamma  F2 - beta eta2 S_u omega  P_i F2
+
+                                     \  3\
+   - beta S_u eta2 P_i F2 omega gamma/ x /
+> Method1 (symbolically): R0 is given by
+> sol:=solve(CharacteristicPolynomial(G,x),x);
+         /     /         2                        2                 2      
+0, 0, 0, \beta \S_n omega  gamma + S_n omega gamma  + S_n eta1 gamma  omega
+
+                   2                    3                          
+   + S_n eta1 gamma  F2 + S_n eta1 gamma  + S_n eta1 gamma omega F2
+
+                                                 2                   2      
+   + S_n eta1 P_i F2 omega gamma + S_n eta2 omega  P_i F2 + S_u omega  gamma
+
+                      2            3                          
+   + 2 S_u omega gamma  + S_u gamma  + S_u eta1 gamma omega F2
+
+                   2                    2                                     \
+   + S_u eta1 gamma  F2 + S_u eta2 omega  P_i F2 + S_u eta2 P_i F2 omega gamma/
+
+  \//          /     2                                       2        2       
+  / \N_0 gamma \omega  gamma + gamma omega F2 + 2 omega gamma  + omega  P_i F2
+
+          2           3                     \\
+   + gamma  F2 + gamma  + P_i F2 omega gamma//
+Method 2 (by hand) check if the formula I derived for R0 is valid
+> A:=gamma*(omega+gamma+eta1*F2)+omega*eta2*P_i*F2;
+> B:=(gamma*(omega+gamma)*(omega+eta1*(gamma+F2))+omega*P_i*F2*(gamma*eta1+omega
+> *eta2))/(omega+gamma);
+> C:=beta/((gamma*(omega+gamma)+F2*(gamma+omega*P_i))*gamma*N_0);
+> 
+             gamma (omega + gamma + eta1 F2) + eta2 P_i F2 omega
+             1                                                         
+       ------------- (gamma (omega + gamma) (omega + eta1 (F2 + gamma))
+       omega + gamma                                                   
+
+          + omega P_i F2 (eta1 gamma + eta2 omega))
+                                     beta                           
+          ----------------------------------------------------------
+          (gamma (omega + gamma) + (gamma + omega P_i) F2) gamma N_0
+> R0:=simplify((S_u*A+S_n*B)*C);
+                                    1                                      /     
+-------------------------------------------------------------------------- \beta 
+                    /                              2               \             
+N_0 (omega + gamma) \omega gamma + gamma F2 + gamma  + omega F2 P_i/ gamma       
+
+  /         2                        2                 2      
+  \S_n omega  gamma + S_n omega gamma  + S_n eta1 gamma  omega
+
+                   2                    3                          
+   + S_n eta1 gamma  F2 + S_n eta1 gamma  + S_n eta1 gamma omega F2
+
+                                                 2                   2      
+   + S_n eta1 P_i F2 omega gamma + S_n eta2 omega  P_i F2 + S_u omega  gamma
+
+                      2            3                          
+   + 2 S_u omega gamma  + S_u gamma  + S_u eta1 gamma omega F2
+
+                   2                    2                                     \
+   + S_u eta1 gamma  F2 + S_u eta2 omega  P_i F2 + S_u eta2 P_i F2 omega gamma/
+
+  \
+  /
+Cheching if the symbolic computation of R0 and by hand one are the same
+> simplify(sol[4]-R0);
+                                      0
+> 
+Derivative of R0 wrt parameters
+> with(plots):
+> diff(collect(R0,omega), omega);
+                                  1                                    /     /  
+---------------------------------------------------------------------- \beta \2 
+                    /                                         2\                
+N_0 (omega + gamma) \(gamma + P_i F2) omega + gamma F2 + gamma / gamma          
+
+  (S_n gamma + S_n eta2 P_i F2 + S_u gamma + S_u eta2 P_i F2) omega
+
+              2                                     2                    
+   + S_n gamma  + S_n eta1 gamma F2 + S_n eta1 gamma  + S_u eta1 gamma F2
+
+                2                                                \\   
+   + 2 S_u gamma  + S_n eta1 P_i F2 gamma + S_u eta2 P_i F2 gamma// - 
+
+                                     1                                    /     
+  ----------------------------------------------------------------------- \beta 
+                     2 /                                         2\             
+  N_0 (omega + gamma)  \(gamma + P_i F2) omega + gamma F2 + gamma / gamma       
+
+  /                                                                 2   /    
+  \(S_n gamma + S_n eta2 P_i F2 + S_u gamma + S_u eta2 P_i F2) omega  + \S_n 
+
+       2                                     2                    
+  gamma  + S_n eta1 gamma F2 + S_n eta1 gamma  + S_u eta1 gamma F2
+
+                2                                                \      
+   + 2 S_u gamma  + S_n eta1 P_i F2 gamma + S_u eta2 P_i F2 gamma/ omega
+
+                   3            3                 2                    2   \\   
+   + S_n eta1 gamma  + S_u gamma  + S_n eta1 gamma  F2 + S_u eta1 gamma  F2// - 
+
+                                     1                                    /     
+  ----------------------------------------------------------------------- \beta 
+                                                                  2             
+                      /                                         2\              
+  N_0 (omega + gamma) \(gamma + P_i F2) omega + gamma F2 + gamma /  gamma       
+
+  /                                                                 2   /    
+  \(S_n gamma + S_n eta2 P_i F2 + S_u gamma + S_u eta2 P_i F2) omega  + \S_n 
+
+       2                                     2                    
+  gamma  + S_n eta1 gamma F2 + S_n eta1 gamma  + S_u eta1 gamma F2
+
+                2                                                \      
+   + 2 S_u gamma  + S_n eta1 P_i F2 gamma + S_u eta2 P_i F2 gamma/ omega
+
+                   3            3                 2                    2   \ 
+   + S_n eta1 gamma  + S_u gamma  + S_n eta1 gamma  F2 + S_u eta1 gamma  F2/ 
+
+                  \
+  (gamma + P_i F2)/
+> Define some key parameters: N0:=1000; sc := t*N_0/(W_s*S_u+W_i*I_u+W_r*R_u);
+> #At Disease Free Equilibrium: Sn_dfe:=subs(P_s=0,(t*(1-P_s)*N_0)/omega);
+> Su_dfe:=N_0-Sn_dfe;
+                                     1000
+                                    t N_0           
+                         ---------------------------
+                         W_s S_u + W_i I_u + W_r R_u
+                                    t N_0
+                                    -----
+                                    omega
+                                       t N_0
+                                 N_0 - -----
+                                       omega
+> Fs_dfe := simplify(t*N_0/Su_dfe); Fi_dfe := simplify(t*N_0*W_i/(W_s*Su_dfe));
+                                    t omega  
+                                 - ----------
+                                   -omega + t
+                                  t W_i omega   
+                              - ----------------
+                                W_s (-omega + t)
+> params_ini := [ beta=1,gamma=1/3, omega=0.25, t=0.01, W_s=0.01, W_i=1,
+> W_r=0.01, P_s=0, P_i=0.5, P_r=0.5, eta1=0.02, eta2=0.019, N_0=N0];
+[                  1                                                           
+[beta = 1, gamma = -, omega = 0.25, t = 0.01, W_s = 0.01, W_i = 1, W_r = 0.01, 
+[                  3                                                           
+
+                                                                      ]
+  P_s = 0, P_i = 0.5, P_r = 0.5, eta1 = 0.02, eta2 = 0.019, N_0 = 1000]
+                                                                      ]
+> params_dfe := [ params_ini[], S_u=eval(Su_dfe, params_ini),S_n=eval(Sn_dfe,
+> params_ini),I_u=1,R_u=0, F1=eval(Fs_dfe, params_ini), F2=eval(Fi_dfe,
+> params_ini)];
+[                  1                                                           
+[beta = 1, gamma = -, omega = 0.25, t = 0.01, W_s = 0.01, W_i = 1, W_r = 0.01, 
+[                  3                                                           
+
+  P_s = 0, P_i = 0.5, P_r = 0.5, eta1 = 0.02, eta2 = 0.019, N_0 = 1000, 
+
+  S_u = 960.0000000, S_n = 40.00000000, I_u = 1, R_u = 0, F1 = 0.01041666667, 
+
+                  ]
+  F2 = 1.041666667]
+                  ]
+Factoring out eta 1 and 2, Consider a parametrization s=eta1/eta2 note that s>=1
+is our interest
+> algsubs(S_n+S_u=N_0,collect(simplify(R0),[eta1,eta2]));
+                                    1                                      /          
+-------------------------------------------------------------------------- \beta eta1 
+                    /                              2               \                  
+N_0 (omega + gamma) \omega gamma + gamma F2 + gamma  + omega F2 P_i/ gamma            
+
+  //                                 2        3\                             
+  \\-P_i F2 omega gamma - omega gamma  - gamma / S_u + P_i F2 omega gamma N_0
+
+              2                                   2                   3\\
+   + N_0 gamma  omega + gamma omega F2 N_0 + gamma  F2 N_0 + N_0 gamma //
+
+                         /                              2           \          
+               beta eta2 \S_u P_i F2 omega gamma + omega  P_i F2 N_0/          
+   + --------------------------------------------------------------------------
+                         /                              2               \      
+     N_0 (omega + gamma) \omega gamma + gamma F2 + gamma  + omega F2 P_i/ gamma
+
+           //           2        3\                2                        2\ 
+      beta \\omega gamma  + gamma / S_u + N_0 gamma  omega + N_0 gamma omega / 
+   + --------------------------------------------------------------------------
+                         /                              2               \      
+     N_0 (omega + gamma) \omega gamma + gamma F2 + gamma  + omega F2 P_i/ gamma
+> Sn_dfe;
+                                    t N_0
+                                    -----
+                                    omega
+> Su_dfe;
+                                       t N_0
+                                 N_0 - -----
+                                       omega
+> Fi_dfe;
+                                  t W_i omega   
+                              - ----------------
+                                W_s (-omega + t)
+> subs([S_u=Su_dfe,S_n=Sn_dfe,F2=Fi_dfe],R0) assuming W_s>0, tau>0, omega>0;
+/     /                                                    
+|     |                                                    
+|     |                               2                   2
+|beta |t N_0 omega gamma + t N_0 gamma  + t N_0 eta1 gamma 
+\     \                                                    
+
+      2               2                       3    2                         
+     t  N_0 eta1 gamma  W_i   t N_0 eta1 gamma    t  N_0 omega eta1 gamma W_i
+   - ---------------------- + ----------------- - ---------------------------
+        W_s (-omega + t)            omega              W_s (-omega + t)      
+
+      2                                 2          2             
+     t  N_0 omega eta1 P_i W_i gamma   t  N_0 omega  eta2 P_i W_i
+   - ------------------------------- - --------------------------
+            W_s (-omega + t)                W_s (-omega + t)     
+
+     /      t N_0\      2           /      t N_0\            2
+   + |N_0 - -----| omega  gamma + 2 |N_0 - -----| omega gamma 
+     \      omega/                  \      omega/             
+
+                            /      t N_0\                 2      
+                            |N_0 - -----| eta1 gamma omega  t W_i
+     /      t N_0\      3   \      omega/                        
+   + |N_0 - -----| gamma  - -------------------------------------
+     \      omega/                    W_s (-omega + t)           
+
+     /      t N_0\           2            
+     |N_0 - -----| eta1 gamma  t W_i omega
+     \      omega/                        
+   - -------------------------------------
+               W_s (-omega + t)           
+
+     /      t N_0\           3          
+     |N_0 - -----| eta2 omega  P_i t W_i
+     \      omega/                      
+   - -----------------------------------
+              W_s (-omega + t)          
+
+     /      t N_0\                     2      \\//                    /      
+     |N_0 - -----| eta2 P_i t W_i omega  gamma|| |                    |      
+     \      omega/                            || |N_0 (omega + gamma) |omega 
+   - -----------------------------------------|| \                    \      
+                 W_s (-omega + t)             //                             
+
+                                            2          \      \
+          gamma t W_i omega        2   omega  t W_i P_i|      |
+  gamma - ----------------- + gamma  - ----------------| gamma|
+          W_s (-omega + t)             W_s (-omega + t)/      /
+Tylor expansion of R0 at t=0
+> tl_t:=simplify(taylor(subs([S_u=Su_dfe,S_n=Sn_dfe,F2=Fi_dfe],R0),t=0,3))
+> assuming W_s>0, tau>0, omega>0; Notice that the degree 2 for taylor series
+> doesn't work !
+beta                   1                 //      2            2         
+----- + -------------------------------- \\-gamma  W_s + gamma  eta1 W_s
+gamma        2                                                          
+        gamma  W_s omega (omega + gamma)                                
+
+                                                   2             
+   - gamma W_i omega + gamma eta1 W_i omega + omega  eta2 P_i W_i
+
+          2        \     \                  1               /         /
+   - omega  W_i P_i/ beta/ t - ---------------------------- \beta W_i \
+                                  2                2      3            
+                               W_s  (omega + gamma)  gamma             
+      2                                            2                          
+-gamma  eta1 W_s - W_s gamma omega eta2 P_i + gamma  W_s + W_s gamma omega P_i
+
+              2                                     2    
+   - W_i gamma  - 2 omega W_i P_i gamma + eta1 gamma  W_i
+
+                                                                2         2    
+   + gamma eta1 W_i omega P_i + omega eta2 P_i W_i gamma + omega  eta2 P_i  W_i
+
+          2        2\\  2    / 3\
+   - omega  W_i P_i // t  + O\t /
+derivative of taylor expansion of R0 wrt omega
+> d_omega:=diff(simplify(subs([S_u=Su_dfe,S_n=Sn_dfe,F2=Fi_dfe],R0)),omega);
+> Mess!
+//        2                                          2          
+\\-3 omega  eta2 P_i t W_i gamma + 2 omega eta2 P_i t  W_i gamma
+
+            3                    2          2          3          
+   - 4 omega  gamma W_s - 6 gamma  W_s omega  - 2 gamma  W_s omega
+
+              2                      2              2      2    
+   + 3 t omega  gamma W_s + 6 t gamma  omega W_s - t  gamma  W_s
+
+            3            2                                          2          
+   + 2 gamma  W_s t - 2 t  omega eta1 P_i W_i gamma - 2 t eta1 gamma  omega W_s
+
+      2           2                   3              2                 
+   + t  eta1 gamma  W_s - t eta1 gamma  W_s - 3 omega  eta1 gamma t W_i
+
+                 2                           3          \     \//      /
+   - 2 eta1 gamma  t W_i omega - 4 eta2 omega  P_i t W_i/ beta/ \gamma \
+      2                                                          2          
+-omega  gamma W_s + omega gamma W_s t - gamma t W_i omega - gamma  W_s omega
+
+          2              2          \                      \   //
+   + gamma  W_s t - omega  t W_i P_i/ (omega + gamma) omega/ - \\
+      3                             2           2                  4          
+-omega  eta2 P_i t W_i gamma + omega  eta2 P_i t  W_i gamma - omega  gamma W_s
+
+            2          3        3          2        3      2
+   - 2 gamma  W_s omega  - gamma  W_s omega  - gamma  W_s t 
+
+            3                      2      2        2      2          
+   + t omega  gamma W_s + 3 t gamma  omega  W_s - t  gamma  omega W_s
+
+      2           3              3                2      2                   
+   + t  eta1 gamma  W_s + 2 gamma  W_s omega t - t  omega  eta1 P_i W_i gamma
+
+                 2      2        2           2          
+   - t eta1 gamma  omega  W_s + t  eta1 gamma  omega W_s
+
+                 3                  3                 
+   - t eta1 gamma  W_s omega - omega  eta1 gamma t W_i
+
+               2            2             4          \      /                  
+   - eta1 gamma  t W_i omega  - eta2 omega  P_i t W_i/ beta \-2 omega gamma W_s
+
+                                      2                        \\//      /
+   + gamma W_s t - gamma t W_i - gamma  W_s - 2 omega t W_i P_i// \gamma \
+      2                                                          2          
+-omega  gamma W_s + omega gamma W_s t - gamma t W_i omega - gamma  W_s omega
+
+          2              2          \                        \   //
+   + gamma  W_s t - omega  t W_i P_i/^2 (omega + gamma) omega/ - \\
+      3                             2           2                  4          
+-omega  eta2 P_i t W_i gamma + omega  eta2 P_i t  W_i gamma - omega  gamma W_s
+
+            2          3        3          2        3      2
+   - 2 gamma  W_s omega  - gamma  W_s omega  - gamma  W_s t 
+
+            3                      2      2        2      2          
+   + t omega  gamma W_s + 3 t gamma  omega  W_s - t  gamma  omega W_s
+
+      2           3              3                2      2                   
+   + t  eta1 gamma  W_s + 2 gamma  W_s omega t - t  omega  eta1 P_i W_i gamma
+
+                 2      2        2           2          
+   - t eta1 gamma  omega  W_s + t  eta1 gamma  omega W_s
+
+                 3                  3                 
+   - t eta1 gamma  W_s omega - omega  eta1 gamma t W_i
+
+               2            2             4          \     \//      /
+   - eta1 gamma  t W_i omega  - eta2 omega  P_i t W_i/ beta/ \gamma \
+      2                                                          2          
+-omega  gamma W_s + omega gamma W_s t - gamma t W_i omega - gamma  W_s omega
+
+          2              2          \                2      \   //
+   + gamma  W_s t - omega  t W_i P_i/ (omega + gamma)  omega/ - \\
+      3                             2           2                  4          
+-omega  eta2 P_i t W_i gamma + omega  eta2 P_i t  W_i gamma - omega  gamma W_s
+
+            2          3        3          2        3      2
+   - 2 gamma  W_s omega  - gamma  W_s omega  - gamma  W_s t 
+
+            3                      2      2        2      2          
+   + t omega  gamma W_s + 3 t gamma  omega  W_s - t  gamma  omega W_s
+
+      2           3              3                2      2                   
+   + t  eta1 gamma  W_s + 2 gamma  W_s omega t - t  omega  eta1 P_i W_i gamma
+
+                 2      2        2           2          
+   - t eta1 gamma  omega  W_s + t  eta1 gamma  omega W_s
+
+                 3                  3                 
+   - t eta1 gamma  W_s omega - omega  eta1 gamma t W_i
+
+               2            2             4          \     \//      /
+   - eta1 gamma  t W_i omega  - eta2 omega  P_i t W_i/ beta/ \gamma \
+      2                                                          2          
+-omega  gamma W_s + omega gamma W_s t - gamma t W_i omega - gamma  W_s omega
+
+          2              2          \                      2\
+   + gamma  W_s t - omega  t W_i P_i/ (omega + gamma) omega /
+> simplify(diff(convert(tl_t,polynom),omega));
+                   1                  /       /      2      3      
+- ----------------------------------- \beta t \-3 W_s  gamma  omega
+       2    2      2                3                              
+  gamma  W_s  omega  (omega + gamma)                               
+
+          3                      3      2                 3      2         
+   - omega  t W_i P_i W_s - omega  t W_i  P_i eta1 - omega  t W_i  P_i eta2
+
+            3      2    2               3      2              3      2    2
+   + 2 omega  t W_i  P_i  eta2 + 2 omega  t W_i  P_i - 2 omega  t W_i  P_i 
+
+                        3                 2          2     
+   + W_i gamma W_s omega  eta1 + W_i gamma  W_s omega  eta1
+
+                        3                2          2    
+   + W_i gamma W_s omega  P_i + W_i gamma  W_s omega  P_i
+
+            2      2                    2                
+   - 2 omega  t W_i  P_i gamma - 2 omega  t W_i gamma W_s
+
+            2      2                   3                   
+   - 2 omega  t W_i  eta1 gamma + omega  t W_i P_i W_s eta2
+
+          2                               2      4      2      4     
+   - omega  t W_i P_i W_s gamma eta2 - W_s  gamma  + W_s  gamma  eta1
+
+                        3            2          2        2      2           2
+   - W_i gamma W_s omega  - W_i gamma  W_s omega  + 2 W_s  gamma  eta1 omega 
+
+          2      3                     2      2      
+   + 3 W_s  gamma  eta1 omega + 2 omega  t W_i  gamma
+
+                        3                     2          2         
+   - W_i gamma W_s omega  eta2 P_i - W_i gamma  W_s omega  eta2 P_i
+
+          2                            2      2               
+   + omega  t W_i P_i gamma W_s + omega  t W_i  P_i eta1 gamma
+
+          2      2                         2                     
+   + omega  t W_i  P_i eta2 gamma + 2 omega  t W_i gamma eta1 W_s
+
+          2      2      2\\
+   - 2 W_s  gamma  omega //
+> 
+> collect(simplify(-1/(beta*t)*collect(numer(simplify(diff(convert(tl_t,polynom)
+> ,omega))),omega)),omega);
+/      2                 2                                        2    2     
+\-t W_i  P_i eta1 - t W_i  P_i eta2 + t W_i P_i W_s eta2 + 2 t W_i  P_i  eta2
+
+   - W_i gamma W_s + W_i gamma W_s eta1 + W_i gamma W_s P_i
+
+                                     2                              2    2\ 
+   - W_i gamma W_s eta2 P_i + 2 t W_i  P_i - t W_i P_i W_s - 2 t W_i  P_i / 
+
+       3   /        2                  2                           2    
+  omega  + \-2 t W_i  P_i gamma + t W_i  P_i eta1 gamma - W_i gamma  W_s
+
+          2                           2                                 
+   + t W_i  P_i eta2 gamma + W_i gamma  W_s P_i + 2 t W_i gamma eta1 W_s
+
+              2                         2                             
+   - W_i gamma  W_s eta2 P_i + W_i gamma  W_s eta1 - 2 t W_i gamma W_s
+
+            2                2                   2      2                      
+   + 2 t W_i  gamma - 2 t W_i  eta1 gamma - 2 W_s  gamma  + t W_i P_i gamma W_s
+
+                                     2      2     \      2
+   - t W_i P_i W_s gamma eta2 + 2 W_s  gamma  eta1/ omega 
+
+     /      2      3        2      3     \            2      4
+   + \-3 W_s  gamma  + 3 W_s  gamma  eta1/ omega - W_s  gamma 
+
+        2      4     
+   + W_s  gamma  eta1
+> 
+> #implicitplot3d(subs(params,R0)=1,
+> omega=0.1..1,eta2=0.1..1,t=0..0.01,axes=boxed,orientation=[-92,71,2]);
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
