@@ -15,7 +15,19 @@
 \newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]
 {pix/Rlogo.pdf}\xspace}
 
-\newcommand{\fady}[1]{\textcolor{cyan}{$\langle${\slshape{\bfseries Fady:} #1 }$\rangle$}}
+\newcommand{\comment}{\showcomment}
+%% \newcommand{\comment}{\nocomment}
+
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
+\newcommand{\nocomment}[3]{}
+
+\newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
+\newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
+\newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
+\newcommand{\djde}[1]{\comment{red}{DJDE}{#1}}
+\newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
+\newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
+
 \newcommand{\Rnum}{\mathcal{R}_0}
 \theoremstyle{definition} % amsthm only
 \newtheorem{proposition}{Proposition}
@@ -36,10 +48,10 @@
 
 One of the main challenges in understanding COVID-19 dynamics is to unravel information available from data. The daily case count is a highly accessible form of data where observations are driven by two clusters of processes: (i) epidemic processes and (ii) testing processes. The challenge is then to separate these processes and understand how they interact. Simple mathematical models have a long history in providing useful insights facing with real epidemiological challenges \citep{ross1911prevention} [maybe add influenza work, ideas?]. We developed a model that incorporates mechanistic processes of epidemic processes and testing. We used the model to study the potential effect of testing strategies on disease dynamics. 
 
-[[JD: There is a gap here between unravelling data and what we actually do.]]
+\jd{There is a gap here between unravelling data and what we actually do.}
 
-[[JD: This \P\ is confusing. The topic sentence seems to be about kinds of tests, and then there is a jump to sampling strategies.]]
-There are different testing strategies with different test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two categories including (i) random testing across the whole population and (ii) Non-random testing. [[JD: Random testing is not a broad category, and non-random testing is very vague. What are we trying to convey with this \P? Ali: I am thinking of the weighted testing parameters W's in our model, that reflects testing strategies.(not sure the best replacement for "non-random" testing?)]] Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during the COVID-19 pandemic (refs). 
+\jd{This \P\ is confusing. The topic sentence seems to be about kinds of tests, and then there is a jump to sampling strategies.}
+There are different testing strategies with different test-specific efficacy, the time required for the results to be reported and the cost of the test. Testing strategies can be grouped into two categories including (i) random testing across the whole population and (ii) Non-random testing. \jd{Random testing is not a broad category, and non-random testing is very vague. What are we trying to convey with this \P?} \ali{I am thinking of the weighted testing parameters W's in our model, that reflects testing strategies.(not sure the best replacement for "non-random" testing?)} Note that contact tracing is an example of non-random testing strategies. Each of these strategies has been used as a tool to study COVID-19; see (refs) for group (i) and (refs) for group (ii). The advantage of non-random testing comparing to random testing has been investigated specifically during the COVID-19 pandemic (refs). 
 
 There is useful comment from Troy Gayle [?, Ben?] on the purposes of testing:"The importance of the relative roles of at least four different, and sometimes conflicting, purposes of testing: (i) diagnosis and treatment, (ii) screening people for access to things like flights, surgery, LTCs etc, (iii) surveillance, and (iv) mitigation and control of disease spread." In this context, the random testing, the simplest form of testing strategy, is typically carried out for the purpose of surveillance. It is notable that, by random testing we mainly refer to PCR test given that there is almost negligable virological testing for survilance purposes. Furthermore, all of the accessible testing data is being used for one of the other three purposes rather than surveillance. These are non-random testing strategies with a different bios. Specifically, when the purpose is "(i) diagnosis and treatment" or "(iv) mitigation and control of disease spread", the bios is towards infectious individuals more strongly for (i) than (iv). When people are tested for "(ii) screening", the bios is towards the group-specific charactristics [I am making this up for now!]. For example, people who are getting on flights may/will be more mobile than people awaiting for a surgery and are probably going to stay in long-term care homes and consequently more isolated to begin with.    
 
@@ -60,9 +72,9 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 \end{center} 
 \end{figure}
 
-[[JD: It would be nice to modularize the model somehow, but probably not worth anyone's time.]]
+\jd{It would be nice to modularize the model somehow, but probably not worth anyone's time.}
 
-[Ali: not sure if these should go to the Supp material?] In our model the following parameters are used (for a summery of parameters' description, see Table \ref{tab:params}). $N_0$ is the total population size, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
+\ali{not sure if these should go to the Supp material?} In our model the following parameters are used (for a summery of parameters' description, see Table \ref{tab:params}). $N_0$ is the total population size, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
 
 \begin{equation}
 \label{sigma}
@@ -70,8 +82,9 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 \end{equation}
 Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that requiring a fixed testing rate as in \eqref{sigma} can lead to a singularity when no one is left untested. We discuss this issue, and a practical solution, in the Appendix. 
 
-The classical SIR model is based on the following implicit assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iii)  $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. - [Q] why not birth and death are included? say it or not? [[JD: The way perfect specificity is presented is confusing here. We need to distinguish between the model we first develop (12 boxes) and the model we analyze (10 boxes)]]
-[[Ali: If we use the full model, with 12 compartments including $S_p$ and $S_c$, the DFE will be; $S_n=S_p=0$, $S_u+S_c=N_0$ (it can be assumed that $S_u=N_0$ and $S_c=0$) and all $I$ and $R$ compartments to be zero. This simplifies the expression of $\Rnum$ since $F_I=\rho$.]]
+The classical SIR model is based on the following implicit assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iii)  $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. - [Q] why not birth and death are included? say it or not? \jd{The way perfect specificity is presented is confusing here. We need to distinguish between the model we first develop (12 boxes) and the model we analyze (10 boxes)}
+\ali{If we use the full model, with 12 compartments including $S_p$ and $S_c$, the DFE will be; $S_n=S_p=0$, $S_u+S_c=N_0$ (it can be assumed that $S_u=N_0$ and $S_c=0$) and all $I$ and $R$ compartments to be zero. This simplifies the expression of $\Rnum$ since $F_I=\rho$.}
+\jd{I was asking you to clarify the MS -- you never explain when you switch to assuming that the false-positive rate is zero -- not explain to me in notes. This explanation here looks wrong, though (compare with \eqref{dfe}).}
 
 \newgeometry{margin=1cm} % modify this if you need even more space
 \begin{landscape}
@@ -110,15 +123,16 @@ The Disease-Free Equilibrium (DFE) for the SIR model, \crefrange{eq1}{eq12}, is 
 S_n^*= \frac{\rho}{\omega} N_0, \ S_u^*= N_0-S_n^*, \text{and} I_j=R_j=0 \ \text{for all j}.
 \end{equation}
 
-The Basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
+The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 
 \begin{equation}
 \label{R0}
 \Rnum= (A \times S_u^* + B \times S_n^*) \times C, 
 \end{equation}
+\jd{It's hard to any point to presenting this equation in the main text if A, B C are not also in the main text.}
 Further details are provided in the Appendix.
  
-  [to be completed! Something needs to be said here about simulation part]. The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. 
+\todo{Something needs to be said here about simulation part.} The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. 
   We used \Rlogo for the simulation part which included using the explicit expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ by using ggplot package in \Rlogo. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are as follows (I like using a table here, with the param, their units and values). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simmulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
 
 
@@ -152,13 +166,13 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 \centering
 \begin{subfigure}[t]{.45\textwidth}
 \centering
-\includegraphics[width=\linewidth]{./pix/R0contour_random.pdf}
+\includegraphics[width=\linewidth]{./pix/R0contour_random.png}
 \caption{}\label{p.a}
 \end{subfigure}
 %
 \begin{subfigure}[t]{.45\textwidth}
 \centering
-\includegraphics[width=\linewidth]{./pix/R0contour_TTI.pdf}
+\includegraphics[width=\linewidth]{./pix/R0contour_TTI.png}
 \caption{}\label{p.b}
 \end{subfigure}
 \caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; remind the reader about the parameters and their values in this simulations. the solid line in each panel represents the critical contour of $\Rnum=1$.}
@@ -417,7 +431,7 @@ To state an example of this, if test $A$ is three times as expensive as test $B$
 \subsection{Literature Review}
 
 \subsubsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
-\citep{endo2020implication} [Ali: It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!] Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.
+\citep{endo2020implication} \ali{It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!} Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.
 
 \citep{jenness2020modeling} developed a network-based transmission model for SARS-CoV-2 on the Diamond Princess outbreak to characterize transmission dynamics and to estimate the epidemiological impact of outbreak control and prevention measures. 
 
@@ -451,11 +465,4 @@ relatively controlled with effective testing, isolation, contract tracing and qu
 
 \citep{ruszkiewicz2020diagnosis} novel with-in-a-minute breath testing with 80\% accuracy. 
 
-
 \end{document}
-
-
-
-
-
-
