@@ -82,9 +82,7 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 \end{equation}
 Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that requiring a fixed testing rate as in \eqref{sigma} can lead to a singularity when no one is left untested. We discuss this issue, and a practical solution, in the Appendix. 
 
-The classical SIR model is based on the following implicit assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) a perfectly specific test, $p_S=0$, for simplicity in analysis, (iii)  $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. - [Q] why not birth and death are included? say it or not? \jd{The way perfect specificity is presented is confusing here. We need to distinguish between the model we first develop (12 boxes) and the model we analyze (10 boxes)}
-\ali{If we use the full model, with 12 compartments including $S_p$ and $S_c$, the DFE will be; $S_n=S_p=0$, $S_u+S_c=N_0$ (it can be assumed that $S_u=N_0$ and $S_c=0$) and all $I$ and $R$ compartments to be zero. This simplifies the expression of $\Rnum$ since $F_I=\rho$.}
-\jd{I was asking you to clarify the MS -- you never explain when you switch to assuming that the false-positive rate is zero -- not explain to me in notes. This explanation here looks wrong, though (compare with \eqref{dfe}).}
+The classical SIR model is based on the following implicit assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. Note that the latter assumption combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u+S_n=0$, reduce the model to 10 equations with equations \ref{eq3} and \ref{eq4} are eliminated. Specifically, when the population is at steady states and the number of infected people is negligable, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, initially $S_c=0$ and stays in this state.
 
 \newgeometry{margin=1cm} % modify this if you need even more space
 \begin{landscape}
@@ -129,7 +127,13 @@ The basic reproduction number, $\Rnum$, was calculated by using the next generat
 \label{R0}
 \Rnum= (A \times S_u^* + B \times S_n^*) \times C, 
 \end{equation}
-\jd{It's hard to any point to presenting this equation in the main text if A, B C are not also in the main text.}
+where
+\begin{align*}
+A=& \gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_c p_I) F_I, \\
+B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
+C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+\end{align*}
+
 Further details are provided in the Appendix.
  
 \todo{Something needs to be said here about simulation part.} The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple (ref) by using simple linear Algebra package. 
@@ -166,13 +170,13 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 \centering
 \begin{subfigure}[t]{.45\textwidth}
 \centering
-\includegraphics[width=\linewidth]{./pix/R0contour_random.png}
+\includegraphics[width=\linewidth]{./pix/R0contour_random.pdf}
 \caption{}\label{p.a}
 \end{subfigure}
 %
 \begin{subfigure}[t]{.45\textwidth}
 \centering
-\includegraphics[width=\linewidth]{./pix/R0contour_TTI.png}
+\includegraphics[width=\linewidth]{./pix/R0contour_TTI.pdf}
 \caption{}\label{p.b}
 \end{subfigure}
 \caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; remind the reader about the parameters and their values in this simulations. the solid line in each panel represents the critical contour of $\Rnum=1$.}
@@ -312,14 +316,7 @@ A\,S_n & B\,S_n
 \end {array}\right].
 \end{equation}
 
-Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the spectral radius of $G$. All matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}, 
-where
-\begin{align*}
-A=& \gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_c p_I) F_I, \\
-B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
-C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
-\end{align*}
-
+Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the spectral radius of $G$. All matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}.
 
 % %%%%%%%
 \subsection{On Testing Rate and Numerical Singularity}
