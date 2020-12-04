@@ -16,7 +16,6 @@ Ignore += codes/ali_test_sir.html
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
 
 note/SIR_notes.pdf:
-note/SIR_notes.pdf:
 
 Sources += smoothing.tex
 Ignore += smoothing.pdf
