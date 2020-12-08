@@ -11,17 +11,17 @@ This is my a test for MacPan package.
 
 <<install the package, echo=F  >>=
 # install remotes package if necessary:
-if (!require(remotes)) {
-install.packages("remotes")
+while (!require(remotes)) {
+    install.packages("remotes")
 }
 ## install development version of bbmle:
 if (!require("bbmle") || packageVersion("bbmle") < "1.0.23.5") {
-remotes::install_github("bbolker/bbmle")
+    remotes::install_github("bbolker/bbmle")
 }
 ## install the target package and all its dependencies:
 remotes::install_github("bbolker/McMasterPandemic",
-dependencies = TRUE,
-build_vignettes = TRUE
+                        dependencies = TRUE,
+                        build_vignettes = TRUE
 )
 library(McMasterPandemic)
 library(ggplot2); theme_set(theme_bw())
@@ -70,7 +70,9 @@ class(sir.params) <- "params_pansim"
 sir.state_init <- c(S=sir.params[["N0"]], 
                 I=1,
                 R=0)
-#set the number of days for SIR simulation as simulation time of MacPan 
+##set the number of days for SIR simulation as simulation time of MacPan
+startdate <- as.Date("01-03-2020")
+enddate <- as.Date("01-09-2020")
 d <- seq(0,as.numeric(enddate-startdate),by=1) 
 
 sir.R0 <- sir.params[["beta"]]/sir.params[["gamma"]]
@@ -98,17 +100,27 @@ direct.label(gg1,"last.bumpup")
 <<Try MacPan to recover the SIR result, echo=FALSE>>=
 # update MacPan's params according to the SIR params
 params <- update(params, c(beta0=sir.params[["beta"]],
+                           alpha=0, ## no asymptomatic
+                           sigma=3, ## very short latent period
                            gamma_a=sir.params[["gamma"]],
                            gamma_m=sir.params[["gamma"]],
                            gamma_s=sir.params[["gamma"]],
                            gamma_p=sir.params[["gamma"]]))
 
-pp <- fix_pars(params, target = c(R0 = sir.R0)) #not sure if I need to update Gbar=6?
+pp <- params
+## pp <- fix_pars(params, target = c(R0 = sir.R0)) #not sure if I need to update Gbar=6?
 # Q? should I update beta0 again? 
 state <- make_state(params=pp)
+state[] <- 0
+state[["S"]] <- 1e6
+state[["Im"]] <- 1
 # state <- update(state,c(S=sir.params[["N0"]],E=0,Ip=0,Im=0))
 
-sim0 <- run_sim(pp,state,start_date=startdate,end_date=enddate)
+summary(pp)
+sim0 <- run_sim(pp,state,
+                start_date=startdate,
+                end_date=enddate,
+                use_ode=TRUE)
 
 gg0 <- (ggplot(sim0,aes(x=date))
 + geom_point(aes(y=incidence))
@@ -116,7 +128,9 @@ gg0 <- (ggplot(sim0,aes(x=date))
 print(gg0)
 
 # combining the SIR and MacPan results also calculating incidences fr the SIR model
-sim_combined <- sim0 %>% mutate(sir.S=sir.out[["S"]],sir.I=sir.out[["I"]],sir.S=sir.out[["R"]],
+sim_combined <- sim0 %>% mutate(sir.S=sir.out[["S"]],
+                                sir.I=sir.out[["I"]],
+                                sir.S=sir.out[["R"]],
                                 sir.incidence=sir.params[["beta"]]*sir.out[["S"]]*sir.out[["I"]])
 
 gg01 <- (ggplot(sim_combined,aes(x=date))
@@ -124,9 +138,7 @@ gg01 <- (ggplot(sim_combined,aes(x=date))
 + geom_point(aes(y=sir.I), color='red')
 )
 print(gg01)
-
-
-
+print(gg01 + scale_y_log10())
 @
 
 
