@@ -98,14 +98,20 @@ direct.label(gg1,"last.bumpup")
 
 
 <<Try MacPan to recover the SIR result, echo=FALSE>>=
-# update MacPan's params according to the SIR params
+## update MacPan's params according to the SIR params
+##
+big_rate <- 20
 params <- update(params, c(beta0=sir.params[["beta"]],
                            alpha=0, ## no asymptomatic
-                           sigma=3, ## very short latent period
-                           gamma_a=sir.params[["gamma"]],
+                           sigma=big_rate, ## very short latent period
+                           ## would like this to -> Inf but can't
+                           gamma_a=0,
+                           mu=1,  ## all cases mild
                            gamma_m=sir.params[["gamma"]],
-                           gamma_s=sir.params[["gamma"]],
-                           gamma_p=sir.params[["gamma"]]))
+                           gamma_s=0,
+                           ## try to skip presymptomatic period
+                           gamma_p=big_rate
+                           ))
 
 pp <- params
 ## pp <- fix_pars(params, target = c(R0 = sir.R0)) #not sure if I need to update Gbar=6?
@@ -135,7 +141,7 @@ sim_combined <- sim0 %>% mutate(sir.S=sir.out[["S"]],
 
 gg01 <- (ggplot(sim_combined,aes(x=date))
 + geom_point(aes(y=I))
-+ geom_point(aes(y=sir.I), color='red')
++ geom_lines(aes(y=sir.I), color='red')
 )
 print(gg01)
 print(gg01 + scale_y_log10())
