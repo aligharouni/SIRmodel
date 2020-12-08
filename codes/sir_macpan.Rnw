@@ -28,21 +28,12 @@ library(ggplot2); theme_set(theme_bw())
 library(cowplot)
 
 library(directlabels)
-
-# params1 <- read_params("ICU1.csv")
-# folder <- system.file("params", package="McMasterPandemic")
-# list.files(folder)
-# knitr::kable(describe_params(params1))
-
-# knitr::kable(round(t(summary(params1)),2))
-# knitr::kable(round(t(get_R0(params1, components=TRUE)),2))
+library(zoo)
+library(tidyverse)
 @
 
 
 <<6: MacPan Params , echo=F>>=
-library(zoo)
-library(tidyverse)
-
 params <- read_params("ICU1.csv")
 
 knitr::kable(round(t(summary(params)),2))
@@ -115,12 +106,10 @@ params <- update(params, c(beta0=sir.params[["beta"]],
 
 pp <- params
 ## pp <- fix_pars(params, target = c(R0 = sir.R0)) #not sure if I need to update Gbar=6?
-# Q? should I update beta0 again? 
 state <- make_state(params=pp)
 state[] <- 0
 state[["S"]] <- 1e6
 state[["Im"]] <- 1
-# state <- update(state,c(S=sir.params[["N0"]],E=0,Ip=0,Im=0))
 
 summary(pp)
 sim0 <- run_sim(pp,state,
