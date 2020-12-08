@@ -410,7 +410,8 @@ p1_temp <- (p1
     )
 p1_temp
 
-# ggsave(p1_temp,filename = "R0contour_random.pdf" , path="../pix/")
+## BMB: FIXME: probably wrong but ... ???
+## ggsave(p1_temp,filename = "R0contour_random.pdf" , path="../pix/")
 ggsave(p1_temp,filename = "R0contour_TTI.pdf" , path="../pix/")
 
 ```
