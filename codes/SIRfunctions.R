@@ -15,6 +15,16 @@ remotes::install_github("bbolker/McMasterPandemic",
                         build_vignettes = TRUE
 )
 
+library(McMasterPandemic)
+unpack <- McMasterPandemic::unpack
+
+# Testing functions
+sigma <- function(state,params){
+  unpack(as.list(c(state,params)))
+  W <- W_S*S_u+W_I*I_u+W_R*R_u
+  testing_rate <- rho*N0/W
+  return(testing_rate)
+}
 
 # SIR model
 sir.model <- function(time,state,params){
@@ -22,8 +32,10 @@ sir.model <- function(time,state,params){
   ## Force of Infection  
   Lambda <- beta * (I_u + eta_w*(I_n+I_p) + eta_c*I_t)/N0
   ## scaling the weights
-  W <- W_S*S_u+W_I*I_u+W_R*R_u
-  sigma <- rho*N0/W
+  # W <- W_S*S_u+W_I*I_u+W_R*R_u 
+  # sigma <- rho*N0/W
+  sigma <- sigma(state,params)
+  
   # testing intensity
   F_S <- sigma*W_S
   F_I <- sigma*W_I
@@ -48,15 +60,16 @@ sir.model <- function(time,state,params){
   return(list(dxdt))
 }
 
-
+# TODO: fix the sigma the issue is when DFE(state,params), the multiroot() gives error.
 DFE <- function(S,params){
+  unpack(as.list(params))
   # S: Susceptibles
   S_u <- S[1]
   S_n <- S[2]
   I_u <-0
   R_u <-0
-  unpack(as.list(params))
-  W <- W_S*S_u+W_I*I_u+W_R*R_u #Weighted untested people
+    #Weighted untested people
+  W <- W_S*S_u+W_I*I_u+W_R*R_u
   sigma <- rho*N0/W
   F_S <- sigma*W_S
   
@@ -76,6 +89,60 @@ Su_dfe <-function(params){
   return(N0-Sn_dfe(params))
 }
 
+# Model simulation function
+run.sir <- function(model, params,state,sim_time){
+  # use update(params,beta=2)
+  library(deSolve)
+  unpack(as.list(c(state,params)))
+  out <- as.data.frame(
+    ode(
+    func=model,
+    y=state,
+    times= sim_time, 
+    parms=params
+  ))
+  return(out)
+}
+
+
+F_I <- function(state,params){
+  # Returns F_I at the specified state
+  unpack(as.list(c(state,params)))
+  
+  # sigma <- rho*N0/(W_S*Su) #at DFE 
+  sig <- sigma(state,params)
+  return(sig*W_I)
+}
+
+# Basic Reproduction Number
+R0<-function(params){
+  unpack(as.list(c(state,params)))
+  Sn <- Sn_dfe(params)
+  Su <- N0-Sn
+  # print(c(Su_dfe,Sn_dfe,Su_dfe+Sn_dfe))
+  Fi <- F_I(params) #at DFE
+  A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
+  B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
+  C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))
+  return((A*Su+B*Sn)*C)
+}
+
+# R0 expression with eta_w/eta_c factored
+R02<-function(params){
+  unpack(as.list(params))
+  Sn<- Sn_dfe(params)
+  Su<- N0-Sn
+  F_I <-F_I(params)  #at DFE
+  
+  A2 <- gamma*(p_I*F_I*omega*Sn+(omega+gamma)*(gamma*Sn+F_I*N0))
+  B2 <- p_I*F_I*omega*(gamma*Su+omega*N0)
+  D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
+  C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_I*(gamma+omega*p_I)))*(omega+gamma))
+  # s <- eta_w/eta_c
+  return((eta_c*(s*A2+B2)+D)*C2)
+}
+
+
 
 
 
@@ -83,8 +150,20 @@ Su_dfe <-function(params){
 # Extra Stuff unused
 # ###################
 
-# Conditional stop for desolver
+# Conditional stop for ODE desolver
 # rootfun <- function (time, state,params) { 
 #   unpack(as.list(c(state,params)))
 #   return(I_u - 1) }
+
+# ode(
+#   func=sir.model,
+#   y=state_init,
+#   times= d, 
+#   parms=params,
+#   atol = 1e+1, rtol = 1e+1
+#   rootfun = rootfun,
+#   method="lsodar"
+# )
+
+
 

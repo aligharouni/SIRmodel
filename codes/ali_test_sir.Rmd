@@ -81,14 +81,11 @@ The model is
 \end{align}
 
 ```{r packages, message=FALSE}
-library(deSolve)
 library(ggplot2)
 library(tidyr)
-library(McMasterPandemic)
 library(directlabels)
 library(latex2exp)
 library(rootSolve)
-unpack <- McMasterPandemic::unpack
 
 source("SIRfunctions.R")
 ```
@@ -106,7 +103,7 @@ state_init <- c(S_u=params[["N0"]], S_n=0,
                 I_u=1,I_n=0,I_p=0,I_t=0,
                 R_u=0,R_n=0,R_p=0,R_t=0,
                 N=0,P=0)
-d <- seq(0,200,by=0.1)
+sim_time <- seq(0,200,by=0.1)
 ```
 
 ```{r DFE, message=FALSE}
@@ -117,7 +114,6 @@ roots_dfe$root
 # DFE; analytic approach
 Su <- Su_dfe(params)
 Sn <- Sn_dfe(params)
-
 state_dfe <- c(S_u=Su, S_n=Sn,
                 I_u=0,I_n=0,I_p=0,I_t=0,
                 R_u=0,R_n=0,R_p=0,R_t=0,
@@ -134,17 +130,10 @@ all.equal(sum(g1[[1]]),0)
 
 
 ```{r model_run, message=FALSE}
-out <- as.data.frame(
-  ode(
-    func=sir.model,
-    y=state_init,
-    times= d, 
-    parms=update(params,beta=2)
-    # atol = 1e+1, rtol = 1e+1
-    # rootfun = rootfun,
-    # method="lsodar"
-  )
-)
+out <- run.sir(model=sir.model,
+               params=update(params,beta=2),
+               state=state_init,
+               sim_time=sim_time)
 
 out2 <- out %>%
   pivot_longer(c(S_u,S_n,I_u,I_n,I_p,I_t, R_u,R_n,R_p,R_t), names_to = "compartment", values_to = "value")
@@ -161,19 +150,15 @@ direct.label(gg1,"last.bumpup")
 ```
 
 ```{r run2, message=FALSE}
-d_long <- seq(0,300,by=0.1)
+sim_time_long <- seq(0,300,by=0.1)
 ## capturing badly behaved integrator warning messages
 cc <- capture.output(
-    out_long <- as.data.frame(
-        ode(
-    func=sir.model,
-    y=state_init,
-    times= d_long, 
-    parms=update(params,beta=2)
-    # rootfun = rootfun,
-    # method="lsodar"
-  )
-  ))
+   out_long <- run.sir(model=sir.model,
+               params=update(params,beta=2),
+               state=state_init,
+               sim_time=sim_time_long)
+)
+    
 out_long2 <- out_long %>%
     pivot_longer(c(S_u,S_n,I_u,I_n,I_p,I_t, R_u,R_n,R_p,R_t),
                  names_to = "compartment", values_to = "value")
@@ -229,45 +214,10 @@ A\,S_n & B\,S_n
 \end{equation}
 
 The Eigenvalues of $G_{11}$, are 0 and $R_0$.
-```{r R0}
-F_I <- function(params){
-   # Returns F_I at DFE 
-  unpack(as.list(params))
-  Sn<- Sn_dfe(params)
-  Su<- N0-Sn
-  sigma <- rho*N0/(W_S*Su) #at DFE 
-  return(sigma*W_I)
-}
 
- # just a test
-  F_I(params=update(params,rho=0))
-  
-R0<-function(params){
-    unpack(as.list(params))
-    Sn <- Sn_dfe(params)
-    Su <- N0-Sn
-    # print(c(Su_dfe,Sn_dfe,Su_dfe+Sn_dfe))
-    Fi <- F_I(params) #at DFE
-    A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
-    B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
-    C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))
-    return((A*Su+B*Sn)*C)
-}
+```{r R0, echo=FALSE}
+F_I(state=state_dfe,params=params)
 
-# R0 expression with eta_w/eta_c factored
-R02<-function(params){
-    unpack(as.list(params))
-    Sn<- Sn_dfe(params)
-    Su<- N0-Sn
-    F_I <-F_I(params)  #at DFE
-    
-    A2 <- gamma*(p_I*F_I*omega*Sn+(omega+gamma)*(gamma*Sn+F_I*N0))
-    B2 <- p_I*F_I*omega*(gamma*Su+omega*N0)
-    D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
-    C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_I*(gamma+omega*p_I)))*(omega+gamma))
-    # s <- eta_w/eta_c
-    return((eta_c*(s*A2+B2)+D)*C2)
-}
 
 # R0<1:
 R0(params=params)
