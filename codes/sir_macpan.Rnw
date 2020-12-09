@@ -130,10 +130,11 @@ sim_combined <- sim0 %>% mutate(sir.S=sir.out[["S"]],
 
 gg01 <- (ggplot(sim_combined,aes(x=date))
 + geom_point(aes(y=I))
-+ geom_lines(aes(y=sir.I), color='red')
++ geom_line(aes(y=sir.I), color='red')
 )
 print(gg01)
 print(gg01 + scale_y_log10())
+
 @
 
 
