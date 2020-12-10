@@ -10,10 +10,13 @@ if (!require("bbmle") || packageVersion("bbmle") < "1.0.23.5") {
   remotes::install_github("bbolker/bbmle")
 }
 ## install the target package and all its dependencies:
-remotes::install_github("bbolker/McMasterPandemic",
-                        dependencies = TRUE,
-                        build_vignettes = TRUE
-)
+while (!require(McMasterPandemic)) {
+  remotes::install_github("bbolker/McMasterPandemic",
+                          dependencies = TRUE,
+                          build_vignettes = TRUE
+  )
+}
+
 
 library(ggplot2)
 library(tidyr)
@@ -147,7 +150,29 @@ R02 <- function(state=state_dfe,params){
   return((eta_c*(s*A2+B2)+D)*C2)
 }
 
-
+# make grid and calc R0 for plotting
+eval_R0 <- function(state=state_dfe,params,filename){
+  # input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
+  unpack(as.list(c(state,params)))
+  # specify the ranges, FIXME, not to be hard coded!
+  beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case
+  eta_w <- seq(0,1, length.out=n_out)
+  eta_c <- seq(0,1, length.out=n_out) #0.001 to 0.5 
+  rho <- seq(0,0.01, length.out=n_in)
+  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
+  
+  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
+                     W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
+                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+                     eta_w=eta_w,eta_c=eta_c)
+  df2<- data.frame(df1,
+                   R0=apply(df1,1,function(params_in)R0(params=params_in)),
+                   Fi= apply(df1,1,function(params_in)F_I(state=state, params=params_in)))
+  # This is for plotting purposes:
+  df2 <- df2 %>% dplyr::mutate(R0_sub = ifelse(eta_w<eta_c, NA, R0)) 
+  # Output
+  write.csv(df2,file=filename, row.names = FALSE)
+}
 
 
 
