@@ -81,12 +81,6 @@ The model is
 \end{align}
 
 ```{r packages, message=FALSE}
-library(ggplot2)
-library(tidyr)
-library(directlabels)
-library(latex2exp)
-library(rootSolve)
-
 source("SIRfunctions.R")
 ```
 
@@ -218,12 +212,10 @@ The Eigenvalues of $G_{11}$, are 0 and $R_0$.
 ```{r R0, echo=FALSE}
 F_I(state=state_dfe,params=params)
 
-
 # R0<1:
 R0(params=params)
 # R0>1:
 R0(params=update(params,beta=2))
-
 # check
 all.equal(R0(params=params),R02(params=params))
 ```
@@ -232,9 +224,10 @@ Can we recover $R_0=\beta/\gamma$ of the simple SIR? -yes
 ```{r checkings}
 # checking if simple R_0 for SIR can be recovered?
 # Case #1: rho=0
-all.equal(R0(params=update(params,rho=0)), params[["beta"]]/params[["gamma"]])
+R0_base <-params[["beta"]]/params[["gamma"]]
+all.equal(R0(params=update(params,rho=0)), R0_base)
 # Case #2: 
-all.equal(R0(params=update(params,eta_c=1,eta_w=1)), params[["beta"]]/params[["gamma"]])
+all.equal(R0(params=update(params,eta_c=1,eta_w=1)), R0_base)
 ```
 
 ### Contour plot of $R_0=1$ and interpretations approache 1

@@ -15,6 +15,11 @@ remotes::install_github("bbolker/McMasterPandemic",
                         build_vignettes = TRUE
 )
 
+library(ggplot2)
+library(tidyr)
+library(directlabels)
+library(latex2exp)
+library(rootSolve)
 library(McMasterPandemic)
 unpack <- McMasterPandemic::unpack
 
@@ -115,29 +120,29 @@ F_I <- function(state,params){
 }
 
 # Basic Reproduction Number
-R0<-function(params){
+R0<-function(state=state_dfe,params){
   unpack(as.list(c(state,params)))
   Sn <- Sn_dfe(params)
-  Su <- N0-Sn
-  # print(c(Su_dfe,Sn_dfe,Su_dfe+Sn_dfe))
-  Fi <- F_I(params) #at DFE
-  A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
-  B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
+  Su <- Su_dfe(params)
+  Fi <- F_I(state,params) #at DFE
+  
+  A <- gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
+  B <- (omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
   C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))
   return((A*Su+B*Sn)*C)
 }
 
 # R0 expression with eta_w/eta_c factored
-R02<-function(params){
-  unpack(as.list(params))
-  Sn<- Sn_dfe(params)
-  Su<- N0-Sn
-  F_I <-F_I(params)  #at DFE
+R02 <- function(state=state_dfe,params){
+  unpack(as.list(c(state,params)))
+  Sn <- Sn_dfe(params)
+  Su <- Su_dfe(params)
+  Fi <- F_I(state,params) #at DFE
   
-  A2 <- gamma*(p_I*F_I*omega*Sn+(omega+gamma)*(gamma*Sn+F_I*N0))
-  B2 <- p_I*F_I*omega*(gamma*Su+omega*N0)
+  A2 <- gamma*(p_I*Fi*omega*Sn+(omega+gamma)*(gamma*Sn+Fi*N0))
+  B2 <- p_I*Fi*omega*(gamma*Su+omega*N0)
   D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
-  C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_I*(gamma+omega*p_I)))*(omega+gamma))
+  C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))*(omega+gamma))
   # s <- eta_w/eta_c
   return((eta_c*(s*A2+B2)+D)*C2)
 }
