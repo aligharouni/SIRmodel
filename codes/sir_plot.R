@@ -107,29 +107,4 @@ ggsave(p2_temp,filename = "R0contour_TTI.pdf" ,
        width = 14, height = 14, units = "cm",
        path="../pix/")
 
-# #################################
-# 3. SubPlots the Random Testing Scenario:
-# #################################
 
-df_temp <- df_random %>% dplyr::filter(eta_w==0 & eta_c==0) 
-
-p1 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
-  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
-  ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-  theme(panel.spacing=grid::unit(0,"lines"),legend.position = "right") 
-p1_temp <- (p1
-            + geom_contour_filled(breaks=brks_vec)
-            + geom_contour(breaks=1,alpha=0.5,colour="black")
-            + facet_grid(eta_w~eta_c, labeller=label_special)
-            + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
-            + ggtitle(TeX(sprintf("W_S=W_I=W_R=1")))
-            + geom_rect(data=df_temp, fill=ifelse(df_temp$eta_c > df_temp$eta_w,"grey90","NA" ),
-                        color= NA,
-                        ymin=-1,
-                        ymax=10,
-                        xmin=-1,
-                        xmax=2)
-)
-p1_temp
