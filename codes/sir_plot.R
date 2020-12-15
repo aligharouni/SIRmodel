@@ -13,9 +13,10 @@ n_in <- 41 ## grid N within facets
 W_S_random <- 1
 W_S_targeted <- 0.3 
 
-# make dataframe
-eval_R0(params = update(params,W_S=W_S_random),filename="random_test_df.csv")
-eval_R0(params = update(params,W_S=W_S_targeted),filename="targeted_test_df.csv")
+# make dataframe and save it. 
+# FIXME: I feel that this part needs to be separated from here?
+# eval_R0(params = update(params,W_S=W_S_random),filename="random_test_df.csv")
+# eval_R0(params = update(params,W_S=W_S_targeted),filename="targeted_test_df.csv")
 
 # #################################
 # Load the data

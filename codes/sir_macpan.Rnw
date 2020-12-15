@@ -9,7 +9,7 @@ This is my a test for MacPan package.
 
 \section{Install and Play}
 
-<<install the package, echo=F  >>=
+<<install the package, echo=T  >>=
 # install remotes package if necessary:
 while (!require(remotes)) {
     install.packages("remotes")
@@ -33,7 +33,7 @@ library(tidyverse)
 @
 
 
-<<6: MacPan Params , echo=F>>=
+<<6: MacPan Params , echo=T>>=
 params <- read_params("ICU1.csv")
 
 knitr::kable(round(t(summary(params)),2))
@@ -41,7 +41,7 @@ knitr::kable(round(t(get_R0(params, components=TRUE)),2))
 @
 
 
-<<Ali:SIR , echo=F>>=
+<<Ali:SIR , echo=T>>=
 # A simple SIR model
 library(deSolve)
 unpack <- McMasterPandemic::unpack
@@ -88,7 +88,7 @@ direct.label(gg1,"last.bumpup")
 @
 
 
-<<Try MacPan to recover the SIR result, echo=FALSE>>=
+<<Try MacPan to recover the SIR result, echo=T>>=
 ## update MacPan's params according to the SIR params
 ##
 big_rate <- 20

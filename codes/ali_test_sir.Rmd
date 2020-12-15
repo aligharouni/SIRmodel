@@ -94,14 +94,7 @@ source("params")
 roots_dfe <- multiroot(DFE, c(1, 1), parms = params, positive = T)
 roots_dfe$root
 
-# DFE; analytic approach
-# Su <- Su_dfe(params)
-# Sn <- Sn_dfe(params)
-# state_dfe <- c(S_u=Su, S_n=Sn,
-#                 I_u=0,I_n=0,I_p=0,I_t=0,
-#                 R_u=0,R_n=0,R_p=0,R_t=0,
-#                 N=0,P=0)
-# check:
+# check if the DFE is the same in numerical and analytic:
 all.equal(c(state_dfe[["S_u"]],state_dfe[["S_n"]]),roots_dfe$root)
 ```
 
@@ -127,9 +120,12 @@ out2 <- out %>%
 
 ```{r plot_run1, warning=FALSE}
 gg1 <- (ggplot(data=out2, aes(x=time,y=value,col=compartment))
-    + geom_line()
-    + scale_y_log10(limits=c(0.1,params[["N0"]]))
-##    + scale_x_continuous(limits=c(0,240))
+            + theme_bw()
+            + geom_line()
+            + ylab(label="Prevalence")
+            + xlab(label="Time (days)")
+            + scale_y_log10(limits=c(0.1,params[["N0"]]))
+            + xlim(0,310)
 )
 direct.label(gg1,"last.bumpup")
 ```
@@ -151,7 +147,11 @@ out_long2 <- out_long %>%
 ```
 
 ```{r plot_long, warning=FALSE}
-direct.label(gg1 %+% out_long2,"last.bumpup")
+p_temp <- direct.label(gg1 %+% out_long2,"last.bumpup")
+p_temp
+ggsave(p_temp,filename = "sir_sing.pdf" ,
+       width = 14, height = 14, units = "cm",
+       path="../pix/")
 ```
 
 ### Steady States
@@ -222,114 +222,10 @@ all.equal(R0(params=update(params,eta_c=1,eta_w=1)), R0_base)
 ```
 
 ### Contour plot of $R_0=1$ and interpretations approache 1
-```{r contour_R0_1, message=FALSE,warning=FALSE }
-n_out <- 5 ## facets (rows/cols)
-n_in <- 41 ## grid N within facets
- # specify the ranges
- beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case
- eta_w <- seq(0,1, length.out=n_out)
- eta_c <- seq(0,1, length.out=n_out) #0.001 to 0.5 
- rho     <- seq(0,0.01, length.out=n_in)
- omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
- W_S <- 0.3 #choose 0.3 for TTI testing plan and 1 for the random testing.
- 
-
- df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-                    p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-                    eta_w=eta_w,eta_c=eta_c,s=params[["s"]])
- 
-# Need to be corrected: in F_I, state_dfe should be changed according to the df1!
-df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
-                      Fi= apply(df1,1,function(params_in)F_I(params=params_in)))
-
-df2 <- df2 %>% dplyr::mutate(R0_sub = ifelse(eta_w<eta_c, NA, R0))  
-```
-
-```{r}
-## hacked (not very robustly) to chain label_both() and label_parsed() ...
-label_special <- function (labels, multi_line=FALSE, sep = "== ") {
-    value <- ggplot2:::label_value(labels, multi_line = multi_line)
-    variable <- ggplot2:::label_variable(labels, multi_line = multi_line)
-    variable[[1]] <- gsub("_(.)$","[\\1]",variable[[1]])
-    ## not using multiple faceting variables on each margin, so forget paste
-    out <- Map(paste, variable, value, sep = sep)
-    out[[1]] <- lapply(out[[1]], function(expr) c(parse(text=expr)))
-    out
-}
-```
-
-```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Random and TTI testing cases. 
-
-p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
-  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
-  ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-  theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.89, 0.73)) # initial theme, comment it for TTI testing plot
-  # theme(panel.spacing=grid::unit(0,"lines"),legend.position = "none") #AG, uncomment for Random Case
-p1_temp <- (p1
-    + geom_contour_filled(breaks=brks_vec)
-    + geom_contour(breaks=1,alpha=0.5,colour="black")
-    # + scale_fill_manual(palette=mycolors(brks_vec),drop=FALSE)
-    + facet_grid(eta_w~eta_c, labeller=label_special)
-    + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
-    + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
-    + geom_rect(data=df2, fill=ifelse(df2$eta_c>df2$eta_w,"grey90","NA" ),
-                          color= NA,
-                          ymin=-1,
-                          ymax=10,
-                          xmin=-1,
-                          xmax=2)
-    )
-p1_temp
-
-## BMB: FIXME: probably wrong but ... ???
-## ggsave(p1_temp,filename = "R0contour_random.pdf" , path="../pix/")
+ <!-- Run sir.plot.R -->
 
 
-```
 
-### Contour plot of $R_0=1$ and interpretations approache 2, parametrization $s=\eta_w/\eta_c$
-
-```{r contour_R0_2, message=FALSE,warning=FALSE }
-# This part is done to carry our simulation when s=eta_c/eta_w is involved. Also to fill the upper triangle panels in the panel plot. 
-#  # specify the ranges
-# beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case 
-# rho     <- seq(0,0.01, length.out=n_in)
-# omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, 
-# eta_c <- seq(0.001,0.1, length.out=n_out)
-# s <- seq(1,10,length.out=n_out) 
-# 
-#  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-#                     W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-#                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-#                     eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
-# 
-# df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
-#                       Fi= apply(df11,1,function(params_in)F_I(params=params_in)),
-#                        Sn=apply(df11,1,function(params_in)Sn_dfe(params = params_in)))
-
-```
-
-```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
-# p11 <- ggplot(df22,aes(x=omega,y=rho,z=R0))+ theme_bw() +
-#     theme(panel.spacing=grid::unit(0,"lines"))
-# p2_temp <- (p11
-#     + geom_contour_filled(breaks=pretty(unique(df22$R0),5),
-#                           alpha=0.5) ## breaks=0.2)
-#     + geom_contour(breaks=1,alpha=0.5,colour="black")
-#     + facet_grid(s~eta_c, labeller=label_special)
-#     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_fill_viridis_d(name=parse(text="R[0]"),breaks=brks_vec)
-#     + ggtitle("W[S]=1, W[I]=W[R]=1")
-# )
-# p2_temp
-# ## ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
-# # ggsave(p2_temp,filename = "R0contour_random_s.pdf" , path="../pix/")
-```
 
 Let call the $F_I$ the critical testing rate in the above plot.
 
@@ -365,7 +261,4 @@ Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here
 
 
 
-```{r  chnages of R0 wrt omega,message=FALSE,warning=FALSE }
-
-```
 
