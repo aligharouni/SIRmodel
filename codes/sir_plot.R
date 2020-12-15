@@ -1,6 +1,6 @@
 
 source("SIRfunctions.R")
-source("params")
+source("params.R")
 
 # #################################
 # Making Dataframe part
@@ -46,9 +46,6 @@ mx <- max(df_random$R0_sub,df_targeted$R0_sub, na.rm = T)
 # show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
 brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Random and TTI testing cases. 
 
-# #################################
-# 1. Plot the Random Testing Scenario:
-# #################################
 df_temp <- df_random
 p1 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
   xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
@@ -62,7 +59,6 @@ p1_temp <- (p1
             + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
-            + ggtitle(TeX(sprintf("W_S=W_I=W_R=1")))
             + geom_rect(data=df_temp, fill=ifelse(df_temp$eta_c > df_temp$eta_w,"grey90","NA" ),
                         color= NA,
                         ymin=-1,
@@ -70,42 +66,27 @@ p1_temp <- (p1
                         xmin=-1,
                         xmax=2)
 )
-p1_temp
 
-ggsave(p1_temp,filename = "R0contour_random.pdf" ,
+# #################################
+# 1. Plot the Random Testing Scenario:
+# #################################
+
+ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")),
+       filename = "R0contour_random.pdf" ,
        width = 14, height = 14, units = "cm",
        path="../pix/")
 
-
 # #################################
-# 2. Plot the Random Testing Scenario:
+# 2. Plot the Targeted Testing Scenario:
 # #################################
-df_temp <- df_targeted
 
-p2 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
-  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
-  ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-  theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.87, 0.75)) # initial theme, comment it for TTI testing plot
-  
-p2_temp <- (p2
-            + geom_contour_filled(breaks=brks_vec)
-            + geom_contour(breaks=1,alpha=0.5,colour="black")
-            + facet_grid(eta_w~eta_c, labeller=label_special)
-            + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
-            + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S_targeted )))
-            + geom_rect(data=df_temp, fill=ifelse(df_temp$eta_c > df_temp$eta_w,"grey90","NA" ),
-                        color= NA,
-                        ymin=-1,
-                        ymax=10,
-                        xmin=-1,
-                        xmax=2)
-)
-p2_temp
+ggsave((p1_temp %+% df_targeted) +
+        ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S_targeted ))),
+    filename = "R0contour_TTI.pdf" ,
+    width = 14, height = 14, units = "cm",
+    path="../pix/")
 
-ggsave(p2_temp,filename = "R0contour_TTI.pdf" ,
-       width = 14, height = 14, units = "cm",
-       path="../pix/")
+
+
 
 

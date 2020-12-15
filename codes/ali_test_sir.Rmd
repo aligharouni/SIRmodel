@@ -86,7 +86,7 @@ source("SIRfunctions.R")
 
 
 ```{r model inputs, message=FALSE}
-source("params")
+source("params.R")
 ```
 
 ```{r DFE, message=FALSE}
