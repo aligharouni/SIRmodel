@@ -1,10 +1,10 @@
 # Making plots for presentations/slides etc in the "path"
 path <- "~/projects/aliworkstation/references/presentations/epimodeling/pix/"
-# R code is : ~/projects/SIRmodel/codes/
-# setwd(path)
+# R code is at: ~/projects/SIRmodel/codes/
+# setwd("~/projects/SIRmodel/codes/")
 
 source("SIRfunctions.R")
-source("params")
+source("params.R")
 
 # #################################
 # Load the data
@@ -63,8 +63,8 @@ title_set <- ifelse(scenario=="targeted",
                     TeX(sprintf("Targeted Testing; W_S=%.1f, W_I=W_R=1",W_S_targeted )),
                     TeX(sprintf("Random Testing; W_S=W_I=W_R=1")))
   
-p1 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw(base_size = 14) +
-  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
+p1 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw(base_size = 12) +
+  xlab(TeX('$\\omega$, rate of test return  (1/day)')) +
   ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
   theme(panel.spacing=grid::unit(0,"lines"),legend.position = leg_pos)
          
@@ -90,13 +90,14 @@ p1_temp
 
 ggsave(p1_temp,
        filename = paste("R0_",scenario,"_","w",eta_w_val,"c",eta_c_val,".pdf",sep = "") ,
-       width = 14, height = 14, units = "cm",
+       width = 10, height = 10, units = "cm",
        path=path)
 
-# ggsave(p1_temp,
-#        filename = paste("R0_",scenario,"_","w","all","c",eta_c_val,".pdf",sep = "") ,
-#        width = 14, height = 14, units = "cm",
-#        path=path)
+# Saving the column panels
+ggsave(p1_temp,
+       filename = paste("R0_",scenario,"_","w","all","c",eta_c_val,".pdf",sep = "") ,
+       width = 12, height = 12, units = "cm",
+       path=path)
 
 
 

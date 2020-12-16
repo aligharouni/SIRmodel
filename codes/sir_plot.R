@@ -1,7 +1,8 @@
 
 source("SIRfunctions.R")
 source("params.R")
-
+# where to save the output:
+# path="../pix/"
 # #################################
 # Making Dataframe part
 # #################################
@@ -47,10 +48,11 @@ mx <- max(df_random$R0_sub,df_targeted$R0_sub, na.rm = T)
 brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Random and TTI testing cases. 
 
 df_temp <- df_random
+# df_temp <- df_targeted
 p1 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
-  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
+  xlab(TeX('$\\omega$, rate of test return (1/day)')) +
   ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-  # theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.89, 0.73)) # initial theme, comment it for TTI testing plot
+  # theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.8, 0.75)) # initial theme, comment it for TTI testing plot
   theme(panel.spacing=grid::unit(0,"lines"),legend.position = "none") #AG, uncomment for Random Case
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
@@ -73,8 +75,8 @@ p1_temp <- (p1
 
 ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")),
        filename = "R0contour_random.pdf" ,
-       width = 14, height = 14, units = "cm",
-       path="../pix/")
+       width = 12, height = 12, units = "cm",
+       path=path)
 
 # #################################
 # 2. Plot the Targeted Testing Scenario:
@@ -83,8 +85,8 @@ ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")),
 ggsave((p1_temp %+% df_targeted) +
         ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S_targeted ))),
     filename = "R0contour_TTI.pdf" ,
-    width = 14, height = 14, units = "cm",
-    path="../pix/")
+    width = 12, height = 12, units = "cm",
+    path=path)
 
 
 
