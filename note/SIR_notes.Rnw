@@ -3,8 +3,34 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{subcaption}
-\usepackage{amsmath}
-\bibliographystyle{apalike}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage[nameinlink,capitalize]{cleveref}
+\usepackage{cleveref}
+\usepackage{geometry}
+\usepackage{pdflscape}
+
+\usepackage{xspace}
+\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]
+{pix/Rlogo.pdf}\xspace}
+
+\newcommand{\comment}{\showcomment}
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
+\newcommand{\nocomment}[3]{}
+
+\newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
+\newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
+\newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
+\newcommand{\djde}[1]{\comment{red}{DJDE}{#1}}
+\newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
+\newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
+
+\newcommand{\Rnum}{\mathcal{R}_0}
+\theoremstyle{definition} % amsthm only
+\newtheorem{proposition}{Proposition}
+\newtheorem{note}{Note}
+\newtheorem{theorem}{Theorem}
 
 \title{SIR Model with Testing and Isolation Mechanisms}
 
@@ -25,78 +51,142 @@
 \item $F_Z$: Weighted testing rate defined as $F_Z=\sigma W_Z$. That is, $F_S = \sigma W_S$, $F_I=\sigma W_I$ and $F_R = \sigma W_R$.
 \end{itemize}
 
-\includegraphics[width=\linewidth]{../pix/sir_comp.png}
+\includegraphics[width=0.5\linewidth]{../pix/sir_comp.png}
 
-The model is
-
+The model is 
 \begin{align}
-\label{model}
- d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n \\
- d S_n/dt &= -\Lambda S_n + F_S S_u - \omega S_n \\
- d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u  \\
- d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n \\
- d I_p/dt &= p_I F_I I_u - \omega I_p -\gamma I_p \\
- d I_t/dt &= \omega I_p - \gamma I_t  \\
- d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n \\
- d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n  \\
- d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p  \\
- d R_t/dt&= \gamma I_t + \omega R_p  \\
- dN/dt &= \omega (S_n + I_n + R_n)   \\
- dP/dt &= \omega(I_p + R_p).
+% \label{model}
+ d S_u/dt &= -\Lambda S_u - F_S S_u + \omega S_n, \label{eq1}\\
+ d S_n/dt &= -\Lambda S_n + (1-p_S) F_S S_u - \omega S_n, \label{eq2}\\
+ d S_p/dt &= -\Lambda S_p + p_S F_S S_u - \omega S_p, \label{eq3}\\
+ d S_c/dt &= -\Lambda S_c + \omega S_p, \label{eq4}\\
+ d I_u/dt &= \Lambda S_u - F_I I_u + \omega I_n  - \gamma I_u,  \label{eq5}\\
+ d I_n/dt &= \Lambda S_n + (1-p_I) F_I I_u - \omega I_n -\gamma I_n, \label{eq6}\\
+ d I_p/dt &= \Lambda S_p + p_I F_I I_u - \omega I_p -\gamma I_p, \label{eq7}\\
+ d I_c/dt &= \Lambda S_c + \omega I_p - \gamma I_c,  \label{eq8}\\
+ d R_u/dt &= \gamma I_u - F_R R_u + \omega R_n, \label{eq9}\\
+ d R_n/dt &= \gamma I_n + (1-p_R) F_R R_u - \omega R_n,  \label{eq10}\\
+ d R_p/dt &= \gamma I_p + p_R F_R R_u  - \omega R_p,  \label{eq11}\\
+ d R_c/dt&= \gamma I_c + \omega R_p,  \label{eq12}\\
+ dN/dt &= \omega (S_n + I_n + R_n),   \label{eq13}\\
+ dP/dt &= \omega(I_p + R_p) \label{eq14},
 \end{align}
 
-% %%%%%%%
+\newgeometry{margin=1cm} % modify this if you need even more space
+\begin{landscape}
+\begin{table}[htp]
+\centering
+{\tiny %
+\begin{tabular}{|c|ccc|} \hline
+  Symbol & Description & Unit & Value \\ \hline
+  $N_0$     & Total population size & people & $10^6$ \\ \hline
+  $\omega$  & Rate of onward flow from the awaiting to reported or untested compartments  & 1/day & - \\ \hline
+  $\gamma$ & Recovery rate & 1/day & 1/3 \\ \hline 
+  $\rho$   & Per capita testing intensity & 1/day & 0.01 \\ \hline 
+  $\eta_w$  & Relative probability of transmission for isolated awaiting individuals & - & - \\ \hline
+  $\eta_c$  & Relative probability of transmission for isolated confirmed individuals & - & -  \\ \hline
+  $\Lambda$ & Force of infection & 1/day & - \\ \hline
+  $p_S$ & Probability of false positive for susceptible& - & 0 \\ \hline
+  $p_I$ & Probability of being infected and tested positive & - & 1 \\ \hline
+  $p_R$ & Probability of being recovered and tested positive & - & 0.5 \\ \hline
+  $W_S, W_I, W_R$ & Relative testing weight & - & 
+  \begin{minipage}[t]{0.21\columnwidth}%
+ Random testing: $W_S=W_I=W_R=1$, \\Non-random testing: $W_S=0.3, W_I=W_R=1$
+\end{minipage} \\ \hline
+
+  \end{tabular}
+  }%
+\caption{\label{tab:params} The underlying parameters of model, \crefrange{eq1}{eq12}.}
+\end{table}
+\end{landscape}
+\restoregeometry
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{On Calculation of $\Rnum$}
 
-\newpage
-\begin{figure}
-\centering
-\begin{subfigure}[t]{.45\textwidth}
-\centering
-\includegraphics[width=\linewidth]{../pix/R0contour_random.png}
-        \caption{}\label{fig:fig_a}
-\end{subfigure}
-%
-\begin{subfigure}[t]{.45\textwidth}
-\centering
-\includegraphics[width=\linewidth]{../pix/R0contour_TTI.png}
-\caption{}\label{fig:fig_b}
-\end{subfigure}
-\end{figure}
+\begin{align}
+\label{FV}
+F =& \beta/N_0 \left[ \begin {array}{cccc} 
+S_u&\eta_w\,S_u&\eta_w\,S_u&\eta_c\,S_u\\
+S_n&\eta_w\,S_n&\eta_w\,S_n&\eta_c\,S_n\\ 
+0&0&0&0\\
+0&0&0&0
+ \end {array} \right], \\
+  V =&
+ \left[ \begin {array}{cccc}  
+F_I+\gamma&-\omega&0&0\\
+-(1-p_I)F_I&\omega+\gamma&0&0\\
+-p_I F_I&0&\omega+\gamma&0\\
+0&0&-\omega&\gamma
+\end {array} \right], \text{thus}\\
+V^{-1} =&
+\left[ \begin {array}{cccc}
+\frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
+\noalign{\medskip}
+\frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}& 
+\frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
+\frac{\omega}{(\omega+\gamma) \gamma}&
+\frac{1}{\gamma}
+\end {array} \right].
+\end{align}
 
-\begin{figure}
-\centering
-\begin{subfigure}[t]{.45\textwidth}
-\centering
-\includegraphics[width=\linewidth]{../pix/R0contour_random_s.png}
-        \caption{}\label{fig:fig_a}
-\end{subfigure}
-%
-\begin{subfigure}[t]{.45\textwidth}
-\centering
-\includegraphics[width=\linewidth]{../pix/R0contour_TTI_s.png}
-\caption{}\label{fig:fig_b}
-\end{subfigure}
-\end{figure}
+The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as 
+\begin{equation}
+G = \left[ \begin {array}{cc}
+G_{11}&G_{12}\\
+0&0
+\end {array} \right], \text{ where } \\
+G_{11} =C
+\left[\begin {array}{cc}
+A\,S_u & B\,S_u\\
+A\,S_n & B\,S_n
+\end {array}\right].
+\end{equation}
 
-**Insights from the R0-contour plots**
+The Disease-Free Equilibrium (DFE) for the SIR model, \crefrange{eq1}{eq12}, is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
 
-1. TTI requires lower testing rate than random testing to achieve $R_0=1$.
+\begin{equation}
+\label{dfe}
+S_n^*= \frac{\rho}{\omega} N_0, \ S_u^*= N_0-S_n^*, \text{and} I_j=R_j=0 \ \text{for all j}.
+\end{equation}
 
-2. When random testing regime is applied, $W_S=W_I=W_R$,
+The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 
-(i) in the case of perfect isolation of the reported individuals, $\eta_t=0$, the followings are inferred (see the first few columns of the panel plot); 
- - variations of the $\eta_w$ has a negligible effect on the critical testing.
- - for low $\omega$, $R_0$ increases as $\omega$ increases but saturates. This means that when the reporting process is very very slow, increasing the speed of the reporting causes higher $R_0$. Maybe because more people will move to $I_u$ [?, not very sure here.]
- 
- (ii) in case of the non-perfect isolation (see the last column), when $\eta_w$ increases (more awaiting people follow the isolation rules) faster reporting reduces $R_0$.  
-Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here we showed that this can be less true. 
+\begin{equation}
+\label{R0}
+\Rnum= (A \times S_u^* + B \times S_n^*) \times C, 
+\end{equation}
+where
+\begin{align*}
+A=& \gamma(\omega+\gamma) + (\gamma \eta_w + \omega \eta_c p_I) F_I, \\
+B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
+C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+\end{align*}
 
-3. When TTI regime is applied,
+Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the spectral radius of $G$. All matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}.
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sensitivity of $\Rnum$ with respect to the underlying parameters}
 
-% %%%%%%%
+\begin{note}
+Notice that matrix $F$ is a rank one matrix, thus $FV^{-1}$ is of a rank one. This is why $FV^{-1}$ has only one non-zero eigenvalue. Specifically, $F$ is a rank one means that it can be written as matrix product of a column vector and a row vector as follows
+$$
+F = \beta/N_0 \left[\begin{array}{c} S_u\\  S_n\\ 0\\ 0 \end {array} \right]
+\left[\begin{array}{cccc} 1 \eta_w \eta_w \eta_c \end {array} \right].
+$$
+
+\end{note}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thoughts/Objectives}
 
 
@@ -118,17 +208,6 @@ Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here
 \item more detailed quantitative exploration: in particular, *either* Latin hypercube *or* (nearly the same!) a sample over estimated ('prior') distributions of the parameters. Goal: answer the general question "how likely is TTI to be able to control COVID?"
 \end{itemize}
 \end{enumerate}
-
-
-
-
-% \item extension to a SEPAIR model (i.e. including latent/exposed, presymptomatic, asymptomatic)
-%     * analytical results will probably be out of reach
-% 	* but it _may_ be possible to extend some of the insights gained in part 1
-% 	* in any case, some numerical results (the space of relevant/interesting parameters will be larger: figure out a sensible way to show results from this parameter space. Are there useful dimensionless parameters that could help frame this?)
-% \item more detailed quantitative exploration: in particular, *either* Latin hypercube *or* (nearly the same!) a sample over estimated ('prior') distributions of the parameters. Goal: answer the general question "how likely is TTI to be able to control COVID?"
-
-
 
 
 % %%%%%%%
