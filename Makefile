@@ -15,6 +15,7 @@ Sources += codes/ali_test_sir.Rmd
 Ignore += codes/ali_test_sir.html
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
 
+subdirs += $(note)
 note/SIR_notes.pdf:
 
 Sources += smoothing.tex
@@ -32,6 +33,8 @@ pix/R0contour_random.pdf: codes/sir_plot.R codes/params.R codes/SIRfunctions.R
 
 pix/R0contour_TTI.pdf: codes/sir_plot.R codes/params.R codes/SIRfunctions.R
 	cd codes; R CMD BATCH --vanilla sir_plot.R
+
+alldirs += $(subdirs)
 
 ######################################################################
 
