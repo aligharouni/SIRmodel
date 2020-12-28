@@ -16,7 +16,6 @@ Ignore += codes/ali_test_sir.html
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
 
 note/SIR_notes.pdf:
-note/SIR_notes.pdf:
 
 Sources += smoothing.tex
 Ignore += smoothing.pdf
@@ -55,7 +54,7 @@ makestuff/Makefile:
 
 -include makestuff/os.mk
 
--include makestuff/texdeps.mk
+-include makestuff/texi.mk
 -include makestuff/makeR.mk
 -include makestuff/pandoc.mk
 
