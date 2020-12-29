@@ -130,23 +130,29 @@ F_I+\gamma&-\omega&0&0\\
 -(1-p_I)F_I&\omega+\gamma&0&0\\
 -p_I F_I&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
-\end {array} \right], \text{thus}\\
-V^{-1} =&
-\left[ \begin {array}{cccc}
-\frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
-\noalign{\medskip}
-\frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
-\frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
-\noalign{\medskip}
-\frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
-\frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
-\noalign{\medskip}
-\frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}&
-\frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
-\frac{\omega}{(\omega+\gamma) \gamma}&
-\frac{1}{\gamma}
 \end {array} \right].
 \end{align}
+
+Also,
+\begin{align}
+\label{Vinv}
+V^{-1} =&
+\left[ \begin {array}{cccc}
+\frac {\omega+\gamma}{\hat{F_I}} & \frac {\omega}{\hat{F_I}}&0&0\\
+\noalign{\medskip}
+\frac{(1-p_I) F_I}{\hat{F_I}}& \frac{F_I+\gamma}{\hat{F_I}}&0&0\\
+\noalign{\medskip}
+\frac{p_I F_I}{\hat{F_I}}& \frac{\omega p_I F_I}{(\omega+\gamma)\hat{F_I}}& \frac{1}{\omega+\gamma}&0 \\
+\noalign{\medskip}
+\frac{\omega\,F_I\,p_I}{\gamma \hat{F_I}}&
+\frac{\omega^2\,F_I\,p_I}{\gamma(\omega+\gamma) \hat{F_I}}&
+\frac{\omega}{\gamma (\omega+\gamma)}&
+\frac{1}{\gamma}
+\end {array} \right],
+\end{align}
+
+where $\hat{F_I}=\gamma(\omega +\gamma)+(\gamma+\omega p_I)F_I$
+
 
 The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as
 \begin{equation}
@@ -201,24 +207,24 @@ F = \beta/N_0 \left[\begin{array}{c} S_u\\  S_n\\ 0\\ 0 \end {array} \right]
 \left[\begin{array}{cccc} 1 \eta_w \eta_w \eta_c \end {array} \right].
 $$
 \end{note}
-
-\begin{prop}\label{prop1}
-Let $f$ and $g$ be smooth real functions such that (i) $f(x) \leq g(x)$ for all $x \in (x_0,x_0+\epsilon)$ and (ii) $f(x_0)=g(x_0)$, then the definition of the derivative yields
-$$f'(x_0) = \lim_{h\to 0} \frac{f(x_0+h)-f(x_0)}{h} =
-\lim_{h\to 0} \frac{f(x_0+h)-g(x_0)}{h} \leq
-\lim_{h\to 0} \frac{g(x_0+h)-g(x_0)}{h} =
-g'(x_0).
-$$
-\end{prop}
-
-Based on the note \ref{note:rankf}, Also notice that $FV^{-1}$ is of rank one matrix since it can be written as matrix product of a column vector and a row vector. Thus, the next generation matrix $G=F V^{-1}$ has only one non-zero eigenvalue given by the trace $G$ \footnote {see the argument in  \url{https://www.physicsforums.com/threads/eigenvalues-of-a-rank-1-matrix.682216/}}.
-
-Thus,
-\begin{equation}
-\mathrm{trace}(G) = \mathrm{trace}(G_{11})
-\leq \frac{\beta}{\gamma} \frac{1}{N_0} (S_u^*+S_n^*) \, \, \,\forall \rho \in (0,\epsilon).
-\end{equation}
-It is easy to show that $\mathrm{trace}(G)= \frac{\beta}{\gamma} \frac{1}{N_0} (S_u^*+S_n^*) =1/\gamma$. Thus, following the Prop.\ref{prop1}, $\partial{\Rnum}{\rho} \leq 0$.
+% 
+% \begin{prop}\label{prop1}
+% Let $f$ and $g$ be smooth real functions such that (i) $f(x) \leq g(x)$ for all $x \in (x_0,x_0+\epsilon)$ and (ii) $f(x_0)=g(x_0)$, then the definition of the derivative yields
+% $$f'(x_0) = \lim_{h\to 0} \frac{f(x_0+h)-f(x_0)}{h} =
+% \lim_{h\to 0} \frac{f(x_0+h)-g(x_0)}{h} \leq
+% \lim_{h\to 0} \frac{g(x_0+h)-g(x_0)}{h} =
+% g'(x_0).
+% $$
+% \end{prop}
+% 
+% Based on the note \ref{note:rankf}, Also notice that $FV^{-1}$ is of rank one matrix since it can be written as matrix product of a column vector and a row vector. Thus, the next generation matrix $G=F V^{-1}$ has only one non-zero eigenvalue given by the trace $G$ \footnote {see the argument in  \url{https://www.physicsforums.com/threads/eigenvalues-of-a-rank-1-matrix.682216/}}.
+% 
+% Thus,
+% \begin{equation}
+% \mathrm{trace}(G) = \mathrm{trace}(G_{11})
+% \leq \frac{\beta}{\gamma} \frac{1}{N_0} (S_u^*+S_n^*) \, \, \,\forall \rho \in (0,\epsilon).
+% \end{equation}
+% It is easy to show that $\mathrm{trace}(G)= \frac{\beta}{\gamma} \frac{1}{N_0} (S_u^*+S_n^*) =1/\gamma$. Thus, following the Prop.\ref{prop1}, $\partial{\Rnum}{\rho} \leq 0$.
 
 
 
