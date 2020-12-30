@@ -195,9 +195,15 @@ Note that the block matrix $G_{12}$ does not influence $\Rnum$ defined as the sp
 \begin{note} The tricky one is the $\partial{\Rnum}/\partial{\rho}$; Following JD comment and some analysis, we can prove that analytically.
 \end{note}
 
-{\bf Jonathan's comment:} "There should be a logical route to a clear proof about $\rho$. The total
+\jd{"There should be a logical route to a clear proof about $\rho$. The total
 amount of time spent in $I_x$ when starting from a given starting point should not depend on $\rho$ (or anything but $\gamma$). And this should be reflected in the column sums of $V^{-1}$.
-Since both of the $\eta$'s are $<1$, all we should then need to prove is that the (nonzero) values on the first row of $V^{-1}$ decrease with $\rho$ to show that the elements of $FV^{-1}$ decrease with $\rho$, which presumably shows that $\Rnum$ decreases as well. This needs to be filled ink but should work."
+Since both of the $\eta$'s are $<1$, all we should then need to prove is that the (nonzero) values on the first row of $V^{-1}$ decrease with $\rho$ to show that the elements of $FV^{-1}$ decrease with $\rho$, which presumably shows that $\Rnum$ decreases as well. This needs to be filled ink but should work."}
+% email: Dec 30, 2020
+\jd{I certainly think now that it is isn't true. What if we imagine a very
+slow return rate, and no reduced transmission in the waiting category?
+As we increase testing, eventually we have almost everyone stuck in
+$S_n$ and almost no route to $I_p$. So testing can eventually reduce $R_0$.}
+\ali{I agree with you. If we imagine a very slow return, i.e., rho>>omega and noreduced transmission, i.e., $eta_w=eta_c=1$, then all infected compartments will eventually be empty and R0 will be reduced. }
 
 \begin{note}
 \label{note:rankf}
