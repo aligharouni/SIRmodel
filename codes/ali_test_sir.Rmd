@@ -25,7 +25,6 @@ Notes on other references: (1) [testing_flow.md](testing_flow.md)(I am using the
 - An exploration of simple mathematical/computational models of COVID-19 to gain insight into the effects of different levels of testing and isolation on $R_t$/growth rates. The goal is insight.
 
 
-
 ## Model and Definitions
 
 ### Assumptions
@@ -62,10 +61,8 @@ knitr::include_graphics("../pix/sir_comp.png")
 - Initial approach and singularity issue (not sure if I call it structural or numerical singularity?); 
 $\sigma = \frac{\rho N_0}{W}$ was used initially. The issue was that the population in $S$ compartments appeared to blow up when the DFE is achieved ( in the simulation when time, $t>200$). This is  once the only untested people are susceptibles, the FoI will become $\Lambda=0$, testing rate $F_S=\rho N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - \rho N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
 
-
-
-
 ### Model
+
 The model is
 \begin{align}
 \label{mod:1}
@@ -83,105 +80,21 @@ The model is
 12)\ dP/dt &= \omega(I_p + R_p).
 \end{align}
 
-
-
 ```{r packages, message=FALSE}
-library(deSolve)
-library(ggplot2)
-library(tidyr)
-library(McMasterPandemic)
-library(directlabels)
-library(latex2exp)
-library(rootSolve)
-unpack <- McMasterPandemic::unpack
-
+source("SIRfunctions.R")
 ```
 
-```{r, model formulation}
-sir.model <- function(time,state,params){
-    unpack(as.list(c(state,params)))
-    ## Force of Infection  
-    Lambda <- beta * (I_u + eta_w*(I_n+I_p) + eta_c*I_t)/N0
-    ## scaling the weights
-    W <- W_S*S_u+W_I*I_u+W_R*R_u
-    sigma <- rho*N0/W
-    F_S <- sigma*W_S
-    F_I <- sigma*W_I
-    F_R <- sigma*W_R
-
-    dS_u.dt <- -Lambda*S_u - (1-p_S) * F_S * S_u + omega * S_n
-    dS_n.dt <- -Lambda*S_n + (1-p_S) * F_S * S_u - omega * S_n 
-    dI_u.dt <-  Lambda*S_u + omega * I_n - F_I * I_u - gamma * I_u
-    dI_n.dt <-  Lambda*S_n + (1-p_I) * F_I * I_u  - omega * I_n - gamma * I_n
-    dI_p.dt <-  p_I * F_I * I_u - omega * I_p - gamma * I_p 
-    dI_t.dt <-  omega * I_p - gamma * I_t 
-    dR_u.dt <- gamma * I_u + omega * R_n - F_R * R_u  
-    dR_n.dt <- gamma * I_n + (1-p_R) * F_R * R_u - omega * R_n
-    dR_p.dt <- gamma * I_p + p_R * F_R * R_u - omega * R_p
-    dR_t.dt <- gamma * I_t + omega * R_p
-    dN.dt <- omega * (S_n + I_n + R_n)
-    dP.dt <- omega *(I_p + R_p)
-    
-    # return the rate of change
-  dxdt <- c(dS_u.dt,dS_n.dt,dI_u.dt,dI_n.dt,dI_p.dt,dI_t.dt,dR_u.dt,dR_n.dt,dR_p.dt,dR_t.dt,dN.dt,dP.dt)
-    ## }
-    return(list(dxdt))
-}
-
-```
 
 ```{r model inputs, message=FALSE}
-params <- c(N0=1000000, beta=.8,gamma=1/3, omega=0.25, rho=0.01, #0.8, 1/3
-             W_S=1, W_I=1, W_R=1, #weights
-             p_S=0, p_I=1, p_R=0.5, #prob of waiting for being tested positive
-            eta_w=0.02, eta_c=0.01, #isolation parameter 
-            s=2 #eta_w/eta_c
-            )
-class(params) <- "params_pansim"
-state_init <- c(S_u=params[["N0"]], S_n=0,
-                I_u=1,I_n=0,I_p=0,I_t=0,
-                R_u=0,R_n=0,R_p=0,R_t=0,
-                N=0,P=0)
-d <- seq(0,200,by=0.1)
-# Conditional stop for desolver
-# rootfun <- function (time, state,params) { 
-#   unpack(as.list(c(state,params)))
-#   return(I_u - 1) }
+source("params.R")
 ```
-
 
 ```{r DFE, message=FALSE}
 # DFE; numerical approach
-DFE <- function(S,params){
-  S_u <- S[1]
-  S_n <- S[2]
-  I_u <-0
-  R_u <-0
-  unpack(as.list(params))
-  W <- W_S*S_u+W_I*I_u+W_R*R_u
-  sigma <- rho*N0/W
-  F_S <- sigma*W_S
- 
- return(c(eq1=S_u+S_n-N0,
-          eq2=-F_S*S_u+omega*S_n))
-}
-
 roots_dfe <- multiroot(DFE, c(1, 1), parms = params, positive = T)
 roots_dfe$root
 
-# DFE; analytic approach
-Sn_dfe <-function(params){
-  unpack(as.list(params))
-  return((rho*(1-p_S)*N0)/omega)
-  }
-
-Su_dfe<- params[["N0"]]-Sn_dfe(params)
-
-state_dfe <- c(S_u=Su_dfe, S_n=Sn_dfe(params),
-                I_u=0,I_n=0,I_p=0,I_t=0,
-                R_u=0,R_n=0,R_p=0,R_t=0,
-                N=0,P=0)
-# check:
+# check if the DFE is the same in numerical and analytic:
 all.equal(c(state_dfe[["S_u"]],state_dfe[["S_n"]]),roots_dfe$root)
 ```
 
@@ -193,17 +106,12 @@ all.equal(sum(g1[[1]]),0)
 
 
 ```{r model_run, message=FALSE}
-out <- as.data.frame(
-  ode(
-    func=sir.model,
-    y=state_init,
-    times= d, 
-    parms=update(params,beta=2)
-    # atol = 1e+1, rtol = 1e+1
-    # rootfun = rootfun,
-    # method="lsodar"
-  )
-)
+sim_time <- seq(0,200,by=0.1)
+
+out <- run.sir(model=sir.model,
+               params=update(params,beta=2),
+               state=state_init,
+               sim_time=sim_time)
 
 out2 <- out %>%
   pivot_longer(c(S_u,S_n,I_u,I_n,I_p,I_t, R_u,R_n,R_p,R_t), names_to = "compartment", values_to = "value")
@@ -212,27 +120,26 @@ out2 <- out %>%
 
 ```{r plot_run1, warning=FALSE}
 gg1 <- (ggplot(data=out2, aes(x=time,y=value,col=compartment))
-    + geom_line()
-    + scale_y_log10(limits=c(0.1,params[["N0"]]))
-##    + scale_x_continuous(limits=c(0,240))
+            + theme_bw()
+            + geom_line()
+            + ylab(label="Prevalence")
+            + xlab(label="Time (days)")
+            + scale_y_log10(limits=c(0.1,params[["N0"]]))
+            + xlim(0,310)
 )
 direct.label(gg1,"last.bumpup")
 ```
 
 ```{r run2, message=FALSE}
-d_long <- seq(0,300,by=0.1)
+sim_time_long <- seq(0,300,by=0.1)
 ## capturing badly behaved integrator warning messages
 cc <- capture.output(
-    out_long <- as.data.frame(
-        ode(
-    func=sir.model,
-    y=state_init,
-    times= d_long, 
-    parms=update(params,beta=2)
-    # rootfun = rootfun,
-    # method="lsodar"
-  )
-  ))
+   out_long <- run.sir(model=sir.model,
+               params=update(params,beta=2),
+               state=state_init,
+               sim_time=sim_time_long)
+)
+    
 out_long2 <- out_long %>%
     pivot_longer(c(S_u,S_n,I_u,I_n,I_p,I_t, R_u,R_n,R_p,R_t),
                  names_to = "compartment", values_to = "value")
@@ -240,7 +147,11 @@ out_long2 <- out_long %>%
 ```
 
 ```{r plot_long, warning=FALSE}
-direct.label(gg1 %+% out_long2,"last.bumpup")
+p_temp <- direct.label(gg1 %+% out_long2,"last.bumpup")
+p_temp
+ggsave(p_temp,filename = "sir_sing.pdf" ,
+       width = 14, height = 14, units = "cm",
+       path="../pix/")
 ```
 
 ### Steady States
@@ -288,51 +199,14 @@ A\,S_n & B\,S_n
 \end{equation}
 
 The Eigenvalues of $G_{11}$, are 0 and $R_0$.
-```{r R0}
-F_I <- function(params){
-   # Returns F_I at DFE 
-  unpack(as.list(params))
-  Sn<- Sn_dfe(params)
-  Su<- N0-Sn
-  sigma <- rho*N0/(W_S*Su) #at DFE 
-  return(sigma*W_I)
-}
 
- # just a test
-  F_I(params=update(params,rho=0))
-  
-R0<-function(params){
-    unpack(as.list(params))
-    Sn <- Sn_dfe(params)
-    Su <- N0-Sn
-    # print(c(Su_dfe,Sn_dfe,Su_dfe+Sn_dfe))
-    Fi <- F_I(params) #at DFE
-    A <-gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
-    B <-(omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
-    C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))
-    return((A*Su+B*Sn)*C)
-}
-
-# R0 expression with eta_w/eta_c factored
-R02<-function(params){
-    unpack(as.list(params))
-    Sn<- Sn_dfe(params)
-    Su<- N0-Sn
-    F_I <-F_I(params)  #at DFE
-    
-    A2 <- gamma*(p_I*F_I*omega*Sn+(omega+gamma)*(gamma*Sn+F_I*N0))
-    B2 <- p_I*F_I*omega*(gamma*Su+omega*N0)
-    D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
-    C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+F_I*(gamma+omega*p_I)))*(omega+gamma))
-    # s <- eta_w/eta_c
-    return((eta_c*(s*A2+B2)+D)*C2)
-}
+```{r R0, echo=FALSE}
+F_I(state=state_dfe,params=params)
 
 # R0<1:
 R0(params=params)
 # R0>1:
 R0(params=update(params,beta=2))
-
 # check
 all.equal(R0(params=params),R02(params=params))
 ```
@@ -341,119 +215,17 @@ Can we recover $R_0=\beta/\gamma$ of the simple SIR? -yes
 ```{r checkings}
 # checking if simple R_0 for SIR can be recovered?
 # Case #1: rho=0
-all.equal(R0(params=update(params,rho=0)), params[["beta"]]/params[["gamma"]])
+R0_base <-params[["beta"]]/params[["gamma"]]
+all.equal(R0(params=update(params,rho=0)), R0_base)
 # Case #2: 
-all.equal(R0(params=update(params,eta_c=1,eta_w=1)), params[["beta"]]/params[["gamma"]])
+all.equal(R0(params=update(params,eta_c=1,eta_w=1)), R0_base)
 ```
 
 ### Contour plot of $R_0=1$ and interpretations approache 1
-```{r contour_R0_1, message=FALSE,warning=FALSE }
-n_out <- 5 ## facets (rows/cols)
-n_in <- 41 ## grid N within facets
- # specify the ranges
- beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case
- eta_w <- seq(0,1, length.out=n_out)
- eta_c <- seq(0,1, length.out=n_out) #0.001 to 0.5 
- rho     <- seq(0,0.01, length.out=n_in)
- omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
- W_S <- 0.3 #choose 0.3 for TTI testing plan and 1 for the random testing.
- 
+ <!-- Run sir.plot.R -->
 
- df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-                    W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-                    p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-                    eta_w=eta_w,eta_c=eta_c,s=params[["s"]])
- 
-# Need to be corrected: in F_I, state_dfe should be changed according to the df1!
-df2<- data.frame(df1,R0=apply(df1,1,function(params_in)R0(params=params_in)),
-                      Fi= apply(df1,1,function(params_in)F_I(params=params_in)))
 
-df2 <- df2 %>% dplyr::mutate(R0_sub = ifelse(eta_w<eta_c, NA, R0))  
-```
 
-```{r}
-## hacked (not very robustly) to chain label_both() and label_parsed() ...
-label_special <- function (labels, multi_line=FALSE, sep = "== ") {
-    value <- ggplot2:::label_value(labels, multi_line = multi_line)
-    variable <- ggplot2:::label_variable(labels, multi_line = multi_line)
-    variable[[1]] <- gsub("_(.)$","[\\1]",variable[[1]])
-    ## not using multiple faceting variables on each margin, so forget paste
-    out <- Map(paste, variable, value, sep = sep)
-    out[[1]] <- lapply(out[[1]], function(expr) c(parse(text=expr)))
-    out
-}
-```
-
-```{r show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Random and TTI testing cases. 
-
-p1 <- ggplot(df2,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
-  xlab(TeX('$\\omega$, Returning test result rate (1/day)')) +
-  ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-  theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.89, 0.73)) # initial theme, comment it for TTI testing plot
-  # theme(panel.spacing=grid::unit(0,"lines"),legend.position = "none") #AG, uncomment for Random Case
-p1_temp <- (p1
-    + geom_contour_filled(breaks=brks_vec)
-    + geom_contour(breaks=1,alpha=0.5,colour="black")
-    # + scale_fill_manual(palette=mycolors(brks_vec),drop=FALSE)
-    + facet_grid(eta_w~eta_c, labeller=label_special)
-    + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-    + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
-    + ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S)))
-    + geom_rect(data=df2, fill=ifelse(df2$eta_c>df2$eta_w,"grey90","NA" ),
-                          color= NA,
-                          ymin=-1,
-                          ymax=10,
-                          xmin=-1,
-                          xmax=2)
-    )
-p1_temp
-
-# ggsave(p1_temp,filename = "R0contour_random.pdf" , path="../pix/")
-ggsave(p1_temp,filename = "R0contour_TTI.pdf" , path="../pix/")
-
-```
-
-### Contour plot of $R_0=1$ and interpretations approache 2, parametrization $s=\eta_w/\eta_c$
-
-```{r contour_R0_2, message=FALSE,warning=FALSE }
-# This part is done to carry our simulation when s=eta_c/eta_w is involved. Also to fill the upper triangle panels in the panel plot. 
-#  # specify the ranges
-# beta  <- 0.339  ## set beta high enough to allow R0>1 in worst case 
-# rho     <- seq(0,0.01, length.out=n_in)
-# omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, 
-# eta_c <- seq(0.001,0.1, length.out=n_out)
-# s <- seq(1,10,length.out=n_out) 
-# 
-#  df11 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
-#                     W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-#                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-#                     eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
-# 
-# df22<- data.frame(df11,R0=apply(df11,1,function(params_in)R02(params=params_in)),
-#                       Fi= apply(df11,1,function(params_in)F_I(params=params_in)),
-#                        Sn=apply(df11,1,function(params_in)Sn_dfe(params = params_in)))
-
-```
-
-```{r show_contours_2, width=24,height=24,message=FALSE,warning=FALSE}
-# p11 <- ggplot(df22,aes(x=omega,y=rho,z=R0))+ theme_bw() +
-#     theme(panel.spacing=grid::unit(0,"lines"))
-# p2_temp <- (p11
-#     + geom_contour_filled(breaks=pretty(unique(df22$R0),5),
-#                           alpha=0.5) ## breaks=0.2)
-#     + geom_contour(breaks=1,alpha=0.5,colour="black")
-#     + facet_grid(s~eta_c, labeller=label_special)
-#     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_fill_viridis_d(name=parse(text="R[0]"),breaks=brks_vec)
-#     + ggtitle("W[S]=1, W[I]=W[R]=1")
-# )
-# p2_temp
-# ## ggsave(p2_temp,filename = "R0contour_random_s.png" , path="../pix/")
-# # ggsave(p2_temp,filename = "R0contour_random_s.pdf" , path="../pix/")
-```
 
 Let call the $F_I$ the critical testing rate in the above plot.
 
@@ -489,64 +261,4 @@ Note that it is sensible to expect that $\partial{R_0}/\partial{\omega}<0$. Here
 
 
 
-```{r  chnages of R0 wrt omega,message=FALSE,warning=FALSE }
-# R0_omega <- function(params){
-#   unpack(as.list(params))
-#          # a <- (eta_w-1)*W_I-(eta_c-1)*p_I*W_I
-#          a <- ((s-p_I)*eta_c + (p_I-1))*W_I  #involving s
-#          b <- 2*(eta_w-1)*gamma*W_S
-#          c <- b*gamma/2
-#          
-#          d <- (-beta*rho)/(gamma*W_S*omega^2*(gamma+omega)^2)*(a*omega^2 + b*omega + c)
-#          return(d)
-# }
-# 
-# R0_omega(params)
-  
-```
-
-```{r }
- # specify the ranges
-# if(F){
-# beta  <- 0.5  ## set beta 
-# gamma <- seq(0.1,0.5, length.out=n_out)
-# p_I <- 0.9
-# 
-# # eta_w <- seq(0,1, length.out=n_out)
-# eta_c <- seq(0.001,1, length.out=n_out)
-# s <- seq(1,2,length.out=n_out)
-# 
-# rho <- seq(0,0.01, length.out=n_in)
-# omega <- seq(0.011,2 , length.out=n_in) #note omega must be > rho, was 0.011
-# 
-# W_S <- 1/100
-# W_I <- 1/3
-# W_R <- 1/3
-# 
-#  df3_1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=gamma,omega=omega,rho=rho,
-#                     W_S=W_S,W_I=W_I,W_R=W_R,
-#                     p_S=params[["p_S"]],p_I=p_I,p_R=params[["p_R"]],
-#                     eta_w=params[["eta_w"]],eta_c=eta_c,s=s)
-# 
-# df3_2 <- data.frame(df3_1,R0=apply(df3_1,1,function(params_in)R02(params=params_in)),
-#                       R0_omega= apply(df3_1,1,function(params_in)R0_omega(params=params_in))
-#                        )
-# }
-```
-
-```{r show_contours_3, width=24,height=24,message=FALSE,warning=FALSE}
-# if(F){
-# p3 <- ggplot(df3_2,aes(x=omega,y=gamma,z=R0_omega))+ theme_bw() +
-#     theme(panel.spacing=grid::unit(0,"lines"))
-# (p3
-#     + geom_contour_filled(breaks=pretty(unique(df3_2$R0_omega),5),
-#                           alpha=0.5) ## breaks=0.2)
-#     + geom_contour(breaks=0,alpha=0.5,colour="black")
-#     + facet_grid(s~eta_c, labeller=label_special)
-#     + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-#     + scale_fill_viridis_d(name=parse(text="dR[0]"))
-# )
-# }
-```
 

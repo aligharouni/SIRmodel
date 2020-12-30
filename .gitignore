@@ -307,3 +307,7 @@ cpdir/
 *.bbl
 *.synctex.gz
 *.log
+*.aux
+*.blg
+*.out
+.texdeps/*

@@ -1,0 +1,143 @@
+\documentclass{article}
+
+\begin{document}
+By Ali Gharouni,
+<<date,echo=F>>=
+Sys.time()
+@
+This is my a test for MacPan package.
+
+\section{Install and Play}
+
+<<install the package, echo=T  >>=
+# install remotes package if necessary:
+while (!require(remotes)) {
+    install.packages("remotes")
+}
+## install development version of bbmle:
+if (!require("bbmle") || packageVersion("bbmle") < "1.0.23.5") {
+    remotes::install_github("bbolker/bbmle")
+}
+## install the target package and all its dependencies:
+remotes::install_github("bbolker/McMasterPandemic",
+                        dependencies = TRUE,
+                        build_vignettes = TRUE
+)
+library(McMasterPandemic)
+library(ggplot2); theme_set(theme_bw())
+library(cowplot)
+
+library(directlabels)
+library(zoo)
+library(tidyverse)
+@
+
+
+<<6: MacPan Params , echo=T>>=
+params <- read_params("ICU1.csv")
+
+knitr::kable(round(t(summary(params)),2))
+knitr::kable(round(t(get_R0(params, components=TRUE)),2)) 
+@
+
+
+<<Ali:SIR , echo=T>>=
+# A simple SIR model
+library(deSolve)
+unpack <- McMasterPandemic::unpack
+
+sir.mod <- function(time,state,params){
+    unpack(as.list(c(state,params)))
+    dS.dt <- -beta*S*I/N0
+    dI.dt <-  beta*S*I/N0-gamma*I
+    dR.dt <-  gamma*I
+    # return the rate of change
+    dxdt <- c(dS.dt,dI.dt,dR.dt)
+    return(list(dxdt))
+}
+sir.params <- c(N0=10^6, beta=0.5,gamma=1/7)
+class(sir.params) <- "params_pansim"
+# Set the initial state
+sir.state_init <- c(S=sir.params[["N0"]], 
+                I=1,
+                R=0)
+##set the number of days for SIR simulation as simulation time of MacPan
+startdate <- as.Date("01-03-2020")
+enddate <- as.Date("01-09-2020")
+d <- seq(0,as.numeric(enddate-startdate),by=1) 
+
+sir.R0 <- sir.params[["beta"]]/sir.params[["gamma"]]
+
+sir.out <- as.data.frame(
+  ode(
+    func=sir.mod,
+    y=sir.state_init,
+    times= d, 
+    parms=update(sir.params)
+    ))
+
+sir.out2 <- sir.out %>%
+  pivot_longer(c(S,I,R), names_to = "compartment", values_to = "value")
+
+gg1 <- (ggplot(data=sir.out2, aes(x=time,y=value,col=compartment))
+    + geom_line()
+    # + scale_y_log10(limits=c(0.1,sir.params[["N0"]]))
+)
+direct.label(gg1,"last.bumpup")
+
+@
+
+
+<<Try MacPan to recover the SIR result, echo=T>>=
+## update MacPan's params according to the SIR params
+##
+big_rate <- 20
+params <- update(params, c(beta0=sir.params[["beta"]],
+                           alpha=0, ## no asymptomatic
+                           sigma=big_rate, ## very short latent period
+                           ## would like this to -> Inf but can't
+                           gamma_a=0,
+                           mu=1,  ## all cases mild
+                           gamma_m=sir.params[["gamma"]],
+                           gamma_s=0,
+                           ## try to skip presymptomatic period
+                           gamma_p=big_rate
+                           ))
+
+pp <- params
+## pp <- fix_pars(params, target = c(R0 = sir.R0)) #not sure if I need to update Gbar=6?
+state <- make_state(params=pp)
+state[] <- 0
+state[["S"]] <- 1e6
+state[["Im"]] <- 1
+
+summary(pp)
+sim0 <- run_sim(pp,state,
+                start_date=startdate,
+                end_date=enddate,
+                use_ode=TRUE)
+
+gg0 <- (ggplot(sim0,aes(x=date))
++ geom_point(aes(y=incidence))
+)
+print(gg0)
+
+# combining the SIR and MacPan results also calculating incidences fr the SIR model
+sim_combined <- sim0 %>% mutate(sir.S=sir.out[["S"]],
+                                sir.I=sir.out[["I"]],
+                                sir.S=sir.out[["R"]],
+                                sir.incidence=sir.params[["beta"]]*sir.out[["S"]]*sir.out[["I"]])
+
+gg01 <- (ggplot(sim_combined,aes(x=date))
++ geom_point(aes(y=I))
++ geom_line(aes(y=sir.I), color='red')
+)
+print(gg01)
+print(gg01 + scale_y_log10())
+
+@
+
+
+
+
+\end{document}

@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\newtheorem{theorem}[]{Theorem}
+\newcommand{\Rnum}{\mathcal{R}_0}
+\title{ProofOfRho}
+\date{December 2020}
+
+\newcommand{\comment}{\showcomment}
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
+\newcommand{\nocomment}[3]{}
+
+\newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
+\newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
+
+\begin{document}
+
+\maketitle
+[Fady: for the proof below, it's probably good to include the matrix $V^{-1}$ in the proof. You have it on slide 39/49 from your talk today.]
+\begin{theorem}
+$\Rnum$ is a decreasing function of $\rho$
+\begin{proof}
+We know that $FV^{-1}$ is given by
+
+\begin{equation}
+FV^{-1} = \left[ \begin {array}{cc}
+G_{11}&G_{12}\\ 
+0&0
+\end {array} \right], \text{ where } \\
+G_{11} =C
+\left[\begin {array}{cc}
+A\,S_u & B\,S_u\\
+A\,S_n & B\,S_n
+\end {array}\right]\nonumber \, ,
+\end{equation}
+
+The spectral radius of $FV^{-1}$ (i.e., $\Rnum$) is the nonzero eigenvalue of $G_{11}$. Equivalently, the spectral radius of $FV^{-1}$ is the trace of $G_{11}$, hence, it is sufficient to prove that all entries of $G_{11}$ decrease whenever $\rho$ increases.
+
+Recall that
+
+[Fady: we should insert the matrix $V^{-1}$ here. I found it on slide 39 in your talk]
+
+notice that the columns of $V^{-1}$ always sum to $\gamma$ \ali{$1/\gamma$}. Furthermore, notice that the nonzero entries of the first row of $V^{-1}$ are strictly decreasing with respect to $\rho$.  Hence, the effect of increasing $\rho$ is to ''shift weight" from the entries in the first row to entries in lower rows. Now recall that
+
+\begin{equation}
+F = \beta/N_0 \left[ \begin {array}{cccc} 
+S_u&\eta_w\,S_u&\eta_w\,S_u&\eta_t\,S_u\\
+S_n&\eta_w\,S_n&\eta_w\,S_n&\eta_t\,S_n\\ 
+0&0&0&0\\
+0&0&0&0
+\end {array} \right]\,,
+\end{equation}
+
+Since $\eta_w < 1$, $\eta_t < 1$, we know that $S_u$ is the largest entry in the first row of $F$, and $S_n$ is the largest entry in the second row of $F$. Thus, whenever $\rho$ increases, \ali{the next sentence sounds odd} the dot product between row vectors of $F$ and column vectors of $V^{-1}$ decreases and hence entries of $FV^{-1}$ decrease. So in particular, the trace of $G_{11}$ (and hence $\Rnum$) decreases.
+
+\end{proof}
+\end{theorem}
+
+
+\end{document}
