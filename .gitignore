@@ -311,3 +311,4 @@ cpdir/
 *.blg
 *.out
 .texdeps/*
+*.Rout
