@@ -2,7 +2,7 @@
 source("SIRfunctions.R")
 source("params.R")
 # where to save the output:
-# path="../pix/"
+path <- "../pix/"
 # #################################
 # Making Dataframe part
 # #################################
