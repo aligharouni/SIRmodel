@@ -88,7 +88,29 @@ ggsave((p1_temp %+% df_targeted) +
     width = 12, height = 12, units = "cm",
     path=path)
 
+# #################################
+# 3. Plot R0 as a function of rho (testing intensity):
+# #################################
+eta_w <- 0.5
+eta_c <- eta_w
+gamma <- 1/4
+W_S <- 1
+omega <- 10^6
+rho <- seq(0.5,1, length.out=100)
+f <- function(params){
+  unpack(as.list(params))
+  return(gamma*(W_S/W_I)*1/(sqrt(eta_w/gamma)-1))
+}
+f(params = update(params,c(eta_w=eta_w,eta_c=eta_c,
+                           gamma=gamma)))
 
-
-
-
+df1 <- expand.grid(N0=params[["N0"]],beta=params[["beta"]],gamma=gamma,
+                   omega=omega,rho=rho,
+                   W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
+                   p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+                   eta_w=eta_w,eta_c=eta_c)
+df2<- data.frame(df1, R0=apply(df1,1,function(params_in)R0(params=params_in)),
+                      f=apply(df1,1,function(params_in)f(params = params_in)),
+                      S_u=apply(df1,1,function(params_in)Su_dfe(params = params_in))
+                )
+ggplot(df2,aes(x=rho,y=R0))+geom_point()

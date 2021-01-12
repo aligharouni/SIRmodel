@@ -5,7 +5,10 @@ By Ali Gharouni,
 <<date,echo=F>>=
 Sys.time()
 @
-This is my a test for MacPan package.
+This is my a test for MacPan package in 2 steps:
+- step 1: simulate a simple SIR model and recover the results by specifying the parameters of MacPan.
+- step 2: Read COVID19-Canada data from Mike's repo, estimate the transmision rate beta(t) and do projection.
+
 
 \section{Install and Play}
 
@@ -40,6 +43,9 @@ knitr::kable(round(t(summary(params)),2))
 knitr::kable(round(t(get_R0(params, components=TRUE)),2)) 
 @
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Step 1, SIR and MacPan}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 <<Ali:SIR , echo=T>>=
 # A simple SIR model
@@ -137,7 +143,22 @@ print(gg01 + scale_y_log10())
 
 @
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Step 2, Data and MacPan}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+<<Read Data from Mike's repo, echo=T>>=
+library(readr)
+
+covid_url <- "https://raw.githubusercontent.com/wzmli/COVID19-Canada/master/git_push/clean.Rout.csv"
+df_covid <- read_csv(covid_url)
+
+plot_pos_prov <- ggplot(df_covid,aes(x=Date,y=confirmed_positive,col=Province))+
+                  geom_point()
+
+direct.label(plot_pos_prov,"last.bumpup")
+
+@
 
 
 \end{document}
