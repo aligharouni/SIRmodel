@@ -13,6 +13,7 @@ vim_session:
 
 SIR_notes.pdf: SIR_notes.tex
 
+minutes.html: minutes.Rmd
 ######################################################################
 
 ### Makestuff

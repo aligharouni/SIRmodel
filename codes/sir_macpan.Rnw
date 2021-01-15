@@ -148,17 +148,86 @@ print(gg01 + scale_y_log10())
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 <<Read Data from Mike's repo, echo=T>>=
+library(McMasterPandemic)
 library(readr)
+library(dplyr)
+library(ggplot2); theme_set(theme_bw())
+library(directlabels)
 
 covid_url <- "https://raw.githubusercontent.com/wzmli/COVID19-Canada/master/git_push/clean.Rout.csv"
 df_covid <- read_csv(covid_url)
 
-plot_pos_prov <- ggplot(df_covid,aes(x=Date,y=confirmed_positive,col=Province))+
-                  geom_point()
+## BMB: the fit was using *cumulative* cases before, 
+## Ali I used confirmed_positive before
+plot_pos_prov <- ggplot(df_covid,aes(x=Date,y=newConfirmations,col=Province))+
+  geom_point()
 
 direct.label(plot_pos_prov,"last.bumpup")
 
+# Assume we are just looking at Ontario's epidemic case:
+
+startdate <- as.Date("2020-12-11")
+enddate <- as.Date("2021-01-12")
+## BMB: if we use the original, short time series
+##   Error in stats::filter(i, kern, sides = 1) : 
+##     'filter' is longer than time series
+
+df_covid_on <- (df_covid 
+                %>% filter(Province =="ON", Date >= startdate) # Ontario
+                %>% mutate(value= round(newConfirmations), var= "report", date=Date)
+                %>% select(date, value, var)
+                %>% na.omit()
+)
+## BMB: check length, beginning
+nrow(df_covid_on)
+head(df_covid_on,1)
+
+## beta0 (and E0) the only parameter we're going to optimize:
+params <- read_params("ICU1.csv")
+## adjust to ON pop size, approx starting value:
+## about 1800 cases reported
+## adjust ascertainment rate (fraction of cases reported) to 1/3
+## (was 0.1, which was reasonable at beginning of epidemic)
+## (will just rescale results)
+## so 1800 cases -> prevalence of approx 3*1800
+## initial conditions automatically spread E0 over the eigenvector
+params <- update(params, N=15e6,E0=3*1800, c_prop=1/3)
+
+## set up optimization parameters
+opt_pars <- get_opt_pars(params, vars="report")
+
+params1obs <- update(params, obs_disp=20)
+
+## document: bounds for DE optimization???
+
+plot(run_sim(
+    params = params1obs,
+    start_date=startdate,
+    end_date=enddate),
+    keep_states="report", log=TRUE)
+
+## fit beta0 based on the report data:
+fitted.mod <- calibrate(
+  data = df_covid_on
+  , start_date = startdate
+  ## skip breaks that are present by default:
+, time_args = list(break_dates = NULL)
+  , base_params = params1obs
+, opt_pars = opt_pars
+ , debug_plot = TRUE # instructive plotting during optimization
+)
+
+## plot the resulting fit
+plot(fitted.mod,data=df_covid_on)
+
+## FIXME in macpan: check for correct structure in opt_pars
+## check length of time series?
+## FIXME: shouldn't need to specify time_args ...
+
+
 @
+
+
 
 
 \end{document}
