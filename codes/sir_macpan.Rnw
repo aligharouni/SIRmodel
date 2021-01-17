@@ -167,7 +167,7 @@ direct.label(plot_pos_prov,"last.bumpup")
 # Assume we are just looking at Ontario's epidemic case:
 
 startdate <- as.Date("2020-12-11")
-enddate <- as.Date("2021-01-12")
+enddate <- as.Date("2021-01-14")
 ## BMB: if we use the original, short time series
 ##   Error in stats::filter(i, kern, sides = 1) : 
 ##     'filter' is longer than time series
@@ -217,12 +217,29 @@ fitted.mod <- calibrate(
  , debug_plot = TRUE # instructive plotting during optimization
 )
 
+
 ## plot the resulting fit
-plot(fitted.mod,data=df_covid_on)
+plot(fitted.mod,data=df_covid_on) # all
+plot(fitted.mod,data=df_covid_on, # just report data
+     predict_args=list(keep_vars=c("report")))
+
+coef(fitted.mod) ## output all fitted params
+coef(fitted.mod,"fitted") ##output just beta0
+## Note that that the value of \code{beta0} used for the simulation was 1
 
 ## FIXME in macpan: check for correct structure in opt_pars
 ## check length of time series?
 ## FIXME: shouldn't need to specify time_args ...
+
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## Forecasting
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## Here, an example involving changing the transmission rate ($\beta$) in the future due to lockdown ...
+
+## Goal: to forcast after the date of lockdown
+lockdown <- as.Date("2021-01-14")
+enddate_f <- as.Date("2021-01-31") ## for forecasting
+
 
 
 @
