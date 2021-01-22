@@ -217,7 +217,7 @@ fitted.mod <- calibrate(
   , base_params = params1obs
   , opt_pars = opt_pars
   , debug_plot = TRUE # instructive plotting during optimization
-  , use_DE= FALSE
+  , use_DE= FALSE ## use differential evolution algorithm
   , DE_lwr=c(6,-2,-2),
   , DE_upr=c(12,2,2)
 )
