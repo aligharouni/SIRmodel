@@ -11,9 +11,16 @@
 \usepackage{geometry}
 \usepackage{pdflscape}
 
+% https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
 \usepackage{xspace}
-\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]
-{pix/Rlogo.pdf}\xspace}
+%\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]{pix/Rlogo.pdf}\xspace}
+% BMB: we don't need the weird graphical logo ...
+\newcommand{\Rlogo}{R\xspace}
 
 \newcommand{\comment}{\showcomment}
 %% \newcommand{\comment}{\nocomment}
@@ -46,30 +53,58 @@
 % %%%%%%%
 \section{Introduction}
 
-The observed dynamics of the COVID-19 epidemic is dirven by the underlying processes including both epidemiological processes (infection, recovery, etc.) and testing processes (including who gets tested for a given testing intensity, test sensitivity, etc. \ali{right?}). In addition to determining what is actually observed (case reports), testing processes can also feed back to affect the epidemiological dynamics through isolation and quarantine. Specifically, individuals who are in the process of testing may partially or fully self-isolate, and individuals who have tested positive are highly likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing to explore the effects of testing and isolation on the epidemic dynamics, and providing insights for the population-level epidemic control.
+The observed dynamics of the COVID-19 epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to determining what we actually observe about the epidemic (case reports), testing processes can also feed back to affect the epidemiological dynamics through isolation and quarantine. Specifically, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are highly likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
 
-During COVID-19 epidemic, since isolation has applied to people including, but not limited to, those who have been tested, the epidemic dynamics will depend on who gets tested. That is, how tests are distributed across epidemiological compartments (susceptible-infectious-recovered) for a given testing intensity. Specifically, in the case where tests are randomly assigned within the population, the tests will be weighted equally across all compartments. Random testing strategy is the simplest form of testing and might happen, for example, when disease surveillance is the purpose of testing \citep{foddai2020base}. However, in the case where targeted testing is administered within the population, the testing will be more weighted towards the compartments with people who have higher probability of getting tested. Targeted testing might happen, for example, for different purposes including diagnosis and treatment, screening people for access to things like flights, surgery, long-term-care facilities, and for the purpose of mitigation and control of the disease spread. Specifically, when the purpose is "diagnosis and treatment" or "mitigation and control of disease spread", the weights of testing is skewed towards infectious compartment rather than susceptible and recovered compartments. Further, heavier testing weight may be put on the infected compartment in the case of diagnosis and treatment than the case of mitigation and control \ali{why? refs?}. Also, when people are tested for "screening", the individuals with potential higher mobility, eg. people who are getting on flights, get more tested and thus the coresponding heavier testing weight is assigned than people awaiting for a surgery and are probably going to stay in a long-term care facility and consequently less mobile and more isolated to begin with.
+Because individuals who have been tested or received a positive test are likely to self-isolate, thus reducing or eliminating  their potentially infectious contacts, the dynamics of an epidemic will depend on who gets tested and
+why. For a given testing intensity (tests performed per day), testing will have a stronger effect on infection rates
+the more strongly it is focused on people who are infectious for SARS-CoV-2, whether or not they are symptomatic.
+This level of focus depends in turn on the purpose and design of testing programs.
+(1) When testing is done for the purposes of disease surveillance \citep{foddai2020base}
+we might expect tests to be assigned randomly across the population (in an ideal world: some bias in selection for testing is probably inevitable), although a stratified sampling design would be preferred for statistical efficiency \citep{cleevely2020workable}.
+In the case where tests are randomly assigned within the population, the \emph{per capita} probability of being selected for testing will (by definition) be equal across all epidemiological compartments. 
+Over the course of the COVID19 pandemic, however, the vast majority of testing has been done with other goals,
+primarily diagnosis (determining COVID19 infection status for clinical purposes) or control (determining COVID19 status
+in order to quickly isolate cases that have been found by contact tracing), which we characterize
+as \emph{targeted} testing strategies.
+In these cases, testing probabilities vary widely across epidemiological compartments; in our dynamical model,
+we will characterize these probabilities by assigning a \emph{per capita} testing weight to each compartment
+that determines the \emph{relative} probability that an individual in that compartment will be selected for
+testing (see Methods). When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with vs. without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e. the relative proportions of presymptomatic or asymptomatic vs. symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g. due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs. uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
 
-In addition to the efect of compartment-specific testing weights on the isolation, and thus epidemic dynamics, other influential components of testing processes on isolation include test-specific sensitivities, intensity and sample-to-answer reporting time. They determine how accurately and how fast people are put in the isolation. We model these components and explore their effects on the epidemic dynamics. Specifically, we study the trade-offs between the testing strategies (random and targeted) and the discussed testing components on a single epidemiological-dynamics index, the ``basic reproduction number'' $\Rnum$.
+\bmb{save stuff about flights, surgery, LTC for Discussion?}
 
-The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. To control the spread of disease in the population, $\Rnum$ is required to be below unity. \ali{now may be say what we expect from testing and isolation to reduce R0 and the suprise that the reporting time increase R0. }
+In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-awaiting and positive-tested people,
+our models will also need to include test specificity and sensitivity, as well as the distribution of times
+from testing to reporting. For a parameter set that quantifies all of these phenomena,
+we can characterize the expected epidemiological dynamics. Specifically, we study the effect of different testing strategies (random vs. targeted), as well as testing intensity, degrees of self-isolation, and rate of test processing on a single index of epidemiological dynamics, the basic reproduction number $\Rnum$.
 
-Here, we develop a compartmental model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies, testing intensity, test sensitivity and specificity, reporting time and isolation on epidemic dynamic. We investigate the effect of underlying parameters of the model on the basic reproduction number, $\Rnum$. While targeted testing strategies are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is viral spread is expected to be stronger for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing). 
-\ali{discussion maybe: all of the accessible testing data is being used for one of the other three purposes rather than surveillance. These are targeted testing strategies with a different bias.}   
+The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. To control the spread of disease in the population, $\Rnum$ must be $<1$.
+Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model
+\citep{shaw2021what},
+it does give a simple and widely accepted index for the effectiveness of control, as well as some indication
+of the likely final size of an epidemic \citep{ma2006generality}. Thus, we analyze the model by deriving $\Rnum$ and describing its
+sensitivity to the parameters that describe the testing process.
+
+%% \ali{now may be say what we expect from testing and isolation to reduce R0 and the surprise that the reporting time increase R0.} \bmb{No, that belongs in the results.  Don't give the results in the introduction!}
+
+%% Here, we develop a compartmental model to incorporate epidemic processes and testing processes mechanistically to study the potential effect of testing strategies, testing intensity, test sensitivity and specificity, reporting time and isolation on epidemic dynamic. We investigate the effect of underlying parameters of the model on the basic reproduction number, $\Rnum$. While targeted testing strategies are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is viral spread is expected to be stronger for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing).
+%% \bmb{Most of this is either repetitive or belongs in the discussion.}
+%% \ali{discussion maybe: all of the accessible testing data is being used for one of the other three purposes rather than surveillance. These are targeted testing strategies with a different bias.}
+
 
 \fady{Not sure if interesting: \\
-one point we can make when discussing the relative weight of testing in different compartments is to discuss pre-testing screening tools, such as surveys or questionnaires. If we have a quantitative description of how the testing intensities affect the dynamics, we can make statements like ``our results suggest that employing a pre-testing screening tool can help target infected individuals more effectively. In particular, doubling the sensitivity of the pre-screening tool would *do something* to $\Rnum$.}
+  one point we can make when discussing the relative weight of testing in different compartments is to discuss pre-testing screening tools, such as surveys or questionnaires. If we have a quantitative description of how the testing intensities affect the dynamics, we can make statements like ``our results suggest that employing a pre-testing screening tool can help target infected individuals more effectively. In particular, doubling the sensitivity of the pre-screening tool would *do something* to $\Rnum$.}
+\bmb{possibly interesting, but \textbf{belongs in the Discussion} if anywhere.}
 % Frequent proactive testing of asymptomatic individuals offers an additional way to reduce transmission, and is among the most powerful and least disruptive of non-pharmaceutical interventions such as face masks, social distancing.
 % \bmb{As JD suggests, the focus of the paper is not on unraveling data (although that is something we \emph{could} do, and are trying to do, with this modeling framework as well). I would say that the ``bullet points'' to start the paper are (1) the processes driving the observed dynamics of the COVID-19 epidemic include both epidemiological processes (infection, recovery, etc.) and testing processes (``processes'' is repeated here, could rephrase); (2) in addition to determining what is actually observed (case reports), testing processes can also feed back to affect the epidemiological dynamics through isolation and quarantine; (3) your last sentence in the \P\ above.}
 
 % - Speed of test; 
 % Much effort has been invested in developing widely accessible and fast tests in order to mitigate the spread of the pandemic (refs). For example, PCR tests are commonly used, and very sensitive, but take longer compared to more recent tests, such as a breath-based test currently in trial stage, which can provide a result in seconds.
-\ali{discussion maybe: all of the accessible testing data is being used for one of the other three purposes rather than surveillance. These are targeted testing strategies with a different bias.}   
 
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individuals based on disease status and testing status. The former includes Susceptible, Infectious and Recovered, thus SIR, and the latter categorizes people as \emph untested, waiting-for-\emph positive, waiting-for-\emph negative, or \emph confirmed positive. Also, two 'accumulator' compartments, $N$ and $P$, were incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of $\Rnum$ are presented in the Supplementary Materials. The flowchart model is as follows 
+We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Two 'accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of $\Rnum$ are presented in the Supplementary Materials.
 
 \begin{figure}[!h] 
 \begin{center} 
@@ -80,8 +115,12 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 \end{figure}
 
 \jd{It would be nice to modularize the model somehow, but probably not worth anyone's time.}
+\bmb{Can you say what you mean by this? Just curious.}
 
-\ali{not sure if these should go to the Supp material?} In our model the following parameters are used (for a summery of parameters' description, see Table \ref{tab:params}). $N_0$ is the total population size, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing defined as
+
+\ali{not sure if these should go to the Supp material?}
+\bmb{I think Table 1 is sufficient, except for the details about the testing weights}
+Our model uses the following parameters (Table \ref{tab:params}): $N_0$ is the total population size, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing is defined as
 
 \begin{equation}
 \label{sigma}
@@ -89,36 +128,36 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 \end{equation}
 Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that requiring a fixed testing rate as in \eqref{sigma} can lead to a singularity when no one is left untested. We discuss this issue, and a practical solution, in the Appendix. 
 
-The classical SIR model is based on the following implicit assumptions (see a ref for details); well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. Note that the latter assumption combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u+S_n=0$, reduce the model to 10 equations with equations \ref{eq3} and \ref{eq4} are eliminated. Specifically, when the population is at steady states and the number of infected people is negligible, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, initially $S_c=0$ and stays in this state.
+The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. Note that the latter assumption combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u+S_n=0$, reduce the model to 10 equations with equations \ref{eq3} and \ref{eq4} are eliminated. Specifically, when the population is at steady state and the number of infected people is negligible, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, initially $S_c=0$ and stays in this state.
 
-\newgeometry{margin=1cm} % modify this if you need even more space
-\begin{landscape}
+% \newgeometry{margin=1cm} % modify this if you need even more space
+% \begin{landscape}
 \begin{table}[htp]
 \centering
-{\tiny %
-\begin{tabular}{|c|ccc|} \hline
+{%\tiny %
+\begin{tabular}{|c|L{2in}cc|} \hline
   Symbol & Description & Unit & Value \\ \hline
   $N_0$     & Total population size & people & $10^6$ \\ \hline
-  $\omega$  & Rate of onward flow from the awaiting to reported or untested compartments  & 1/day & - \\ \hline
+  $\omega$  & Rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
   $\gamma$ & Recovery rate & 1/day & 1/3 \\ \hline 
   $\rho$   & Per capita testing intensity & 1/day & 0.01 \\ \hline 
-  $\eta_w$  & Relative probability of transmission for isolated awaiting individuals & - & - \\ \hline
-  $\eta_c$  & Relative probability of transmission for isolated confirmed individuals & - & -  \\ \hline
+  $\eta_w$  & Relative probability of transmission for ``waiting'' individuals & - & - \\ \hline
+  $\eta_c$  & Relative probability of transmission for ``confirmed positive'' individuals & - & -  \\ \hline
   $\Lambda$ & Force of infection & 1/day & - \\ \hline
-  $p_S$ & Probability of false positive for susceptible& - & 0 \\ \hline
-  $p_I$ & Probability of being infected and tested positive & - & 1 \\ \hline
-  $p_R$ & Probability of being recovered and tested positive & - & 0.5 \\ \hline
-  $W_S, W_I, W_R$ & Relative testing weight & - & 
+  $p_S$ & Probability of positive tests for $S$ ($= 1-\textrm{specificity}$) & - & 0 \\ \hline
+  $p_I$ & Probability of positive tests for $I$ ($= \textrm{sensitivity}$) & - & 1 \\ \hline
+  $p_R$ & Probability of positive tests for $R$ ($= 1-\textrm{specificity}$) & - & 0.5 \\ \hline
+  $W_S, W_I, W_R$ & Relative testing weights & - & 
   \begin{minipage}[t]{0.21\columnwidth}%
- Random testing: $W_S=W_I=W_R=1$, \\Non-random testing: $W_S=0.3, W_I=W_R=1$
+ Random: $\{1,1,1\}$ \\ Targeted: $\{0.3,1,1\}$
 \end{minipage} \\ \hline
 
   \end{tabular}
   }%
-\caption{\label{tab:params} The underlying parameters of model, \crefrange{eq1}{eq12}.}
+\caption{\label{tab:params} Model parameters for \crefrange{eq1}{eq12}.}
 \end{table}
-\end{landscape}
-\restoregeometry
+%\end{landscape}
+%\restoregeometry
 
 
 The Disease-Free Equilibrium (DFE) for the SIR model, \crefrange{eq1}{eq12}, is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
@@ -165,11 +204,14 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 \end{enumerate}
 \end{proposition}
 
- Given that the perfect isolation occurs at $\eta_c=\eta_w = 0$, Prop. \ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. We used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive. See the Appendix for details. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the linear approximation of $\Rnum$ at $\rho=0$.
+ Given that the perfect isolation occurs at $\eta_c=\eta_w = 0$, Prop.~\ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. We used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive. See the Appendix for details. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the linear approximation of $\Rnum$ at $\rho=0$.
  
- Prop. \ref{p1:rho} indicates that increasing testing intensity reduces the $\Rnum$. This is sensible since as people are moved to test compartments ($I_p$, $I_n$ \fady{the susceptibles also reduce contact and transmission}) the higher probability of being subject to isolation and the lower the transmission \eqref{Lambda} will become.
- 
- Of these results, prop. \ref{p1:omega} is the most surprising. It states that returning test results more rapidly (i.e., increasing $\omega$) does not necessarily lower $\Rnum$, rather, whether increasing $\omega$ lowers $\Rnum$ is defendant on the precise combination of model parameters (test reporting rate itself, testing processes/strategies ($W$'s), testing efficacy ($P_I$) and isolation ($\eta$'s). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting process become faster. This can be seen from expression \eqref{Rom} in the case of ``perfect isolation``, when $\eta_w=0$ and $\eta_c=0$. The underlying mechanism for this result is that individuals may take more precautionary behaviors (e.g., physical distancing) when they are awaiting test results compared to when they are untested or their test has returned negative. An example of a situation that would favour slow return of tests is if the test being employed produces many false negatives, because many infected individuals will believe they are negative and thus may unknowingly spread the virus to many others.  For an example of the behaviour of $\Rnum$ see Figure \ref{pan} at varying values of $\omega$. This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemic.   
+ Prop. \ref{p1:rho} indicates that increasing testing intensity reduces $\Rnum$. This is sensible since as people are moved to test compartments ($I_p$, $I_n$ \fady{the susceptibles also reduce contact and transmission}) the higher probability of being subject to isolation and the lower the transmission \eqref{Lambda} will become.
+
+ \bmb{move to discussion?? this applies to this \P, also most of what's below here.
+   To a first approximation, any text that discusses the context and meaning of the results,
+   rather than the results themselves, can go in the discussion.}
+Of these results, prop.~\ref{p1:omega} is the most surprising. It states that returning test results more rapidly (i.e., increasing $\omega$) does not necessarily lower $\Rnum$; whether increasing $\omega$ lowers $\Rnum$ depends on the precise combination of model parameters (test reporting rate, testing processes/strategies ($W_*$), testing efficacy ($P_I$) and isolation ($\eta_*$). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting process become faster. This can be seen from expression \eqref{Rom} in the case of perfect isolation, when $\eta_w=0$ and $\eta_c=0$. The underlying mechanism for this result is that individuals may take more precautionary behaviors (e.g., physical distancing) when they are awaiting test results compared to when they are untested or their test has returned negative. An example of a situation that would favour slow return of tests is if the test being employed produces many false negatives, because many infected individuals will believe they are negative and thus may unknowingly spread the virus to many others.  For an example of the behaviour of $\Rnum$ see Figure \ref{pan} at varying values of $\omega$. This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemic.   
 
 [comments about the figure:]
 1- use a single legend, change the range manually.
@@ -186,22 +228,22 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 \includegraphics[width=\linewidth]{./pix/R0contour_TTI.pdf}
 \caption{}\label{p.b}
 \end{subfigure}
-\caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; remind the reader about the parameters and their values in this simulations. the solid line in each panel represents the critical contour of $\Rnum=1$.}
+\caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; \bmb{remind the reader about the parameters and their values}. The solid line in each panel represents the critical contour of $\Rnum=1$. \bmb{where did the legend go?? also, we still have some collisions in the y-axis tick labels}}
 \label{pan}
 \end{figure}
 
-Our numerical simulation in support of the analytical results in Proposition \ref{prop1} are presented in Figure \ref{pan}. It can be inferred that when random testing strategy is applied, Figure \ref{p.a}, comparing to the non-random testing strategy, Figure \ref{p.a}, the critical testing intensity of the corresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people follow the isolation perfectly, i.e., $\eta_w$ is closer to 0. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\eta_w$ is closer to 1. 
+Our numerical solutions in support of the analytical results in Proposition \ref{prop1} are presented in Figure \ref{pan}. It can be inferred that when random testing strategy is applied, Figure \ref{p.a}, comparing to the non-random testing strategy, Figure \ref{p.a}, the critical testing intensity of the corresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people follow the isolation perfectly, i.e., $\eta_w$ is closer to 0. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\eta_w$ is closer to 1. 
 
-Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}. To give a biological interpretation, we describe the qualitative \textit{trends} predicted by the inequality. Returning test results more rapidly \textit{tends} to be more favorable when
+Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}. To give a biological interpretation, we describe the qualitative trends predicted by the inequality. Returning test results more rapidly tends to be more favorable when
 
 \begin{itemize}
-    \item individuals who have tested positive lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_c \ll \eta_w$).
-    \item the test is sensitive.
-    \item testing of infected individuals is more intense than testing of susceptible individuals.
+\item individuals who have tested positive lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_c \ll \eta_w$).
+\item the test is sensitive.
+\item testing of infected individuals is more intense than testing of susceptible individuals.
 \end{itemize}
 An in-depth discussion of these results is presented in the discussion section. 
 
-The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the COVID-19 pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. Using our Taylor approximation of $\Rnum$ near $\rho = 0$, we examined what circumstances (i.e., model parameters) make the use of one test more favourable than another, and give a complete description through inequality \ref{eq:rho1vsrho2}. In general, we found that the expensive test \textit{tends} to more effectively lower $\Rnum$ when
+The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the COVID-19 pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. Using our Taylor approximation of $\Rnum$ near $\rho = 0$, we examined what circumstances (i.e., model parameters) make the use of one test more favourable than another, and give a complete description through inequality \ref{eq:rho1vsrho2}. In general, we found that the expensive test tends to more effectively lower $\Rnum$ when
 
 \begin{itemize}
     \item individuals who test positive self-isolate much more than individuals who are waiting for their test result.
@@ -216,18 +258,21 @@ Our model also predicts an asymmetry between cheap and expensive tests: if a che
 % %%%%%%%
 \section{Discussion}
 
-- JD's email:
-We're basically looking at the potential advantage of slow tests:
+From JD's email:
+
+\begin{itemize}
+
+  \item We're basically looking at the potential advantage of slow tests:
 people waiting for test results may be more careful than those who
 have received negatives. These advantages are real, and neglected. We
 also compare to an individual-level advantage of fast tests: people
 who test positive may be even more careful. But we are missing out on
 community-level advantages of fast testing: better assessment of the
 situation, identification of hot spots, contact-tracing, etc. 
+\item  Maybe something about the testing rate/intensity, now the per capita testing intensity is very low ($\rho \approx 0$). In near future new test kits may be widely accessible, our model provide insights in this case (what are those?)
+\item ``delay negative results" result
 
-- May be something about the testing rate/intensity, now the per capita testing intensity is very low ($\rho \approx 0$). In near future new test kits may be widely accessible, our model provide insights in this case (what are those?)
-
-- "delay negative results" result
+\end{itemize}
 
 \subsection{Rate of returning tests}
 
@@ -241,7 +286,7 @@ When testing of infected individuals is more intense than susceptible individual
 
 
 % %%%%%%%
-\bibliography{SIRlibrary.bib}
+\bibliography{SIRlibrary}
 
 % %%%%%%%
 \section{Supplementary Material}
