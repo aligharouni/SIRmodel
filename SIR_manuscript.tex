@@ -117,18 +117,23 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 \jd{It would be nice to modularize the model somehow, but probably not worth anyone's time.}
 \bmb{Can you say what you mean by this? Just curious.}
 
-
-\ali{not sure if these should go to the Supp material?}
-\bmb{I think Table 1 is sufficient, except for the details about the testing weights}
-Our model uses the following parameters (Table \ref{tab:params}): $N_0$ is the total population size, $\omega$, (1/day), is the rate of onward flow from the awaiting positive or negative compartments to reported or untested compartments, respectively, $\gamma$, (1/day), is the recovery rate, $\rho$, (1/day), is the per capita testing intensity across the whole population. Further, various testing strategies are incorporated through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$. What matters in these weight is their relative proportions. For example, $W_I/W_S=2$ means that, the probability that infected individuals get tested is as twice as that of susceptible individuals. The weighted number of people available for tests is defined as $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing is defined as
-
+Table~\ref{tab:params} defines the model parameters, which are generally straightforward
+\emph{per capita} flows between compartments, or modifiers to these flow rates.
+The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $W_I/W_S=2$ means that infected individuals are tested at twice the \emph{per capita} rate of susceptible individuals. The weighted size of the testing pool is $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing is
 \begin{equation}
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
 \end{equation}
-Thus, the weighted testing rate is defined as $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$. Note that requiring a fixed testing rate as in \eqref{sigma} can lead to a singularity when no one is left untested. We discuss this issue, and a practical solution, in the Appendix. 
+Thus, \emph{per capita} testing rate for compartment $Z$ is $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$.
+For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I_c$/$R_c$) compartments and are thus unavailable for further testing.
+Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can
+(if large enough) exhaust the pool of people available for testing,
+leading to a singularity when no one is left untested.
+Although this phenomenon does not affect our analysis of $\Rnum$, it does sometimes occur in
+numerical solutions of the time dynamics: we discuss an adjustment to the model that solves
+this problem in the Appendix. 
 
-The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. Note that the latter assumption combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u+S_n=0$, reduce the model to 10 equations with equations \ref{eq3} and \ref{eq4} are eliminated. Specifically, when the population is at steady state and the number of infected people is negligible, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, initially $S_c=0$ and stays in this state.
+The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. The latter assumption, combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u(0)+S_n(0)=N(0)$ \bmb{I don't think this is what we need: I think we need $S_p(0)=S_c(0)=0$? The previous assumption is awkward because we must have some infected individuals at time 0, and is more than we need (we could start with some $R$ without loss of generality)}, reduces the model to 10 equations (equations \ref{eq3} and \ref{eq4} are eliminated). Specifically, when the population is at steady state and the number of infected people is negligible \bmb{do we really need anything other than the previously stated conditions?}, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, $S_c=0$ and stays in this state.
 
 % \newgeometry{margin=1cm} % modify this if you need even more space
 % \begin{landscape}
