@@ -21,6 +21,7 @@
 %\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]{pix/Rlogo.pdf}\xspace}
 % BMB: we don't need the weird graphical logo ...
 \newcommand{\Rlogo}{R\xspace}
+\newcommand{\percap}{\emph{per capita}\xspace}
 
 \newcommand{\comment}{\showcomment}
 %% \newcommand{\comment}{\nocomment}
@@ -121,10 +122,13 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 
 \jd{It would be nice to modularize the model somehow, but probably not worth anyone's time.}
 \bmb{Can you say what you mean by this? Just curious.}
+\jd{I wrote this when the equations were here; I meant it might be good to use less equations, by writing summaries of the SIR process and the within-each-box testing process.}
 
 Table~\ref{tab:params} defines the model parameters, which are generally straightforward
 \emph{per capita} flows between compartments, or modifiers to these flow rates.
-The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $W_I/W_S=2$ means that infected individuals are tested at twice the \emph{per capita} rate of susceptible individuals. The weighted size of the testing pool is $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing is
+The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $W_I/W_S=2$ means that infected individuals are tested at twice the \emph{per capita} rate of susceptible individuals. 
+
+In order to link to more applied models, we constructed this model so we could specify  to be able to specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = W_S S_u + W_I I_u + W_R R_u$, and calculating the scaling parameter for testing as:
 \begin{equation}
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
@@ -138,7 +142,10 @@ Although this phenomenon does not affect our analysis of $\Rnum$, it does someti
 numerical solutions of the time dynamics: we discuss an adjustment to the model that solves
 this problem in the Appendix. 
 
-The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. The latter assumption, combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u(0)+S_n(0)=N(0)$ \bmb{I don't think this is what we need: I think we need $S_p(0)=S_c(0)=0$? The previous assumption is awkward because we must have some infected individuals at time 0, and is more than we need (we could start with some $R$ without loss of generality)}, reduces the model to 10 equations (equations \ref{eq3} and \ref{eq4} are eliminated). Specifically, when the population is at steady state and the number of infected people is negligible \bmb{do we really need anything other than the previously stated conditions?}, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, $S_c=0$ and stays in this state.
+The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, across all susceptible pools [\jd{This is de-clarifying here; let's drop it: that is, where a susceptible individual moves to does not depend on who infected it], (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. For this analysis, we also assume a perfectly specific test,($p_S=0$). This last assumption 
+%% The latter assumption, combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u(0)+S_n(0)=N(0)$ \bmb{I don't think this is what we need: I think we need $S_p(0)=S_c(0)=0$? The previous assumption is awkward because we must have some infected individuals at time 0, and is more than we need (we could start with some $R$ without loss of generality)}, 
+reduces the model to 10 equations (equations \ref{eq3} and \ref{eq4} are eliminated).
+%% Specifically, when the population is at steady state and the number of infected people is negligible \bmb{do we really need anything other than the previously stated conditions?}, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, $S_c=0$ and stays in this state.
 
 % \newgeometry{margin=1cm} % modify this if you need even more space
 % \begin{landscape}
