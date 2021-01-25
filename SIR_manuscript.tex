@@ -57,33 +57,38 @@ The observed dynamics of the COVID-19 epidemic are driven by both epidemiologica
 
 Because individuals who have been tested or received a positive test are likely to self-isolate, thus reducing or eliminating  their potentially infectious contacts, the dynamics of an epidemic will depend on who gets tested and
 why. For a given testing intensity (tests performed per day), testing will have a stronger effect on infection rates
-the more strongly it is focused on people who are infectious for SARS-CoV-2, whether or not they are symptomatic.
+the more strongly it is focused on people who are infectious for SARS-CoV-2.
 This level of focus depends in turn on the purpose and design of testing programs.
 (1) When testing is done for the purposes of disease surveillance \citep{foddai2020base}
 we might expect tests to be assigned randomly across the population (in an ideal world: some bias in selection for testing is probably inevitable), although a stratified sampling design would be preferred for statistical efficiency \citep{cleevely2020workable}.
-In the case where tests are randomly assigned within the population, the \emph{per capita} probability of being selected for testing will (by definition) be equal across all epidemiological compartments. 
-Over the course of the COVID19 pandemic, however, the vast majority of testing has been done with other goals,
-primarily diagnosis (determining COVID19 infection status for clinical purposes) or control (determining COVID19 status
+\jd{This is a bit confusing; cleevely is specifically about control, and not just surveillance.}
+%% In the case where tests are randomly assigned within the population, the \emph{per capita} probability of being selected for testing will (by definition) be equal across all epidemiological compartments. \jd{This sentence seems unnecessary to me.}
+Over the course of the COVID19 pandemic, however, the vast majority of testing has been done with other goals --
+primarily diagnosis (determining COVID19 infection status for clinical purposes), or control (determining COVID19 status
 in order to quickly isolate cases that have been found by contact tracing), which we characterize
 as \emph{targeted} testing strategies.
 In these cases, testing probabilities vary widely across epidemiological compartments; in our dynamical model,
 we will characterize these probabilities by assigning a \emph{per capita} testing weight to each compartment
 that determines the \emph{relative} probability that an individual in that compartment will be selected for
-testing (see Methods). When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with vs. without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e. the relative proportions of presymptomatic or asymptomatic vs. symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g. due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs. uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
+testing (see Methods). 
+
+\jd{note that we have not yet introduced the term ``testing weights''.}
+When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with vs. without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e. the relative proportions of presymptomatic or asymptomatic vs. symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g. due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs. uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
 
 \bmb{save stuff about flights, surgery, LTC for Discussion?}
 
-In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-awaiting and positive-tested people,
-our models will also need to include test specificity and sensitivity, as well as the distribution of times
-from testing to reporting. For a parameter set that quantifies all of these phenomena,
-we can characterize the expected epidemiological dynamics. Specifically, we study the effect of different testing strategies (random vs. targeted), as well as testing intensity, degrees of self-isolation, and rate of test processing on a single index of epidemiological dynamics, the basic reproduction number $\Rnum$.
+In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-pending and test-confirmed people,
+our models will also need to include test specificity and sensitivity, as well as the distribution of times from testing to reporting. 
+\jd{This seems weak. Why are we studying \Rnum? What does it cover and what not?}
+Here, we focus on the the effect of testing intensity, different levels of testing ``focus'' (from random to highly targeted), and rate of test processing on a single index of epidemiological dynamics, the basic reproduction number $\Rnum$.
 
-The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. To control the spread of disease in the population, $\Rnum$ must be $<1$.
+The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. 
+In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. 
+To control the spread of disease in the population, $\Rnum$ must be $<1$.
 Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model
 \citep{shaw2021what},
-it does give a simple and widely accepted index for the effectiveness of control, as well as some indication
-of the likely final size of an epidemic \citep{ma2006generality}. Thus, we analyze the model by deriving $\Rnum$ and describing its
-sensitivity to the parameters that describe the testing process.
+it does give a simple and widely accepted index for the difficulty of control, as well as some indication
+of the likely final size of an epidemic \citep{ma2006generality}.
 
 %% \ali{now may be say what we expect from testing and isolation to reduce R0 and the surprise that the reporting time increase R0.} \bmb{No, that belongs in the results.  Don't give the results in the introduction!}
 
