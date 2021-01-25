@@ -104,7 +104,9 @@ sensitivity to the parameters that describe the testing process.
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Two 'accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of $\Rnum$ are presented in the Supplementary Materials.
+We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}) \bmb{make sure we're using consistent terminology for the testing compartments}. Two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of $\Rnum$ are presented in the Supplementary Materials.
+
+\bmb{need a little bit more detail moved from the Supp. (1) If equations are in the supp we need to tag the equation numbers (e.g. eq S1-S14); (2) we might want the whole set of equations to have a single number (we could also sublabel S1(a), S1(b) etc., but as we never refer to the individual equations we probably don't need to bother); (3) at the very least, $\Lambda$ should be defined in the body of the text (we need it to understand the figure), and $\beta$ should be included in the parameter table}
 
 \begin{figure}[!h] 
 \begin{center} 
@@ -216,10 +218,9 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
  \bmb{move to discussion?? this applies to this \P, also most of what's below here.
    To a first approximation, any text that discusses the context and meaning of the results,
    rather than the results themselves, can go in the discussion.}
+ 
 Of these results, prop.~\ref{p1:omega} is the most surprising. It states that returning test results more rapidly (i.e., increasing $\omega$) does not necessarily lower $\Rnum$; whether increasing $\omega$ lowers $\Rnum$ depends on the precise combination of model parameters (test reporting rate, testing processes/strategies ($W_*$), testing efficacy ($P_I$) and isolation ($\eta_*$). Specifically, the $\partial{R_0}/\partial{\omega}>0$ suggests that reproduction number may increase as the test reporting process become faster. This can be seen from expression \eqref{Rom} in the case of perfect isolation, when $\eta_w=0$ and $\eta_c=0$. The underlying mechanism for this result is that individuals may take more precautionary behaviors (e.g., physical distancing) when they are awaiting test results compared to when they are untested or their test has returned negative. An example of a situation that would favour slow return of tests is if the test being employed produces many false negatives, because many infected individuals will believe they are negative and thus may unknowingly spread the virus to many others.  For an example of the behaviour of $\Rnum$ see Figure \ref{pan} at varying values of $\omega$. This property also provides a tool to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$ and consequently control the epidemic.   
 
-[comments about the figure:]
-1- use a single legend, change the range manually.
 \begin{figure}[h!]
 \centering
 \begin{subfigure}[t]{.45\textwidth}
@@ -233,7 +234,7 @@ Of these results, prop.~\ref{p1:omega} is the most surprising. It states that re
 \includegraphics[width=\linewidth]{./pix/R0contour_TTI.pdf}
 \caption{}\label{p.b}
 \end{subfigure}
-\caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; \bmb{remind the reader about the parameters and their values}. The solid line in each panel represents the critical contour of $\Rnum=1$. \bmb{where did the legend go?? also, we still have some collisions in the y-axis tick labels}}
+\caption{Behaviour of the basic reproduction number, $\Rnum$, with respect to changes in the underlying parameters; \bmb{remind the reader about the parameters and their values}. The solid line in each panel represents the critical contour of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}}
 \label{pan}
 \end{figure}
 
@@ -378,7 +379,8 @@ The block matrix $G_{12}$ does not influence $\Rnum$ (defined as the spectral ra
 % %%%%%%%
 \subsection{On Testing Rate and Numerical Singularity}
 
-\bmb{this should go in the main methods section, I think}
+\bmb{need a little bit of context here, saying that we didn't do any numerical solutions for the trajectories in our analysis,
+  but if you do try them you run into this problem ...}
 
 The testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there. The numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - \rho N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
 

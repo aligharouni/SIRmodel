@@ -49,11 +49,12 @@ brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Ran
 
 df_temp <- df_random
 # df_temp <- df_targeted
-p1 <- ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))+ theme_bw() +
-  xlab(TeX('$\\omega$, rate of test return (1/day)')) +
-  ylab(TeX('$\\rho$, testing intensity (1/day per capita)')) +
-  # theme(panel.spacing=grid::unit(0,"lines"),legend.position = c(0.8, 0.75)) # initial theme, comment it for TTI testing plot
-  theme(panel.spacing=grid::unit(0,"lines"),legend.position = "none") #AG, uncomment for Random Case
+p1 <- (ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))
+    + theme_bw()
+    + xlab(TeX('$\\omega$, rate of test return (1/day)'))
+    + ylab(TeX('$\\rho$, testing intensity (1/day per capita)'))
+)
+
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
             + geom_contour(breaks=1,alpha=0.5,colour="black")
@@ -67,13 +68,15 @@ p1_temp <- (p1
                         ymax=10,
                         xmin=-1,
                         xmax=2)
+    + theme(panel.spacing=grid::unit(0,"lines"))
 )
 
 # #################################
 # 1. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")),
+ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")) +
+       theme(legend.position = "none"),
        filename = "R0contour_random.pdf" ,
        width = 12, height = 12, units = "cm",
        path=path)
@@ -83,10 +86,11 @@ ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")),
 # #################################
 
 ggsave((p1_temp %+% df_targeted) +
-        ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S_targeted ))),
-    filename = "R0contour_TTI.pdf" ,
-    width = 12, height = 12, units = "cm",
-    path=path)
+       ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S_targeted))) +
+       theme(legend.position = c(0.8, 0.75)),
+       filename = "R0contour_TTI.pdf" ,
+       width = 12, height = 12, units = "cm",
+       path=path)
 
 # #################################
 # 3. Plot R0 as a function of rho (testing intensity):
