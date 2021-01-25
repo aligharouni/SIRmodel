@@ -21,6 +21,7 @@
 %\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]{pix/Rlogo.pdf}\xspace}
 % BMB: we don't need the weird graphical logo ...
 \newcommand{\Rlogo}{R\xspace}
+\newcommand{\percap}{\emph{per capita}\xspace}
 
 \newcommand{\comment}{\showcomment}
 %% \newcommand{\comment}{\nocomment}
@@ -53,37 +54,42 @@
 % %%%%%%%
 \section{Introduction}
 
-The observed dynamics of the COVID-19 epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to determining what we actually observe about the epidemic (case reports), testing processes can also feed back to affect the epidemiological dynamics through isolation and quarantine. Specifically, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are highly likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
+The observed dynamics of the COVID-19 epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes can also affect epidemiological dynamics. In particular, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are highly likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
 
 Because individuals who have been tested or received a positive test are likely to self-isolate, thus reducing or eliminating  their potentially infectious contacts, the dynamics of an epidemic will depend on who gets tested and
 why. For a given testing intensity (tests performed per day), testing will have a stronger effect on infection rates
-the more strongly it is focused on people who are infectious for SARS-CoV-2, whether or not they are symptomatic.
+the more strongly it is focused on people who are infectious for SARS-CoV-2.
 This level of focus depends in turn on the purpose and design of testing programs.
 (1) When testing is done for the purposes of disease surveillance \citep{foddai2020base}
 we might expect tests to be assigned randomly across the population (in an ideal world: some bias in selection for testing is probably inevitable), although a stratified sampling design would be preferred for statistical efficiency \citep{cleevely2020workable}.
-In the case where tests are randomly assigned within the population, the \emph{per capita} probability of being selected for testing will (by definition) be equal across all epidemiological compartments. 
-Over the course of the COVID19 pandemic, however, the vast majority of testing has been done with other goals,
-primarily diagnosis (determining COVID19 infection status for clinical purposes) or control (determining COVID19 status
+\jd{This is a bit confusing; cleevely is specifically about control, and not just surveillance.}
+%% In the case where tests are randomly assigned within the population, the \emph{per capita} probability of being selected for testing will (by definition) be equal across all epidemiological compartments. \jd{This sentence seems unnecessary to me.}
+Over the course of the COVID19 pandemic, however, the vast majority of testing has been done with other goals --
+primarily diagnosis (determining COVID19 infection status for clinical purposes), or control (determining COVID19 status
 in order to quickly isolate cases that have been found by contact tracing), which we characterize
 as \emph{targeted} testing strategies.
 In these cases, testing probabilities vary widely across epidemiological compartments; in our dynamical model,
 we will characterize these probabilities by assigning a \emph{per capita} testing weight to each compartment
 that determines the \emph{relative} probability that an individual in that compartment will be selected for
-testing (see Methods). When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with vs. without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e. the relative proportions of presymptomatic or asymptomatic vs. symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g. due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs. uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
+testing (see Methods). 
+
+\jd{note that we have not yet introduced the term ``testing weights''.}
+When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with vs. without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e. the relative proportions of presymptomatic or asymptomatic vs. symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g. due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs. uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
 
 \bmb{save stuff about flights, surgery, LTC for Discussion?}
 
-In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-awaiting and positive-tested people,
-our models will also need to include test specificity and sensitivity, as well as the distribution of times
-from testing to reporting. For a parameter set that quantifies all of these phenomena,
-we can characterize the expected epidemiological dynamics. Specifically, we study the effect of different testing strategies (random vs. targeted), as well as testing intensity, degrees of self-isolation, and rate of test processing on a single index of epidemiological dynamics, the basic reproduction number $\Rnum$.
+In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-pending and test-confirmed people,
+our models will also need to include test specificity and sensitivity, as well as the distribution of times from testing to reporting. 
+\jd{This seems weak. Why are we studying \Rnum? What does it cover and what not?}
+Here, we focus on the the effect of testing intensity, different levels of testing ``focus'' (from random to highly targeted), and rate of test processing on a single index of epidemiological dynamics, the basic reproduction number $\Rnum$.
 
-The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. To control the spread of disease in the population, $\Rnum$ must be $<1$.
+The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. 
+In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. 
+To control the spread of disease in the population, $\Rnum$ must be $<1$.
 Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model
 \citep{shaw2021what},
-it does give a simple and widely accepted index for the effectiveness of control, as well as some indication
-of the likely final size of an epidemic \citep{ma2006generality}. Thus, we analyze the model by deriving $\Rnum$ and describing its
-sensitivity to the parameters that describe the testing process.
+it does give a simple and widely accepted index for the difficulty of control, as well as some indication
+of the likely final size of an epidemic \citep{ma2006generality}.
 
 %% \ali{now may be say what we expect from testing and isolation to reduce R0 and the surprise that the reporting time increase R0.} \bmb{No, that belongs in the results.  Don't give the results in the introduction!}
 
@@ -118,10 +124,13 @@ We developed a deterministic model, \crefrange{eq1}{eq12}, which groups individu
 
 \jd{It would be nice to modularize the model somehow, but probably not worth anyone's time.}
 \bmb{Can you say what you mean by this? Just curious.}
+\jd{I wrote this when the equations were here; I meant it might be good to use less equations, by writing summaries of the SIR process and the within-each-box testing process.}
 
 Table~\ref{tab:params} defines the model parameters, which are generally straightforward
 \emph{per capita} flows between compartments, or modifiers to these flow rates.
-The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $W_I/W_S=2$ means that infected individuals are tested at twice the \emph{per capita} rate of susceptible individuals. The weighted size of the testing pool is $W = W_S S_u + W_I I_u + W_R R_u$, and the scaling parameter for testing is
+The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $W_I/W_S=2$ means that infected individuals are tested at twice the \emph{per capita} rate of susceptible individuals. 
+
+In order to link to more applied models, we constructed this model so we could specify  to be able to specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = W_S S_u + W_I I_u + W_R R_u$, and calculating the scaling parameter for testing as:
 \begin{equation}
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
@@ -135,7 +144,10 @@ Although this phenomenon does not affect our analysis of $\Rnum$, it does someti
 numerical solutions of the time dynamics: we discuss an adjustment to the model that solves
 this problem in the Appendix. 
 
-The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (may be refer the reader to \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, that is, where a susceptible individual moves to does not depend on who infected it, (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals, (iii) a perfectly specific test, $p_S=0$, for simplicity in analysis. The latter assumption, combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u(0)+S_n(0)=N(0)$ \bmb{I don't think this is what we need: I think we need $S_p(0)=S_c(0)=0$? The previous assumption is awkward because we must have some infected individuals at time 0, and is more than we need (we could start with some $R$ without loss of generality)}, reduces the model to 10 equations (equations \ref{eq3} and \ref{eq4} are eliminated). Specifically, when the population is at steady state and the number of infected people is negligible \bmb{do we really need anything other than the previously stated conditions?}, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, $S_c=0$ and stays in this state.
+The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \crefrange{eq1}{eq12}, assumes: (i) there is a single force of infection, $\Lambda$, across all susceptible pools [\jd{This is de-clarifying here; let's drop it: that is, where a susceptible individual moves to does not depend on who infected it], (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. For this analysis, we also assume a perfectly specific test,($p_S=0$). This last assumption 
+%% The latter assumption, combined with the assumption that the total population was initially distributed between untested and awaiting for negative test, that is $S_u(0)+S_n(0)=N(0)$ \bmb{I don't think this is what we need: I think we need $S_p(0)=S_c(0)=0$? The previous assumption is awkward because we must have some infected individuals at time 0, and is more than we need (we could start with some $R$ without loss of generality)}, 
+reduces the model to 10 equations (equations \ref{eq3} and \ref{eq4} are eliminated).
+%% Specifically, when the population is at steady state and the number of infected people is negligible \bmb{do we really need anything other than the previously stated conditions?}, the assumption of perfect specificity results in $S_p=0$ in \cref{eq3} and $d S_c/dt=0$ from \cref{eq4}. Also, since we assumed $S_u+S_n=0$, $S_c=0$ and stays in this state.
 
 % \newgeometry{margin=1cm} % modify this if you need even more space
 % \begin{landscape}
