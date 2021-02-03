@@ -348,30 +348,25 @@ Also note that, all $S_u$'s and $S_n$'s are evaluated at the DFE \eqref{dfe} in 
 % %%%%%%%
 \subsection{On Testing Rate and Numerical Singularity}
 
-\bmb{need a little bit of context here, saying that we didn't do any numerical solutions for the trajectories in our analysis,
-  but if you do try them you run into this problem ...}
-
-The testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there. The numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S_u$. Thus, eq(1) of the model will be $d S_u/dt = - \rho N_0 + \omega S_n$ which is no longer dependent on $S_u$ and a linear rate of leaving the $S_u$ compartment.
-
+In this work, we didn't do any numerical solutions for the trajectories in our analysis. However, if one tries to do so there would be a singularity issue to deal with. 
+Specifically, the numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S_u$. Thus, the first equation of the model \eqref{model} will become
+$d S_u/dt = - \rho N_0 + \omega S_n$. Thus changes in $S_u$ will be no longer dependent on $S_u$ with a linear rate of leaving the $S_u$ compartment.
+IN fact the testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there.
 One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
 
 % %%%%%%%
 \subsection{Taylor Approximation of $\Rnum$ at $\rho=0$ }
-
 The basic reproduction number, $\Rnum$, close to $\rho=0$ can be approximated linearly in $\rho$ by using Taylor approximation. it follows
-
 \begin{equation}
 \label{eq:R0appr}
 R_0 \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 W_S} \Big(\gamma(\eta_w-1)(\gamma W_S+\omega W_I) + (\eta_c -1)P_iW_i \omega^2 \Big) + \mathcal{O}(\rho^2).
 \end{equation}
 
 Also, to analyze the influence of $\omega$ on $\Rnum$, the approximation \eqref{eq:R0appr} was used. Then it is straight forward to have
-
 \begin{equation}
 \label{Rom}
 \partial{R_0}/\partial{\omega}=  \frac{-\beta \rho}{\gamma W_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),
 \end{equation}
-
 where $a=(\eta_w-1)W_I-(\eta_c-1)P_I W_I = ((s-p_I)\eta_c + (p_I-1)) W_I$, $b=2(\eta_w-1)\gamma W_S$ and $c=(\eta_w-1)\gamma^2 W_S$.
 Given that $0 \leq \eta_c\leq \eta_w \leq 1 $, one can easily derive $b\leq 0$ and $c \leq 0$. 
 
@@ -381,8 +376,6 @@ In the case of ``perfect isolation'', i.e., when $\eta_w=0$ and consequently $\e
 As an example, in the case of a very accurate testing regime,  i.e., $P_I=1$, $a \geq 0$ is achieved. If $a\geq 0$, the quadratic expression in \eqref{Rom}, has Real roots. Assuming that $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{R_0}/\partial{\omega}$. Thus, $\partial{R_0}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{R_0}/\partial{\omega}<0$ for $\omega>\omega_2$.
 
 % %%%%%%%
-[Fady: this subsection and most of the next belong to the Appendix since they are very detailed. Would you clean up the writing, there are some repeated expressions that can be referenced?]
-
 \subsection{rate of returning tests}
 The linearization of $\Rnum$ around $\rho=0$ is
 \begin{equation}\label{linearization}
@@ -401,10 +394,9 @@ Defining the following quantity, $Q$, will help us write the roots of $\partial{
 \end{align}
 
 With that in mind, we can write the roots of $\partial{\Rnum}/\partial{\omega}$ as
-
 \begin{align}
     \omega_1 =& \frac{\gamma}{-\sqrt{1-Q}-1} \\
-    \omega_2 =& \frac{\gamma}{\sqrt{1-Q}-1}
+    \omega_2 =& \frac{\gamma}{\sqrt{1-Q}-1}.
 \end{align}
 
 Note that the zeroes are real if and only if $Q < 1$. Note that have $\eta_c < \eta_w$, so if $P_i \approx 1$, we will have $Q < 0 < 1$. Thus, if we assume near-perfect test sensitivity, $\omega_1$ and $\omega_2$ will be real. 
