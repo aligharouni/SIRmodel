@@ -30,7 +30,7 @@
 \newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
 \newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
 \newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
-\newcommand{\djde}[1]{\comment{red}{DJDE}{#1}}
+\newcommand{\david}[1]{\comment{red}{DJDE}{#1}}
 \newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
 \newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
 
@@ -40,7 +40,7 @@
 
 \bibliographystyle{apalike}
 
-\title{Testing and Isolation Efficacy; Insights from a Simple Epidemic Model }
+\title{Testing and Isolation Efficacy: Insights from a Simple Epidemic Model}
 
 \begin{document}
 \maketitle
@@ -53,29 +53,32 @@
 % %%%%%%%
 \section{Introduction}
 
-The observed dynamics of the COVID-19 epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes can also affect epidemiological dynamics. In particular, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are highly likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
+The observed dynamics of the COVID-19 epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes can also affect epidemiological dynamics. In particular, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are more likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
 
-Because individuals who have been tested or received a positive test are likely to self-isolate, thus reducing or eliminating  their potentially infectious contacts, the dynamics of an epidemic will depend on who gets tested and
+Because individuals who have been tested or received a positive test are likely to self-isolate---reducing or eliminating  their potentially infectious contacts---the dynamics of an epidemic will depend on who gets tested and
 why. For a given testing intensity (tests performed per day), testing will have a stronger effect on infection rates
-the more strongly it is focused on people who are infectious for SARS-CoV-2.
+the more strongly it is focused on people who are infectious.\david{deleted `` for SARS-CoV-2''.  Since this is an idealized model intended for insights, it is probably better to use more generic language most of the time and not say covid unless necessary in a specific context.}
 This level of focus depends in turn on the purpose and design of testing programs.
 (1) When testing is done for the purposes of disease surveillance \citep{foddai2020base}
 we might expect tests to be assigned randomly across the population (in an ideal world: some bias in selection for testing is probably inevitable), although a stratified sampling design would be preferred for statistical efficiency \citep{graubard1996modelling} \ali{better ref?}.
 
-Over the course of the COVID19 \ali{consistency COVID-19 or COVID19?} pandemic, however, the vast majority of testing has been done with other goals --
+Over the course of the COVID19 \ali{consistency COVID-19 or COVID19?}\david{create a \texttt{\detokenize{\covid}} macro and use that.  I suggest defining it as COVID-19 since that is more common.} pandemic, however, the vast majority of testing has been done with other goals --
 primarily diagnosis (determining COVID19 infection status for clinical purposes), or control (determining COVID19 status in order to quickly isolate cases that have been found by contact tracing), which we characterize as \emph{targeted} testing strategies.
 In these cases, testing probabilities vary widely across epidemiological compartments; in our dynamical model, we will characterize these probabilities by assigning a \percap testing weight to each compartment that determines the \emph{relative} probability that an individual in that compartment will be selected for testing (see Methods). 
 
-When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with vs. without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e. the relative proportions of presymptomatic or asymptomatic vs. symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g. due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs. uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
+When testing is used primarily for diagnosis it will focus on people with COVID19-like symptoms; thus the testing weights for people with \david{escape spaces after dots unless it is a full stop}vs.\ without SARS-CoV-2 infections will depend on the relative magnitudes of the probability of having COVID19-like symptoms when infected with SARS-CoV-2 (i.e., the relative proportions of presymptomatic or asymptomatic vs.\ symptomatic infections) and the probability of having COVID19-like symptoms when \emph{not} infected (e.g., due to other respiratory illnesses). Testing for epidemic control will focus on people who are known to have been in contact with known COVID19 cases; in this case the testing weights for infected vs.\ uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
 
-In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-pending and test-confirmed people, our models will also need to include test specificity and sensitivity, as well as the distribution of times from testing to reporting. 
+In addition to the overall testing intensity, the testing weights for different compartments, and the degree of self-isolation of test-pending and test-confirmed people, our models will also need to include test specificity and sensitivity\david{I presume you mean that models would ideally take account of these things, which should not be mentioned unless they are defined since the terms are often misunderstood}, as well as the distribution of times from testing to reporting. 
 Here, we focus on the the effect of testing intensity, different levels of testing ``focus'' (from random to highly targeted), and rate of test processing on a single index of epidemiological dynamics, the basic reproduction number $\Rnum$.
 
 The early dynamics of an epidemic are determined by $\Rnum$. This index is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. 
 In the early stages of an epidemic the number of infected individuals is expected grow exponentially over time when $\Rnum>1$. 
-To control the spread of disease in the population, $\Rnum$ must be $<1$.
+To control the spread of disease in the population, \david{the effective} $\Rnum$ must be $<1$.
 Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model
 \citep{shaw2021what}, it does give a simple and widely accepted index for the difficulty of control, as well as some indication of the likely final size of an epidemic \citep{ma2006generality}.
+\david{This paragraph does not flow from the rest of the intro, and is a weird way to end when the point of the paper is about testing.}
+
+\david{There is some back and forth between generic discussion and COVID-specific comments.  I think COVID should be used as motivation, but that the whole paper should be framed generically.}
 
 % %%%%%%%
 \section{Methods}
@@ -413,7 +416,7 @@ Now we want to characterize the parameter regions on which $\partial{\Rnum}/\par
 \end{align}
 
 
-\subsection{Expensive vs. cheap tests}
+\subsection{Expensive vs.\ cheap tests}
 
 The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the COVID-19 pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. In the analysis below, we compare the $\Rnum$ predicted by our model depending on the testing strategy. 
 
