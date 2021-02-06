@@ -8,7 +8,8 @@
 \usepackage{xspace}
 \usepackage[nameinlink,capitalize]{cleveref}
 \usepackage{cleveref}
-\usepackage{geometry}
+\usepackage[margin=1in]{geometry}
+\usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
 \usepackage{pdflscape}
 
 % https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
@@ -43,6 +44,8 @@
 
 \begin{document}
 \maketitle
+
+\linenumbers
 
 % %%%%%%%
 \section{Abstract}
