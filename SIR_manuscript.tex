@@ -23,6 +23,7 @@
 \newcommand{\Rlogo}{R\xspace}
 \newcommand{\percap}{\emph{per capita}\xspace}
 \newcommand{\Rnum}{\mathcal{R}_0}
+\newcommand{\covid}{COVID-19\xspace}
 \newcommand{\comment}{\showcomment}
 \newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
 \newcommand{\nocomment}[3]{}
@@ -50,10 +51,21 @@
 % %%%%%%%
 \section{Abstract}
 
+The potential advantage of slow test reporting on the epidemic dynamics, motivated by the \covid epidemic, is real and needs to be quantified.
+
+We investigated this advantage by developing a SIR-type model with testing and isolation components. The novel part of the model is compartment-specific relative testing weights which reflects the testing strategies.   
+
+We also compare \covid to an individual-level advantage of fast tests: people who test positive
+may be even more careful. we are missing out on community-level advantages of fast testing: better assessment of the situation, identification of hot spots, contact-tracing, etc.
+
+
+
+The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively.
+
 % %%%%%%%
 \section{Introduction}
 
-The observed dynamics of the COVID-19 epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes can also affect epidemiological dynamics. In particular, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are more likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
+The observed dynamics of the \covid epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes can also affect epidemiological dynamics. In particular, individuals who are awaiting the results of a test may partially or fully self-isolate, and individuals who have tested positive are more likely to self-isolate. We developed a model that incorporates mechanistic epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
 
 Because individuals who have been tested or received a positive test are likely to self-isolate---reducing or eliminating  their potentially infectious contacts---the dynamics of an epidemic will depend on who gets tested and
 why. For a given testing intensity (tests performed per day), testing will have a stronger effect on infection rates
@@ -62,7 +74,7 @@ This level of focus depends in turn on the purpose and design of testing program
 (1) When testing is done for the purposes of disease surveillance \citep{foddai2020base}
 we might expect tests to be assigned randomly across the population (in an ideal world: some bias in selection for testing is probably inevitable), although a stratified sampling design would be preferred for statistical efficiency \citep{graubard1996modelling} \ali{better ref?}.
 
-Over the course of the COVID19 \ali{consistency COVID-19 or COVID19?}\david{create a \texttt{\detokenize{\covid}} macro and use that.  I suggest defining it as COVID-19 since that is more common.} pandemic, however, the vast majority of testing has been done with other goals --
+Over the course of the \covid pandemic, however, the vast majority of testing has been done with other goals --
 primarily diagnosis (determining COVID19 infection status for clinical purposes), or control (determining COVID19 status in order to quickly isolate cases that have been found by contact tracing), which we characterize as \emph{targeted} testing strategies.
 In these cases, testing probabilities vary widely across epidemiological compartments; in our dynamical model, we will characterize these probabilities by assigning a \percap testing weight to each compartment that determines the \emph{relative} probability that an individual in that compartment will be selected for testing (see Methods). 
 
