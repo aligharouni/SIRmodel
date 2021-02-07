@@ -83,7 +83,7 @@ Although the value of $\Rnum$ cannot completely characterize the dynamics of eve
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model, Eqs. \eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of $\Rnum$ are presented in the Supplementary Materials.
+We developed a deterministic model, Eqs. \eqref{model}\david{relegating the equations to supp is not OK.   You don't want to publish a paper in which the model is specified exactly only in online supplementary material.  I don't think there is any need for supp material.  You can have appendices, but I would keep everything as part of the paper.}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of the basic reproduction number $\Rnum$ are presented in the Supplementary Materials.
 
 \begin{figure}[!h] 
 \begin{center} 
@@ -95,28 +95,24 @@ We developed a deterministic model, Eqs. \eqref{model}, which groups individuals
 
 Table~\ref{tab:params} defines the model parameters, which are generally straightforward
 \percap flows between compartments, or modifiers to these flow rates.
+\david{you need to define what you mean by ``testing intensity'' $\rho$}
 The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $W_I/W_S=2$ means that infected individuals are tested at twice the \percap rate of susceptible individuals. 
 
-In order to link to more applied models, we constructed this model so we could specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = W_S S_u + W_I I_u + W_R R_u$, and calculating the scaling parameter for testing as:
+In order to link to more applied models\david{what does that mean?  what is an ``applied model''?}, we constructed this model so we could specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = W_S S_u + W_I I_u + W_R R_u$, and calculating a scaling parameter for testing as:
 \begin{equation}
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
 \end{equation}
-Thus, \percap testing rate for compartment $Z$ is $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$.
-For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I_c$/$R_c$) compartments and are thus unavailable for further testing.
-Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can
-(if large enough) exhaust the pool of people available for testing,
-leading to a singularity when no one is left untested.
-Although this phenomenon does not affect our analysis of $\Rnum$, it does sometimes occur in
-numerical solutions of the time dynamics: we discuss an adjustment to the model that solves
-this problem in the Supplementary material. 
+Thus, the \percap testing rate for compartment $Z$ is $F_Z=\sigma W_Z$, where $Z \in \{S,I,R\}$.  \david{For a generic compartment, I would suggest $X$ rather than $Z$, since $Z$ is often the final size.}  For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I_c$, $R_c$) compartments and are thus unavailable for further testing.  Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can (if large enough) exhaust the pool of people available for testing, leading to a singularity when no one is left untested.  Although this phenomenon does not affect our analysis of $\Rnum$, it can affect the temporal dynamics (we discuss an adjustment to the model that solves this problem in the Supplementary material).
 
-The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population, exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \ref{model}, assumes: (i) there is a single force of infection, $\Lambda$, defined as follows
+\david{A comment on notation:  You haven't actually defined $S_u$, $I_u$ etc.  In any case, I urge you to use macros and use Roman font for subscripts that are textual as opposed to variables.  So $S_{\rm u}$ and $I_{\rm p}$ etc.  Then it is clear the subscript isn't a variable with a value.}
+
+The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population\david{What's the difference btw ``well-mixed'' and ``homoegeneous''?}, exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \ref{model}, assumes: (i) there is a single force of infection, $\Lambda$, defined as follows
 \begin{equation}
 \label{Lambda}
 \Lambda=\beta \frac{(I_u+\eta_w I_n+\eta_w I_p+ \eta_c I_c)}{N_0},
 \end{equation}
-across all susceptible pools (see Table~\ref{tab:params} for detail), (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. For this analysis, we also assume a perfectly specific test,($p_S=0$). This last assumption combined with the assumption that no individual is in waiting-for-\emph{positive} or \emph{confirmed positive} compartments, i.e., $S_p(0)=S_c(0)=0$, reduces the model to 10 equations (equations c and d  in \eqref{model} are eliminated).
+across all susceptible pools (see Table~\ref{tab:params} for detail\david{there are no details in the table; you need to do a better job of explaining what's going on}), (ii) $\eta_c \leq \eta_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. For this analysis, we also assume a perfectly specific test ($p_S=0$). This last assumption combined with the assumption that no individual is in waiting-for-\emph{positive} or \emph{confirmed positive} compartments, i.e., $S_p(0)=S_c(0)=0$, reduces the model to 10 equations (equations c and d  in \eqref{model} are eliminated).
 
 \begin{table}[htp]
 \centering
@@ -142,12 +138,16 @@ across all susceptible pools (see Table~\ref{tab:params} for detail), (ii) $\eta
 \caption{\label{tab:params} Parameters of the model \eqref{model}.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$. The DFE is
-
+The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is given by solving the coupled system including $S_u+S_n=N_0$ and $F_S S_u-\omega S_n=0$.
+\david{you mean by solving the algebraic equations obtain by setting the DEs to 0.  not clear why you bother to mention two of these algebraic eqns.}
+The DFE is
+\david{don't put blank lines around equations unless you are started a new paragraph.  comment out blank lines if want the .tex file to be more readable}
+%%
 \begin{equation}
 \label{dfe}
-S_n^*= \frac{\rho}{\omega} N_0, \ S_u^*= N_0-S_n^*, \text{~and~} I_j=R_j=0 \ \text{for all j}.
+S_n^*= \frac{\rho}{\omega} N_0, \ S_u^*= N_0-S_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
+\david{above you had j in Roman font even though it *is* a variable, so I changed to $j$}
 
 The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 
@@ -164,16 +164,21 @@ B=& \big(\omega+(F_I+\gamma)\eta_w\big) \gamma+\frac{(\eta_w \gamma+ \eta_c\omeg
 C=& \frac{\beta/\gamma}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
 \end{aligned}
 \end{equation}
+\david{put $\beta/\gamma$ in front of the expression in eq \eqref{R0}, so it is clear that the rest is a modification of the the simplest expression.  It would be worth spending some time trying to write the expression in a way that helps the reader understand where the different factors come from.}
 Further details of derivation of $\Rnum$ are provided in the Supplementary material section.
  
-The analytical calculation of the next generation matrix, $G$, and the derivation of $\Rnum$ was carried out in Maple \citep{maple14} by using simple linear Algebra package. 
-  We used R \citep{r} for the simulation part which included using the explicit expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ by using ggplot package (ref?) in R. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are as follows (I like using a table here, with the param, their units and values). It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
+The analytical calculation of the next generation matrix, $G$\david{don't waste the symbol $G$ on a quantity we don't really need; $G$ is often used for generation interval}, and the derivation of $\Rnum$ was carried out in Maple \citep{maple14} by using simple linear Algebra package. 
+  We used R \citep{r} for the simulation part which included using the explicit expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ by using ggplot package (ref?) in R. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are as follows (I like using a table here, with the param, their units and values).\david{use comment macro for comments} It is notable that in the simulation part, the explicit expression of $\Rnum$ was used and not the approximation \eqref{eq:R0appr}.\david{that's the first mention of ``the approximation''} This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
+
+\david{Details such as the fact that you used ggplot are not important to state in the main text.  On the other hand, there isn't a clear narrative here.  The reader should feel that a story is being told.}
 
 % %%%%%%%
 \section{Results}
 
-The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controlled by changing in isolation, \percap testing intensity and test resulting, i.e., $\eta_c$ and $\eta_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial derivative of $\Rnum$ \eqref{R0} with respect to selected parameters. Note that we used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive. See the Supplementary material for details.
+The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controlled by changing in isolation, \percap testing intensity and test resulting, i.e., $\eta_c$ and $\eta_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial derivative of $\Rnum$ \eqref{R0} with respect to selected parameters. Note that we used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive.\david{in that case it would be good to establish numerically that the relationships given in the proposition are valid more generally, at least for reasonable parameter ranges}
+See the Supplementary material for details.
 
+\david{make sure to use $\Rnum$ not $R_0$ below (and often in the supp material section).  More importantly, you really need to state in words what this proposition is saying.  The reader has to check the param table and think it through themselves.}
 \begin{proposition}
 \label{prop1}
 Using the expression of $\Rnum$ \eqref{R0},
@@ -187,7 +192,10 @@ $\partial{R_0}/\partial{\omega}$ can be positive or negative when $\rho \approx 
 \end{enumerate}
 \end{proposition}
 
- Given that the perfect isolation occurs at $\eta_c=\eta_w = 0$, Prop.~\ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. Prop.~\ref{p1:rho} indicates that increasing the \percap testing intensity, $\rho$, reduces $\Rnum$. Lastly, Prop.~\ref{p1:omega} means that speeding up the test reporting may or may not reduce $\Rnum$, it will depend on other parameters. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the Taylor approximation of $\Rnum$ at $\rho=0$. 
+Given that the perfect isolation occurs at $\eta_c=\eta_w = 0$,
+\david{That's a perfect example of the kind of phrasing that really must be changed.  You need to say something like ``occurs when no one transmits while waiting for test results (i.e., $\eta_c=\eta_w = 0$)''.  It makes the text so much easier to process and doesn't require the reader to keep looking at the table to make sense of what you're saying.}
+Prop.~\ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. Prop.~\ref{p1:rho} indicates that increasing the \percap testing intensity, $\rho$, reduces $\Rnum$. Lastly, Prop.~\ref{p1:omega} means that speeding up the test reporting may or may not reduce $\Rnum$, it will depend on other parameters. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the Taylor approximation of $\Rnum$ at $\rho=0$.
+\david{can we gain some insight from the expressions for the partial derivatives in the proposition, as opposed to just their signs?}
  
 \begin{figure}[h!]
 \centering
@@ -211,19 +219,23 @@ $N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [
 
 Our numerical solutions in support of the analytical results in Proposition \ref{prop1} are presented in Figure \ref{pan}. It can be inferred that when random testing strategy is applied, Figure \ref{p.a}, comparing to the targeted testing strategy, Figure \ref{p.b}, the critical \percap testing intensity of the corresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people (including people in $I_p$ and $I_n$ compartments) follow the isolation perfectly, i.e., $\eta_w$ is closer to 0. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\eta_w$ is closer to 1. 
 
-Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}. 
+Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}.
+\david{What do we learn from this inequality?  Why is it relegated to an appendix?}
 
 %%%%%%%%%%%%
 \section{Discussion}
 
 Mathematical modeling of infectious disease outbreaks provides insights on how testing processes influence the epidemiological processes through isolation. 
 Here, we develop a compartmental SIR-type model to study the potential effect of testing strategies, testing intensity, test sensitivity and specificity, test reporting time and isolation on epidemic dynamics. 
-While targeted testing strategies are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is viral spread is expected to be stronger for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing).
+While targeted testing strategies 
+\david{you need to be clearer: you mean targeting individuals who have contacted people who were infected.  For example, here you could say something like ``While targeting the contacts of confirmed cases\dots''}
+are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is that viral spread
+is greater for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing).
 
-We incorporated the compartment-specific relative testing weights, $W_S$, $W_I$ and $W_R$, to model random testing and \emph{targeted} testing strategies. Here, in the case of targeted testing and for the simplicity and illustraition purposes, we assumed that infected and recovered individuals are tested at three times the \percap rate of susceptible individuals, thus $W_I/W_S=3$ and $W_R=W_I$. Note that we have not specified a methodology to assigne particular relative testing weights corresponding to a particular targeted testing scenario. 
+We incorporated the compartment-specific relative testing weights, $W_S$, $W_I$ and $W_R$, to model random testing and \emph{targeted} testing strategies. Here, in the case of targeted testing and for the simplicity and illustration purposes, we assumed that infected and recovered individuals are tested at three times the \percap rate of susceptible individuals, thus $W_I/W_S=3$ and $W_R=W_I$. Note that we have not specified a methodology to assign particular relative testing weights corresponding to a particular targeted testing scenario. 
 This part needs to be developed further in future work. 
 Modeling different targeted testing strategies, equivalently test-specific testing weights in our framework, requires prior information of the conditional probabilities of getting tested for people in a given compartment. 
-This can be implied when we would like to quantify and compare the effect of different levels of test forcus for infectious people on the basic reproduction number $\Rnum$, and conclude about the disease spread management. For example, when people are tested for "screening", the individuals with potential higher mobility, eg. people who are getting on flights, get more tested and thus the coresponding heavier testing weight is assigned than people awaiting for a surgery and are probably going to stay in a long-term care facility and consequently less mobile and more isolated to begin with. With our model, we would be able to compare the sensitivity of the disease dynamics, through $\Rnum$, with respect to testing processes.
+This can be implied when we would like to quantify and compare the effect of different levels of test forcus \david{??} for infectious people on the basic reproduction number $\Rnum$, and conclude about the disease spread management. For example, when people are tested for "screening", the individuals with potential higher mobility, eg. people who are getting on flights, get more tested and thus the coresponding heavier testing weight is assigned than people awaiting for a surgery and are probably going to stay in a long-term care facility and consequently less mobile and more isolated to begin with. With our model, we would be able to compare the sensitivity of the disease dynamics, through $\Rnum$, with respect to testing processes.
 
 {\bf The \percap testing intensity, $\rho$;}
 Proposition \ref{prop1} part \ref{p1:rho} and also Figure \ref{pan} indicates that increasing testing intensity $\rho$ reduces $\Rnum$. This is sensible since as people are moved to test compartments, namely $Z_p$ and $Z_n$ for $Z \in \{S,I,R\}$, they may partially or fully self-isolate. Also individuals who have tested positive, namely $Z_c$ compartment for $Z \in \{S,I,R\}$, are highly likely to self-isolate. The higher probability of being subject to isolation, the lower the force of infection \eqref{Lambda} and the lower $\Rnum$ will become. While our simulation supported this result, analytically it appeared to be hard to conclude this due to the complexity of $\Rnum$ expression.  
@@ -235,7 +247,7 @@ We also compare to an individual-level advantage of fast tests: people who test 
 In our model analysis, Proposition \ref{prop1} part \ref{p1:omega} is describing this potential advantage. 
 It states that returning test results more rapidly, i.e., increasing the rate $\omega$, does not necessarily lower the reproduction number $\Rnum$; whether increasing $\omega$ lowers $\Rnum$ depends on the precise combination of model parameters  including test reporting rate, testing strategies represented by compartment-specific testing weights, test sensitivity and specificity, and the level of isolation. 
 Specifically, in the case of perfect isolation, i.e., when $\eta_w=0$ and $\eta_c=0$, $\Rnum$ may increase as the test reporting process becomes faster. This can be seen from expression \eqref{Rom}.
-Another example of this favorable delay in $\omega$ could be when the test being employed produces many false negatives. Because many infected asymptomatic individuals will believe they are uninfected/uninfectious, thus may unknowingly spread the virus to many others. Agian the delay in the test reporting rate keeps these individuals in the ``\emph {safe}'' awaiting-confirmed compartments.  
+Another example of this favorable delay in $\omega$ could be when the test being employed produces many false negatives. Because many infected asymptomatic individuals will believe they are uninfected/uninfectious, thus may unknowingly spread the virus to many others. Again the delay in the test reporting rate keeps these individuals in the ``\emph {safe}'' awaiting-confirmed compartments.  
 
 we are missing out on
 community-level advantages of fast testing: better assessment of the
@@ -248,6 +260,8 @@ In addition to the favorable-delay-reporting observation of our model \eqref{mod
 To give a biological interpretation, we describe the qualitative trends predicted by the inequality \eqref{eq:necsuf} \todo{Fady please confirm}. To summarise, returning test results more rapidly tends to be more favorable, i.e., reduces $\Rnum$, when (i) \emph{Confirmed-positive} individuals, lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_c \ll \eta_w$), (ii) the test is highly sensitive, i.e., $p_I$ is close to 1, and (iii) the targeted testing strategy is practiced. 
 
 one point we can make when discussing the relative weight of testing in different compartments is to discuss pre-testing screening tools, such as surveys or questionnaires. If we have a quantitative description of how the testing intensities affect the dynamics, we can make statements like ``our results suggest that employing a pre-testing screening tool can help target infected individuals more effectively. In particular, doubling the sensitivity of the pre-screening tool would *do something* to $\Rnum$.
+
+\david{Some of this reads like notes for discussion rather than text for the paper, so I'm not trying to edit.}
 
 % %%%%%%%
 \bibliography{SIRlibrary}
