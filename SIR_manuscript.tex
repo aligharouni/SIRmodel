@@ -269,7 +269,7 @@ In particular, if a cheap test can identify on average more infected individuals
 
 \ali{ not sure if we want these 2 following parageraphs, or shrink it into afew short sentences?}
 In addition to the favorable-delay-reporting observation of our model \eqref{model}, the model enables us to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$.
-To give a biological interpretation, we describe the qualitative trends predicted by the inequality \eqref{eq:necsuf} \todo{Fady please confirm}. To summarise, returning test results more rapidly tends to be more favorable, i.e., reduces $\Rnum$, when (i) \emph{Confirmed-positive} individuals, lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_c \ll \eta_w$), (ii) the test is highly sensitive, i.e., $p_I$ is close to 1, and (iii) the targeted testing strategy is practiced. 
+To give a biological interpretation, we describe the qualitative trends predicted by the inequality \eqref{eq:necsuf} \todo{Fady please confirm}\fady{yes, looks good to me}. To summarise, returning test results more rapidly tends to be favourable (i.e., reduces $\Rnum$) when (i) \emph{Confirmed-positive} individuals, lower their contact much more than individuals who are waiting for their test results (i.e., $\eta_c \ll \eta_w$), (ii) the test is highly sensitive (i.e., $p_I$ is close to 1), and (iii) the targeted testing strategy is used (i.e., $W_i \gg W_s$). 
 
 one point we can make when discussing the relative weight of testing in different compartments is to discuss pre-testing screening tools, such as surveys or questionnaires. If we have a quantitative description of how the testing intensities affect the dynamics, we can make statements like ``our results suggest that employing a pre-testing screening tool can help target infected individuals more effectively. In particular, doubling the sensitivity of the pre-screening tool would *do something* to $\Rnum$.
 
@@ -433,13 +433,23 @@ We can prove that $\partial{\Rnum}/\partial{\omega} > 0$ when $\omega \in (0,\om
 
 Now we want to characterize the parameter regions on which $\partial{\Rnum}/\partial{\omega} < 0$ (i.e., the conditions under which returning test results more rapidly is favorable). By the previous analysis, this is equivalent to solving for $\omega > \omega_2$. So
 
-\todo{Fady, can you clean this up}
-\begin{align}\label{eq:necsuf}
+\todo{Fady, can you clean this up}\fady{Done (I think)}
+\begin{align}
     &\omega > \omega_2 \nonumber \\
     &\omega > \frac{\gamma}{\sqrt{1-Q}-1} \nonumber \\
-    &\vdots \nonumber \\ 
-    &\frac{1-n_{t}}{1-n_{w}}P_{i}>\frac{W_{s}}{W_{i}}\left(\frac{\gamma}{\omega}+1\right)^{2}
+    &\sqrt{1-Q} > \frac{\gamma}{\omega}+1 \\
+    &1-Q > (\frac{\gamma}{\omega}+1)^2 \\
 \end{align}
+
+Substituting in $Q$ from \eqref{eq:defQ} we have
+
+\begin{align}
+    &1-\frac{W_i}{W_s}\left(1-\frac{n_{t}-1}{n_{\omega}-1}P_{i}\right)> \left(\frac{\gamma}{\omega}+1\right)^2 \\
+    &-\frac{W_i}{W_s}\left(1-\frac{n_{t}-1}{n_{\omega}-1}P_{i}\right)> \left(\frac{\gamma}{\omega}+1\right)^2+1 \\    
+    &\frac{W_i}{W_s}\left(\frac{1-n_{t}}{1-n_{\omega}}P_{i}-1\right)> \left(\frac{\gamma}{\omega}+1\right)^2+1\label{eq:necsuf}.
+\end{align}
+
+Since all steps in deriving \eqref{eq:necsuf} are reversible, \eqref{eq:necsuf} gives a necessary and sufficient condition for $\omega > \omega_2$, which characterizes when returning tests more rapidly would cause a decrease in $\Rnum$.
 
 
 \subsection{Expensive vs.\ cheap tests}
