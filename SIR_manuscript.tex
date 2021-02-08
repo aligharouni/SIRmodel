@@ -51,16 +51,13 @@
 % %%%%%%%
 \section{Abstract}
 
-The potential advantage of slow test reporting on the epidemic dynamics, motivated by the \covid epidemic, is real and needs to be quantified.
-
-We investigated this advantage by developing a SIR-type model with testing and isolation components. The novel part of the model is compartment-specific relative testing weights which reflects the testing strategies.   
-
-We also compare \covid to an individual-level advantage of fast tests: people who test positive
-may be even more careful. we are missing out on community-level advantages of fast testing: better assessment of the situation, identification of hot spots, contact-tracing, etc.
-
-
-
-The novel component of the model comes in through the compartment-specific relative testing weights $W_S$, $W_I$ and $W_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively.
+The potential advantage of slow rate of test return on the dynamics of an epidemic is real, often neglected and needs to be quantified.
+In the individual level, this advantage can be in the following sense: people who are awaiting the test results or have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential infectious contacts.
+In the community-level (e.g., nursing homes, LTC facilities, etc.), the fast test reporting may be  more benefitial as it gives a fast assessment of the situation, hot spots and contact-tracing.  
+In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
+Although the model developement was motivated by the \covid epidemic, the model has generic  epidemiological and testing structures. The realistic components of the model include testing intensity, test sensitivity and specificity, rate of test return and isolation. The novel component is the compartment-specific relative testing weights which reflect the testing strategies determined by the purpose of testing-- surveillance, diagnosis or control.
+Here, we showed that the slow test reporting can be benefitial on the dynamics of an epidemic. In particular, the sensitivity of the basic reproduction number, $\Rnum$, with respect to the rate of test return can be positive.  
+Further, we compare two testing strategies, random vs. targeted, in this framework. We conclude that the targeted testing strategy is more effective than the random one in the sense that a lower range of testing intensity is required to keep $\Rnum <1$. Also, targeted testing reduces the individual-level of advantage of slow rate of test.   
 
 % %%%%%%%
 \section{Introduction}
