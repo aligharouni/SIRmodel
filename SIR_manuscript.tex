@@ -51,13 +51,17 @@
 % %%%%%%%
 \section{Abstract}
 
-The potential advantage of slow rate of test return on the dynamics of an epidemic is real, often neglected and needs to be quantified.
-In the individual level, this advantage can be in the following sense: people who are awaiting the test results or have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential infectious contacts.
-In the community-level (e.g., nursing homes, LTC facilities, etc.), the fast test reporting may be  more benefitial as it gives a fast assessment of the situation, hot spots and contact-tracing.  
+The potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
+
+At the community-level (e.g., nursing homes, LTC facilities, etc.), fast test reporting may be more beneficial. It gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing.  
 In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
-Although the model developement was motivated by the \covid epidemic, the model has generic  epidemiological and testing structures. The realistic components of the model include testing intensity, test sensitivity and specificity, rate of test return and isolation. The novel component is the compartment-specific relative testing weights which reflect the testing strategies determined by the purpose of testing-- surveillance, diagnosis or control.
-Here, we showed that the slow test reporting can be benefitial on the dynamics of an epidemic. In particular, the sensitivity of the basic reproduction number, $\Rnum$, with respect to the rate of test return can be positive.  
-Further, we compare two testing strategies, random vs. targeted, in this framework. We conclude that the targeted testing strategy is more effective than the random one in the sense that a lower range of testing intensity is required to keep $\Rnum <1$. Also, targeted testing reduces the individual-level of advantage of slow rate of test.   
+
+Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include testing intensity, test sensitivity and specificity, rate of test return, and isolation. The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control.
+Here, we showed that the slow test reporting can be beneficial on the dynamics of an epidemic. In particular, it is possible for the basic reproduction number, $\Rnum$, to be increasing with respect to the rate of test return.  
+
+Further, we compare two testing strategies, random vs. targeted, in this framework. We conclude that the targeted testing strategy is more effective than the random one in the sense that a lower range of testing intensity is required to keep $\Rnum <1$. Also, targeted testing reduces the individual-level of advantage of a slow rate of test return.   
+
+\fady{General thoughts on the abstract (take with a grain of salt): I think the abstract is eye-catching and interesting. I think leading in by highlighting potential advantages to a slow test return may be ``provocative" (which may not necessarily be bad, I'm not sure). I think the second paragraph in some sense undermines or clashes with the first paragraph, especially since we don't actually address these potential advantages in this model. Maybe one way to spin this around would be to lead in with a discussion of the advantages of a FAST test return (i.e., the second paragraph), and then say ``but situations where returning tests more rapidly is BAD have not been studied". I think that could have better harmony or coordination.}
 
 % %%%%%%%
 \section{Introduction}
