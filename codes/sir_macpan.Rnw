@@ -26,6 +26,9 @@ remotes::install_github("bbolker/McMasterPandemic",
                         dependencies = TRUE,
                         build_vignettes = TRUE
 )
+
+##this works remotes::install_github("bbolker/McMasterPandemic")
+
 library(McMasterPandemic)
 library(ggplot2); theme_set(theme_bw())
 library(cowplot)
