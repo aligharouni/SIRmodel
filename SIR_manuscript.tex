@@ -173,25 +173,25 @@ Further details of derivation of $\Rnum$ are provided in the appendix section.
 The analytical calculation of the next generation matrix and the derivation of $\Rnum$ was carried out in Maple \citep{maple14} by using simple linear Algebra package. 
   We used R \citep{r} for the simulation part which included using the explicit expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ \eqref{R0}. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are presented in Table~\ref{tab:params}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $W_S=W_I=W_R$, and (ii) non-random testing, when testing weight are not equal. For simulation purposes we chose $W_S=W_I=W_R=1$ for random testing, and $W_S=0.3$ and $W_I=W_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
 
-\david{Details such as the fact that you used ggplot are not important to state in the main text.  On the other hand, there isn't a clear narrative here.  The reader should feel that a story is being told.}\ali{partially addressed?, feedback is welcomed}
+\david{Details such as the fact that you used ggplot are not important to state in the main text.  On the other hand, there isn't a clear narrative here.  The reader should feel that a story is being told.}\ali{addressed?, feedback is welcomed}
 
 % %%%%%%%
 \section{Results}
 
-The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controlled by changing in isolation, \percap testing intensity and test resulting, i.e., $\eta\_c$ and $\eta\_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial derivative of $\Rnum$ \eqref{R0} with respect to selected parameters. Note that we used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive.\david{in that case it would be good to establish numerically that the relationships given in the proposition are valid more generally, at least for reasonable parameter ranges}\ali{help}
+The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controlled by changing in isolation, \percap testing intensity and test resulting, i.e., $\eta\_c$ and $\eta\_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial derivative of $\Rnum$ \eqref{R0} with respect to selected parameters. Note that we used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive.\david{in that case it would be good to establish numerically that the relationships given in the proposition are valid more generally, at least for reasonable parameter ranges}\ali{will do the simulation for testing intensity $>>1$}
 See the appendix for details.
 
 \david{More importantly, you really need to state in words what this proposition is saying.  The reader has to check the param table and think it through themselves.}
 \begin{proposition}
 \label{prop1}
-Using the expression of $\Rnum$ \eqref{R0},
+For model \eqref{model}, and by using the expression of the basic reproduction number $\Rnum$ \eqref{R0} ,
 \begin{enumerate}
-\item \label{p1:eta}
-$\partial{\Rnum}/\partial{\eta\_c} \geq 0$ and $\partial{\Rnum}/\partial{\eta\_w} \geq 0$. 
-\item \label{p1:rho}
-$\partial{\Rnum}/\partial{\rho} \leq 0$ when $\rho \approx 0$.
-\item \label{p1:omega}
-$\partial{\Rnum}/\partial{\omega}$ can be positive or negative when $\rho \approx 0$.
+\item \label{p1:eta} increasing the relative probabilities of transmission for tested individuals, increases $\Rnum$;
+$$\partial{\Rnum}/\partial{\eta\_c} \geq 0 \text{~and~} \partial{\Rnum}/\partial{\eta\_w} \geq 0.$$ 
+\item \label{p1:rho} higher rate of testing reduces $\Rnum$;
+$$\partial{\Rnum}/\partial{\rho} \leq 0 \text{~when~} \rho \approx 0.$$
+\item \label{p1:omega} The rate of test return may result in the disease becomes extinct or not;
+$$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative when~} \rho \approx 0.$$
 \end{enumerate}
 \end{proposition}
 
