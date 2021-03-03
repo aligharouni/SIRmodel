@@ -1,4 +1,4 @@
-
+## setwd("/home/ag/projects/SIRmodel/codes/")
 source("SIRfunctions.R")
 source("params.R")
 # where to save the output:
@@ -14,17 +14,21 @@ n_in <- 41 ## grid N within facets
 W_S_random <- 1
 W_S_targeted <- 0.3 
 
-# make dataframe and save it. 
-# FIXME: I feel that this part needs to be separated from here?
-# eval_R0(params = update(params,W_S=W_S_random),filename="random_test_df.csv")
-# eval_R0(params = update(params,W_S=W_S_targeted),filename="targeted_test_df.csv")
+# make dataframe and save it, if it doesn't exists already.
+if (!file.exists("random_test_df.csv")) {
+  eval_R0(params = update(params,W_S=W_S_random),filename="random_test_df.csv")
+} else {
+  df_random <- read.csv(file = "random_test_df.csv")
+}
 
-# #################################
-# Load the data
-# #################################
-df_random <- read.csv(file = 'random_test_df.csv')
-df_targeted <- read.csv(file = 'targeted_test_df.csv')
-
+if (!file.exists("targeted_test_df.csv")) {
+  eval_R0(params = update(params,W_S=W_S_random),filename="targeted_test_df.csv")
+} else {
+  df_targeted <- read.csv(file = "targeted_test_df.csv")
+}
+## Add 2 columns
+df_random <- df_random %>% mutate(Eta_w=1-eta_w,Eta_c=1-eta_c )
+df_targeted <- df_targeted %>% mutate(Eta_w=1-eta_w,Eta_c=1-eta_c )
 # #################################
 # Plotting Part
 # #################################
@@ -49,33 +53,34 @@ brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Ran
 
 df_temp <- df_random
 # df_temp <- df_targeted
-p1 <- (ggplot(df_temp,aes(x=omega,y=rho,z=R0_sub))
+p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=R0_sub))
     + theme_bw()
-    + xlab(TeX('$\\omega$, rate of test return (1/day)'))
+    + xlab(TeX('$\\1/omega$, mean test return time (day)'))
     + ylab(TeX('$\\rho$, testing intensity (1/day per capita)'))
 )
-
+## There might be a solution for the tick label collision with expand_limits(), but that's hard to do across facets
+## see https://stackoverflow.com/questions/41575045/avoiding-axis-tick-label-collision-in-faceted-ggplots
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
             + geom_contour(breaks=1,alpha=0.5,colour="black")
-            + facet_grid(eta_w~eta_c, labeller=label_special)
+            + facet_grid(Eta_w~Eta_c, labeller=label_special)
             + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
-            + geom_rect(data=df_temp, fill=ifelse(df_temp$eta_c > df_temp$eta_w,"grey90","NA" ),
+            + geom_rect(data=df_temp, fill=ifelse(df_temp$Eta_c < df_temp$Eta_w,"grey90","NA" ),
                         color= NA,
                         ymin=-1,
                         ymax=10,
                         xmin=-1,
-                        xmax=2)
+                        xmax=10)
     + theme(panel.spacing=grid::unit(0,"lines"))
 )
-
+p1_temp
 # #################################
 # 1. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")) +
+ggsave(p1_temp + ggtitle(TeX("w_S=w_I=w_R=1")) +
        theme(legend.position = "none"),
        filename = "R0contour_random.pdf" ,
        width = 12, height = 12, units = "cm",
@@ -86,8 +91,8 @@ ggsave(p1_temp + ggtitle(TeX("W_S=W_I=W_R=1")) +
 # #################################
 
 ggsave((p1_temp %+% df_targeted) +
-       ggtitle(TeX(sprintf("W_S=%.1f, W_I=W_R=1",W_S_targeted))) +
-       theme(legend.position = c(0.8, 0.75)),
+       ggtitle(TeX(sprintf("w_S=%.1f, w_I=w_R=1",W_S_targeted))) +
+       theme(legend.position = c(0.2, 0.3)),
        filename = "R0contour_TTI.pdf" ,
        width = 12, height = 12, units = "cm",
        path=path)

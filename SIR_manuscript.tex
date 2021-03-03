@@ -157,12 +157,13 @@ S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ 
 The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 \begin{equation}
 \label{R0}
-\Rnum= \frac{\beta}{\gamma} (A \times S\_u^* + B \times S\_n^*) \times C, 
+\Rnum= \frac{\beta}{\gamma} (1-\Delta), 
 \end{equation}
 where
 \begin{equation}
 \begin{aligned}
 \label{eq:abc}
+1-\Delta=& (A~ S\_u^* + B~ S\_n^*)~ C\\
 A=& \gamma(\omega+\gamma) + (\gamma \eta\_w + \omega \eta\_c p_I) F_I, \\
 B=& \big(\omega+(F_I+\gamma)\eta\_w\big) \gamma+\frac{(\eta\_w \gamma+ \eta\_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
 C=& \frac{1}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
