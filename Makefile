@@ -33,6 +33,7 @@ Sources += $(wildcard *.tex *.bib)
 
 ## Copying and cribbing
 
+Ignore += ali
 ali:
 	git clone https://github.com/aligharouni/SIRmodel.git $@
 
@@ -55,8 +56,7 @@ makestuff/Makefile:
 -include makestuff/os.mk
 
 -include makestuff/texi.mk
--include makestuff/makeR.mk
--include makestuff/pandoc.mk
+-include makestuff/pipeR.mk
 -include makestuff/hotcold.mk
 
 -include makestuff/git.mk
