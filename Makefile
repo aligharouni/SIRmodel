@@ -15,7 +15,7 @@ Sources += codes/ali_test_sir.Rmd
 Ignore += codes/ali_test_sir.html
 ## codes/ali_test_sir.html: codes/ali_test_sir.Rmd
 
-subdirs += $(note)
+subdirs += note codes
 note/SIR_notes.pdf:
 
 Sources += smoothing.tex
@@ -42,12 +42,18 @@ alldirs += $(subdirs)
 
 ######################################################################
 
+## Cribbing
+%.tex: ali/%.tex
+	/bin/cp $< $@
+
+codes/%.Rmd: ali/codes/%.Rmd
+	/bin/cp $< $@
+
+######################################################################
+
 ### Makestuff
 
 Sources += Makefile
-
-## Sources += content.mk
-## include content.mk
 
 Ignore += makestuff
 msrepo = https://github.com/dushoff
@@ -67,5 +73,4 @@ makestuff/Makefile:
 
 -include makestuff/git.mk
 -include makestuff/visual.mk
-
 
