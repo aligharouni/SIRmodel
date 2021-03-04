@@ -99,7 +99,7 @@ We developed a deterministic model, Eqs. \eqref{model}, which groups individuals
 
 \begin{figure}[!h] 
 \begin{center} 
-\includegraphics[scale=2]{./pix/sir_comp.pdf}
+\includegraphics[scale=2]{tmp/sir_comp.pdf}
 \caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model, \ref{model}. Here, the disease-based status of a compartment $X$, where $X \in \{S,I,R\}$, is combined with the testing-based status including $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Also,  $\Lambda$ is the force of infection with definition in Eq.~\eqref{Lambda}, $\gamma$ is the recovery rate, $\omega$ is the rate of test return, $F_X$ and $p_X$ represent the \percap testing rate and the probability of positive tests, respectively, for compartment $X$. For further description of the parameters see \cref{tab:params}.
 \label{fig:flowchart}}
 \end{center} 
@@ -203,13 +203,13 @@ Given that the perfect isolation occurs when no one transmits while waiting for 
 \centering
 \begin{subfigure}[t]{.45\textwidth}
 \centering
-\includegraphics[width=\linewidth]{./pix/R0contour_random.pdf}
+\includegraphics[width=\linewidth]{codes/R0contour_random.pdf}
 \caption{}\label{p.a}
 \end{subfigure}
 %
 \begin{subfigure}[t]{.45\textwidth}
 \centering
-\includegraphics[width=\linewidth]{./pix/R0contour_TTI.pdf}
+\includegraphics[width=\linewidth]{codes/R0contour_TTI.pdf}
 \caption{}\label{p.b}
 \end{subfigure}
 \caption{
