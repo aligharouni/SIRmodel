@@ -26,7 +26,11 @@ autopipeR = defined
 params.Rout: params.R SIRfunctions.rda
 
 sir_plot.Rout: sir_plot.R params.rda
+
+Ignore += R0contour_TTI.pdf R0contour_random.pdf
 R0contour_TTI.pdf R0contour_random.pdf: sir_plot.Rout ;
+
+Ignore += targeted_test_df.csv random_test_df.csv
 targeted_test_df.csv random_test_df.csv: sir_plot.Rout ;
 
 ######################################################################
