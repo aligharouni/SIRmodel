@@ -1,8 +1,22 @@
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(directlabels)
+library(latex2exp)
+library(rootSolve)
+library(McMasterPandemic)
+
+library(shellpipes)
+
+rpcall("sir_plot.Rout sir_plot.R params.rda")
+
+loadEnvironments()
+
 ## setwd("/home/ag/projects/SIRmodel/codes/")
-source("SIRfunctions.R")
-source("params.R")
+
 # where to save the output:
-path <- "../pix/"
+path <- "./"
+
 # #################################
 # Making Dataframe part
 # #################################

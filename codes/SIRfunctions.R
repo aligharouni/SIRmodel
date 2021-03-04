@@ -1,3 +1,5 @@
+library(shellpipes)
+
 # Functions for the SIR model
 # By: A Gharouni
 
@@ -17,13 +19,6 @@ while (!require(McMasterPandemic)) {
   )
 }
 
-
-library(ggplot2)
-library(tidyr)
-library(directlabels)
-library(latex2exp)
-library(rootSolve)
-library(McMasterPandemic)
 unpack <- McMasterPandemic::unpack
 
 # Testing functions
@@ -195,5 +190,5 @@ eval_R0 <- function(state=state_dfe,params,filename){
 #   method="lsodar"
 # )
 
-
+saveEnvironment()
 
