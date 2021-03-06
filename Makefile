@@ -16,6 +16,8 @@ hotdirs += codes
 
 alldirs += $(subdirs)
 
+Ignore += $(alldirs)
+
 ######################################################################
 
 ## Ali et all manuscript
@@ -26,6 +28,7 @@ SIR_manuscript.pdf: SIR_manuscript.tex
 
 ## compartmental flowchart in ipe
 ## sudo apt-get install ipe
+Ignore += pix/sir_comp.pdf
 pix/sir_comp.pdf: pix/sir_comp.ipe
 	ipetoipe -pdf $< $@
 
