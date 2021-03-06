@@ -38,6 +38,11 @@ pix/R0contour_random.pdf: codes/sir_plot.R codes/params.R codes/SIRfunctions.R
 pix/R0contour_TTI.pdf: codes/sir_plot.R codes/params.R codes/SIRfunctions.R
 	cd codes; R CMD BATCH --vanilla sir_plot.R
 
+## compartmental flowchart in ipe
+## sudo apt-get install ipe
+pix/sir_comp.pdf: pix/sir_comp.ipe
+	ipetoipe -pdf sir_comp.ipe ipe_test.pdf
+
 alldirs += $(subdirs)
 
 ######################################################################
