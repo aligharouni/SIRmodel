@@ -27,7 +27,7 @@ SIR_manuscript.pdf: SIR_manuscript.tex
 ## compartmental flowchart in ipe
 ## sudo apt-get install ipe
 pix/sir_comp.pdf: pix/sir_comp.ipe
-        ipetoipe -pdf sir_comp.ipe ipe_test.pdf
+	ipetoipe -pdf sir_comp.ipe ipe_test.pdf
 
 ######################################################################
 
