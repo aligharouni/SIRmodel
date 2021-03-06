@@ -22,7 +22,7 @@ alldirs += $(subdirs)
 
 Sources += $(wildcard *.tex *.bib)
 
-## SIR_manuscript.pdf: SIR_manuscript.tex
+SIR_manuscript.pdf: SIR_manuscript.tex
 
 ######################################################################
 
