@@ -1,0 +1,49 @@
+---
+title: "minutes of meetings"
+author: "Ali"
+date: "06/01/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Dr. Ben Bolker
+
+### Date: MArch 8
+ - There are papers by Friston 
+ Friston, Karl J., Thomas Parr, Peter Zeidman, Adeel Razi, Guillaume Flandin, Jean Daunizeau, Oliver J. Hulme, et al. “Dynamic Causal Modelling of COVID-19.” ArXiv:2004.04463 [q-Bio], April 9, 2020. http://arxiv.org/abs/2004.04463. 
+ 
+ - in there model, they have a fig1 big model includes testing, don't know how they have testing based on symptoms (it seems), the thetas here represent just parameters , sigma is sigmoid function (we think), the 4 compartment ...  
+ 
+### date: Jan 5, 2021
+- targeted testing, 
+  - no complete reference including all we have said in the SIR paper
+  - A way to think about testing weights is a "table of conditional probabilities", i.e.,  
+  -  Example: lets say (i) we only test symptomatic people, and we know the fraction of I/N, and prob of one has symptoms if you have covid and the prob of symptoms if one has no covid, then we should know what the test positivity will be. May be not!?
+  - More on this:
+    - suppose we know the conditional prob(tested|asymptomatic)  (ie not infected) = 0
+    - the prob(tested|symptomatic) is independent of whether you are infected or not. 
+    - example suppose we have a population of people, unknown number, with symptoms and we test 20% of all those with symp, then test pos is the prob(infected|symptomatic). Also
+    - If we randomly test people with symptoms, then W_Zs are proportional to conditional 7jdsm probabilities of being in those compartments given that you have symptoms.
+  - Lets just think of only 4 compartments, S and I with and without symptoms. let's 3% of pop is I, 60% of I's show symp, 1.8% I and Symp and 1.2% I and Asymp. The other 97% of pop are in S, 2% S and symp and 95% is S ans Asyp. Thus, 3.8% of the whole pop is symptomatic and of that 1.8% were infected results in 
+  test positivity is 9/19 ~ 50%. We are assuming also that the test is perfect sensitive and specific. that is, if we only testing symp people, the intensity doesn't matter, we are pulling them from 3.8% of the pop. This says, with symptom fraction in S and I and I/S, this tells us what the weights are, how many I's we sample to test for every S to sample to test. That is not quite right, that is only when we rescale the weights. In this example these are the ratios at which we test not the per capitas. Some of the effects of pop size will cancel out, I think the frac of pop of S and I will cancel out, and what we get as W_Z is the rel rates of showing symptoms of S and I. In our example, the testing weights before scaling will be 2/62 and 60/62.      
+  -  More thinking: We know that not all symptomatic people are the same. people know sth about their exposure. Let's say we don't know about symptoms. We know that there is a bias towards testing infected people, due to having some knowledge of risk. It is harder to quantify that than quantifying symptom/no symptom but we can say that would shift if we have a policy of screening people of high risk areas will push things towards infected people. Also testing people of known exposures will increase W_I, this is exactly testing and tracing. It is much harder to quantify that. In principle if we knew enough of the case report, hospitalizations, test positivity, death, we could make an estimate of W_z's. W's don't stay the same because it is all bound up with capacity because we tend to bias towards testing people who are more likely be infected and the more testing capacity we have the more we are willing to test more people less likely to be infected. Thus there is a relationship between testing capacity and the W's because our testing policy changes as the testing capacity changes. 
+    - Except for the symptomatic example, it is very hard to quantify the effect of a particular testing policy on the W's. We can certainly make qualitative statements about when testing is biased towards people who are likely to be more infected then W_I will go up.
+  
+- Next project may be "Test positivity tells a lot about test Weights"; It is hard to know exactly how much information there is and how much we can estimate that. 
+  - If we have a perfect test, then we know that the rescaled weights (not the percapita) are equal to positivity which is equal to per capita weights and scale them by the fraction of infected i.e., ~ W_S *S/N. But we have a single number and 2 unknowns (a weight and a prevalence). Example let say we have 10% test positivity, that is consistent with random sampling and a 10% prevelence. It also consistent with perfectly bias sampling when we know how to only test infected people and exactly 10% of the population is infected [?].
+  N=1000, we do 100 tests and 10 of our samples are infected. If we sample it random, we think that 100 people in the population are infected.  If W_I is perfect, then there might be no more than 10 infected people in the entire population, that would mean that the prevalence is 1%. We also know how manu tests we did, but doesn't resolve it. One solution is bounding it; that we know that the minimum prevalence is equal to observed positive tests divided by the population size and the max prevalence is N - (the # of neg tests we did)/N =1-min prevalence. Because if we got 10 pos samples in example above,  there might be I=10 or I= 910.
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+## Dr. Jonathan Dushoff
+
+### Date: 28 Dec, 2020
+- We agreed that the previous proof of R0 decreasing with testing intensity rho was not correct.
+- It is actually hard to prove that R0 is decreasing wrt testing intensity, it is a biological problem not mathematical. Specifically, if one goes in the awaiting compartment, it is harder to get a confirmed test because we are assuming that the test may come back negative.
+- next step is to show/see if there is a place where increasing rho can increase R0? Is it at the beginning or later on at the pandemic. prove it!
+
+
+
