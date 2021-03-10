@@ -3,7 +3,7 @@
 
 params <- c(
 N0=1000000, #total population size
-beta=.8, #transmission rate
+beta= 0.339, #transmission rate (was 0.8) 0.339
 gamma=1/3, #recovery rate
 omega=0.25, #test returning rate 
 rho=0.01, #testing rate percapita (also used 0.8, 1/3)

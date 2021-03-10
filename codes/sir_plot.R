@@ -22,13 +22,20 @@ if (!file.exists("random_test_df.csv")) {
 }
 
 if (!file.exists("targeted_test_df.csv")) {
-  eval_R0(params = update(params,W_S=W_S_random),filename="targeted_test_df.csv")
+  eval_R0(params = update(params,W_S=W_S_targeted),filename="targeted_test_df.csv")
 } else {
   df_targeted <- read.csv(file = "targeted_test_df.csv")
 }
 ## Add 2 columns
-df_random <- df_random %>% mutate(Eta_w=1-eta_w,Eta_c=1-eta_c )
-df_targeted <- df_targeted %>% mutate(Eta_w=1-eta_w,Eta_c=1-eta_c )
+tol <- 1e-10
+df_random <- (df_random 
+             %>% dplyr::mutate(Eta_w=1-eta_w,Eta_c=1-eta_c,
+                              Delta= ifelse(abs(Delta)<tol,0,Delta) ))
+df_targeted <- (df_targeted 
+                %>% dplyr::mutate(Eta_w=1-eta_w,Eta_c=1-eta_c,
+                                  Delta= ifelse(abs(Delta)<tol,0,Delta) ))
+threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## Or 0?  corresponding to R0=1 
+## note if we plot the contours of R0, the threshold =1
 # #################################
 # Plotting Part
 # #################################
@@ -45,15 +52,15 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 }
 
 # verify the break range in brks_vec (FIXME)
-mn <- min(df_random$R0_sub,df_targeted$R0_sub, na.rm = T)
-mx <- max(df_random$R0_sub,df_targeted$R0_sub, na.rm = T)
+mn <- min(df_random$Delta,df_targeted$Delta, na.rm = T)
+mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T)
 
 # show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-brks_vec <- seq(0.8,1.05,by=0.05) # Break vector for unifying the legends in Random and TTI testing cases. 
+brks_vec <- seq(0,.165,by=0.02) # Break vector for unifying the legends in Random and TTI testing cases. 
 
 df_temp <- df_random
 # df_temp <- df_targeted
-p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=R0_sub))
+p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
     + theme_bw()
     + xlab(TeX('$\\1/omega$, mean test return time (day)'))
     + ylab(TeX('$\\rho$, testing intensity (1/day per capita)'))
@@ -62,7 +69,7 @@ p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=R0_sub))
 ## see https://stackoverflow.com/questions/41575045/avoiding-axis-tick-label-collision-in-faceted-ggplots
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
-            + geom_contour(breaks=1,alpha=0.5,colour="black")
+            + geom_contour(breaks=threshold,alpha=0.5,colour="black")
             + facet_grid(Eta_w~Eta_c, labeller=label_special)
             + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
