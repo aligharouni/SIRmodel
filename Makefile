@@ -1,4 +1,4 @@
-## This is Ali's SIRmodel
+## This is Ali's SIRmodel (makestuff branch)
 
 current: target
 -include target.mk
