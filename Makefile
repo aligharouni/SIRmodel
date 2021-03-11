@@ -45,6 +45,13 @@ Ignore += ali
 ali:
 	git clone https://github.com/aligharouni/SIRmodel.git $@
 
+## compartmental flowchart in ipe
+## sudo apt-get install ipe
+pix/sir_comp.pdf: pix/sir_comp.ipe
+	ipetoipe -pdf $< $@
+
+alldirs += $(subdirs)
+
 ######################################################################
 
 ### Makestuff
