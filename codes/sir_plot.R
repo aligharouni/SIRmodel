@@ -14,9 +14,6 @@ loadEnvironments()
 
 ## setwd("/home/ag/projects/SIRmodel/codes/")
 
-# where to save the output:
-path <- "./"
-
 # #################################
 # Making Dataframe part
 # #################################
@@ -29,17 +26,9 @@ W_S_random <- 1
 W_S_targeted <- 0.3 
 
 # make dataframe and save it, if it doesn't exists already.
-if (!file.exists("random_test_df.csv")) {
-  eval_R0(params = update(params,W_S=W_S_random),filename="random_test_df.csv")
-} else {
-  df_random <- read.csv(file = "random_test_df.csv")
-}
+df_random <- eval_R0(params = update(params,W_S=W_S_random))
+df_targeted <- eval_R0(params = update(params,W_S=W_S_targeted))
 
-if (!file.exists("targeted_test_df.csv")) {
-  eval_R0(params = update(params,W_S=W_S_targeted),filename="targeted_test_df.csv")
-} else {
-  df_targeted <- read.csv(file = "targeted_test_df.csv")
-}
 ## Add 2 columns
 tol <- 1e-10
 df_random <- (df_random 
@@ -104,8 +93,7 @@ p1_temp
 ggsave(p1_temp + ggtitle(TeX("w_S=w_I=w_R=1")) +
        theme(legend.position = "none"),
        filename = "R0contour_random.pdf" ,
-       width = 12, height = 12, units = "cm",
-       path=path)
+       width = 12, height = 12, units = "cm")
 
 # #################################
 # 2. Plot the Targeted Testing Scenario:
@@ -115,8 +103,7 @@ ggsave((p1_temp %+% df_targeted) +
        ggtitle(TeX(sprintf("w_S=%.1f, w_I=w_R=1",W_S_targeted))) +
        theme(legend.position = c(0.2, 0.3)),
        filename = "R0contour_TTI.pdf" ,
-       width = 12, height = 12, units = "cm",
-       path=path)
+       width = 12, height = 12, units = "cm")
 
 # #################################
 # 3. Plot R0 as a function of rho (testing intensity):

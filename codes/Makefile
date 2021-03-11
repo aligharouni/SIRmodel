@@ -25,7 +25,7 @@ autopipeR = defined
 
 params.Rout: params.R SIRfunctions.rda
 
-sir_plot.Rout: sir_plot.R params.rda
+sir_plot.Rout: sir_plot.R SIRfunctions.rda params.rda
 
 Ignore += R0contour_TTI.pdf R0contour_random.pdf
 R0contour_TTI.pdf R0contour_random.pdf: sir_plot.Rout ;

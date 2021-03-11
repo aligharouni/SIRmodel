@@ -32,4 +32,4 @@ state_dfe <- c(S_u=Su_dfe(params), S_n=Sn_dfe(params),
                 R_u=0,R_n=0,R_p=0,R_t=0,
                 N=0,P=0)
 
-saveEnvironment()
+saveVars(params, state_init, state_dfe)

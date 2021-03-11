@@ -146,7 +146,7 @@ R02 <- function(state=state_dfe,params){
 }
 
 # make grid and calc R0 for plotting
-eval_R0 <- function(state=state_dfe,params,filename){
+eval_R0 <- function(state=state_dfe,params){
   # input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
   unpack(as.list(c(state,params)))
   # specify the ranges, FIXME, not to be hard coded!
@@ -169,7 +169,7 @@ eval_R0 <- function(state=state_dfe,params,filename){
                           Delta = ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) )) 
           )
   # Output
-  write.csv(df2,file=filename, row.names = FALSE)
+  return(df2)
 }
 
 
