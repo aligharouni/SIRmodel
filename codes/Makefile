@@ -10,18 +10,8 @@ vim_session:
 
 ######################################################################
 
-Sources += $(wildcard *.R)
-
-## Cribbing rule
-
-%.R: 
-	$(CP) ../ali/codes/$*.R .
-
-######################################################################
-
-## Try to rebuild scripts
-
 autopipeR = defined
+Sources += $(wildcard *.R)
 
 params.Rout: params.R SIRfunctions.rda
 
