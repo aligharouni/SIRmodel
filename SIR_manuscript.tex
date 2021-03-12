@@ -215,9 +215,8 @@ Given that the perfect isolation occurs when no one transmits while waiting for 
 \end{subfigure}
 \caption{
 {\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
-We numerically evaluate $\Rnum$ \eqref{R0} using the following parameters (listed in Table \ref{tab:params}):
-$N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\eta\_w \in [0,1]$, $\eta\_c \in [0,1]$, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Rnum$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
-% \ali{plotr + expand_limits(y = 0), change 1/\omega on x-axis}
+We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
+$N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\eta\_w \in [0,1]$, $\eta\_c \in [0,1]$, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Note we are plotting $\eta\_w'=1-\eta\_w$ and $\eta\_c'=1-\eta\_c$ in the facets to better reflect the effect of isolation (0 for no effect and 1 for full effect). Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels} \ali{I am using $\eta'=1-\eta$, but in R, I used Eta which is shown as H, I don't know how to show the prime in the facets! Help!}
 }
 \label{pan}
 \end{figure}

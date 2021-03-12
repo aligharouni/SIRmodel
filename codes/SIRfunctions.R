@@ -149,6 +149,7 @@ R02 <- function(state=state_dfe,params){
 eval_R0 <- function(state=state_dfe,params){
   # input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
   unpack(as.list(c(state,params)))
+  tol <- 1e-10 ## to resolve the issue of very small numbers 
   # specify the ranges, FIXME, not to be hard coded!
   beta  <- params[["beta"]]  ## set beta high enough to allow R0>1 in worst case
   eta_w <- seq(0,1, length.out=n_out)
@@ -165,10 +166,13 @@ eval_R0 <- function(state=state_dfe,params){
                    Fi= apply(df1,1,function(params_in)F_I(state=state, params=params_in)))
   # This is for plotting purposes:
   df2 <- (df2 %>% 
-            dplyr::mutate(R0_sub = ifelse(eta_w<eta_c, NA, R0), 
-                          Delta = ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) )) 
+            dplyr::mutate(R0_sub=ifelse(eta_w<eta_c, NA, R0), 
+                          Eta_w=1-eta_w,
+                          Eta_c=1-eta_c,
+                          Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
+                          Delta=ifelse(abs(Delta)<tol,0,Delta)
+                          ) 
           )
-  # Output
   return(df2)
 }
 

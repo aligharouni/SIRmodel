@@ -29,16 +29,8 @@ W_S_targeted <- 0.3
 df_random <- eval_R0(params = update(params,W_S=W_S_random))
 df_targeted <- eval_R0(params = update(params,W_S=W_S_targeted))
 
-## Add 2 columns
-tol <- 1e-10
-df_random <- (df_random 
-             %>% dplyr::mutate(Eta_w=1-eta_w,Eta_c=1-eta_c,
-                              Delta= ifelse(abs(Delta)<tol,0,Delta) ))
-df_targeted <- (df_targeted 
-                %>% dplyr::mutate(Eta_w=1-eta_w,Eta_c=1-eta_c,
-                                  Delta= ifelse(abs(Delta)<tol,0,Delta) ))
+##important contour, ie R0=1 thus threshold=1 when plotting R0 contours, or Delta(R0=1)
 threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## Or 0?  corresponding to R0=1 
-## note if we plot the contours of R0, the threshold =1
 # #################################
 # Plotting Part
 # #################################
@@ -56,7 +48,7 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 
 # verify the break range in brks_vec (FIXME)
 mn <- min(df_random$Delta,df_targeted$Delta, na.rm = T)
-mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T)
+mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T) ## take mn and mx and set the brks_vec, smarter way?
 
 # show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
 brks_vec <- seq(0,.165,by=0.02) # Break vector for unifying the legends in Random and TTI testing cases. 
@@ -73,10 +65,10 @@ p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
             + geom_contour(breaks=threshold,alpha=0.5,colour="black")
-            + facet_grid(Eta_w~Eta_c, labeller=label_special)
+            + facet_grid(Eta_w~Eta_c, labeller=label_special) ## Eta looks like H in the text, better notation?
             + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_fill_viridis_d(name=parse(text="R[0]"),drop=FALSE)
+            + scale_fill_viridis_d(name=parse(text="Delta"),drop=FALSE)
             + geom_rect(data=df_temp, fill=ifelse(df_temp$Eta_c < df_temp$Eta_w,"grey90","NA" ),
                         color= NA,
                         ymin=-1,
@@ -101,7 +93,7 @@ ggsave(p1_temp + ggtitle(TeX("w_S=w_I=w_R=1")) +
 
 ggsave((p1_temp %+% df_targeted) +
        ggtitle(TeX(sprintf("w_S=%.1f, w_I=w_R=1",W_S_targeted))) +
-       theme(legend.position = c(0.2, 0.3)),
+       theme(legend.position = c(0.2, 0.3),legend.text = element_text(size = 8)),
        filename = "R0contour_TTI.pdf" ,
        width = 12, height = 12, units = "cm")
 
