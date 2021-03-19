@@ -114,7 +114,7 @@ In order to link to more applied models, we constructed this model so we could s
 \label{sigma}
 \sigma = \frac{\rho N_0}{W}.
 \end{equation}
-Thus, the \percap testing rate for compartment $X$ is $F_X=\sigma W_X$, where $X \in \{S,I,R\}$. 
+Thus, the \percap testing rate for compartment $X$ is $F_X=\sigma w_X$, where $X \in \{S,I,R\}$. 
 For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus unavailable for further testing.  Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can (if large enough) exhaust the pool of people available for testing, leading to a singularity when no one is left untested.  Although this phenomenon does not affect our analysis of $\Rnum$, it can affect the temporal dynamics (we discuss an adjustment to the model that solves this problem in the appendix).
 
 The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population (i.e., all individuals are equaly susciptable and equaly infectious for the same length of time when infected), exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \ref{model}, assumes: (i) there is a single force of infection (new cases per unit time), $\Lambda$, defined as follows
@@ -122,7 +122,7 @@ The classical SIR model is based on the following implicit assumptions; well-mix
 \label{Lambda}
 \Lambda=\beta \frac{(I\_u+\eta\_w I\_n+\eta\_w I\_p+ \eta\_c I\_c)}{N_0},
 \end{equation}
-across all susceptible pools with transmission rate $\beta$ and relative probability of transmission for ``waiting'' and \emph{confirmed positive} individuals, $\eta\_w$ and $\eta\_c$ respectively, (see Table~\ref{tab:params} for further details), (ii) $\eta\_c \leq \eta\_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. For this analysis, we also assume a perfectly specific test ($p_S=0$). This last assumption combined with the assumption that no individual is in waiting-for-\emph{positive} or \emph{confirmed positive} compartments, i.e., $S\_p(0)=S\_c(0)=0$, reduces the model to 10 equations (equations c and d  in \eqref{model} are eliminated).
+across all susceptible pools with transmission rate $\beta$ and relative probability of transmission for ``waiting'' and \emph{confirmed positive} individuals, $\eta\_w$ and $\eta\_c$ respectively, (see Table~\ref{tab:params} for further details), (ii) $\eta\_c \leq \eta\_w$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. Note that for convential purposes in the interpretation of the results with respect to these isolation parameters, we define the transformed isolation parameters as $\theta\_w=1-\eta\_w$ and $\theta\_c=1-\eta\_c$. Thus, for instance when the awaiting people follow the isolation perfectly, $\theta\_w$ is closer to 1, while when they less follow the isolation, $\theta\_w$ is closer to 0. For this analysis, we also assume a perfectly specific test ($p_S=0$). This last assumption combined with the assumption that no individual is in waiting-for-\emph{positive} or \emph{confirmed positive} compartments, i.e., $S\_p(0)=S\_c(0)=0$, reduces the model to 10 equations (equations c and d  in \eqref{model} are eliminated).
 
 \begin{table}[htp]
 \centering
@@ -132,8 +132,8 @@ across all susceptible pools with transmission rate $\beta$ and relative probabi
   $\omega$  & Rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
   $\gamma$ & Recovery rate & 1/day & 1/3 \\ \hline 
   $\rho$   & Per capita testing intensity & 1/day & 0.01 \\ \hline 
-  $\eta\_w$  & Relative probability of transmission for ``waiting'' individuals & - & - \\ \hline
-  $\eta\_c$  & Relative probability of transmission for ``confirmed positive'' individuals & - & -  \\ \hline
+  $\eta\_w$ ($\theta\_w=1-\eta\_w$)  & Relative probability of transmission for ``waiting'' individuals & - & - \\ \hline
+  $\eta\_c$ ($\theta\_c=1-\eta\_c$) & Relative probability of transmission for ``confirmed positive'' individuals & - & -  \\ \hline
   $\beta$ & Transmission rate & 1/day & 0.39 \\ \hline
   $\Lambda$ & Force of infection & 1/day & - \\ \hline
   $p_S$ & Probability of positive tests for $S$ ($= 1-\textrm{specificity}$) & - & 0 \\ \hline
@@ -145,10 +145,10 @@ across all susceptible pools with transmission rate $\beta$ and relative probabi
   \end{minipage} \\
   \hline
   \end{tabular}
-\caption{\label{tab:params} Parameters of the model \eqref{model}.}
+\caption{\label{tab:params} Parameters of the model \eqref{model}.\todo{figure out the best way to put the new definition $\theta=1-\eta$} in the table.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is given by setting the differential equations to 0 and solving for the unknowns (\ali{is this clear or the "unkowns" needs to be defined? also * in sup for I and R?}. The DFE is
+\todo{the algebra needs to be changed based on JD's comment} The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is given by setting the differential equations to 0 and solving for the unknowns (\ali{is this clear or the "unkowns" needs to be defined? also * in sup for I and R?}. The DFE is
 \begin{equation}
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
@@ -163,7 +163,7 @@ where
 \begin{equation}
 \begin{aligned}
 \label{eq:abc}
-1-\Delta=& (A~ S\_u^* + B~ S\_n^*)~ C\\
+\Delta=& 1-(A~ S\_u^* + B~ S\_n^*)~ C\\
 A=& \gamma(\omega+\gamma) + (\gamma \eta\_w + \omega \eta\_c p_I) F_I, \\
 B=& \big(\omega+(F_I+\gamma)\eta\_w\big) \gamma+\frac{(\eta\_w \gamma+ \eta\_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
 C=& \frac{1}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
@@ -215,7 +215,7 @@ Given that the perfect isolation occurs when no one transmits while waiting for 
 \caption{
 {\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
 We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
-$N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\eta\_w \in [0,1]$, $\eta\_c \in [0,1]$, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Note we are plotting $\eta\_w'=1-\eta\_w$ and $\eta\_c'=1-\eta\_c$ in the facets to better reflect the effect of isolation (0 for no effect and 1 for full effect). Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels} \ali{I am using $\eta'=1-\eta$, but in R, I used Eta which is shown as H, I don't know how to show the prime in the facets! Help!}
+$N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\eta\_w \in [0,1]$, $\eta\_c \in [0,1]$, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Note we are plotting $\eta\_w'=1-\eta\_w$ and $\eta\_c'=1-\eta\_c$ in the facets to better reflect the effect of isolation (0 for no effect and 1 for full effect). Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
 }
 \label{pan}
 \end{figure}
@@ -466,42 +466,6 @@ To state an example of this, if test $A$ is three times as expensive as test $B$
 \end{itemize}
 
 
-% %%%%%%%
-\subsection{Literature Review}
 
-\subsubsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
-\citep{endo2020implication} \ali{It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!} Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.
-
-\citep{jenness2020modeling} developed a network-based transmission model for SARS-CoV-2 on the Diamond Princess outbreak to characterize transmission dynamics and to estimate the epidemiological impact of outbreak control and prevention measures. 
-
-\citep{elbanna2020entry} [seems similar to MacPan model!]
-
-\citep{de2020influenza} Was discussed in the Math 747 
-SEIR Asymptomatic and symptomatic $I\_1, I\_2$. Used linear chain trick 
-Stringency index as a control force lowering $\beta$.
-
-\citep{rice2020effect} Effect of school closures on mortality. Reproduce Report 9 results by spatial agent based CovidSim. 
-% %%%%%%%
-\subsubsection{Models of repeated random testing of isolated populations}
-\cite{bergstrom2020frequency}
-(1) Model, assumptions: They developed a function, namely expected exposure $E(C,\tau)$, to approximate trade-offs between the frequency of testing, n, the sensitivity of testing, q, and the delay between
-testing and results, d. This function is explicitly derived and was connected the effective reproduction number $R=\Rnum S$, where $S$ is the proportion of population susceptible.
-assumption that transmission rates are a step function: individuals who
-have \covid go from non-infectious to fully infectious instantaneously,
-and remain fully infectious until they are no longer able to transmit disease. Test sensitivity takes the same form over the course of infection.
-More sophisticated models could allow varying infectiousness and varying
-sensitivity over time, as in 
-\citep{larremore2020test}.
-
-\citep{lopman2020model} Used a Deterministic SEIR model, incorporated TTI, applicable to a university setting. They assumed a fairly high reproductive number that is not reduced through social
-distancing measures. They found that community-introduction of SARS-CoV-2 infection onto campus can be
-relatively controlled with effective testing, isolation, contract tracing and quarantine.
-
-\citep{tuite2020mathematical} used an age-structured compartmental model of \covid transmission in the population of Ontario, Canada. We compared a base case with limited testing, isolation and quarantine to different scenarios. 
-% %%%%%%%
-\subsubsection{Other maybe-related works}
-\citep{arino2020simple} developed a SLIAR compartmental model to study the spread of an epidemic, specifically COVID, in a population. The model incorporates an Erlang distribution of times of sojourn in incubating, symptomatically and asymptomatically infectious compartments. Basic reproduction number is derived. Also, sensitivity analysis with respect to the underlying parameters for the following two outputs was carried out; (i) the number of observable cases during the course of the epidemic and at the peak, and (ii) the timing of the peak of the outbreak. Sensitivity analysis is performed using the R package multisensi.
-
-\citep{ruszkiewicz2020diagnosis} novel with-in-a-minute breath testing with 80\% accuracy. 
 
 \end{document}
