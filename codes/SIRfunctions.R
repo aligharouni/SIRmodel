@@ -167,8 +167,8 @@ eval_R0 <- function(state=state_dfe,params){
   # This is for plotting purposes:
   df2 <- (df2 %>% 
             dplyr::mutate(R0_sub=ifelse(eta_w<eta_c, NA, R0), 
-                          Eta_w=1-eta_w,
-                          Eta_c=1-eta_c,
+                          theta_w=1-eta_w,
+                          theta_c=1-eta_c,
                           Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
                           Delta=ifelse(abs(Delta)<tol,0,Delta)
                           ) 

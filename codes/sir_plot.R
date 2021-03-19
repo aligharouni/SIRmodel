@@ -65,11 +65,11 @@ p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
             + geom_contour(breaks=threshold,alpha=0.5,colour="black")
-            + facet_grid(Eta_w~Eta_c, labeller=label_special) ## Eta looks like H in the text, better notation?
+            + facet_grid(theta_w~theta_c, labeller=label_special) 
             + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_fill_viridis_d(name=parse(text="Delta"),drop=FALSE)
-            + geom_rect(data=df_temp, fill=ifelse(df_temp$Eta_c < df_temp$Eta_w,"grey90","NA" ),
+            + geom_rect(data=df_temp, fill=ifelse(df_temp$theta_c < df_temp$theta_w,"grey90","NA" ),
                         color= NA,
                         ymin=-1,
                         ymax=10,
