@@ -153,6 +153,7 @@ across all susceptible pools with transmission rate $\beta$ and relative probabi
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
+For simplification of the analysis, we adopt the following change $x\_u^* = S\_u^*/N_0$ and $x\_n^* = S\_n^*/N_0$.
 
 The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 \begin{equation}
@@ -163,12 +164,26 @@ where
 \begin{equation}
 \begin{aligned}
 \label{eq:abc}
-\Delta=& 1-(A~ S\_u^* + B~ S\_n^*)~ C\\
-A=& \gamma(\omega+\gamma) + (\gamma \eta\_w + \omega \eta\_c p_I) F_I, \\
-B=& \big(\omega+(F_I+\gamma)\eta\_w\big) \gamma+\frac{(\eta\_w \gamma+ \eta\_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
-C=& \frac{1}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+\Delta=& (A~ \theta\_w + B~ \theta\_c)~ C\\
+A=& \gamma \big((\omega+\gamma)+\omega p_I F_I \big) \big(x_n^*+\gamma(\omega+\gamma)F_I \big)\\
+B=& \omega p_I F_I (\gamma x_u^*+\omega) \\ 
+C=& \frac{1}{(\omega+\gamma) \big(\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I) \big)}.
 \end{aligned}
 \end{equation}
+% \begin{equation}
+% \label{R0}
+% \Rnum= \frac{\beta}{\gamma} (1-\Delta), 
+% \end{equation}
+% where
+% \begin{equation}
+% \begin{aligned}
+% \label{eq:abc}
+% \Delta=& 1-(A~ S\_u^* + B~ S\_n^*)~ C\\
+% A=& \gamma(\omega+\gamma) + (\gamma \eta\_w + \omega \eta\_c p_I) F_I, \\
+% B=& \big(\omega+(F_I+\gamma)\eta\_w\big) \gamma+\frac{(\eta\_w \gamma+ \eta\_c\omega) \omega p_I F_I }{\omega+\gamma}, \\ 
+% C=& \frac{1}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+% \end{aligned}
+% \end{equation}
 Further details of derivation of $\Rnum$ are provided in the appendix section.
  
 The analytical calculation of the next generation matrix and the derivation of $\Rnum$ was carried out in Maple \citep{maple14} by using simple linear Algebra package. 
