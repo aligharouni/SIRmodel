@@ -51,7 +51,7 @@ mn <- min(df_random$Delta,df_targeted$Delta, na.rm = T)
 mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T) ## take mn and mx and set the brks_vec, smarter way?
 
 # show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-brks_vec <- seq(0,.165,by=0.03) # Break vector for unifying the legends in Random and TTI testing cases. 
+brks_vec <- seq(.165,0,by=-0.03) # Break vector for unifying the legends in Random and TTI testing cases. 
 
 df_temp <- df_random
 # df_temp <- df_targeted
@@ -64,7 +64,7 @@ p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
 ## see https://stackoverflow.com/questions/41575045/avoiding-axis-tick-label-collision-in-faceted-ggplots
 p1_temp <- (p1
             + geom_contour_filled(breaks=brks_vec)
-            + geom_contour(breaks=threshold,alpha=0.5,colour="white")
+            + geom_contour(breaks=threshold,alpha=0.5,colour="black")
             + facet_grid(theta_w~theta_c, labeller=label_special) 
             + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
             + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
