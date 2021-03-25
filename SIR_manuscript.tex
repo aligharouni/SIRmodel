@@ -173,21 +173,17 @@ C=& \frac{1}{(\omega+\gamma) \big(\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I) \
 
 Further details of derivation of $\Rnum$ are provided in the appendix section.
  
-The analytical calculation of the next generation matrix and the derivation of $\Rnum$ was carried out in Maple \citep{maple14} by using simple linear Algebra package. 
-  We used R \citep{r} for the simulation part which included using the explicit expression of $\Rnum$ \ref{R0} as a function of the underlying parameters, specifying the parameters a realistic range, calculating the corresponding $\Rnum$ and plotting the contours of $\Rnum$ \eqref{R0}. The related result is presented in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are presented in Table~\ref{tab:params}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $w_S=w_I=w_R$, and (ii) non-random testing, when testing weight are not equal. For simulation purposes we chose $w_S=w_I=w_R=1$ for random testing, and $w_S=0.3$ and $w_I=w_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
-
-\david{Details such as the fact that you used ggplot are not important to state in the main text.  On the other hand, there isn't a clear narrative here.  The reader should feel that a story is being told.}\ali{addressed?, feedback is welcomed}
+The analytical calculation of the next-generation matrix and the derivation of $\Rnum$ was carried out in Maple \citep{maple14}. 
+We used R \citep{r} for simulations and for plotting $\Rnum$ as a function of the underlying parameters (using \ref{R0}). Results are shown in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are presented in Table~\ref{tab:params}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $w_S=w_I=w_R$, and (ii) non-random testing, when testing weight are not equal. For simulation purposes we chose $w_S=w_I=w_R=1$ for random testing, and $w_S=0.3$ and $w_I=w_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
 
 % %%%%%%%
 \section{Results}
 
-The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in understanding the effect of parameters that can be realistically controlled by changing in isolation, \percap testing intensity and test resulting, i.e., $\theta\_c$ and $\theta\_w$, $\rho$ and $\omega$, respectively. The following Proposition is the direct result of taking partial derivative of $\Rnum$ \eqref{R0} with respect to selected parameters. Note that we used Taylor approximation of $\Rnum$ at $\rho=0$ due to the complexity of the expression and thus inconclusive.\david{in that case it would be good to establish numerically that the relationships given in the proposition are valid more generally, at least for reasonable parameter ranges}\ali{will do the simulation for testing intensity $>>1$}
+The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in exploring the effect of parameters that could be manipulated by public-health policy, including the isolation parameters ($\theta\_c$ and $\theta\_w$) testing intensity ($\rho$) and test-return rate ($\omega$).
+
+Examining our formula for $\Rnum$ \eqref{R0} gives the following results. 
 See the appendix for details.
 
-\david{More importantly, you really need to state in words what this proposition is saying.  The reader has to check the param table and think it through themselves.}
-\begin{proposition}
-\label{prop1}
-For model \eqref{model}, and by using the expression of the basic reproduction number $\Rnum$ \eqref{R0} ,
 \begin{enumerate}
 \item \label{p1:eta} increasing the relative probabilities of transmission for tested individuals, increases $\Rnum$;
 $$\partial{\Rnum}/\partial{\theta\_c} \leq 0 \text{~and~} \partial{\Rnum}/\partial{\theta\_w} \leq 0.$$ 
@@ -196,7 +192,6 @@ $$\partial{\Rnum}/\partial{\rho} \leq 0 \text{~when~} \rho \approx 0.$$
 \item \label{p1:omega} The rate of test return may result in the disease becomes extinct or not;
 $$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative when~} \rho \approx 0.$$
 \end{enumerate}
-\end{proposition}
 
 Given that the perfect isolation occurs when no one transmits while waiting for test results (i.e., $\theta\_c=\theta\_w = 1$), Prop.~\ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. Prop.~\ref{p1:rho} indicates that increasing the \percap testing intensity, $\rho$, reduces $\Rnum$. Lastly, Prop.~\ref{p1:omega} means that speeding up the test reporting may or may not reduce $\Rnum$, it will depend on other parameters. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the Taylor approximation of $\Rnum$ at $\rho=0$.
 \david{can we gain some insight from the expressions for the partial derivatives in the proposition, as opposed to just their signs?}\ali{help}
