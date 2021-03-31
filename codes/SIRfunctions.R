@@ -147,17 +147,17 @@ R02 <- function(state=state_dfe,params){
 
 # make grid and calc R0 for plotting
 eval_R0 <- function(state=state_dfe,params){
-  # input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
+  ## input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
+  ## the params are defaults, specify the range of favorite params here.
   unpack(as.list(c(state,params)))
   tol <- 1e-10 ## to resolve the issue of very small numbers 
   # specify the ranges, FIXME, not to be hard coded!
-  beta  <- params[["beta"]]  ## set beta high enough to allow R0>1 in worst case
   eta_w <- seq(0,1, length.out=n_out)
-  eta_c <- seq(0,1, length.out=n_out) #0.001 to 0.5 
-  rho <- seq(0,0.01, length.out=n_in)
-  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.011
+  eta_c <- seq(0,1, length.out=n_out)  
+  rho <- seq(0,0.01, length.out=n_in) ## 0,0.01
+  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.1 to 2
   
-  df1 <- expand.grid(N0=params[["N0"]],beta=beta,gamma=params[["gamma"]],omega=omega,rho=rho,
+  df1 <- expand.grid(N0=params[["N0"]],beta=params[["beta"]],gamma=params[["gamma"]],omega=omega,rho=rho,
                      W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
                      p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
                      eta_w=eta_w,eta_c=eta_c)

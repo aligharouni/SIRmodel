@@ -47,12 +47,18 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 }
 
 # verify the break range in brks_vec (FIXME)
-mn <- min(df_random$Delta,df_targeted$Delta, na.rm = T)
-mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T) ## take mn and mx and set the brks_vec, smarter way?
+ # mn <- min(df_random$Delta,df_targeted$Delta, na.rm = T)
+ # mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T) ## take mn and mx and set the brks_vec, smarter way?
 
+n_contour <- 8 ## number of desired contours or bins
+bins <- cut(sort(unique(c(df_random$Delta,df_targeted$Delta))), 
+            n_contour)
+brks <- levels(bins)
+brks_vec <- unique(as.numeric(unlist(lapply(strsplit(brks, ","), function(x) gsub("\\(|]", "", x)))))
+brks_vec <- sort(ifelse(brks_vec[]< 0,0,brks_vec[]), decreasing = TRUE) ## replace neg with 0 and reorder
 # show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-brks_vec <- seq(.165,0,by=-0.03) # Break vector for unifying the legends in Random and TTI testing cases. 
-
+# brks_vec <- seq(1,0,by=-0.2) # Break vector for unifying the legends in Random and TTI testing cases. 
+# seq(.165,0,by=-0.03)
 df_temp <- df_random
 # df_temp <- df_targeted
 p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
@@ -63,6 +69,7 @@ p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
 ## There might be a solution for the tick label collision with expand_limits(), but that's hard to do across facets
 ## see https://stackoverflow.com/questions/41575045/avoiding-axis-tick-label-collision-in-faceted-ggplots
 p1_temp <- (p1
+            # + geom_contour_filled(breaks=brks)
             + geom_contour_filled(breaks=brks_vec)
             + geom_contour(breaks=threshold,alpha=0.5,colour="black")
             + facet_grid(theta_w~theta_c, labeller=label_special) 
