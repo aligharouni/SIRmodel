@@ -164,10 +164,10 @@ where
 \begin{equation}
 \begin{aligned}
 \label{eq:abc}
-\Delta=& (A~ \theta\_w + B~ \theta\_c)~ C\\
-A=& \gamma \big( (\gamma \omega+ \omega p_I F_I+\gamma^2) x_n^* + (\omega+\gamma) F_I \big)\\
+\Delta=& (A~ \theta\_w + B~ \theta\_c) / C\\
+A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I F_I \big) x_n^* + (\omega+\gamma) F_I \Big)\\
 B=& \omega p_I F_I (\gamma x_u^*+\omega) \\ 
-C=& \frac{1}{(\omega+\gamma) \big(\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I) \big)}.
+C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I) \Big).
 \end{aligned}
 \end{equation}
 
@@ -188,9 +188,9 @@ See the appendix for details.
 \item \label{p1:eta} increasing the relative probabilities of transmission for tested individuals, increases $\Rnum$;
 $$\partial{\Rnum}/\partial{\theta\_c} \leq 0 \text{~and~} \partial{\Rnum}/\partial{\theta\_w} \leq 0.$$ 
 \item \label{p1:rho} higher rate of testing reduces $\Rnum$;
-$$\partial{\Rnum}/\partial{\rho} \leq 0 \text{~when~} \rho \approx 0.$$
+$$\partial{\Rnum}/\partial{\rho} \leq 0.$$
 \item \label{p1:omega} The rate of test return may result in the disease becomes extinct or not;
-$$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative when~} \rho \approx 0.$$
+$$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative}.$$
 \end{enumerate}
 
 Given that the perfect isolation occurs when no one transmits while waiting for test results (i.e., $\theta\_c=\theta\_w = 1$), Prop.~\ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. Prop.~\ref{p1:rho} indicates that increasing the \percap testing intensity, $\rho$, reduces $\Rnum$. Lastly, Prop.~\ref{p1:omega} means that speeding up the test reporting may or may not reduce $\Rnum$, it will depend on other parameters. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the Taylor approximation of $\Rnum$ at $\rho=0$.
@@ -368,25 +368,11 @@ IN fact the testing rate, $\sigma$, should be formulated such that people from t
 One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
 
 % %%%%%%%
-\subsection{Taylor Approximation of $\Rnum$ at $\rho=0$ }
-The basic reproduction number, $\Rnum$, close to $\rho=0$ can be approximated linearly in $\rho$ by using Taylor approximation. it follows
-\begin{equation}
-\label{eq:R0appr}
-\Rnum \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 w_S} \Big(\gamma(-\theta\_w)(\gamma w_S+\omega w_I) + (-\theta\_c)p_I w_I \omega^2 \Big) + \mathcal{O}(\rho^2).
-\end{equation}
+\subsection{More testing rate reduces $\Rnum$}
 
-Also, to analyze the influence of $\omega$ on $\Rnum$, the approximation \eqref{eq:R0appr} was used. Then it is straight forward to have
-\begin{equation}
-\label{Rom}
-\partial{\Rnum}/\partial{\omega}=  \frac{-\beta \rho}{\gamma w_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),
-\end{equation}
-where $a=(-\theta\_w)w_I-(-\theta\_c)p_I w_I = ((s-p_I)(1-\theta\_c) + (p_I-1)) w_I$, $b=2(-\theta\_w)\gamma w_S$ and $c=(-\theta\_w)\gamma^2 w_S$.
-Given that $0 \leq \theta\_w \leq \theta\_c \leq 1 $, one can easily derive $b\leq 0$ and $c \leq 0$. 
-
-Note that in general, the necessary and sufficient condition for $a \geq 0$ is $(s-p_I) (1-\theta\_c) \geq (1-p_I)$, where $s=\frac{(1-\theta\_w)}{(1-\theta\_c)} \geq 1$. 
-
-In the case of ``perfect isolation'', i.e., when $\theta\_w=1$ and consequently $\theta\_c=1$, it is straightforward to see that $a \leq 0$, $b<0$ and $c<0$. Thus, $\partial{\Rnum}/\partial{\omega} \geq 0$. 
-As an example, in the case of a very accurate testing regime,  i.e., $P_I=1$, $a \geq 0$ is achieved. If $a\geq 0$, the quadratic expression in \eqref{Rom}, has Real roots. Assuming that $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{\Rnum}/\partial{\omega}$. Thus, $\partial{\Rnum}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{\Rnum}/\partial{\omega}<0$ for $\omega>\omega_2$.
+ The expression of the basic reproduction number $\Rnum$, given in Eqs. \eqref{R0}, makes it straight  forward to conclude $\frac{\partial \Delta}{\partial \rho} > 0$ and thus $\frac{\partial \Rnum}{\partial \rho} < 0$. 
+Given the fractional form of $\Delta$, it is easy to show that $\partial A/\partial \rho >0$, $\partial B/\partial \rho >0$ and $\partial C/\partial \rho <0$. Note that we use the fact that
+$\partial F_I/\partial \rho >0$, $\partial S\_n^*/\partial \rho >0$ and $\partial S\_u^*/\partial \rho <0$.
 
 % %%%%%%%
 \subsection{rate of returning tests} 
