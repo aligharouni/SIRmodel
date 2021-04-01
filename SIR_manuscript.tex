@@ -23,7 +23,7 @@
 
 \newcommand{\Rlogo}{R\xspace}
 \newcommand{\percap}{\emph{per capita}\xspace}
-\newcommand{\Rnum}{\mathcal{R}_0}
+\newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}}
 \newcommand{\covid}{COVID-19\xspace}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
@@ -153,7 +153,8 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
-For simplification of the analysis, we adopt the following change $x\_u^* = S\_u^*/N_0$ and $x\_n^* = S\_n^*/N_0$.
+For brevity, we write $x\_u^* = S\_u^*/N_0$ and $x\_n^* = S\_n^*/N_0$.
+We can then write $\hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S$ for the \percap testing rate of infectious individuals near the disease-free equilibrium.
 
 The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 \begin{equation}
@@ -185,17 +186,14 @@ Examining our formula for $\Rnum$ \eqref{R0} gives the following results.
 See the appendix for details.
 
 \begin{enumerate}
-\item \label{p1:eta} increasing the relative probabilities of transmission for tested individuals, increases $\Rnum$;
+\item \label{p1:eta} increasing the isolation parameters for tested and confirmed individuals decreases \Rnum;
 $$\partial{\Rnum}/\partial{\theta\_c} \leq 0 \text{~and~} \partial{\Rnum}/\partial{\theta\_w} \leq 0.$$ 
-\item \label{p1:rho} higher rate of testing reduces $\Rnum$;
+\item \label{p1:rho} a higher rate of testing decreases $\Rnum$;
 $$\partial{\Rnum}/\partial{\rho} \leq 0.$$
-\item \label{p1:omega} The rate of test return may result in the disease becomes extinct or not;
+\item \label{p1:omega} A higher rate of of test return may increase or decrease \Rnum.
 $$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative}.$$
 \end{enumerate}
 
-Given that the perfect isolation occurs when no one transmits while waiting for test results (i.e., $\theta\_c=\theta\_w = 1$), Prop.~\ref{p1:eta} means that lifting the isolation from awaiting group results in an increased $\Rnum$ and consequently a greater number of infected individuals. Prop.~\ref{p1:rho} indicates that increasing the \percap testing intensity, $\rho$, reduces $\Rnum$. Lastly, Prop.~\ref{p1:omega} means that speeding up the test reporting may or may not reduce $\Rnum$, it will depend on other parameters. It is straightforward to derive \ref{p1:rho} and \ref{p1:omega} from the Taylor approximation of $\Rnum$ at $\rho=0$.
-\david{can we gain some insight from the expressions for the partial derivatives in the proposition, as opposed to just their signs?}\ali{help}
- 
 \begin{figure}[h!]
 \centering
 \begin{subfigure}[t]{.45\textwidth}
@@ -211,13 +209,13 @@ Given that the perfect isolation occurs when no one transmits while waiting for 
 \end{subfigure}
 \caption{
 {\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
-We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
+We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (see Table \ref{tab:params}):
 $N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
 }
 \label{pan}
 \end{figure}
 
-Our numerical solutions in support of the analytical results in Proposition \ref{prop1} are presented in Figure \ref{pan}. It can be inferred that when random testing strategy is applied, Figure \ref{p.a}, comparing to the targeted testing strategy, Figure \ref{p.b}, the critical \percap testing intensity of the corresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people (including people in $I\_p$ and $I\_n$ compartments) follow the isolation perfectly, i.e., $\theta\_w$ is closer to 1. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\theta\_w$ is closer to 0. 
+Our numerical results are shown in Figure \ref{pan}. It can be inferred that when random testing strategy is applied, Figure \ref{p.a}, comparing to the targeted testing strategy, Figure \ref{p.b}, the critical \percap testing intensity of the corresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people (including people in $I\_p$ and $I\_n$ compartments) follow the isolation perfectly, i.e., $\theta\_w$ is closer to 1. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\theta\_w$ is closer to 0. 
 
 Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}.
 \david{What do we learn from this inequality?  Why is it relegated to an appendix?}
