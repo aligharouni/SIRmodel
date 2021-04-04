@@ -25,6 +25,7 @@
 \newcommand{\percap}{\emph{per capita}\xspace}
 \newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}}
 \newcommand{\covid}{COVID-19\xspace}
+\newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
@@ -368,10 +369,54 @@ One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day)
 % %%%%%%%
 \subsection{More testing rate reduces $\Rnum$}
 
- The expression of the basic reproduction number $\Rnum$, given in Eqs. \eqref{R0}, makes it straight  forward to conclude $\frac{\partial \Delta}{\partial \rho} > 0$ and thus $\frac{\partial \Rnum}{\partial \rho} < 0$. 
-Given the fractional form of $\Delta$, it is easy to show that $\partial A/\partial \rho >0$, $\partial B/\partial \rho >0$ and $\partial C/\partial \rho <0$. Note that we use the fact that
-$\partial F_I/\partial \rho >0$, $\partial S\_n^*/\partial \rho >0$ and $\partial S\_u^*/\partial \rho <0$.
+This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}.
+We will show that (a) $\pro (A/C)>0$ and (b) $\pro (B/C)>0$.
+Note that we will use the following information: 
+\begin{enumerate}
+\item
+$\pro \hat F_I >0$ for  all $\rho$ and specifically the feasible range, $\rho \in [0,\omega]$. Here $\hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S$ for the \percap testing rate of infectious individuals near the disease-free equilibrium,
+\item $\pro \hat F_I x\_u^* >0$ since $\hat F_I x\_u^* = \rho w_I/w_S$,
+\item $\pro \hat F_I x\_n^* >0$ since $\hat F_I x\_n^* = \frac{\rho^2}{\omega-\rho} w_I/w_S$, 
+\item $\pro x\_n^* >0$ and $\pro x\_u^* <0$ given the DFE expression in \ref{dfe},
+\item
+\begin{align}
+\pro A &= 
+\gamma \Big(\gamma(\omega+\gamma)\pro x\_n^* + \omega p_I \pro(\hat F_I x\_n^*)+(\omega+\gamma) \pro(\hat F_I)
+\Big),\\
+\pro B &= \gamma \omega p_I \pro(\hat F_I x\_u^*)+\omega^2 p_I \pro(\hat F_I),\\
+\pro C &=(\omega+\gamma)(\omega p_I+\gamma) \pro(\hat F_I).
+\end{align}
+\end{enumerate}
 
+
+(a) $\pro (A/C)>0$;
+
+\begin{align}
+& \pro (A/C) = \pro{A} \dot C - \pro{C} \dot A \\
+&= \gamma (\omega+\gamma)^2(\omega p_I+\gamma) 
+\Big( 
+[\gamma \pro x\_n^* + \frac{\omega p_I}{(\omega+\gamma)} \pro(\hat F_I x\_n^*) + \pro\hat F_I]
+[\gamma\frac{(\omega+\gamma)}{(\omega p_I+\gamma)}+\hat F_I] - \\
+& \pro(\hat F_I)
+[\gamma x\_n^* + \frac{\omega p_I}{(\omega+\gamma)}(\hat F_I x\_n^*) + \hat F_I] 
+\Big) 
+\end{align}
+
+Since $\pro(x\_n^*) >0$ and $\pro (\hat F_I x\_n^*)>0$,  it is enough to show that the coefficient of 
+$\pro (\hat F_I)$ is summed up to a positive value.
+$\pro (\hat F_I)$ coefficient is as follows
+$$\big( \frac{\omega p_I}{(\omega+\gamma)} x\_n^* +1 \big) 
+\big( \gamma\frac{(\omega+\gamma)}{(\omega p_I+\gamma)} + \hat F_I \big) 
+-
+\big( \gamma x\_n^* + \frac{\omega p_I}{(\omega+\gamma)}(\hat F_I x\_n^*) + \hat F_I 
+\big).
+$$
+After simplification, we use the fact that the following expression is positive
+$$(\frac{(\omega+\gamma)}{(\omega p_I+\gamma)}) (1+ \frac{\omega p_I x\_n^*}{(\omega+\gamma)}) -1. $$
+This is because $(\frac{(\omega+\gamma)}{(\omega p_I+\gamma)})>1$ and  $(1+ \frac{\omega p_I x\_n^*}{(\omega+\gamma)}) >1$.
+
+
+(b) $\pro (B/C)>0$;
 % %%%%%%%
 \subsection{rate of returning tests} 
 \ali{needs editig}
