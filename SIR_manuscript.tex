@@ -324,20 +324,28 @@ F_I+\gamma&-\omega&0&0\\
 0&0&-\omega&\gamma
 \end {array} \right], \text{thus}\\
 V^{-1} =&
+\frac{1}{\gamma C}
 \left[ \begin {array}{cccc}
-\frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
-\noalign{\medskip}
-\frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
-\frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
-\noalign{\medskip}
-\frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
-\frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
-\noalign{\medskip}
-\frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}& 
-\frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
-\frac{\omega}{(\omega+\gamma) \gamma}&
-\frac{1}{\gamma}
+\gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)&0&0\\ \noalign{\medskip}
+\gamma(\omega+\gamma)(1-p_I)F_I & \gamma(\omega+\gamma)(F_I+\gamma)&0&0 \\ \noalign{\medskip}
+\gamma(\omega+\gamma) p_I F_I & \gamma\omega p_I F_I & C \gamma/(\omega+\gamma) & 0 \\ \noalign{\medskip}
+\omega(\omega+\gamma) p_I F_I & \omega^2 p_I F_I & C \omega/(\omega+\gamma) & C
 \end {array} \right].
+% V^{-1} =&
+% \left[ \begin {array}{cccc}
+% \frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+% \noalign{\medskip}
+% \frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+% \frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+% \noalign{\medskip}
+% \frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+% \frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
+% \noalign{\medskip}
+% \frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}&
+% \frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
+% \frac{\omega}{(\omega+\gamma) \gamma}&
+% \frac{1}{\gamma}
+% \end {array} \right].
 \end{align}
 
 The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as 
@@ -347,7 +355,7 @@ G = \left[ \begin {array}{cc}
 G_{11}&G_{12}\\
 0&0
 \end {array} \right], \text{ where } \\
-G_{11} = \frac{\beta}{\gamma}\ C
+G_{11} = \frac{\beta}{\gamma C}\ 
 \left[\begin {array}{cc}
 A\,S\_u & B\,S\_u\\
 A\,S\_n & B\,S\_n
