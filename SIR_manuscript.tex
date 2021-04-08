@@ -311,18 +311,23 @@ Matrices $F$ and $V$ are \ali{all $S\_u \& S\_n$ should be $S\_u^* \& S\_n^*$}
 \begin{align}
 \label{FV}
 F =& \beta/N_0 \left[ \begin {array}{cccc} 
-S\_u&(1-\theta\_w)\,S\_u&(1-\theta\_w)\,S\_u&(1-\theta\_c)\,S\_u\\
-S\_n&(1-\theta\_w)\,S\_n&(1-\theta\_w)\,S\_n&(1-\theta\_c)\,S\_n\\ 
+S\_u^* & (1-\theta\_w)\,S\_u^* & (1-\theta\_w)\,S\_u^* & (1-\theta\_c)\,S\_u^*\\
+S\_n^* & (1-\theta\_w)\,S\_n^* & (1-\theta\_w)\,S\_n^* & (1-\theta\_c)\,S\_n^* \\ 
 0&0&0&0\\
 0&0&0&0
- \end {array} \right], \\
-  V =&
+ \end {array} \right] \\
+ =&\beta\left[ \begin {array}{c} x\_n^* \\ x\_u^* \\ 0 \\ 0 \end {array} \right]
+        \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right], \text{and}\\  V=&
  \left[ \begin {array}{cccc}  
 F_I+\gamma&-\omega&0&0\\
 -(1-p_I)F_I&\omega+\gamma&0&0\\
 -p_I F_I&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
-\end {array} \right], \text{thus}\\
+\end {array} \right].
+\end{align}
+The matrix inverse of $V$ is 
+\begin{align}
+\label{vinv}
 V^{-1} =&
 \frac{1}{\gamma C}
 \left[ \begin {array}{cccc}
@@ -334,22 +339,33 @@ V^{-1} =&
 \end{align}
 where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)F_I \big) (\omega+\gamma)$. Note that all the columns of matrix $V^{-1}$ summ up to $C$.
 
-The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as 
+The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as the following block matrix.
 \begin{equation}
 \label{mat:G}
 G = \left[ \begin {array}{cc}
 G_{11}&G_{12}\\
 0&0
-\end {array} \right], \text{ where } \\
-G_{11} = \frac{\beta}{\gamma C}\ 
-\left[\begin {array}{cc}
-A\,S\_u & B\,S\_u\\
-A\,S\_n & B\,S\_n
-\end {array}\right],
+\end {array} \right],
 \end{equation}
-with expressions $A$, $B$ and $C$ are specified in \eqref{eq:abc}.
-The block matrix $G_{12}$ does not influence $\Rnum$ (defined as the spectral radius of $G$). All that matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}.
-Also note that, all $S\_u$'s and $S\_n$'s are evaluated at the DFE \eqref{dfe} in matrix $F$ \eqref{FV} and the block matrix $G_{11}$ \eqref{mat:G}.
+where the 2 by 2 submatrix $G_{11}$ is 
+\begin{equation}
+\label{G11}
+G_{11} = \frac{\beta}{\gamma \, C} 
+\left[ \begin {array}{c}  x\_n^* \\ x\_u^* \\ 0 \\ 0  \end {array} \right]
+\left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right]
+\left[ \begin {array}{cc}
+\gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)\\ \noalign{\medskip}
+\gamma(\omega+\gamma)(1-p_I)F_I & \gamma(\omega+\gamma)(F_I+\gamma) \\ \noalign{\medskip}
+\gamma(\omega+\gamma) p_I F_I & \gamma\omega p_I F_I \\ \noalign{\medskip}
+\omega(\omega+\gamma) p_I F_I & \omega^2 p_I F_I
+\end {array} \right].
+\end{equation}
+
+It is notable that matrix $F$ \eqref{FV} and consequently $G_{11}$ have rank one. That is $G_{11}$ has only one non-zero eigenvalue which we refer to it the basic reproduction number $\Rnum$ (defined as the spectral radius of $G$). Also the block matrix $G_{12}$ does not influence $\Rnum$ and all $S\_u$'s and $S\_n$'s are evaluated at the DFE \eqref{dfe} in matrix $F$ \eqref{FV} and the block matrix $G_{11}$ \eqref{mat:G}.
+
+$\Rnum$ has a complicated expression and depend on the type of analysis, the expression can be simplifed and presented accordingly. For the purpose of simplicity we present $\Rnum$ in the manuscript in terms of expressions $A$, $B$ and $C$, specified in \eqref{eq:abc}. This is intended to show that $\Rnum$ decreases as the strength of isolation, shown by $\theta\_w$ and $\theta\_c$, increases.
+
+The hard thing to prove is to show the reduction of $\Rnum$ with respect to testing intensity, $\rho$, and the speed of the test return, $\omega$, for the feasible ranges of the parameters, i.e., $0<\omega$, $0 \leq \rho<\omega$, and $0 \leq \theta\_w \leq \theta\_c \leq 1$.
 
 % %%%%%%%
 \subsection{On Testing Rate and Numerical Singularity}
