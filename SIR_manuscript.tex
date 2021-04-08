@@ -365,70 +365,15 @@ It is notable that matrix $F$ \eqref{FV} and consequently $G_{11}$ have rank one
 
 $\Rnum$ has a complicated expression and depend on the type of analysis, the expression can be simplifed and presented accordingly. For the purpose of simplicity we present $\Rnum$ in the manuscript in terms of expressions $A$, $B$ and $C$, specified in \eqref{eq:abc}. This is intended to show that $\Rnum$ decreases as the strength of isolation, shown by $\theta\_w$ and $\theta\_c$, increases.
 
-The hard thing to prove is to show the reduction of $\Rnum$ with respect to testing intensity, $\rho$, and the speed of the test return, $\omega$, for the feasible ranges of the parameters, i.e., $0<\omega$, $0 \leq \rho<\omega$, and $0 \leq \theta\_w \leq \theta\_c \leq 1$.
+It remains hard to show the reduction of $\Rnum$ with respect to \percap testing intensity, $\rho$, and the speed of the test return, $\omega$, for the feasible ranges of the parameters, i.e., $0<\omega$, $0 \leq \rho<\omega$, and $0 \leq \theta\_w \leq \theta\_c \leq 1$. One easy way to do such an analysis is based on the fact that $\rho$ is \percap rate so for a large population size, $N_0 \gg 1$, $\rho$ is very small or close to 0, comparing to $N_0$. This provides a base to linearly approximate $\Rnum$ when $\rho$ is close to 0, and use this approximation to analyze the behaviour of $\Rnum$ with respect to $\omega$ (see section \ref{taylor}). In the next section we provide an equivalent representation of $\Rnum$ for our model to provide to follow proving that more testing intensity decreases $\Rnum$ for a general rane of parameters.  
 
 % %%%%%%%
-\subsection{On Testing Rate and Numerical Singularity}
-
-In this work, we didn't do any numerical solutions for the trajectories in our analysis. However, if one tries to do so there would be a singularity issue to deal with. 
-Specifically, the numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S\_u$. Thus, the first equation of the model \eqref{model} will become
-$d S\_u/dt = - \rho N_0 + \omega S\_n$. Thus changes in $S\_u$ will be no longer dependent on $S\_u$ with a linear rate of leaving the $S\_u$ compartment.
-IN fact the testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there.
-One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
-
-% %%%%%%%
-\subsection{More testing rate reduces $\Rnum$}
+\subsection{More testing intensity decreases $\Rnum$}
 
 This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}.
-We will show that (a) $\pro (A/C)>0$ and (b) $\pro (B/C)>0$.
-Note that we will use the following information: 
-\begin{enumerate}
-\item
-$\pro \hat F_I >0$ for  all $\rho$ and specifically the feasible range, $\rho \in [0,\omega]$. Here $\hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S$ for the \percap testing rate of infectious individuals near the disease-free equilibrium,
-\item $\pro \hat F_I x\_u^* >0$ since $\hat F_I x\_u^* = \rho w_I/w_S$,
-\item $\pro \hat F_I x\_n^* >0$ since $\hat F_I x\_n^* = \frac{\rho^2}{\omega-\rho} w_I/w_S$, 
-\item $\pro x\_n^* >0$ and $\pro x\_u^* <0$ given the DFE expression in \ref{dfe},
-\item
-\begin{align}
-\pro A &= 
-\gamma \Big(\gamma(\omega+\gamma)\pro x\_n^* + \omega p_I \pro(\hat F_I x\_n^*)+(\omega+\gamma) \pro(\hat F_I)
-\Big),\\
-\pro B &= \gamma \omega p_I \pro(\hat F_I x\_u^*)+\omega^2 p_I \pro(\hat F_I),\\
-\pro C &=(\omega+\gamma)(\omega p_I+\gamma) \pro(\hat F_I).
-\end{align}
-\end{enumerate}
 
-
-(a) $\pro (A/C)>0$;
-
-\begin{align}
-& \pro (A/C) = \pro{A} \dot C - \pro{C} \dot A \\
-&= \gamma (\omega+\gamma)^2(\omega p_I+\gamma) 
-\Big( 
-[\gamma \pro x\_n^* + \frac{\omega p_I}{(\omega+\gamma)} \pro(\hat F_I x\_n^*) + \pro\hat F_I]
-[\gamma\frac{(\omega+\gamma)}{(\omega p_I+\gamma)}+\hat F_I] - \\
-& \pro(\hat F_I)
-[\gamma x\_n^* + \frac{\omega p_I}{(\omega+\gamma)}(\hat F_I x\_n^*) + \hat F_I] 
-\Big) 
-\end{align}
-
-Since $\pro(x\_n^*) >0$ and $\pro (\hat F_I x\_n^*)>0$,  it is enough to show that the coefficient of 
-$\pro (\hat F_I)$ is summed up to a positive value.
-$\pro (\hat F_I)$ coefficient is as follows
-$$\big( \frac{\omega p_I}{(\omega+\gamma)} x\_n^* +1 \big) 
-\big( \gamma\frac{(\omega+\gamma)}{(\omega p_I+\gamma)} + \hat F_I \big) 
--
-\big( \gamma x\_n^* + \frac{\omega p_I}{(\omega+\gamma)}(\hat F_I x\_n^*) + \hat F_I 
-\big).
-$$
-After simplification, we use the fact that the following expression is positive
-$$(\frac{(\omega+\gamma)}{(\omega p_I+\gamma)}) (1+ \frac{\omega p_I x\_n^*}{(\omega+\gamma)}) -1. $$
-This is because $(\frac{(\omega+\gamma)}{(\omega p_I+\gamma)})>1$ and  $(1+ \frac{\omega p_I x\_n^*}{(\omega+\gamma)}) >1$.
-
-
-(b) $\pro (B/C)>0$;
 % %%%%%%%
-\subsection{rate of returning tests} 
+\subsection{rate of returning tests} \label{taylor}
 \ali{needs editig}
 The linearization of $\Rnum$ around $\rho=0$ is
 \begin{equation}\label{linearization}
@@ -469,7 +414,16 @@ Substituting in $Q$ from \eqref{eq:defQ} we have
 \end{align}
 Since all steps in deriving \eqref{eq:necsuf} are reversible, \eqref{eq:necsuf} gives a necessary and sufficient condition for $\omega > \omega_2$, which characterizes when returning tests more rapidly would cause a decrease in $\Rnum$.
 
+% %%%%%%%
+\subsection{On Testing Rate and Numerical Singularity}
 
+In this work, we didn't do any numerical solutions for the trajectories in our analysis. However, if one tries to do so there would be a singularity issue to deal with. 
+Specifically, the numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S\_u$. Thus, the first equation of the model \eqref{model} will become
+$d S\_u/dt = - \rho N_0 + \omega S\_n$. Thus changes in $S\_u$ will be no longer dependent on $S\_u$ with a linear rate of leaving the $S\_u$ compartment.
+IN fact the testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there.
+One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
+
+% %%%%%%%
 \subsection{Expensive vs.\ cheap tests}
 
 The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the \covid pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. In the analysis below, we compare the $\Rnum$ predicted by our model depending on the testing strategy. 
