@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\Rnum}{\mathcal{R}_0}
+\usepackage{xcolor}
+\begin{document}
+
+We want to prove that $\Rnum$ is decreasing wrt $\rho$. Recall that:
+
+\begin{align}
+    \Rnum = \frac{\beta}{\gamma}(1-\Delta)
+\end{align}
+
+where
+
+\begin{align}
+\Delta =& (A~ \theta_w + B~ \theta_c) C 
+\\
+A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I F_I \big) x_n^* + (\omega+\gamma) F_I \Big) \\
+B=& \omega p_I F_I (\gamma x_u^*+\omega) \\ 
+C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I) \Big).
+\end{align}
+
+So, we want to prove that $\Delta$ is increasing wrt $\rho$. We will do so under model assumptions that $\rho < w$ and $\theta_w < \theta_c$. Consider the following lemmas.
+
+\begin{lemma} we have:
+\begin{itemize}
+    \item $A\theta_w + B\theta_c = -U\rho^2 + V\rho$
+    \item $C = \frac{1}{K\rho+W}$
+\end{itemize} where:
+
+\begin{align}
+    U &= \Big((\theta_c-\theta_w)w\gamma p_IF_Ix^*_n\Big)\cdot \frac{1}{\rho^2} \geq 0\\
+    V &= \Big(F_I\big(\gamma(w+\gamma)\theta_w+wp_I(w+\gamma)\theta_c\big) + x^*_n\gamma^2(w+\gamma)\theta_w\Big)\cdot \frac{1}{\rho} \geq 0 \\
+    K &= F_I(w+\gamma)(\gamma+wp_I) \cdot \frac{1}{\rho} \geq 0 \\
+    W &= \gamma(w+\gamma)^2 \geq 0
+\end{align}
+\begin{proof}
+Note that $\rho$ appears only in $x^*_n$, $x^*_u$, and $F_I$, and is linear in all of them. The rest is brute force rewriting...
+\end{proof}
+\end{lemma}
+
+\begin{lemma} $\dfrac{d}{d\rho} \, \dfrac{-U\rho^2+V\rho}{K\rho+W} > 0 \Longleftrightarrow V\rho > U\rho^2$
+\begin{proof}
+\begin{align}
+    \dfrac{d}{d\rho} \, \dfrac{-U\rho^2+V\rho}{K\rho+W} &= (-U\rho+V)(K\rho+W) - K(U\rho^2+V\rho) \\
+    &= (-U\rho+V)(K\rho+W) - K\rho(U\rho+V) \\
+    &= (-U\rho+V)W
+\end{align}
+
+Since $W \geq 0$, we know that the final expression will be positive if and only if $V > U\rho$, which is equivalent to $V\rho > U\rho^2$.
+\end{proof}
+\end{lemma}
+
+So, the lemma above tells us that we need to show that:
+\begin{align}
+    \Big({\color{red}F_I}\big(\gamma(w+\gamma)\theta_w+{\color{red}wp_I(w+\gamma)\theta_c}\big) + x^*_n\gamma^2(w+\gamma)\theta_w\Big) &> \Big((\theta_c-\theta_w)w\gamma p_IF_Ix^*_n\Big)
+\end{align}
+
+But since all terms on the LHS are nonnegative, it is sufficient to prove that
+
+\begin{align}
+    {\color{red}F_Iwp_I(w+\gamma)\theta_c} &> (\theta_c-\theta_w)w\gamma p_IF_Ix^*_n \\
+    (w+\gamma)\theta_c &> \gamma(x^*_n)(\theta_c-\theta_w) \\
+    \frac{(w+\gamma)}{\gamma} \cdot \frac{\theta_c}{\theta_c-\theta_w} &> \frac{\rho}{w} \\
+\end{align}
+
+but the final inequality is certainly true since the LHS is larger than 1, but the RHS is strictly less than 1 by the model assumption that $\rho < w$. Hence, $\Delta$ is increasing wrt to $\rho$, as required.
+\end{document}
