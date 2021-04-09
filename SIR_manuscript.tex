@@ -399,7 +399,8 @@ The behavior of $\Rnum$ with respect to $\rho$ is determine by $\pro \Delta$
 \pro \Delta=& \frac{1}{d} (a\,\rho^2+b\,\rho+c), \text{where}\\
 a=& ((\omega+\gamma)\gamma -\omega \frac{w_I}{w_S} (\omega\,p_I+\gamma)) D_1,\\
 b=& -2\gamma\omega(\omega+\gamma) D_1,\\
-c=& \omega^2 (\omega+\gamma)^2 D_2,
+c=& \omega^2 (\omega+\gamma)^2 D_2, \\
+d=& \frac{\omega}{\gamma}(\omega+\gamma)\Big( \big( \gamma(\omega+\gamma)-\omega \frac{w_I}{w_S}(\omega\,p_I+\gamma)\big) \rho-\omega\gamma(\omega+\gamma) \Big)^2
 \end{align}
 with scaler $d>0$ (not effecting the sign of $\pro \Delta$) and $D_1$ and $D_2$ as 
 \begin{align}
@@ -407,7 +408,16 @@ with scaler $d>0$ (not effecting the sign of $\pro \Delta$) and $D_1$ and $D_2$ 
 D_1=& (\omega+\gamma)\gamma\theta\_w+(\theta\_c-\theta\_w)\omega^2\,p_I\,\frac{w_I}{w_S}, \\
 D_2=& (\omega\,\frac{w_I}{w_S}+\gamma)\gamma\theta\_w+\omega^2\,p_I\,\frac{w_I}{w_S}\,\theta\_c.
 \end{align}
-Note that to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}, it is important to know the sign of the coefficients of the polynomial, $a$, $b$ and $c$. Since $D_1\geq 0$ and $D_2\geq 0$, $b\leq 0$ and $c\geq 0$. Sign of $a$ depends on the interplay between the involved parameters (\todo{still working on}).
+
+Note the following conditionbs and assumptions of the parameters of the model;
+\begin{align}
+\label{cond}
+& \omega>0, \\
+& 0 \leq \rho<\omega,\\ 
+& 0 \leq \theta\_w \leq \theta\_c \leq 1, and 
+& \frac{w_I}{w_S}\geq 1.
+\end{align}
+Given the parameter restrictions, we would like to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}. Thus, it is important to know the sign of the coefficients $a$, $b$ and $c$ of the polynomial in Eq. \eqref{eq:dd2dr}. Since $D_1\geq 0$ and $D_2\geq 0$, $b\leq 0$ and $c\geq 0$. Sign of $a$ depends on the interplay between the involved parameters. Note that $D_1 \leq D_2$. (\todo{still working on}).
 
 
 % %%%%%%%
