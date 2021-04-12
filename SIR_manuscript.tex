@@ -155,7 +155,12 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
 S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
 For brevity, we write $x\_u^* = S\_u^*/N_0$ and $x\_n^* = S\_n^*/N_0$.
-We can then write $\hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S$ for the \percap testing rate of infectious individuals near the disease-free equilibrium.
+We can then write 
+\begin{equation}
+\label{eq:fi}
+\hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S
+\end{equation}
+for the \percap testing rate of infectious individuals near the disease-free equilibrium.
 
 The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
 \begin{equation}
@@ -167,9 +172,9 @@ where
 \begin{aligned}
 \label{eq:abc}
 \Delta=& (A~ \theta\_w + B~ \theta\_c) / C\\
-A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I F_I \big) x_n^* + (\omega+\gamma) F_I \Big)\\
-B=& \omega p_I F_I (\gamma x_u^*+\omega) \\ 
-C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I) \Big).
+A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I \hat F_I \big) x_n^* + (\omega+\gamma) \hat F_I \Big)\\
+B=& \omega p_I(\gamma x_u^*+\omega)\hat F_I \\ 
+C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big).
 \end{aligned}
 \end{equation}
 
@@ -271,8 +276,6 @@ one point we can make when discussing the relative weight of testing in differen
 \begin{center}
 \textbf{\large Appendix}
 \end{center}
-%%%%%%%%%% Merge with supplemental materials %%%%%%%%%%
-%%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
 \setcounter{equation}{0}
 \setcounter{figure}{0}
 \setcounter{table}{0}
@@ -282,7 +285,6 @@ one point we can make when discussing the relative weight of testing in differen
 \renewcommand{\thefigure}{A\arabic{figure}}
 \renewcommand{\bibnumfmt}[1]{[A#1]}
 \renewcommand{\citenumfont}[1]{A#1}
-%%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
 
 \subsection{Model and calculation of $\Rnum$}
 
@@ -307,7 +309,7 @@ The model in the form of a system of ordinary differential equations is
 \end{subequations}
 
 where parameters are specified in Table \ref{tab:params}. The next generation matrix for this model is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susceptible. 
-Matrices $F$ and $V$ are \ali{all $S\_u \& S\_n$ should be $S\_u^* \& S\_n^*$}
+Matrices $F$ and $V$ are
 \begin{align}
 \label{FV}
 F =& \beta/N_0 \left[ \begin {array}{cccc} 
@@ -316,12 +318,12 @@ S\_n^* & (1-\theta\_w)\,S\_n^* & (1-\theta\_w)\,S\_n^* & (1-\theta\_c)\,S\_n^* \
 0&0&0&0\\
 0&0&0&0
  \end {array} \right] \\
- =&\beta\left[ \begin {array}{c} x\_n^* \\ x\_u^* \\ 0 \\ 0 \end {array} \right]
+ =&\beta/N_0 \left[ \begin {array}{c} S\_n^* \\ S\_u^* \\ 0 \\ 0 \end {array} \right]
         \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right], \text{and}\\  V=&
  \left[ \begin {array}{cccc}  
-F_I+\gamma&-\omega&0&0\\
--(1-p_I)F_I&\omega+\gamma&0&0\\
--p_I F_I&0&\omega+\gamma&0\\
+\hat F_I+\gamma&-\omega&0&0\\
+-(1-p_I)\hat F_I&\omega+\gamma&0&0\\
+-p_I \hat F_I&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
 \end {array} \right].
 \end{align}
@@ -332,14 +334,14 @@ V^{-1} =&
 \frac{1}{\gamma C}
 \left[ \begin {array}{cccc}
 \gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)&0&0\\ \noalign{\medskip}
-\gamma(\omega+\gamma)(1-p_I)F_I & \gamma(\omega+\gamma)(F_I+\gamma)&0&0 \\ \noalign{\medskip}
-\gamma(\omega+\gamma) p_I F_I & \gamma\omega p_I F_I & C \gamma/(\omega+\gamma) & 0 \\ \noalign{\medskip}
-\omega(\omega+\gamma) p_I F_I & \omega^2 p_I F_I & C \omega/(\omega+\gamma) & C
+\gamma(\omega+\gamma)(1-p_I) \hat F_I & \gamma(\omega+\gamma)(\hat F_I+\gamma)&0&0 \\ \noalign{\medskip}
+\gamma(\omega+\gamma) p_I \hat F_I & \gamma\omega p_I \hat F_I & C \gamma/(\omega+\gamma) & 0 \\ \noalign{\medskip}
+\omega(\omega+\gamma) p_I \hat F_I & \omega^2 p_I \hat F_I & C \omega/(\omega+\gamma) & C
 \end {array} \right],
 \end{align}
-where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)F_I \big) (\omega+\gamma)$. Note that all the columns of matrix $V^{-1}$ summ up to $C$.
+where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I \big) (\omega+\gamma)$ and $\hat F_I$ is the \percap testing rate for the infected people and represented in Eq. \eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
 
-The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as the following block matrix.
+The particular form of $F$ with two rows of zeros at the bottom results in the following blocked form of matrix $G$.
 \begin{equation}
 \label{mat:G}
 G = \left[ \begin {array}{cc}
@@ -347,51 +349,60 @@ G_{11}&G_{12}\\
 0&0
 \end {array} \right],
 \end{equation}
-where the 2 by 2 submatrix $G_{11}$ is 
+where both blocked matricies $G_{11}$ and $G_{12}$ are 2 by 2. Given the upper triangular form of matrix $G$, the basic reproduction number $\Rnum$ (defined as the spectral radius of matrix $G$) is only determined by the blocked matrix $G_{11}$,
 \begin{equation}
 \label{G11}
 G_{11} = \frac{\beta}{\gamma \, C} 
-\left[ \begin {array}{c}  x\_n^* \\ x\_u^*  \end {array} \right]
+\left[ \begin {array}{c} (\omega-\rho)/\omega \\ \rho/\omega \end {array} \right]
 \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right]
 \left[ \begin {array}{cc}
 \gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)\\ \noalign{\medskip}
-\gamma(\omega+\gamma)(1-p_I)F_I & \gamma(\omega+\gamma)(F_I+\gamma) \\ \noalign{\medskip}
-\gamma(\omega+\gamma) p_I F_I & \gamma\omega p_I F_I \\ \noalign{\medskip}
-\omega(\omega+\gamma) p_I F_I & \omega^2 p_I F_I
+\gamma(\omega+\gamma)(1-p_I)\hat F_I & \gamma(\omega+\gamma)(\hat F_I+\gamma) \\ \noalign{\medskip}
+\gamma(\omega+\gamma) p_I \hat F_I & \gamma\omega p_I \hat F_I \\ \noalign{\medskip}
+\omega(\omega+\gamma) p_I \hat F_I & \omega^2 p_I \hat F_I
 \end {array} \right].
 \end{equation}
+It is notable that matrix $F$ \eqref{FV} has rank one and consequently $G_{11}$ does so. That is $G_{11}$ has only one non-zero eigenvalue which is $\Rnum$.
 
-It is notable that matrix $F$ \eqref{FV} and consequently $G_{11}$ have rank one. That is $G_{11}$ has only one non-zero eigenvalue which we refer to it the basic reproduction number $\Rnum$ (defined as the spectral radius of $G$). Also the block matrix $G_{12}$ does not influence $\Rnum$ and all $S\_u$'s and $S\_n$'s are evaluated at the DFE \eqref{dfe} in matrix $F$ \eqref{FV} and the block matrix $G_{11}$ \eqref{mat:G}.
+The expression of $\Rnum$ has a complicated form with all of the model parameters involved. This expression can be simplifed and represented given the specific form of matrix $G_{11}$ \eqref{G11}. For the purpose of simplicity we present $\Rnum$ in the manuscript in terms of expressions $A$, $B$ and $C$, specified in \eqref{eq:abc}. This is intended to show that $\Rnum$ decreases as the strength of isolation, shown by $\theta\_w$ and $\theta\_c$, increases.
 
-$\Rnum$ has a complicated expression and depend on the type of analysis, the expression can be simplifed and presented accordingly. For the purpose of simplicity we present $\Rnum$ in the manuscript in terms of expressions $A$, $B$ and $C$, specified in \eqref{eq:abc}. This is intended to show that $\Rnum$ decreases as the strength of isolation, shown by $\theta\_w$ and $\theta\_c$, increases.
-
-It remains hard to show the reduction of $\Rnum$ with respect to \percap testing intensity, $\rho$, and the speed of the test return, $\omega$, for the feasible ranges of the parameters, i.e., $\omega>0$, $0 \leq \rho<\omega$, $0 \leq \theta\_w \leq \theta\_c \leq 1$ and $\frac{w_I}{w_S}\geq 1$. One easy way to do such an analysis is based on the fact that $\rho$ is \percap rate so for a large population size, $N_0 \gg 1$, $\rho$ is very small or close to 0, comparing to $N_0$. This provides a base to linearly approximate $\Rnum$ when $\rho$ is close to 0, and use this approximation to analyze the behaviour of $\Rnum$ with respect to $\omega$ (see section \ref{taylor}). In the next section we provide an equivalent representation of $\Rnum$ for our model to provide to follow proving that more testing intensity decreases $\Rnum$ for a general rane of parameters.  
+It remains hard to show that the reproduction number $\Rnum$ is decreasing with respect to \percap testing intensity, $\rho$, and the speed of the test return, $\omega$, for the feasible ranges of the parameters, that is
+\begin{align}
+\label{cond}
+& \omega>0, \\
+& 0 \leq \rho<\omega,\\ 
+& 0 \leq \theta\_w \leq \theta\_c \leq 1, \\
+& \frac{w_I}{w_S}\geq 1.
+\end{align}
+One way to do such an analysis is based on the fact that $\rho$ is \percap rate so for a large population size, $N_0 \gg 1$, $\rho$ is very small or close to 0, comparing to $N_0$. This provides a base to linearly approximate $\Rnum$ when $\rho$ is close to 0, and use this approximation to analyze the behaviour of $\Rnum$ with respect to $\omega$ (see section \ref{taylor}). 
+In the next section we provide an equivalent representation of $\Rnum$ to provide a ground to prove that more testing intensity decreases $\Rnum$ for a general rane of parameters.  
 
 % %%%%%%%
 \subsection{More testing intensity decreases $\Rnum$}
 
-This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}.
-
-Another representation of matrix $G_{11}$ in \eqref{G11} is as follows.
+This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
-\left[ \begin {array}{c}  x\_n^* \\ x\_u^*  \end {array} \right]
+\left[ \begin {array}{c}  (\omega-\rho)/\omega \\ \rho/\omega  \end {array} \right]
 \left[ \begin {array}{cccc} 
 C-C_1, C-C_1-C_2\end {array} \right],
 \end{equation}
-where $C$ is in Eq. \eqref{eq:abc}, and $C_1$ and $C_2$ are 
+where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e.,
+$$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,\hat F_I),$$
+and $C_1$ and $C_2$ are 
 \begin{align}
 \label{eq:C12}
-C =& (\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,F_I)\\
-C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) F_I,\\
-C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,p_I\,F_I.
+C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
+C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,p_I\,\hat F_I,
 \end{align}
-$\Rnum$ is in the same form as in Eq. \eqref{R0}  $$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
-with equivalent but simplified $\Delta$ as
+where $\hat F_I$ is given in Eq. \eqref{eq:fi}.
+$\Rnum$ is in the same form as in Eq. \eqref{R0}  
+$$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
+with equivalent but simplified $\Delta$ in Eq. \eqref{eq:abc} as
 \begin{equation}
 \label{eq:del2}
-\Delta= \frac{C_1+C_2\,x\_n^*}{C}.
+\Delta= \frac{C_1+C_2\,\rho/\omega}{C}.
 \end{equation}
 The behavior of $\Rnum$ with respect to $\rho$ is determine by $\pro \Delta$
 \begin{align}
@@ -412,15 +423,8 @@ and $D_1$ and $D_2$ as
 D_1=& (\omega+\gamma)\gamma\theta\_w+(\theta\_c-\theta\_w)\omega^2\,p_I\,\frac{w_I}{w_S}, \\
 D_2=& (\omega\,\frac{w_I}{w_S}+\gamma)\gamma\theta\_w+\omega^2\,p_I\,\frac{w_I}{w_S}\,\theta\_c.
 \end{align}
-Note the following conditionbs and assumptions of the parameters of the model;
-\begin{align}
-\label{cond}
-& \omega>0, \\
-& 0 \leq \rho<\omega,\\ 
-& 0 \leq \theta\_w \leq \theta\_c \leq 1, \\
-& \frac{w_I}{w_S}\geq 1.
-\end{align}
-Given the parameter restrictions, we would like to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}. Thus, it is important to know the sign of the coefficients $a$, $b$ and $c$ of the polynomial in Eq. \eqref{eq:dd2dr}. Note that with scaler $d>0$, it has no effect on the sign of $\pro \Delta$. Since $D_1\geq 0$ and $D_2\geq 0$, $b\geq 0$ and $c\geq 0$, sign of $a$ depends on the interplay between the involved parameters. Note that $D_1 \leq D_2$. (\todo{still working on}).
+
+Given the parameter restrictions \ref{cond}, we would like to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}. Thus, it is important to know the sign of the coefficients $a$, $b$ and $c$ of the polynomial in Eq. \eqref{eq:dd2dr}. Note that with scaler $d>0$, it has no effect on the sign of $\pro \Delta$. Since $D_1\geq 0$ and $D_2\geq 0$, $b\geq 0$ and $c\geq 0$, sign of $a$ depends on the interplay between the involved parameters. Note that $D_1 \leq D_2$.
 
 
 % %%%%%%%
