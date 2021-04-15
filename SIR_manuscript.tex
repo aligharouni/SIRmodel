@@ -426,6 +426,13 @@ D_2=& (\omega\,\frac{w_I}{w_S}+\gamma)\gamma\theta\_w+\omega^2\,p_I\,\frac{w_I}{
 
 Given the parameter restrictions \ref{cond}, we would like to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}. Thus, it is important to know the sign of the coefficients $a$, $b$ and $c$ of the polynomial in Eq. \eqref{eq:dd2dr}. Note that with scaler $d>0$, it has no effect on the sign of $\pro \Delta$. Since $D_1\geq 0$ and $D_2\geq 0$, $b\geq 0$ and $c\geq 0$, sign of $a$ depends on the interplay between the involved parameters. Note that $D_1 \leq D_2$.
 
+We are able to prove that $\pro \Rnum \leq 0$ in the following special cases. This is mainly by simplifying matrix $G_{11}$ in \eqref{G11}.\\
+{\bf Case 1; $\theta\_w=\theta\_c=0$}, that is no isolation effectiveness. In this case $\Rnum=\beta/\gamma$ and thus $\pro\Rnum=0$. \\
+{\bf Case 2; $\theta\_w=\theta\_c=1$}, that is the maximum isolation strength. In this case the row vector in matrix $G_{11}$ representation in \eqref{G11} will be $(1,0,0,0)$, thus
+$\Rnum = \frac{\beta (\omega+\gamma)}{C} (\omega + \gamma x\_u^*)$. As both $x\_u^*$ and $1/C$ are decreasing functions of $\rho$ and so does their product, thus $\Rnum$ decreases with respect to $\rho$.\\
+{\bf Case 3; $\theta\_w=0, \theta\_c=1$}, after simplification
+$$\Rnum=\Big(\frac{\beta}{\gamma(\omega+\gamma)+(\omega p_I+\gamma)\hat F_I} \Big)
+\Big((\omega+\gamma) +(1+\frac{\omega p_I}{(\omega+\gamma)}x\_n^*) \hat F_I\Big).$$
 
 % %%%%%%%
 \subsection{rate of returning tests} \label{taylor}
