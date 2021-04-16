@@ -194,8 +194,8 @@ See the appendix for details.
 \begin{enumerate}
 \item \label{p1:eta} increasing the isolation parameters for tested and confirmed individuals decreases \Rnum;
 $$\partial{\Rnum}/\partial{\theta\_c} \leq 0 \text{~and~} \partial{\Rnum}/\partial{\theta\_w} \leq 0.$$ 
-\item \label{p1:rho} a higher rate of testing decreases $\Rnum$;
-$$\partial{\Rnum}/\partial{\rho} \leq 0.$$
+\item \label{p1:rho} a higher rate of testing may increase or decrease $\Rnum$;
+$$\partial{\Rnum}/\partial{\rho}$$ \text{~can be positive or negative}.
 \item \label{p1:omega} A higher rate of of test return may increase or decrease \Rnum.
 $$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative}.$$
 \end{enumerate}
@@ -378,9 +378,9 @@ One way to do such an analysis is based on the fact that $\rho$ is \percap rate 
 In the next section we provide an equivalent representation of $\Rnum$ to provide a ground to prove that more testing intensity decreases $\Rnum$ for a general rane of parameters.  
 
 % %%%%%%%
-\subsection{More testing intensity decreases $\Rnum$}
+\subsection{More testing intensity may decreases $\Rnum$}
 
-This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
+This is to provide a mathematical materials to prove that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
@@ -398,41 +398,52 @@ C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,\omega\,p
 \end{align}
 where $\hat F_I$ is given in Eq. \eqref{eq:fi}.
 $\Rnum$ is in the same form as in Eq. \eqref{R0}  
-$$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
-with equivalent but simplified $\Delta$ in Eq. \eqref{eq:abc} as
+$$\Rnum= \frac{\beta}{\gamma} (1-\Delta).$$
+
+Let define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, thus
 \begin{equation}
-\label{eq:del2}
-\Delta= \frac{C_1+C_2\,\rho/\omega}{C}.
+\label{eq:phi}
+\rho=\frac{\omega \phi}{\omega+\phi}.
 \end{equation}
-The behavior of $\Rnum$ with respect to $\rho$ is determine by $\pro \Delta$
+Substituding in $\rho$ in the expression of $\Rnum$, in Eq.\,\eqref{R0}, and applying the derivative with respect to $\phi$ results in the following simplified expression for $\partial\Delta/\partial\phi$.
+
+with an equivalent but simplified $\Delta$ in Eq.\,\eqref{eq:abc} as
+\begin{equation}
+\label{eq:del3}
+\Delta= \frac{K_1\,\phi^2+K_2\,\phi}{K_3},
+\end{equation}
+where
 \begin{align}
-\label{eq:dd2dr}
-\pro \Delta=& \frac{1}{d} (a\,\rho^2-b\,\rho+c),
+\label{eq:K}
+K_1=& \frac{w_I}{w_S}\Big(((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big), \\
+K_2=& (\omega+\gamma)\Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+K_3=& (\omega+\gamma) \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)(\omega+\phi).
+\end{align}
+The derivative is
+\begin{align}
+\label{eq:dd3dr}
+\partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
 \end{align}
 where
 \begin{align}
-\label{eq:abcd}
-a=& ((\omega+\gamma)\gamma -\omega \frac{w_I}{w_S} (\omega\,p_I+\gamma)) D_1,\\
-b=& 2\gamma\omega(\omega+\gamma) D_1,\\
-c=& \omega^2 (\omega+\gamma)^2 D_2, \\
-d=& \frac{\omega}{\gamma}(\omega+\gamma)\Big( \big( \gamma(\omega+\gamma)-\omega \frac{w_I}{w_S}(\omega\,p_I+\gamma)\big) \rho-\omega\gamma(\omega+\gamma) \Big)^2,
-\end{align}
-and $D_1$ and $D_2$ as 
-\begin{align}
-\label{eq:D1D2}
-D_1=& (\omega+\gamma)\gamma\theta\_w+(\theta\_c-\theta\_w)\omega^2\,p_I\,\frac{w_I}{w_S}, \\
-D_2=& (\omega\,\frac{w_I}{w_S}+\gamma)\gamma\theta\_w+\omega^2\,p_I\,\frac{w_I}{w_S}\,\theta\_c.
+\label{eq:abcd2}
+a_3=& \frac{w_I}{w_S} \Big( (1+\gamma)(\theta\_w-\theta\_c)\frac{w_I}{w_S}\omega\,p_I+ (\gamma\theta\_w+\omega\,p_I\theta\_c)(\omega+\gamma) \Big),\\
+b_3=& 2\frac{w_I}{w_S}(\omega+\gamma)\Big( ((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big) ,\\
+c_3=& (\omega+\gamma)^2 \Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+d_3=& \frac{(\omega+\gamma)}{\omega\gamma} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2. 
 \end{align}
 
-Given the parameter restrictions \ref{cond}, we would like to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}. Thus, it is important to know the sign of the coefficients $a$, $b$ and $c$ of the polynomial in Eq. \eqref{eq:dd2dr}. Note that with scaler $d>0$, it has no effect on the sign of $\pro \Delta$. Since $D_1\geq 0$ and $D_2\geq 0$, $b\geq 0$ and $c\geq 0$, sign of $a$ depends on the interplay between the involved parameters. Note that $D_1 \leq D_2$.
+Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
+If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$. 
+If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this scenario occures when $\theta\_w=0$ and $\theta\_c=1$, thus $\theta\_w-\theta\_c=-1$, this is when the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case 
+\begin{equation}
+\label{ineq:a3}
+a_3 <0 \iff \omega+\gamma<(1+\gamma)\frac{w_I}{w_S}.
+\end{equation}
+Given that $\frac{w_I}{w_S}\geq 1$, the sufficient condition for this inequality to be held is 
+$\omega < \frac{w_I}{w_S}$.
+This can be visualized in the top-right panel of the Fig.\,\ref{pan2} panel (b).
 
-We are able to prove that $\pro \Rnum \leq 0$ in the following special cases. This is mainly by simplifying matrix $G_{11}$ in \eqref{G11}.\\
-{\bf Case 1; $\theta\_w=\theta\_c=0$}, that is no isolation effectiveness. In this case $\Rnum=\beta/\gamma$ and thus $\pro\Rnum=0$. \\
-{\bf Case 2; $\theta\_w=\theta\_c=1$}, that is the maximum isolation strength. In this case the row vector in matrix $G_{11}$ representation in \eqref{G11} will be $(1,0,0,0)$, thus
-$\Rnum = \frac{\beta (\omega+\gamma)}{C} (\omega + \gamma x\_u^*)$. As both $x\_u^*$ and $1/C$ are decreasing functions of $\rho$ and so does their product, thus $\Rnum$ decreases with respect to $\rho$.\\
-{\bf Case 3; $\theta\_w=0, \theta\_c=1$}, after simplification
-$$\Rnum=\Big(\frac{\beta}{\gamma(\omega+\gamma)+(\omega p_I+\gamma)\hat F_I} \Big)
-\Big((\omega+\gamma) +(1+\frac{\omega p_I}{(\omega+\gamma)}x\_n^*) \hat F_I\Big).$$
 
 % %%%%%%%
 \subsection{rate of returning tests} \label{taylor}
@@ -524,20 +535,20 @@ To state an example of this, if test $A$ is three times as expensive as test $B$
 \begin{subfigure}[t]{.45\textwidth}
 \centering
 \includegraphics[width=\linewidth]{codes/R0contour_random_rho.5.pdf}
-\caption{}\label{p.a}
+\caption{}
 \end{subfigure}
 %
 \begin{subfigure}[t]{.45\textwidth}
 \centering
 \includegraphics[width=\linewidth]{codes/R0contour_TTI_rho.5.pdf}
-\caption{}\label{p.b}
+\caption{}
 \end{subfigure}
 \caption{
 {\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
 We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
 $N_0=1 \times 10^6$, $\omega \in [0.5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.5]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
 }
-\label{pan}
+\label{pan2}
 \end{figure}
 
 

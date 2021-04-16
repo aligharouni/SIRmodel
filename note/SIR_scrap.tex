@@ -1,0 +1,452 @@
+\documentclass[12pt]{article}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{grffile}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage[nameinlink,capitalize]{cleveref}
+\usepackage{cleveref}
+\usepackage[margin=1in]{geometry}
+\usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
+\usepackage{pdflscape}
+
+% https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\usepackage{xspace}
+
+\newcommand{\Rlogo}{R\xspace}
+\newcommand{\percap}{\emph{per capita}\xspace}
+\newcommand{\Rnum}{\mathcal{R}_0}
+\newcommand{\covid}{COVID-19\xspace}
+
+\newcommand*\subtxt[1]{_{\textnormal{#1}}}
+\DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
+
+\newcommand{\comment}{\showcomment}
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
+\newcommand{\nocomment}[3]{}
+
+\newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
+\newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
+\newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
+\newcommand{\david}[1]{\comment{red}{DJDE}{#1}}
+\newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
+\newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
+
+\theoremstyle{definition} % amsthm only
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+
+\bibliographystyle{apalike}
+
+\title{Testing and Isolation Efficacy: Insights from a Simple Epidemic Model}
+
+\begin{document}
+\maketitle
+
+\linenumbers
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+Old component equation for $\Rnum$;
+\begin{equation}
+\label{R0}
+\Rnum= \frac{\beta}{\gamma} (1-\Delta),
+\end{equation}
+where
+\begin{equation}
+\begin{aligned}
+\label{eq:abc}
+\Delta=& 1-(A~ S\_u^* + B~ S\_n^*)~ C\\
+A=& \gamma(\omega+\gamma) + (\gamma \eta\_w + \omega \eta\_c p_I) F_I, \\
+B=& \big(\omega+(F_I+\gamma)\eta\_w\big) \gamma+\frac{(\eta\_w \gamma+ \eta\_c\omega) \omega p_I F_I }{\omega+\gamma}, \\
+C=& \frac{1}{N_0 (\gamma(\omega+\gamma)+F_I(\gamma+\omega p_I))}.
+\end{aligned}
+\end{equation}
+
+\begin{align}
+\label{FV}
+F =& \beta/N_0 \left[ \begin {array}{cccc} 
+S\_u&(1-\theta\_w)\,S\_u&(1-\theta\_w)\,S\_u&(1-\theta\_c)\,S\_u\\
+S\_n&(1-\theta\_w)\,S\_n&(1-\theta\_w)\,S\_n&(1-\theta\_c)\,S\_n\\ 
+0&0&0&0\\
+0&0&0&0
+ \end {array} \right], \\
+  V =&
+ \left[ \begin {array}{cccc}  
+F_I+\gamma&-\omega&0&0\\
+-(1-p_I)F_I&\omega+\gamma&0&0\\
+-p_I F_I&0&\omega+\gamma&0\\
+0&0&-\omega&\gamma
+\end {array} \right], \text{thus}\\
+V^{-1} =&
+\left[ \begin {array}{cccc}
+\frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
+\noalign{\medskip}
+\frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}&
+\frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
+\frac{\omega}{(\omega+\gamma) \gamma}&
+\frac{1}{\gamma}
+\end {array} \right],
+\end{align}
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+
+\bibliography{../SIRlibrary}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+% \widetext
+\begin{center}
+\textbf{\large Appendix}
+\end{center}
+%%%%%%%%%% Merge with supplemental materials %%%%%%%%%%
+%%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{page}{1}
+\makeatletter
+\renewcommand{\theequation}{A\arabic{equation}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\renewcommand{\bibnumfmt}[1]{[A#1]}
+\renewcommand{\citenumfont}[1]{A#1}
+%%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
+
+\subsection{Model and calculation of $\Rnum$}
+
+The model in the form of a system of ordinary differential equations is 
+\begin{subequations}\label{model}
+\begin{align}
+ d S\_u/dt &= -\Lambda S\_u - F_S S\_u + \omega S\_n, \\
+ d S\_n/dt &= -\Lambda S\_n + (1-p_S) F_S S\_u - \omega S\_n, \\
+ d S\_p/dt &= -\Lambda S\_p + p_S F_S S\_u - \omega S\_p, \\
+ d S\_c/dt &= -\Lambda S\_c + \omega S\_p, \\
+ d I\_u/dt &= \Lambda S\_u - F_I I\_u + \omega I\_n  - \gamma I\_u, \\
+ d I\_n/dt &= \Lambda S\_n + (1-p_I) F_I I\_u - \omega I\_n -\gamma I\_n, \\
+ d I\_p/dt &= \Lambda S\_p + p_I F_I I\_u - \omega I\_p -\gamma I\_p, \\
+ d I\_c/dt &= \Lambda S\_c + \omega I\_p - \gamma I\_c, \\
+ d R\_u/dt &= \gamma I\_u - F_R R\_u + \omega R\_n, \\
+ d R\_n/dt &= \gamma I\_n + (1-p_R) F_R R\_u - \omega R\_n, \\
+ d R\_p/dt &= \gamma I\_p + p_R F_R R\_u  - \omega R\_p, \\
+ d R\_c/dt&= \gamma I\_c + \omega R\_p, \\
+ dN/dt &= \omega (S\_n + I\_n + R\_n),  \\
+ dP/dt &= \omega(I\_p + R\_p) ,
+\end{align}
+\end{subequations}
+
+where parameters are specified in Table \ref{tab:params}. The next generation matrix for this model is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susceptible. 
+Matrices $F$ and $V$ are \ali{all $S\_u \& S\_n$ should be $S\_u^* \& S\_n^*$}
+\begin{align}
+\label{FV}
+F =& \beta/N_0 \left[ \begin {array}{cccc} 
+S\_u&\eta\_w\,S\_u&\eta\_w\,S\_u&\eta\_c\,S\_u\\
+S\_n&\eta\_w\,S\_n&\eta\_w\,S\_n&\eta\_c\,S\_n\\ 
+0&0&0&0\\
+0&0&0&0
+ \end {array} \right], \\
+  V =&
+ \left[ \begin {array}{cccc}  
+F_I+\gamma&-\omega&0&0\\
+-(1-p_I)F_I&\omega+\gamma&0&0\\
+-p_I F_I&0&\omega+\gamma&0\\
+0&0&-\omega&\gamma
+\end {array} \right], \text{thus}\\
+V^{-1} =&
+\left[ \begin {array}{cccc}
+\frac {\omega+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&\frac {\omega}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{(1-p_I) F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{F_I+\gamma}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&0&0\\
+\noalign{\medskip}
+\frac{p_I F_I}{\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I}&
+\frac{\omega p_I F_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma)}& \frac{1}{\omega+\gamma}&0 \\
+\noalign{\medskip}
+\frac{\omega\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I) \gamma}& 
+\frac{\omega^2\,F_I\,p_I}{(\omega\,\gamma+\gamma F_I+\gamma^2+\omega\, F_I p_I)(\omega+\gamma) \gamma}&
+\frac{\omega}{(\omega+\gamma) \gamma}&
+\frac{1}{\gamma}
+\end {array} \right].
+\end{align}
+
+The particular form of $F$ with two rows of zeros at the bottom, simplifies $G$ as 
+\begin{equation}
+\label{mat:G}
+G = \left[ \begin {array}{cc}
+G_{11}&G_{12}\\
+0&0
+\end {array} \right], \text{ where } \\
+G_{11} = \frac{\beta}{\gamma}\ C
+\left[\begin {array}{cc}
+A\,S\_u & B\,S\_u\\
+A\,S\_n & B\,S\_n
+\end {array}\right],
+\end{equation}
+with expressions $A$, $B$ and $C$ are specified in \eqref{eq:abc}.
+The block matrix $G_{12}$ does not influence $\Rnum$ (defined as the spectral radius of $G$). All that matters here are the eigenvalues of $G_{11}$, which are 0 and $\Rnum$ \eqref{R0}.
+Also note that, all $S\_u$'s and $S\_n$'s are evaluated at the DFE \eqref{dfe} in matrix $F$ \eqref{FV} and the block matrix $G_{11}$ \eqref{mat:G}.
+
+% %%%%%%%
+\subsection{On Testing Rate and Numerical Singularity}
+
+In this work, we didn't do any numerical solutions for the trajectories in our analysis. However, if one tries to do so there would be a singularity issue to deal with. 
+Specifically, the numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S\_u$. Thus, the first equation of the model \eqref{model} will become
+$d S\_u/dt = - \rho N_0 + \omega S\_n$. Thus changes in $S\_u$ will be no longer dependent on $S\_u$ with a linear rate of leaving the $S\_u$ compartment.
+IN fact the testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there.
+One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
+
+% %%%%%%%
+\subsection{More testing intensity decreases $\Rnum$}
+
+This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
+\begin{equation}
+\label{G112}
+G_{11} = \frac{\beta}{\gamma \, C} 
+\left[ \begin {array}{c}  (\omega-\rho)/\omega \\ \rho/\omega  \end {array} \right]
+\left[ \begin {array}{cccc} 
+C-C_1, C-C_1-C_2\end {array} \right],
+\end{equation}
+where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e.,
+$$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,\hat F_I),$$
+and $C_1$ and $C_2$ are 
+\begin{align}
+\label{eq:C12}
+C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
+C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,\omega\,p_I\,\hat F_I,
+\end{align}
+where $\hat F_I$ is given in Eq. \eqref{eq:fi}.
+$\Rnum$ is in the same form as in Eq. \eqref{R0}  
+$$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
+with equivalent but simplified $\Delta$ in Eq. \eqref{eq:abc} as
+\begin{equation}
+\label{eq:del2}
+\Delta= \frac{C_1+C_2\,\rho/\omega}{C}.
+\end{equation}
+The behavior of $\Rnum$ with respect to $\rho$ is determine by $\pro \Delta$
+\begin{align}
+\label{eq:dd2dr}
+\pro \Delta=& \frac{1}{d} (a\,\rho^2-b\,\rho+c),
+\end{align}
+where
+\begin{align}
+\label{eq:abcd}
+a=& ((\omega+\gamma)\gamma -\omega \frac{w_I}{w_S} (\omega\,p_I+\gamma)) D_1,\\
+b=& 2\gamma\omega(\omega+\gamma) D_1,\\
+c=& \omega^2 (\omega+\gamma)^2 D_2, \\
+d=& \frac{\omega}{\gamma}(\omega+\gamma)\Big( \big( \gamma(\omega+\gamma)-\omega \frac{w_I}{w_S}(\omega\,p_I+\gamma)\big) \rho-\omega\gamma(\omega+\gamma) \Big)^2,
+\end{align}
+and $D_1$ and $D_2$ as 
+\begin{align}
+\label{eq:D1D2}
+D_1=& (\omega+\gamma)\gamma\theta\_w+(\theta\_c-\theta\_w)\omega^2\,p_I\,\frac{w_I}{w_S}, \\
+D_2=& (\omega\,\frac{w_I}{w_S}+\gamma)\gamma\theta\_w+\omega^2\,p_I\,\frac{w_I}{w_S}\,\theta\_c.
+\end{align}
+
+Given the parameter restrictions \ref{cond}, we would like to determine the sign pattern of $\pro \Delta$ given the quadratic form of it in Eq. \eqref{eq:dd2dr}. Thus, it is important to know the sign of the coefficients $a$, $b$ and $c$ of the polynomial in Eq. \eqref{eq:dd2dr}. Note that with scaler $d>0$, it has no effect on the sign of $\pro \Delta$. Since $D_1\geq 0$ and $D_2\geq 0$, $b\geq 0$ and $c\geq 0$, sign of $a$ depends on the interplay between the involved parameters. Note that $D_1 \leq D_2$.
+
+We are able to prove that $\pro \Rnum \leq 0$ in the following special cases. This is mainly by simplifying matrix $G_{11}$ in \eqref{G11}.\\
+{\bf Case 1; $\theta\_w=\theta\_c=0$}, that is no isolation effectiveness. In this case $\Rnum=\beta/\gamma$ and thus $\pro\Rnum=0$. \\
+{\bf Case 2; $\theta\_w=\theta\_c=1$}, that is the maximum isolation strength. In this case the row vector in matrix $G_{11}$ representation in \eqref{G11} will be $(1,0,0,0)$, thus
+$\Rnum = \frac{\beta (\omega+\gamma)}{C} (\omega + \gamma x\_u^*)$. As both $x\_u^*$ and $1/C$ are decreasing functions of $\rho$ and so does their product, thus $\Rnum$ decreases with respect to $\rho$.\\
+{\bf Case 3; $\theta\_w=0, \theta\_c=1$}, after simplification
+$$\Rnum=\Big(\frac{\beta}{\gamma(\omega+\gamma)+(\omega p_I+\gamma)\hat F_I} \Big)
+\Big((\omega+\gamma) +(1+\frac{\omega p_I}{(\omega+\gamma)}x\_n^*) \hat F_I\Big).$$
+
+% %%%%%%%
+\subsubsection{Substituting $\rho$ by $\phi$}
+Let define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, thus
+\begin{equation}
+\label{eq:phi}
+\rho=\frac{\omega \phi}{\omega+\phi}.
+\end{equation}
+Substituding in $\rho$ in the expression of $\Rnum$, in Eq.\,\eqref{R0}, and applying the derivative with respect to $\phi$ results in the following simplified expression for $\partial\Delta/\partial\phi$.
+
+\begin{equation}
+\label{eq:del3}
+\Delta= \frac{K_1\,\phi^2+K_2\,\phi}{K_3},
+\end{equation}
+where
+\begin{align}
+\label{eq:K}
+K_1=& \frac{w_I}{w_S}\Big(((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big), \\
+K_2=& (\omega+\gamma)\Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+K_3=& (\omega+\gamma) \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)(\omega+\phi).
+\end{align}
+The derivative is
+\begin{align}
+\label{eq:dd3dr}
+\partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
+\end{align}
+where
+\begin{align}
+\label{eq:abcd2}
+a_3=& \frac{w_I}{w_S} \Big( (1+\gamma)(\theta\_w-\theta\_c)\frac{w_I}{w_S}\omega\,p_I+ (\gamma\theta\_w+\omega\,p_I\theta\_c)(\omega+\gamma) \Big),\\
+b_3=& 2\frac{w_I}{w_S}(\omega+\gamma)\Big( ((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big) ,\\
+c_3=& (\omega+\gamma)^2 \Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+d_3=& \frac{(\omega+\gamma)}{\omega\gamma} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2. 
+\end{align}
+
+Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
+If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$. 
+If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this scenario occures when $\theta\_w=0$ and $\theta\_c=1$, thus $\theta\_w-\theta\_c=-1$, this is when the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case 
+\begin{equation}
+\label{ineq:a3}
+a_3 <0 \iff \omega+\gamma<(1+\gamma)\frac{w_I}{w_S}.
+\end{equation}
+Given that $\frac{w_I}{w_S}\geq 1$, the sufficient condition for this inequality to be held is 
+$\omega < \frac{w_I}{w_S}$.
+This can be visualized in the top-right panel of the Fig.\,\ref{pan2} panel (b).
+
+
+% %%%%%%%
+\subsection{Taylor Approximation of $\Rnum$ at $\rho=0$ }
+
+The basic reproduction number, $\Rnum$, close to $\rho=0$ can be approximated linearly in $\rho$ by using Taylor approximation. it follows
+\begin{equation}
+\label{eq:R0appr}
+\Rnum \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 w_S} \Big(\gamma(\eta\_w-1)(\gamma w_S+\omega w_I) + (\eta\_c -1)p_I w_I \omega^2 \Big) + \mathcal{O}(\rho^2).
+\end{equation}
+
+Also, to analyze the influence of $\omega$ on $\Rnum$, the approximation \eqref{eq:R0appr} was used. Then it is straight forward to have
+\begin{equation}
+\label{Rom}
+\partial{\Rnum}/\partial{\omega}=  \frac{-\beta \rho}{\gamma w_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),
+\end{equation}
+where $a=(\eta\_w-1)w_I-(\eta\_c-1)p_I w_I = ((s-p_I)\eta\_c + (p_I-1)) w_I$, $b=2(\eta\_w-1)\gamma w_S$ and $c=(\eta\_w-1)\gamma^2 w_S$.
+Given that $0 \leq \eta\_c\leq \eta\_w \leq 1 $, one can easily derive $b\leq 0$ and $c \leq 0$. 
+
+Note that in general, the necessary and sufficient condition for $a \geq 0$ is $(s-p_I) \eta\_c \geq (1-p_I)$, where $s=\frac{\eta\_w}{\eta\_c} \geq 1$. 
+
+In the case of ``perfect isolation'', i.e., when $\eta\_w=0$ and consequently $\eta\_c=0$, it is straightforward to see that $a \leq 0$, $b<0$ and $c<0$. Thus, $\partial{\Rnum}/\partial{\omega} \geq 0$. 
+As an example, in the case of a very accurate testing regime,  i.e., $P_I=1$, $a \geq 0$ is achieved. If $a\geq 0$, the quadratic expression in \eqref{Rom}, has Real roots. Assuming that $\omega_1<0$ and $\omega_2>0$ be the roots of the quadratic expression in $\partial{\Rnum}/\partial{\omega}$. Thus, $\partial{\Rnum}/\partial{\omega}>0$ for $0<\omega<\omega_2$ and  $\partial{\Rnum}/\partial{\omega}<0$ for $\omega>\omega_2$.
+
+% %%%%%%%
+\subsection{rate of returning tests} \label{taylor}
+\ali{needs editig}
+The linearization of $\Rnum$ around $\rho=0$ is
+\begin{equation}\label{linearization}
+\Rnum \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 w_S} \Big(\gamma(\eta\_w-1)(\gamma w_S+\omega w_I) + (\eta\_c -1)p_I w_I \omega^2 \Big). 
+\end{equation}
+So when $\rho \approx 0$ we have $$\partial{\Rnum}/\partial{\omega} \approx  \frac{-\beta \rho}{\gamma w_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),$$
+where $a=(\eta\_w-1)w_I-(\eta\_c-1)p_I w_I$, $b=2(\eta\_w-1)\gamma w_S$ and $c=(\eta\_w-1)\gamma^2 w_S$. 
+
+Perhaps counter-intuitively, the equation above does not predict that $\Rnum$ is monotone decreasing with respect to $\omega$. In other words; our model does not predict that returning test results more rapidly \textit{always} lower $\Rnum$. In order to gain insight into this intriguing behavior, we examine the zeroes of $\frac{\partial{\Rnum}}{\partial{\omega}}(\omega)$.
+Defining the following quantity, $Q$, will help us write the roots of $\partial{\Rnum}/\partial{\omega}$ neatly as follows.
+\begin{align}\label{eq:defQ}
+    Q =& \frac{w_I}{w_S}\left(1-\frac{n_t-1}{n_w-1}p_I \right).
+\end{align}
+With that in mind, we can write the roots of $\partial{\Rnum}/\partial{\omega}$ as
+\begin{align}
+    \omega_1 =& \frac{\gamma}{-\sqrt{1-Q}-1} \\
+    \omega_2 =& \frac{\gamma}{\sqrt{1-Q}-1}.
+\end{align}
+
+Note that the zeroes are real if and only if $Q < 1$. Note that have $\eta\_c < \eta\_w$, so if $P_i \approx 1$, we will have $Q < 0 < 1$. Thus, if we assume near-perfect test sensitivity, $\omega_1$ and $\omega_2$ will be real. 
+
+Assuming $\omega_1, \omega_2$ are real, it is easy to confirm that $\omega_1 < 0$ by looking at the denominator. To see that $\omega_2 > 0$, recall that $Q < 0$, so $\sqrt{1-Q} > 1$ and so $\sqrt{1-Q} -1 > 0$. Knowing that $\omega_1 < 0$, the only root of interest (i.e., biologically relevant quantity) is $\omega_2$. 
+
+We can prove that $\partial{\Rnum}/\partial{\omega} > 0$ when $\omega \in (0,\omega_2)$ and $\partial{\Rnum}/\partial{\omega} < 0$ when $\omega \in (\omega_2,\infty)$ by computing the limits of $\partial{\Rnum}/\partial{\omega}$ at $0$ and $\infty$ respectively. So it follows that $\Rnum$ has a global maximum with respect to $\omega$ at $\omega = \omega_2$.
+
+Now we want to characterize the parameter regions on which $\partial{\Rnum}/\partial{\omega} < 0$ (i.e., the conditions under which returning test results more rapidly is favorable). By the previous analysis, this is equivalent to solving for $\omega > \omega_2$. So
+\begin{align}
+    &\omega > \omega_2 \nonumber \\
+    &\omega > \frac{\gamma}{\sqrt{1-Q}-1} \nonumber \\
+    &\sqrt{1-Q} > \frac{\gamma}{\omega}+1 \\
+    &1-Q > (\frac{\gamma}{\omega}+1)^2.
+\end{align}
+Substituting in $Q$ from \eqref{eq:defQ} we have
+\begin{align}
+    &1-\frac{w_I}{w_S}\left(1-\frac{n_{t}-1}{n_{\omega}-1}P_{i}\right)> \left(\frac{\gamma}{\omega}+1\right)^2 \\
+    &-\frac{w_I}{w_S}\left(1-\frac{n_{t}-1}{n_{\omega}-1}P_{i}\right)> \left(\frac{\gamma}{\omega}+1\right)^2+1 \\    
+    &\frac{w_I}{w_S}\left(\frac{1-n_{t}}{1-n_{\omega}}P_{i}-1\right)> \left(\frac{\gamma}{\omega}+1\right)^2+1\label{eq:necsuf}.
+\end{align}
+Since all steps in deriving \eqref{eq:necsuf} are reversible, \eqref{eq:necsuf} gives a necessary and sufficient condition for $\omega > \omega_2$, which characterizes when returning tests more rapidly would cause a decrease in $\Rnum$.
+
+
+\subsection{Expensive vs.\ cheap tests}
+
+The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the \covid pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. In the analysis below, we compare the $\Rnum$ predicted by our model depending on the testing strategy. 
+
+Consider a test that allows us to test at rate $\rho_1$ and has sensitivity $P_{i,1}$, and another test that allows us to test at $\rho_2$ and has sensitivity $P_{i,2}$. Suppose that $\rho_1 > \rho_2$. Recall that the linearization of $\Rnum$ around $\rho \approx 0$ is given by $$\Rnum \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 w_S} \Big(\gamma(\eta\_w-1)(\gamma w_S+\omega w_I) + (\eta\_c -1)p_I w_I \omega^2 \Big).$$
+
+
+Treating $\Rnum$ as a function of $\rho$ and $P_i$,we can reduce the inequality $$\Rnum(\rho_2, p_{I,2}) < \Rnum(\rho_1, p_{I,1})$$ into 
+
+\begin{align}\label{eq:rho1vsrho2}
+    &\rho_1\left(\gamma(\eta\_w-1)(\gamma w_S + \omega w_I) + (\eta\_c-1)p_{I,1}w_I\omega^2\right) - \rho_2\left(\gamma(\eta\_w-1)(\gamma w_S + \omega w_I) + (\eta\_c-1)p_{I, 2}w_I\omega^2\right) > 0 \nonumber \\
+    &\vdots \nonumber \\
+    &\frac{\rho_2P_{i, 2}-\rho_1P_{i, 1} }{\rho_1-\rho_2} > \frac{1-\eta\_w}{1-\eta\_c}\cdot \frac{\gamma(\gamma w_S + \omega w_I)}{\omega^2 w_I}
+\end{align}
+
+Note that the RHS is positive, thus a necessary condition for the inequality above to hold is that $\rho_2P_{i,2} > \rho_1P_{i,1}$, equivalently 
+
+\begin{equation}
+\frac{P_{i,2}}{P_{i,1}} > \frac{\rho_1}{\rho_2}.
+\end{equation}
+
+To state an example of this, if test $A$ is three times as expensive as test $B$ (and hence one can test three times as many people with test $B$), using test $A$ rather than $B$ will be favorable only if test $A$ is at least 3 times more sensitive than test $B$. Note that this is a necessary but not sufficient condition, so even if test $A$ is three times more sensitive, it is still possible for test $B$ to be more effective. 
+
+\cref{eq:rho1vsrho2} tells us precisely when a test corresponding to $\rho_2, P_{i,2}$ will yield a lower $\Rnum$ than a test corresponding to $\rho_1, P_{i,1}$, where $\rho_1 > \rho_2$. Some of the qualitative \textit{trends} that favor test 2 (the higher-sensitivity test) include
+
+\begin{itemize}
+    \item individuals who test positive self-isolate much more than individuals who are waiting for their test result.
+    \item the time it takes to return tests is much shorter than the mean infectious period.
+    \item the testing intensity is much greater for infected individuals than susceptible individuals.
+\end{itemize}
+
+
+% %%%%%%%
+\subsection{Literature Review}
+
+\subsubsection{Explicit models of TTI (trace/test/isolate) based on network or agent-based models}
+\citep{endo2020implication} \ali{It seems to me that this is just a statistical model to estimate the parent-offspring of an infected index, not sure if it fits into agent-based group!} Used simulation on a branching process model to assess the forward and backward contact tracing efficiency. Assuming a negative-binomial branching process with a mean R, reproduction number, and overdispersion parameter k, the mean total number of generation G3 and averted G3 are estimated. The effectiveness of TTI is defined as the ratio of averted to the mean.
+
+\citep{jenness2020modeling} developed a network-based transmission model for SARS-CoV-2 on the Diamond Princess outbreak to characterize transmission dynamics and to estimate the epidemiological impact of outbreak control and prevention measures. 
+
+\citep{elbanna2020entry} [seems similar to MacPan model!]
+
+\citep{de2020influenza} Was discussed in the Math 747 
+SEIR Asymptomatic and symptomatic $I\_1, I\_2$. Used linear chain trick 
+Stringency index as a control force lowering $\beta$.
+
+\citep{rice2020effect} Effect of school closures on mortality. Reproduce Report 9 results by spatial agent based CovidSim. 
+% %%%%%%%
+\subsubsection{Models of repeated random testing of isolated populations}
+\cite{bergstrom2020frequency}
+(1) Model, assumptions: They developed a function, namely expected exposure $E(C,\tau)$, to approximate trade-offs between the frequency of testing, n, the sensitivity of testing, q, and the delay between
+testing and results, d. This function is explicitly derived and was connected the effective reproduction number $R=\Rnum S$, where $S$ is the proportion of population susceptible.
+assumption that transmission rates are a step function: individuals who
+have \covid go from non-infectious to fully infectious instantaneously,
+and remain fully infectious until they are no longer able to transmit disease. Test sensitivity takes the same form over the course of infection.
+More sophisticated models could allow varying infectiousness and varying
+sensitivity over time, as in 
+\citep{larremore2020test}.
+
+\citep{lopman2020model} Used a Deterministic SEIR model, incorporated TTI, applicable to a university setting. They assumed a fairly high reproductive number that is not reduced through social
+distancing measures. They found that community-introduction of SARS-CoV-2 infection onto campus can be
+relatively controlled with effective testing, isolation, contract tracing and quarantine.
+
+\citep{tuite2020mathematical} used an age-structured compartmental model of \covid transmission in the population of Ontario, Canada. We compared a base case with limited testing, isolation and quarantine to different scenarios. 
+% %%%%%%%
+\subsubsection{Other maybe-related works}
+\citep{arino2020simple} developed a SLIAR compartmental model to study the spread of an epidemic, specifically COVID, in a population. The model incorporates an Erlang distribution of times of sojourn in incubating, symptomatically and asymptomatically infectious compartments. Basic reproduction number is derived. Also, sensitivity analysis with respect to the underlying parameters for the following two outputs was carried out; (i) the number of observable cases during the course of the epidemic and at the peak, and (ii) the timing of the peak of the outbreak. Sensitivity analysis is performed using the R package multisensi.
+
+\citep{ruszkiewicz2020diagnosis} novel with-in-a-minute breath testing with 80\% accuracy. 
+
+\end{document}
