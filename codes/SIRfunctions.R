@@ -1,4 +1,5 @@
 library(shellpipes)
+library(matlib)
 
 # Functions for the SIR model
 # By: A Gharouni
@@ -174,6 +175,29 @@ eval_R0 <- function(state=state_dfe,params){
                           ) 
           )
   return(df2)
+}
+
+Fi_hat<-function(params){
+  unpack(as.list(c(params)))
+  return(omega*rho/(omega-rho)*W_I/W_S)
+}
+
+eigvec_max<-function(params){
+  unpack(as.list(params))
+  Sn<-Sn_dfe(params)
+  Su<-Su_dfe(params)
+  Fi<-Fi_hat(params) 
+  colvec<-matrix(c(Sn,Su,0,0),4,1)  
+  rowvec<-matrix(c(1,eta_w,eta_w,eta_c),1,4)
+  Fmat<-beta/N0*colvec%*%rowvec
+  vmat<-matrix(c(Fi+gamma,-omega,0,0,
+                 (p_I-1)*Fi,omega+gamma,0,0,
+                 -p_I*Fi,0,omega+gamma,0,
+                 0,0,-omega,gamma
+  ),4,4,byrow = TRUE)
+  G<- Fmat %*% inv(vmat)
+  ev<-eigen(G)
+  return(ev$vectors[,which(ev$values>0)]) 
 }
 
 
