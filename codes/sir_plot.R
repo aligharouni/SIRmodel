@@ -25,10 +25,20 @@ n_in <- 41 ## grid N within facets
 W_S_random <- 1
 W_S_targeted <- 0.3 
 
-# make dataframe and save it, if it doesn't exists already.
-df_random <- eval_R0(params = update(params,W_S=W_S_random))
-df_targeted <- eval_R0(params = update(params,W_S=W_S_targeted))
+# make dataframe 
+# df_random <- eval_R0(params = update(params,W_S=W_S_random))
+# df_targeted <- eval_R0(params = update(params,W_S=W_S_targeted))
+df_random <- make_params_dat(params = params,
+                eta_ws=0,eta_we=1, ## so theta_w
+                eta_cs=0,eta_ce=1, ## so theta_c
+                omega_s=0.1,omega_e=2,
+                rho_s=0,rho_e=0.01)
 
+df_targeted <- make_params_dat(params = update(params,W_S=W_S_targeted),
+                eta_ws=0,eta_we=1, ## so theta_w
+                eta_cs=0,eta_ce=1, ## so theta_c
+                omega_s=0.1,omega_e=2,
+                rho_s=0,rho_e=0.01)
 ##important contour, ie R0=1 thus threshold=1 when plotting R0 contours, or Delta(R0=1)
 threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## Or 0?  corresponding to R0=1 
 # #################################
@@ -45,10 +55,6 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
   out[[1]] <- lapply(out[[1]], function(expr) c(parse(text=expr)))
   out
 }
-
-# verify the break range in brks_vec (FIXME)
- # mn <- min(df_random$Delta,df_targeted$Delta, na.rm = T)
- # mx <- max(df_random$Delta,df_targeted$Delta, na.rm = T) ## take mn and mx and set the brks_vec, smarter way?
 
 n_contour <- 8 ## number of desired contours or bins
 bins <- cut(sort(unique(c(df_random$Delta,df_targeted$Delta))), 
@@ -104,29 +110,4 @@ ggsave((p1_temp %+% df_targeted) +
        filename = "R0contour_TTI.pdf" ,
        width = 12, height = 12, units = "cm")
 
-# #################################
-# 3. Plot R0 as a function of rho (testing intensity):
-# #################################
-eta_w <- 0.5
-eta_c <- eta_w
-gamma <- 1/4
-W_S <- 1
-omega <- 10^6
-rho <- seq(0.5,1, length.out=100)
-f <- function(params){
-  unpack(as.list(params))
-  return(gamma*(W_S/W_I)*1/(sqrt(eta_w/gamma)-1))
-}
-f(params = update(params,c(eta_w=eta_w,eta_c=eta_c,
-                           gamma=gamma)))
 
-df1 <- expand.grid(N0=params[["N0"]],beta=params[["beta"]],gamma=gamma,
-                   omega=omega,rho=rho,
-                   W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-                   p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-                   eta_w=eta_w,eta_c=eta_c)
-df2<- data.frame(df1, R0=apply(df1,1,function(params_in)R0(params=params_in)),
-                      f=apply(df1,1,function(params_in)f(params = params_in)),
-                      S_u=apply(df1,1,function(params_in)Su_dfe(params = params_in))
-                )
-ggplot(df2,aes(x=rho,y=R0))+geom_point()

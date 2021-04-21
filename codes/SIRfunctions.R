@@ -112,18 +112,21 @@ run.sir <- function(model, params,state,sim_time){
 F_I <- function(state,params){
   # Returns F_I at the specified state
   unpack(as.list(c(state,params)))
-  
-  # sigma <- rho*N0/(W_S*Su) #at DFE 
   sig <- sigma(state,params)
   return(sig*W_I)
 }
+## Fi at DFE
+Fi_hat<-function(params){
+  unpack(as.list(params))
+  return(omega*rho/(omega-rho)*W_I/W_S)
+}
 
 # Basic Reproduction Number
-R0<-function(state=state_dfe,params){
+R0<-function(params){
   unpack(as.list(c(state,params)))
   Sn <- Sn_dfe(params)
   Su <- Su_dfe(params)
-  Fi <- F_I(state,params) #at DFE
+  Fi <- Fi_hat(params) #at DFE
   
   A <- gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
   B <- (omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
@@ -131,57 +134,7 @@ R0<-function(state=state_dfe,params){
   return((A*Su+B*Sn)*C)
 }
 
-# R0 expression with eta_w/eta_c factored
-R02 <- function(state=state_dfe,params){
-  unpack(as.list(c(state,params)))
-  Sn <- Sn_dfe(params)
-  Su <- Su_dfe(params)
-  Fi <- F_I(state,params) #at DFE
-  
-  A2 <- gamma*(p_I*Fi*omega*Sn+(omega+gamma)*(gamma*Sn+Fi*N0))
-  B2 <- p_I*Fi*omega*(gamma*Su+omega*N0)
-  D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
-  C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))*(omega+gamma))
-  # s <- eta_w/eta_c
-  return((eta_c*(s*A2+B2)+D)*C2)
-}
-
-# make grid and calc R0 for plotting
-eval_R0 <- function(state=state_dfe,params){
-  ## input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
-  ## the params are defaults, specify the range of favorite params here.
-  unpack(as.list(c(state,params)))
-  tol <- 1e-10 ## to resolve the issue of very small numbers 
-  # specify the ranges, FIXME, not to be hard coded!
-  eta_w <- seq(0,1, length.out=n_out)
-  eta_c <- seq(0,1, length.out=n_out)  
-  rho <- seq(0,0.01, length.out=n_in) ## 0,0.01
-  omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.1 to 2
-  
-  df1 <- expand.grid(N0=params[["N0"]],beta=params[["beta"]],gamma=params[["gamma"]],omega=omega,rho=rho,
-                     W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
-                     p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
-                     eta_w=eta_w,eta_c=eta_c)
-  df2<- data.frame(df1,
-                   R0=apply(df1,1,function(params_in)R0(params=params_in)),
-                   Fi= apply(df1,1,function(params_in)F_I(state=state, params=params_in)))
-  # This is for plotting purposes:
-  df2 <- (df2 %>% 
-            dplyr::mutate(R0_sub=ifelse(eta_w<eta_c, NA, R0), 
-                          theta_w=1-eta_w,
-                          theta_c=1-eta_c,
-                          Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
-                          Delta=ifelse(abs(Delta)<tol,0,Delta)
-                          ) 
-          )
-  return(df2)
-}
-
-Fi_hat<-function(params){
-  unpack(as.list(c(params)))
-  return(omega*rho/(omega-rho)*W_I/W_S)
-}
-
+## calculate the principle eigenvalue and the corresponding eigenvector.
 eigvec_max<-function(params){
   unpack(as.list(params))
   Sn<-Sn_dfe(params)
@@ -202,6 +155,44 @@ eigvec_max<-function(params){
   return(ev_max) 
 }
 
+# make grid and calc R0 for plotting
+make_params_dat<-function(params,
+                          rho_s,rho_e, ## range of parameters start to end
+                          omega_s,omega_e,
+                          eta_ws,eta_we,
+                          eta_cs,eta_ce,
+                          tol=1e-10,## tol: resolve the issue of very small numbers in plotting and when rho is close to omega
+                          n_out=5,## n_out: facets (rows/cols)
+                          n_in=41 ## n_in: grid N within facets
+){
+  unpack(as.list(params))
+  eta_w <- if(eta_ws!=eta_we)seq(eta_ws,eta_we,length.out=n_out) else eta_ws
+  eta_c <- if(eta_cs!=eta_ce)seq(eta_cs,eta_ce, length.out=n_out) else eta_cs  
+  rho <- if(rho_s!=rho_e)seq(rho_s,rho_e, length.out=n_in) else rho_s## note omega must be > rho
+  omega <- if(omega_s!=omega_e)seq(omega_s,omega_e,length.out=n_in) else omega_s 
+  ## form the initial data frame with key parameters (model parameters)
+  df1 <- expand.grid(N0=N0,beta=beta,gamma=gamma,
+                     omega=omega,rho=rho,
+                     W_S=W_S,W_I=W_I,W_R=W_R,
+                     p_S=p_S,p_I=p_I,p_R=p_R,
+                     eta_w=eta_w,eta_c=eta_c)
+  ## principle eigenvector
+  eigvec <- t(apply(df1,1,function(params_in)eigvec_max(params=params_in)))  
+  dfout <-(df1 %>% 
+             dplyr::mutate(
+               R0=apply(df1,1,function(params_in)R0(params=params_in)),  
+               R0_sub=ifelse(eta_w<eta_c, NA, R0), 
+               theta_w=1-eta_w,
+               theta_c=1-eta_c,
+               Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
+               Delta=ifelse(abs(Delta)<tol,0,Delta),
+               I_u=eigvec[,1],
+               I_n=eigvec[,2],
+               I_p=eigvec[,3],
+               I_c=eigvec[,4]
+             ))
+  return(dfout)
+}
 
 # ###################
 # Extra Stuff unused
@@ -222,5 +213,48 @@ eigvec_max<-function(params){
 #   method="lsodar"
 # )
 
+## R0 expression with eta_w/eta_c factored
+# R02 <- function(state=state_dfe,params){
+#   unpack(as.list(c(state,params)))
+#   Sn <- Sn_dfe(params)
+#   Su <- Su_dfe(params)
+#   Fi <- Fi_hat(params) #at DFE
+#   
+#   A2 <- gamma*(p_I*Fi*omega*Sn+(omega+gamma)*(gamma*Sn+Fi*N0))
+#   B2 <- p_I*Fi*omega*(gamma*Su+omega*N0)
+#   D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
+#   C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))*(omega+gamma))
+#   # s <- eta_w/eta_c
+#   return((eta_c*(s*A2+B2)+D)*C2)
+# }
+# eval_R0 <- function(state=state_dfe,params){
+#   ## input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
+#   ## the params are defaults, specify the range of favorite params here.
+#   unpack(as.list(c(state,params)))
+#   tol <- 1e-10 ## to resolve the issue of very small numbers 
+#   # specify the ranges, FIXME, not to be hard coded!
+#   eta_w <- seq(0,1, length.out=n_out)
+#   eta_c <- seq(0,1, length.out=n_out)  
+#   rho <- seq(0,0.01, length.out=n_in) ## 0,0.01
+#   omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.1 to 2
+#   
+#   df1 <- expand.grid(N0=params[["N0"]],beta=params[["beta"]],gamma=params[["gamma"]],omega=omega,rho=rho,
+#                      W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
+#                      p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+#                      eta_w=eta_w,eta_c=eta_c)
+#   df2<- data.frame(df1,
+#                    R0=apply(df1,1,function(params_in)R0(params=params_in)),
+#                    Fi= apply(df1,1,function(params_in)Fi_hat(params=params_in)))
+#   # This is for plotting purposes:
+#   df2 <- (df2 %>% 
+#             dplyr::mutate(R0_sub=ifelse(eta_w<eta_c, NA, R0), 
+#                           theta_w=1-eta_w,
+#                           theta_c=1-eta_c,
+#                           Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
+#                           Delta=ifelse(abs(Delta)<tol,0,Delta)
+#                           ) 
+#           )
+#   return(df2)
+# }
 saveEnvironment()
 
