@@ -58,4 +58,6 @@ gg1 <- (ggplot(data=out2, aes(x=rho,y=value,col=compartment))
 direct.label(gg1,"last.bumpup")
 
 
+##plot of R0 wrt rho, notice the increase
+ggplot(data=out2, aes(x=rho,y=R0_sub))+geom_point()
 
