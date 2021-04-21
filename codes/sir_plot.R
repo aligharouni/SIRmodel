@@ -5,6 +5,7 @@ library(directlabels)
 library(latex2exp)
 library(rootSolve)
 library(McMasterPandemic)
+library(matlib) # used for matrix inverse function
 
 library(shellpipes)
 
@@ -26,8 +27,6 @@ W_S_random <- 1
 W_S_targeted <- 0.3 
 
 # make dataframe 
-# df_random <- eval_R0(params = update(params,W_S=W_S_random))
-# df_targeted <- eval_R0(params = update(params,W_S=W_S_targeted))
 df_random <- make_params_dat(params = params,
                 eta_ws=0,eta_we=1, ## so theta_w
                 eta_cs=0,eta_ce=1, ## so theta_c

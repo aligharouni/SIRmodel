@@ -1,5 +1,4 @@
 library(shellpipes)
-library(matlib)
 
 # Functions for the SIR model
 # By: A Gharouni
@@ -123,7 +122,7 @@ Fi_hat<-function(params){
 
 # Basic Reproduction Number
 R0<-function(params){
-  unpack(as.list(c(state,params)))
+  unpack(as.list(params))
   Sn <- Sn_dfe(params)
   Su <- Su_dfe(params)
   Fi <- Fi_hat(params) #at DFE
