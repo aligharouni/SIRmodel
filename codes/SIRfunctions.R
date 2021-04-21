@@ -197,9 +197,10 @@ eigvec_max<-function(params){
   ),4,4,byrow = TRUE)
   G<- Fmat %*% inv(vmat)
   ev<-eigen(G)
-  return(ev$vectors[,which(ev$values>0)]) 
+  ev_max<- ev$vectors[,which(ev$values==max(ev$values))]
+  
+  return(ev_max) 
 }
-
 
 
 # ###################
