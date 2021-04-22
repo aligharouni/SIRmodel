@@ -57,13 +57,12 @@
 % %%%%%%%
 \section{Abstract}
 
-The effect of testing processes, including (testing and test reporting) on an epidemic dynamics (infection and recovery) can be studied at the individual level or the community level (e.g., nursing homes, LTC facilities, etc.). 
+The effect of testing processes, including (testing and test reporting) on an epidemic dynamics (infection and recovery) can be studied at the individual level or the community level (e.g., nursing homes, long-term-care facilities, etc.). 
 Gaining insights to determine the sensitivity of the epidemic dynamics with respect to the testing processes will depend on underlying factors including the level of focus (individual or community), assumptions (model), and the interplay between these factors. 
-In particular, the fast test reporting may be beneficial at the community-level, supported by many studies, as it gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing. However, the potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
+In particular, the fast testing and test reporting may be beneficial at the community-level, supported by many studies, as it gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing. However, the potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
 In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
-Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include testing intensity, test sensitivity and specificity, rate of test return, and isolation. The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control.
-Here, we showed that the slow test reporting can be beneficial on the dynamics of an epidemic. In particular, it is possible for the basic reproduction number, $\Rnum$, to be increasing with respect to the rate of test return.  
-Further, we compare two testing strategies, random vs. targeted, in this framework. We conclude that the targeted testing strategy is more effective than the random one in the sense that a lower range of testing intensity is required to keep $\Rnum <1$. Also, targeted testing reduces the individual-level of advantage of a slow rate of test return.   
+Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include testing intensity, test sensitivity and specificity, rate of test return, and isolation strength. The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control.
+Here, we compare two testing strategies, random vs. targeted, and concluded that the targeted testing strategy is more effective than the random one in the sense that a relatively lower range of testing intensity and slower test return time are required to keep $\Rnum <1$ compared to the random testing strategy. Furthermore, we show that increasing \percap testing intensity and reducing the test return time would be beneficial on the dynamics of an epidemic in general but there are exception cases. In particular, it is possible for the basic reproduction number, $\Rnum$, to be increasing with respect to the testing intensity and the rate of test return when the isolation efficacy for awaiting individuals is loose.  
 
 % %%%%%%%
 \section{Introduction}
@@ -95,7 +94,9 @@ Our model provides insights to the sensitivity of the epidemiological dynamics, 
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model, Eqs. \eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Symbolically, the testing status of an individual in the disease compartment $X$, where $X \in \{S,I,R\}$, is reflected in the subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Further, two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of the basic reproduction number $\Rnum$ are presented in the appendixs.
+We developed a deterministic model, Eqs. \eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Symbolically, the testing status of an individual in the disease compartment $X$, where $X \in \{S,I,R\}$, is reflected in the subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. 
+Note that the top-to-bottom order of the testing-based compartments of the each disease-based compartmenet $X$ in the flowchart (Figure~\ref{fig:flowchart}) and the model equations \eqref{model} should match. However, compartments $X\_u$ and $X\_n$ are switched in the flowchart (Figure~\ref{fig:flowchart}) for the sake of tidiness.
+Further, two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model and details of calculation of the basic reproduction number $\Rnum$ are presented in the appendixs.
 
 \begin{figure}[!h] 
 \begin{center} 
@@ -106,16 +107,17 @@ We developed a deterministic model, Eqs. \eqref{model}, which groups individuals
 \end{figure}
 
 Table~\ref{tab:params} defines the model parameters, which are generally straightforward
-\percap flows between compartments, or modifiers to these flow rates. The \percap testing intensity is defined as the number of daily tests taken in a population of size $N_0$. 
+\percap flows between compartments, or modifiers to these flow rates.  
 The novel component of the model comes in through the compartment-specific relative testing weights $w_S$, $w_I$ and $w_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. For example, $w_I/w_S=2$ means that infected individuals are tested at twice the \percap rate of susceptible individuals. 
 
 In order to link to more applied models, we constructed this model so we could specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = w_S S\_u + w_I I\_u + w_R R\_u$, and calculating a scaling parameter for testing as:
 \begin{equation}
 \label{sigma}
-\sigma = \frac{\rho N_0}{W}.
+\sigma = \frac{\rho N_0}{W},
 \end{equation}
+where $\rho$ is the \percap testing rate for population and defined as the number of daily tests taken in a population of size $N_0$.
 Thus, the \percap testing rate for compartment $X$ is $F_X=\sigma w_X$, where $X \in \{S,I,R\}$. 
-For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus unavailable for further testing.  Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can (if large enough) exhaust the pool of people available for testing, leading to a singularity when no one is left untested.  Although this phenomenon does not affect our analysis of $\Rnum$, it can affect the temporal dynamics (we discuss an adjustment to the model that solves this problem in the appendix).
+For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus unavailable for further testing.  Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can (if large enough) exhaust the pool of people available for testing, leading to a singularity when no one is left untested. Although this phenomenon does not affect our analysis of $\Rnum$, it can affect the temporal dynamics (we discuss an adjustment to the model that solves this problem in the appendix).
 
 The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population (i.e., all individuals are equaly susciptable and equaly infectious for the same length of time when infected), exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \ref{model}, assumes: (i) there is a single force of infection (new cases per unit time), $\Lambda$, defined as follows
 \begin{equation}
@@ -129,9 +131,9 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
 \begin{tabular}{|c|L{2in}cc|} \hline
   Symbol & Description & Unit & Value \\ \hline
   $N_0$     & Total population size & people & $10^6$ \\ \hline
-  $\omega$  & Rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
+  $\omega$  & Rate of test return, i.e., rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
   $\gamma$ & Recovery rate & 1/day & 1/3 \\ \hline 
-  $\rho$   & Per capita testing intensity & 1/day & 0.01 \\ \hline 
+  $\rho$   & \percap testing rate & 1/day & - \\ \hline 
   $\theta\_w$ & Isolation efficacy in reduction of the probability of transmission for ``waiting'' individuals & - & - \\ \hline
   $\theta\_c$ & Isolation efficacy in reduction of the probability of transmission for ``confirmed positive'' individuals & - & -  \\ \hline
   $\beta$ & Transmission rate & 1/day & 0.39 \\ \hline
@@ -148,13 +150,12 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
 \caption{\label{tab:params} Parameters of the model \eqref{model}.}
 \end{table}
 
-\todo{the algebra needs to be changed based on JD's comment} The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is given by setting the differential equations to 0 and solving for the unknowns (\ali{is this clear or the "unkowns" needs to be defined? also * in sup for I and R?}. The DFE is
+The Disease-Free Equilibrium, DFE hearafter, for the SIR model, Eqs. \eqref{model}, is given by setting the differential equations to 0 and solving for the unknowns. The DFE is
 \begin{equation}
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
-For brevity, we write $x\_u^* = S\_u^*/N_0$ and $x\_n^* = S\_n^*/N_0$.
-We can then write 
+For brevity, we write 
 \begin{equation}
 \label{eq:fi}
 \hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S
@@ -166,26 +167,33 @@ The basic reproduction number, $\Rnum$, was calculated by using the next generat
 \label{R0}
 \Rnum= \frac{\beta}{\gamma} (1-\Delta), 
 \end{equation}
+where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation \todo{ref?}, and $\Delta$ is the reduction parameter defined as follows.
+\begin{equation}
+\label{eq:Delta1}
+\Delta= (A~ \theta\_w + B~ \theta\_c) / C,
+\end{equation}
 where
 \begin{equation}
 \begin{aligned}
 \label{eq:abc}
-\Delta=& (A~ \theta\_w + B~ \theta\_c) / C\\
-A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I \hat F_I \big) x_n^* + (\omega+\gamma) \hat F_I \Big)\\
-B=& \omega p_I(\gamma x_u^*+\omega)\hat F_I \\ 
+A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I \hat F_I \big) \frac{S\_n^*}{N_0} + (\omega+\gamma) \hat F_I \Big),\\
+B=& \omega p_I(\gamma \frac{S\_u^*}{N_0}+\omega)\hat F_I, \\ 
 C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big).
 \end{aligned}
 \end{equation}
-
-Further details of derivation of $\Rnum$ are provided in the appendix section.
+Further details of derivation of $\Rnum$ are provided in the appendix section \ref{app:R0}.
  
 The analytical calculation of the next-generation matrix and the derivation of $\Rnum$ was carried out in Maple \citep{maple14}. 
-We used R \citep{r} for simulations and for plotting $\Rnum$ as a function of the underlying parameters (using \ref{R0}). Results are shown in Figure \ref{pan}, where  panel \eqref{p.a} represents the random testing, and panel \eqref{p.b} is representing non-random testing. The parameter values or ranges are presented in Table~\ref{tab:params}. This simulation reflects the behavior of $\Rnum$ with respect to the selected parameters for two different testing strategies: (i) random testing, represented by all testing weights to be the same, $w_S=w_I=w_R$, and (ii) non-random testing, when testing weight are not equal. For simulation purposes we chose $w_S=w_I=w_R=1$ for random testing, and $w_S=0.3$ and $w_I=w_R=1$ for non-random testing strategy. Note that the critical contour of $\Rnum=1$ is plotted in solid line in Figure \ref{pan}. 
+We used R \citep{r} for simulations and for plotting $\Rnum$ as a function of the underlying parameters. In particular, the contours of $\Delta$ \eqref{eq:Delta1} were plotted for a combination set of parameters with the baseline parameter values are presented in Table~\ref{tab:params} and isolation efficacy parameters, $\theta\_w$ and $\theta\_c$ vary from 0 to 1.
+Results are shown in Figures \ref{pan} and \ref{pan2}, where  panel (a) represents the random testing ($w_S=w_I=w_R=1$), and panel (b) is representing non-random testing ($w_S=0.3$ and $w_I=w_R=1$). 
+Fig. \ref{pan} reflects the changes in $\Rnum$  when the \percap testing rate is small relative to the population size, $\rho \in [0,0.01]$, and the test return rate $\omega\in [0.1,2]$.  
+Fig. \ref{pan2} reflects the changes in $\Rnum$  when the \percap testing rate is large relative to the population size, $\rho \in [0,0.5]$, and the test return rate $\omega\in (0.5,2]$. 
+Note that the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to $\Rnum=1$, is plotted in solid line in the Figures. 
 
 % %%%%%%%
 \section{Results}
 
-The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in exploring the effect of parameters that could be manipulated by public-health policy, including the isolation parameters ($\theta\_c$ and $\theta\_w$) testing intensity ($\rho$) and test-return rate ($\omega$).
+The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in exploring the effect of parameters that could be manipulated by public-health policy, including the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the test return rate, $\omega$.
 
 Examining our formula for $\Rnum$ \eqref{R0} gives the following results. 
 See the appendix for details.
@@ -285,7 +293,7 @@ one point we can make when discussing the relative weight of testing in differen
 \renewcommand{\bibnumfmt}[1]{[A#1]}
 \renewcommand{\citenumfont}[1]{A#1}
 
-\subsection{Model and calculation of $\Rnum$}
+\subsection{Model and calculation of $\Rnum$}\label{app:R0}
 
 The model in the form of a system of ordinary differential equations is 
 \begin{subequations}\label{model}
