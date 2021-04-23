@@ -135,7 +135,7 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
   $\rho$   & \percap testing intensity & 1/day & - \\ \hline 
   $\theta\_w$ & Isolation efficacy in reduction of the probability of transmission for ``waiting'' individuals & - & - \\ \hline
   $\theta\_c$ & Isolation efficacy in reduction of the probability of transmission for ``confirmed positive'' individuals & - & -  \\ \hline
-  $\beta$ & Transmission rate & 1/day & 0.39 \\ \hline
+  $\beta$ & Transmission rate & 1/day & 0.339 \\ \hline
   $\Lambda$ & Force of infection & 1/day & - \\ \hline
   $p_S$ & Probability of positive tests for $S$ ($= 1-\textrm{specificity}$) & - & 0 \\ \hline
   $p_I$ & Probability of positive tests for $I$ ($= \textrm{sensitivity}$) & - & 1 \\ \hline
@@ -181,14 +181,16 @@ C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big).
 \end{equation}
 Further details of derivation of $\Rnum$ are provided in section \ref{app:R0} of the appendix. Note that $\Delta$ has been presented in a specific monotonic form with respect to isolation efficacy parameters, $\theta\_w$ and $\theta\_c$, in order to simplify showing one of the results of this paper which is the reduction effect of isolation on $\Rnum$. Further, we represent $\Delta$ in another equivalent form in the appendix (Sec. \ref{app:rho}) to show the nontrivial-nonmonotonic effect of testing intensity and test return rate on $\Rnum$.  
  
-The analytical calculation of the next-generation matrix and the derivation of $\Rnum$ was carried out in Maple \citep{maple14}. 
-We used R \citep{r} for simulations and for plotting $\Rnum$ as a function of the underlying parameters. In particular, the contours of $\Delta$ \eqref{eq:Delta1} were plotted as in a range of a selected set of parameters of interest, $1/\omega$, $\rho$, $\theta\_w$ and $\theta\_c$, with the other parameters values kept fixed and presented in Table~\ref{tab:params}.
-
-and isolation efficacy parameters, $\theta\_w$ and $\theta\_c$ vary from 0 to 1.
-Results are shown in Figures \ref{pan} and \ref{pan2}, where  panel (a) represents the random testing ($w_S=w_I=w_R=1$), and panel (b) is representing non-random testing ($w_S=0.3$ and $w_I=w_R=1$). 
-Fig. \ref{pan} reflects the changes in $\Rnum$  when the \percap testing rate is small relative to the population size, $\rho \in [0,0.01]$, and the test return rate $\omega\in [0.1,2]$.  
-Fig. \ref{pan2} reflects the changes in $\Rnum$  when the \percap testing rate is large relative to the population size, $\rho \in [0,0.5]$, and the test return rate $\omega\in (0.5,2]$. 
-Note that the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to $\Rnum=1$, is plotted in solid line in the Figures. 
+The analytical calculation of the next-generation matrix and simplifying the expression of $\Rnum$ was carried out in Maple \citep{maple14}. 
+We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:Delta1} over a range of selected set of parameters of interest, i.e., parameters that could be manipulated by public-health policy. These parameters include the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$.
+The rest of model parameters kept fixed at sensible values (see Table~\ref{tab:params} for the parameter values). Note that all plots are illustrated in the scale of the mean test return time $1/\omega$ (day).  
+Results are shown in Fig.\,\ref{pan} and Fig.\,\ref{pan2} with two panels; panel (a) represents the random testing, thus $w_S=w_I=w_R=1$, and panel (b) represents targeted testing, thus $w_S=0.3$ and $w_I=w_R=1$. 
+To illustrate the changes in $\Rnum$ with respect to \percap testing intensity$\rho$, two sets of plots are presented. 
+Fig.\,\ref{pan} reflects the changes in $\Rnum$ when $\rho$, is small relative to the population size, specifically, $\rho \in [0,0.01]$, and the test return rate $\omega\in [0.1,2]$. This is a more realistic scenario of testing as we have observed in \covid pandemic. That is, 1\% of a population are tested per day at maximum capacity, so in a population of size $N_0=10^6$, 10000 individuals will be tased per day at maximum.
+In order to illustrate the non-monotonic changes in $\Rnum$ with respect to $\rho$,
+Fig. \ref{pan2} with maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,0.5]$, and the test return rate $\omega\in (0.5,2]$. 
+In both Fig.\,\ref{pan} and Fig.\,\ref{pan2}, the isolation efficacy parameters, $\theta\_w$ and $\theta\_c$ vary from 0 to 1.
+Note that the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is plotted in solid line in the panels. Thus, a combination of $\rho$ and $\omega$ above this critical contour results in reducing $\Rnum$. Also realize that $\Rnum=\frac{\beta}{\gamma}$, about 1.017 here, for the classical SIR model which can be acheived in the context of our model when $\rho=0$, no testing, or $\theta\_w=\theta\_w=0$, no isolation.  
 
 % %%%%%%%
 \section{Results}

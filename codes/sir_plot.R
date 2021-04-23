@@ -38,6 +38,7 @@ df_targeted <- make_params_dat(params = update(params,W_S=W_S_targeted),
                 eta_cs=0,eta_ce=1, ## so theta_c
                 omega_s=0.1,omega_e=2,
                 rho_s=0,rho_e=0.01)
+
 ##important contour, ie R0=1 thus threshold=1 when plotting R0 contours, or Delta(R0=1)
 threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## Or 0?  corresponding to R0=1 
 # #################################
@@ -61,9 +62,7 @@ bins <- cut(sort(unique(c(df_random$Delta,df_targeted$Delta))),
 brks <- levels(bins)
 brks_vec <- unique(as.numeric(unlist(lapply(strsplit(brks, ","), function(x) gsub("\\(|]", "", x)))))
 brks_vec <- sort(ifelse(brks_vec[]< 0,0,brks_vec[]), decreasing = TRUE) ## replace neg with 0 and reorder
-# show_contours_1, width=24,height=24,message=FALSE,warning=FALSE}
-# brks_vec <- seq(1,0,by=-0.2) # Break vector for unifying the legends in Random and TTI testing cases. 
-# seq(.165,0,by=-0.03)
+
 df_temp <- df_random
 # df_temp <- df_targeted
 p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))

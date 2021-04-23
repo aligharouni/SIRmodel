@@ -160,7 +160,7 @@ make_params_dat<-function(params,
                           omega_s,omega_e,
                           eta_ws,eta_we,
                           eta_cs,eta_ce,
-                          tol=1e-10,## tol: resolve the issue of very small numbers in plotting and when rho is close to omega
+                          tol=1e-8,## tol: resolve the issue of very small numbers in plotting and when rho is close to omega
                           n_out=5,## n_out: facets (rows/cols)
                           n_in=41 ## n_in: grid N within facets
 ){
@@ -175,7 +175,7 @@ make_params_dat<-function(params,
                      W_S=W_S,W_I=W_I,W_R=W_R,
                      p_S=p_S,p_I=p_I,p_R=p_R,
                      eta_w=eta_w,eta_c=eta_c)
-  ## principle eigenvector
+    ## principle eigenvector
   eigvec <- t(apply(df1,1,function(params_in)eigvec_max(params=params_in)))  
   dfout <-(df1 %>% 
              dplyr::mutate(
