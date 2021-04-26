@@ -186,7 +186,7 @@ We used R \citep{r} for simulations, in particular,  for plotting the contours o
 The rest of model parameters kept fixed at sensible values (see Table~\ref{tab:params} for the parameter values). Note that all plots are illustrated in the scale of the mean test return time $1/\omega$ (day).  
 Results are shown in Fig.\,\ref{pan} and Fig.\,\ref{pan2} with two panels; panel (a) represents the random testing, thus $w_S=w_I=w_R=1$, and panel (b) represents targeted testing, thus $w_S=0.3$ and $w_I=w_R=1$. 
 To illustrate the changes in $\Rnum$ with respect to \percap testing intensity$\rho$, two sets of plots are presented. 
-Fig.\,\ref{pan} reflects the changes in $\Rnum$ when $\rho$, is small relative to the population size, specifically, $\rho \in [0,0.01]$, and the test return rate $\omega\in [0.1,2]$. This is a more realistic scenario of testing as we have observed in \covid pandemic. That is, 1\% of a population are tested per day at maximum capacity, so in a population of size $N_0=10^6$, 10000 individuals will be tased per day at maximum.
+Fig.\,\ref{pan} reflects the changes in $\Rnum$ when $\rho$ is small relative to the population size. Specifically, $\rho \in [0,0.01]$, and the test return rate $\omega\in [0.1,2]$. This is a more realistic scenario of testing as we have observed in \covid pandemic. That is, 1\% of a population are tested per day at maximum capacity, so in a population of size $N_0=10^6$, 10000 individuals will be tased per day at maximum.
 In order to illustrate the non-monotonic changes in $\Rnum$ with respect to $\rho$,
 Fig. \ref{pan2} with maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,0.5]$, and the test return rate $\omega\in (0.5,2]$. 
 In both Fig.\,\ref{pan} and Fig.\,\ref{pan2}, the isolation efficacy parameters, $\theta\_w$ and $\theta\_c$ vary from 0 to 1.
@@ -195,15 +195,15 @@ Note that the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding
 % %%%%%%%
 \section{Results}
 
-The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in exploring the effect of parameters that could be manipulated by public-health policy, including the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$.
+The explicit formula for the basic reproduction number, $\Rnum$ \eqref{R0}, provides an opportunity to study the influence of changes in the underlying parameters on the critical index of epidemic dynamics. We are interested in exploring the effect of parameters that could be manipulated by public-health policy, including the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$. In this context, two testing strategies, namely random and targeted testing, were explored. 
 
 Examining our formula for $\Rnum$ \eqref{R0} gives the following results. 
-See the appendix for details.
+See the appendix, Sec.\,\ref{app:rho} and Sec.\,\ref{app:omega} for details.
 
 \begin{enumerate}
-\item \label{p1:eta} increasing the isolation parameters for tested and confirmed individuals decreases \Rnum;
+\item \label{p1:eta} Increasing the isolation parameters for tested and confirmed individuals decreases \Rnum;
 $$\partial{\Rnum}/\partial{\theta\_c} \leq 0 \text{~and~} \partial{\Rnum}/\partial{\theta\_w} \leq 0.$$ 
-\item \label{p1:rho} a higher testing intensity may increase or decrease $\Rnum$;
+\item \label{p1:rho} A higher testing intensity may increase or decrease $\Rnum$;
 $$\partial{\Rnum}/\partial{\rho} \text{~can be positive or negative}.$$
 \item \label{p1:omega} A higher rate of test return may increase or decrease \Rnum.
 $$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative}.$$
@@ -230,10 +230,49 @@ $N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [
 \label{pan}
 \end{figure}
 
-Our numerical results are shown in Figure \ref{pan}. It can be inferred that when random testing strategy is applied, Figure \ref{p.a}, comparing to the targeted testing strategy, Figure \ref{p.b}, the critical \percap testing intensity of the corresponding panels are lower in non-random testing. Also, it appears that speeding the test reporting, i.e., increasing $\omega$, does not significantly lower $\Rnum$ when awaiting people (including people in $I\_p$ and $I\_n$ compartments) follow the isolation perfectly, i.e., $\theta\_w$ is closer to 1. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\theta\_w$ is closer to 0. 
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{codes/R0contour_random_rho.5.pdf}
+\caption{}
+\end{subfigure}
+%
+\begin{subfigure}[t]{.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{codes/R0contour_TTI_rho.5.pdf}
+\caption{}
+\end{subfigure}
+\caption{
+{\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
+We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
+$N_0=1 \times 10^6$, $\omega \in (0.5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.5]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
+}
+\label{pan2}
+\end{figure}
 
-Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}.
-\david{What do we learn from this inequality?  Why is it relegated to an appendix?}
+
+Our numerical results are shown in Figs. \ref{pan}, where $\rho \in [0,0.01]$, and \ref{pan2}, where $\rho \in [0,0.5]$.
+When targeted testing strategy is applied compared to random testing strategy, i.e., comparing panel (b) to (a) of Figs.\,\ref{pan} and \ref{pan2}, it can be inferred that 
+(i) \ali{thinking of the intercept of the solid line/contours} the critical \percap testing intensity corresponding to $\Rnum=1$, is lower and thus less testing is required to reduce $\Rnum$, 
+(ii) \ali{thinking of the slope contours, having hard time to explain this since there is a non-monotonic effect of omega} sensitivity of $\Rnum$ wrt $1/\omega$; the changes in $\Rnum$ in response to changes in $1/\omega$, is lower. 
+
+It is notable that increasing testing intensity $\rho$ as a strategy to reduce $\Rnum$ depends on the value of $\rho$ to begin with, the mean test return time $1/\omega$ and the efficacy of isolation $\theta$. 
+In particular, there might be feasible threshold values for $\rho$ and $\omega$ that maximizes the effect of these parameters in reduction of $\Rnum$ depends upon the isolation efficacy. 
+
+\ali{Thinking of last column of 2 Figs, moving from top tp bottom as $\theta\_c=1$ and $\theta\_w$ changes from 0 to 1} When $\theta\_c$ is closer to 1 and $\theta\_w$ is closer to 0, increasing $\rho$ combined with deccreasing $1/\omega$ is effective in reducing $\Rnum$. However, as $\theta_w$ is getting closer to 1, increasing $\rho$ combined with increasing $1/\omega$ is better.
+
+% When $\rho$ is closer to 0 (Fig.\,\ref{pan}),  and $\theta_c$ is closer to 0, increasing $\rho$ and decreasing $1/\omega$ is a    
+% 
+% when $\rho$ is small relative to $N_0$, increasing $\rho$ combined with changes in the test return time $1/\omega$ is always good in general.  
+% 
+% When the isolation efficay is low, i.e., $\theta\_w$ is closer to 0, speeding up the test reporting processing time can increase $\Rnum$ regardless of the speed of testing. However there is threshold for $1/\omega$ above which prolonging the test return time
+
+
+% awaiting people (including people in $I\_p$ and $I\_n$ compartments) follow the isolation perfectly, i.e., $\theta\_w$ is closer to 1. However, speeding the test reporting reduces the epidemic more when the awaiting people less follow the isolation, i.e., $\theta\_w$ is closer to 0. 
+% 
+% Furthermore, we derived an inequality that quantifies the exact relationships between model parameters that result in returning tests more rapidly being favorable \eqref{eq:necsuf}.
+% \david{What do we learn from this inequality?  Why is it relegated to an appendix?}
 
 %%%%%%%%%%%%
 \section{Discussion}
@@ -541,29 +580,6 @@ To state an example of this, if test $A$ is three times as expensive as test $B$
     \item the time it takes to return tests is much shorter than the mean infectious period.
     \item the testing intensity is much greater for infected individuals than susceptible individuals.
 \end{itemize}
-
-\subsection{Simulation with $\rho$ varies from 0 to 0.5 }
-
-\begin{figure}[h!]
-\centering
-\begin{subfigure}[t]{.45\textwidth}
-\centering
-\includegraphics[width=\linewidth]{codes/R0contour_random_rho.5.pdf}
-\caption{}
-\end{subfigure}
-%
-\begin{subfigure}[t]{.45\textwidth}
-\centering
-\includegraphics[width=\linewidth]{codes/R0contour_TTI_rho.5.pdf}
-\caption{}
-\end{subfigure}
-\caption{
-{\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
-We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
-$N_0=1 \times 10^6$, $\omega \in (0.5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.5]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
-}
-\label{pan2}
-\end{figure}
 
 
 \end{document}

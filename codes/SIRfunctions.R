@@ -139,7 +139,7 @@ eigvec_max<-function(params){
   Sn<-Sn_dfe(params)
   Su<-Su_dfe(params)
   Fi<-Fi_hat(params) 
-  colvec<-matrix(c(Sn,Su,0,0),4,1)  
+  colvec<-matrix(c(Su,Sn,0,0),4,1)  
   rowvec<-matrix(c(1,eta_w,eta_w,eta_c),1,4)
   Fmat<-beta/N0*colvec%*%rowvec
   vmat<-matrix(c(Fi+gamma,-omega,0,0,
