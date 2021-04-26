@@ -86,6 +86,18 @@ C_2:=gamma^2*theta[w]*(omega+gamma)+gamma*omega*(theta[w]-theta[c])*p_I*F_I;
 # is Delta=(K_1+K_2)S_n/C?
 C_; 
 N_0:=1;
+F_Ihat:=rho*omega/(omega-rho)*w;
+F_Shat:=rho*omega/(omega-rho);
+# Looking at matrix G_11 and breaking down the 2 columns of FV^-1, ie C-C1 and C-C1-C2 and see how they change wrt rho?
+simplify(algsubs(F_I=F_Ihat,(C_-C_1)));
+
+
+collect(algsubs(F_I=F_Ihat,(C_-C_1)),rho);
+
+
+
+
+
 # A new representation of Delta to simplify the diff Delta wrt rho and omega I hope.
 Delta2:=(C_1+C_2*S_n)/C_;
 simplify(Delta2);
@@ -99,24 +111,69 @@ collect(simplify(algsubs(S_u=1-S_n,numer(Delta))), S_n);
 simplify(algsubs(S_n+S_u=1,numer(Delta)-numer(Delta2)));
 simplify(algsubs(S_n+S_u=1,Delta-Delta2));
 Delta2;
-rho*omega/(omega-rho)*w;
+F_Ihat;
 # let w:=w_I/w_S, and substitude F_I (this is \hat F_I in the manuscript) and S_n in terms of rho and omega
-Delta2_simp:=(collect(algsubs(F_I=rho*omega/(omega-rho)*w,algsubs(S_n=rho/omega,Delta2)),rho));
+Delta2_simp:=(collect(algsubs(F_I=F_Ihat,algsubs(S_n=rho/omega,Delta2)),rho));
 # Derivative of Delta2_simp wrt rho
 dDelta2:=collect(simplify(diff(Delta2_simp,rho)),rho);
 # only simplified numerator, I just want to see the quadratic
 dDelta2_numer:=collect(numer(dDelta2)/gamma,rho);
+# Note that I am assuming that the numerator of Delta' is in the form of (a*rho^2-b*rho+c)
 a:=factor(coeff(dDelta2_numer,rho,2));
-b:=factor(coeff(dDelta2_numer,rho,1));
+b:=-factor(coeff(dDelta2_numer,rho,1)); #Note the negative here!
 # Maple doesn't accept c, so I put cc but in the manuscript it is shown by c
 cc:=factor(coeff(dDelta2_numer,rho,0));
 # Root finding of the quadratic: 
 # Note that delta is always non-negative.
 delta:=factor(simplify(b^2-4*a*cc));
-eval(Delta2_simp,rho=0);
-eval(dDelta2,rho=0);
-eval(Delta2_simp,rho=omega);
-factor(simplify(eval(dDelta2,rho=omega)));
+root1:=simplify(b-sqrt(delta))/(2*a);
+root2 :=simplify(b+sqrt(delta))/(2*a);
+factor(numer(root1));
+factor(numer(root2));
+collect(factor(simplify(eval(dDelta2_numer,rho=omega))),[theta[w],theta[c]]);
+# at rho=1 which is max the diff Delta wrt rho is
+collect(simplify(a-b+cc),omega);
+simplify(a-b+cc);
+simplify(taylor(a-b+cc,omega=1,1));
+
+
+
+
+
+
+
+# replacing rho with phi
+F_Shat:=rho*omega/(omega-rho); # this is phi
+
+Delta2_simp;
+Delta3:=simplify(subs(rho=omega*phi/(omega+phi),Delta2_simp));
+collect(numer(Delta3),phi);
+factor(coeff(collect(numer(Delta3),phi),phi,2));
+factor(coeff(collect(numer(Delta3),phi),phi,1));
+
+
+# Derivative:
+dDelta3:=collect(simplify(diff(Delta3,phi)),phi);
+
+
+
+collect(simplify(diff(Delta3,phi)),phi);
+dDelta3_numer:=collect(numer(collect(simplify(diff(Delta3,phi)),phi))/(gamma*omega),phi);
+a3:=factor(coeff(dDelta3_numer,phi,2));
+collect(a3,[theta[w],theta[c]]);
+b3:=factor(coeff(dDelta3_numer,phi,1));
+c3:=factor(coeff(dDelta3_numer,phi,0));
+delta3:=factor(simplify(b3^2-4*a3*c3));
+
+
+
+
+
+
+
+
+
+
 
 
 
