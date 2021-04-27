@@ -449,4 +449,74 @@ relatively controlled with effective testing, isolation, contract tracing and qu
 
 \citep{ruszkiewicz2020diagnosis} novel with-in-a-minute breath testing with 80\% accuracy. 
 
+\section{Unused Scripts}
+# Conditional stop for ODE desolver
+# rootfun <- function (time, state,params) {
+#   unpack(as.list(c(state,params)))
+#   return(I_u - 1) }
+
+# ode(
+#   func=sir.model,
+#   y=state_init,
+#   times= d,
+#   parms=params,
+#   atol = 1e+1, rtol = 1e+1
+#   rootfun = rootfun,
+#   method="lsodar"
+# )
+
+## R0 expression with eta_w/eta_c factored
+# R02 <- function(state=state_dfe,params){
+#   unpack(as.list(c(state,params)))
+#   Sn <- Sn_dfe(params)
+#   Su <- Su_dfe(params)
+#   Fi <- Fi_hat(params) #at DFE
+#
+#   A2 <- gamma*(p_I*Fi*omega*Sn+(omega+gamma)*(gamma*Sn+Fi*N0))
+#   B2 <- p_I*Fi*omega*(gamma*Su+omega*N0)
+#   D <- gamma*(omega+gamma)*(gamma*Su+omega*N0)
+#   C2 <- beta/((N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))*(omega+gamma))
+#   # s <- eta_w/eta_c
+#   return((eta_c*(s*A2+B2)+D)*C2)
+# }
+# eval_R0 <- function(state=state_dfe,params){
+#   ## input the params and their range, this function makes a grid dataframe, calls R0 and outputs the csv file
+#   ## the params are defaults, specify the range of favorite params here.
+#   unpack(as.list(c(state,params)))
+#   tol <- 1e-10 ## to resolve the issue of very small numbers
+#   # specify the ranges, FIXME, not to be hard coded!
+#   eta_w <- seq(0,1, length.out=n_out)
+#   eta_c <- seq(0,1, length.out=n_out)
+#   rho <- seq(0,0.01, length.out=n_in) ## 0,0.01
+#   omega <- seq(0.1,2 , length.out=n_in) #note omega must be > rho, was 0.1 to 2
+#
+#   df1 <- expand.grid(N0=params[["N0"]],beta=params[["beta"]],gamma=params[["gamma"]],omega=omega,rho=rho,
+#                      W_S=W_S,W_I=params[["W_I"]],W_R=params[["W_R"]],
+#                      p_S=params[["p_S"]],p_I=params[["p_I"]],p_R=params[["p_R"]],
+#                      eta_w=eta_w,eta_c=eta_c)
+#   df2<- data.frame(df1,
+#                    R0=apply(df1,1,function(params_in)R0(params=params_in)),
+#                    Fi= apply(df1,1,function(params_in)Fi_hat(params=params_in)))
+#   # This is for plotting purposes:
+#   df2 <- (df2 %>%
+#             dplyr::mutate(R0_sub=ifelse(eta_w<eta_c, NA, R0),
+#                           theta_w=1-eta_w,
+#                           theta_c=1-eta_c,
+#                           Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
+#                           Delta=ifelse(abs(Delta)<tol,0,Delta)
+#                           )
+#           )
+#   return(df2)
+# }
+
+# state_init <- c(S_u=params[["N0"]], S_n=0,
+#                 I_u=1,I_n=0,I_p=0,I_t=0,
+#                 R_u=0,R_n=0,R_p=0,R_t=0,
+#                 N=0,P=0)
+
+# state_dfe <- c(S_u=Su_dfe(params), S_n=Sn_dfe(params),
+#                 I_u=0,I_n=0,I_p=0,I_t=0,
+#                 R_u=0,R_n=0,R_p=0,R_t=0,
+#                 N=0,P=0)
+
 \end{document}

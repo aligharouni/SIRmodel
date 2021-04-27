@@ -1,10 +1,7 @@
 library(shellpipes)
-rpcall("params.Rout params.R SIRfunctions.rda")
-
+rpcall("params.Rout params.R")
+# SIRfunctions.rda
 loadEnvironments()
-
-# Parameters used in SIR model
-# Path: ~/projects/SIRmodel/codes
 
 params <- c(
 N0=1000000, #total population size, 
@@ -20,17 +17,5 @@ eta_w=0.02, eta_c=0.01 #isolation parameter (eta=0 is the perfect isolation)
             
 class(params) <- "params_pansim"
 
-state_init <- c(S_u=params[["N0"]], S_n=0,
-                I_u=1,I_n=0,I_p=0,I_t=0,
-                R_u=0,R_n=0,R_p=0,R_t=0,
-                N=0,P=0)
-                
-
-
-state_dfe <- c(S_u=Su_dfe(params), S_n=Sn_dfe(params),
-                I_u=0,I_n=0,I_p=0,I_t=0,
-                R_u=0,R_n=0,R_p=0,R_t=0,
-                N=0,P=0)
-
-saveVars(params, state_init, state_dfe)
+saveVars(params)
 

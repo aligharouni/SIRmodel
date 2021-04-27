@@ -13,7 +13,9 @@ vim_session:
 autopipeR = defined
 Sources += $(wildcard *.R)
 
-params.Rout: params.R SIRfunctions.rda
+params.Rout: params.R 
+
+SIRfunctions.Rout: SIRfunctions.R
 
 sir_plot.Rout: sir_plot.R SIRfunctions.rda params.rda
 
