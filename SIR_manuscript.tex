@@ -339,13 +339,13 @@ The model in the form of a system of ordinary differential equations is
 \begin{subequations}\label{model}
 \begin{align}
  d S\_u/dt &= -\Lambda S\_u - F_S S\_u + \omega S\_n, \\
- d S\_n/dt &= -\Lambda S\_n + (1-p_S) F_S S\_u - \omega S\_n, \\
- d S\_p/dt &= -\Lambda S\_p + p_S F_S S\_u - \omega S\_p, \\
- d S\_c/dt &= -\Lambda S\_c + \omega S\_p, \\
+ d S\_n/dt &= -(1-\theta\_w)\Lambda S\_n + (1-p_S) F_S S\_u - \omega S\_n, \\
+ d S\_p/dt &= -(1-\theta\_w)\Lambda S\_p + p_S F_S S\_u - \omega S\_p, \\
+ d S\_c/dt &= -(1-\theta\_c)\Lambda S\_c + \omega S\_p, \\
  d I\_u/dt &= \Lambda S\_u - F_I I\_u + \omega I\_n  - \gamma I\_u, \\
- d I\_n/dt &= \Lambda S\_n + (1-p_I) F_I I\_u - \omega I\_n -\gamma I\_n, \\
- d I\_p/dt &= \Lambda S\_p + p_I F_I I\_u - \omega I\_p -\gamma I\_p, \\
- d I\_c/dt &= \Lambda S\_c + \omega I\_p - \gamma I\_c, \\
+ d I\_n/dt &= (1-\theta\_w)\Lambda S\_n + (1-p_I) F_I I\_u - \omega I\_n -\gamma I\_n, \\
+ d I\_p/dt &= (1-\theta\_w)\Lambda S\_p + p_I F_I I\_u - \omega I\_p -\gamma I\_p, \\
+ d I\_c/dt &= (1-\theta\_c)\Lambda S\_c + \omega I\_p - \gamma I\_c, \\
  d R\_u/dt &= \gamma I\_u - F_R R\_u + \omega R\_n, \\
  d R\_n/dt &= \gamma I\_n + (1-p_R) F_R R\_u - \omega R\_n, \\
  d R\_p/dt &= \gamma I\_p + p_R F_R R\_u  - \omega R\_p, \\
@@ -361,11 +361,11 @@ Matrices $F$ and $V$ are
 \label{FV}
 F =& \beta/N_0 \left[ \begin {array}{cccc} 
 S\_u^* & (1-\theta\_w)\,S\_u^* & (1-\theta\_w)\,S\_u^* & (1-\theta\_c)\,S\_u^*\\
-S\_n^* & (1-\theta\_w)\,S\_n^* & (1-\theta\_w)\,S\_n^* & (1-\theta\_c)\,S\_n^* \\ 
+(1-\theta\_w)S\_n^* & (1-\theta\_w)^2\,S\_n^* & (1-\theta\_w)^2\,S\_n^* & (1-\theta\_w)(1-\theta\_c)\,S\_n^* \\ 
 0&0&0&0\\
 0&0&0&0
  \end {array} \right] \\
- =&\beta/N_0 \left[ \begin {array}{c} S\_u^* \\ S\_n^* \\ 0 \\ 0 \end {array} \right]
+ =&\beta/N_0 \left[ \begin {array}{c} S\_u^* \\ (1-\theta\_w)S\_n^* \\ 0 \\ 0 \end {array} \right]
         \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right], \text{and}\\  V=&
  \left[ \begin {array}{cccc}  
 \hat F_I+\gamma&-\omega&0&0\\
@@ -400,7 +400,7 @@ where both blocked matricies $G_{11}$ and $G_{12}$ are 2 by 2. Given the upper t
 \begin{equation}
 \label{G11}
 G_{11} = \frac{\beta}{\gamma \, C} 
-\left[ \begin {array}{c} (\omega-\rho)/\omega \\ \rho/\omega \end {array} \right]
+\left[ \begin {array}{c} (\omega-\rho)/\omega \\ (1-\theta\_w)\rho/\omega \end {array} \right]
 \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right]
 \left[ \begin {array}{cc}
 \gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)\\ \noalign{\medskip}
@@ -431,7 +431,7 @@ This is to provide a mathematical materials to prove that $\pro \Delta$ can be p
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
-\left[ \begin {array}{c}  (\omega-\rho)/\omega \\ \rho/\omega  \end {array} \right]
+\left[ \begin {array}{c}  (\omega-\rho)/\omega \\ (1-\theta\_w)\rho/\omega  \end {array} \right]
 \left[ \begin {array}{cccc} 
 C-C_1, C-C_1-C_2\end {array} \right],
 \end{equation}
