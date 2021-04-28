@@ -5,7 +5,7 @@ library(directlabels)
 library(latex2exp)
 library(rootSolve)
 library(McMasterPandemic)
-## library(matlib) # used for matrix inverse function
+# library(matlib) # used for matrix inverse function
 
 library(shellpipes)
 
@@ -42,14 +42,14 @@ df_targeted <- make_params_dat(params = update(params,W_S=W_S_targeted),
 df_random_h <- make_params_dat(params = params,
                              eta_ws=0,eta_we=1, ## so theta_w
                              eta_cs=0,eta_ce=1, ## so theta_c
-                             omega_s=0.50001,omega_e=2.0001,
-                             rho_s=0,rho_e=0.5)
+                             omega_s=0.25,omega_e=2,
+                             rho_s=0,rho_e=0.25-0.000001)
 
 df_targeted_h <- make_params_dat(params = update(params,W_S=W_S_targeted),
                                eta_ws=0,eta_we=1, ## so theta_w
                                eta_cs=0,eta_ce=1, ## so theta_c
-                               omega_s=0.50001,omega_e=2.0001,
-                               rho_s=0,rho_e=0.5)
+                               omega_s=0.25,omega_e=2,
+                               rho_s=0,rho_e=0.25-0.000001)
 
 ##important contour, ie R0=1 thus threshold=1 when plotting R0 contours, or Delta(R0=1)
 threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## Or 0?  corresponding to R0=1 
