@@ -128,10 +128,10 @@ R0<-function(params){
   Su <- Su_dfe(params)
   Fi <- Fi_hat(params) #at DFE
   
-  A <- gamma*(omega+gamma+eta_w*Fi) + omega*eta_c*p_I*Fi
-  B <- (omega+eta_w*(Fi+gamma))*gamma+(eta_w*gamma+eta_c*omega)*(omega*p_I*Fi)/(omega+gamma)
-  C <- beta/(N0*gamma*(gamma*(omega+gamma)+Fi*(gamma+omega*p_I)))
-  return((A*Su+B*Sn)*C)
+  A<-gamma*(omega+gamma)^2+eta_w*gamma*(omega+gamma)*Fi+eta_c*omega*(omega+gamma)*p_I*Fi  
+  B<-gamma*omega*(omega+gamma)+eta_w*(gamma*(omega+gamma)*(Fi+gamma)+gamma*omega*p_I*Fi)+eta_c*omega^2*p_I*Fi
+  C<-(gamma*(omega+gamma)+Fi*(gamma+omega*p_I))*(omega+gamma)
+  return(beta/(N0*gamma*C)*(A*Su+B*Sn*eta_w))
 }
 
 ## calculate the principle eigenvalue and the corresponding eigenvector.
@@ -176,8 +176,8 @@ make_params_dat<-function(params,
                      W_S=W_S,W_I=W_I,W_R=W_R,
                      p_S=p_S,p_I=p_I,p_R=p_R,
                      eta_w=eta_w,eta_c=eta_c)
-    ## principle eigenvector
-  eigvec <- t(apply(df1,1,function(params_in)eigvec_max(params=params_in)))  
+  ## principle eigenvector
+  # eigvec <- t(apply(df1,1,function(params_in)eigvec_max(params=params_in)))  
   dfout <-(df1 %>% 
              dplyr::mutate(
                R0=apply(df1,1,function(params_in)R0(params=params_in)),  
@@ -185,11 +185,11 @@ make_params_dat<-function(params,
                theta_w=1-eta_w,
                theta_c=1-eta_c,
                Delta=ifelse(eta_w<eta_c, NA, 1-(R0*gamma/beta) ),
-               Delta=ifelse(abs(Delta)<tol,0,Delta),
-               I_u=eigvec[,1],
-               I_n=eigvec[,2],
-               I_p=eigvec[,3],
-               I_c=eigvec[,4]
+               Delta=ifelse(abs(Delta)<tol,0,Delta)
+               # I_u=eigvec[,1],
+               # I_n=eigvec[,2],
+               # I_p=eigvec[,3],
+               # I_c=eigvec[,4]
              ))
   return(dfout)
 }

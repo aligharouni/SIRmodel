@@ -5,7 +5,7 @@ library(directlabels)
 library(latex2exp)
 library(rootSolve)
 library(McMasterPandemic)
-library(matlib) # used for matrix inverse function
+## library(matlib) # used for matrix inverse function
 
 library(shellpipes)
 
