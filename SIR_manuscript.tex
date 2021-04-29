@@ -165,7 +165,7 @@ The basic reproduction number, $\Rnum$, was calculated by using the next generat
 \label{R0}
 \Rnum= \frac{\beta}{\gamma} (1-\Delta), 
 \end{equation}
-where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation (see, e.g., \cite{keeling2011modeling}), and $\Delta$ is the reduction parameter defined as follows.
+where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation (see, e.g., \cite{keeling2011modeling}), and $\Delta$ is the reduction parameter defined as follows. \ali{$\Delta$ should be updated, the expression will be linear in $\theta\_c$ but quadratic in $\theta\_w$, C stay unchanged. It can be proved that $\Delta$ increases in $\theta\_w$ for feasible range of $\theta\_w$ (I think this argument will go to the appendix).?}
 \begin{equation}
 \label{eq:Delta1}
 \Delta= (A~ \theta\_w + B~ \theta\_c) / C,
@@ -174,7 +174,7 @@ where
 \begin{equation}
 \begin{aligned}
 \label{eq:abc}
-A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I \hat F_I \big) \frac{S\_n^*}{N_0} + (\omega+\gamma) \hat F_I \Big),\\
+A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I \hat F_I \big) \frac{(1-\theta\_w)S\_n^*}{N_0} + (\omega+\gamma) \hat F_I \Big),\\
 B=& \omega p_I(\gamma \frac{S\_u^*}{N_0}+\omega)\hat F_I, \\ 
 C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big).
 \end{aligned}
@@ -225,7 +225,7 @@ $$\partial{\Rnum}/\partial{\omega} \text{~can be positive or negative}.$$
 \caption{
 {\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
 We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (see Table \ref{tab:params}):
-$N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
+$N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.01]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.339$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
 }
 \label{pan}
 \end{figure}
@@ -246,7 +246,7 @@ $N_0=1 \times 10^6$, $\omega \in [0.1,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [
 \caption{
 {\bf A comparison of the behaviour of the basic reproduction number, $\Rnum$, between random versus targeted testing strategies at different levels of testing and isolation.}
 We numerically evaluate $\Delta$ \eqref{R0}, reflecting the reduction of $\Rnum$ with respect to testing and isolation. We use the following parameters (listed in Table \ref{tab:params}):
-$N_0=1 \times 10^6$, $\omega \in (0.5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.5]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.39$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
+$N_0=1 \times 10^6$, $\omega \in (0.25,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,0.25]$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.339$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black solid line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{we still have some collisions in the y-axis tick labels}
 }
 \label{pan2}
 \end{figure}
@@ -435,7 +435,7 @@ G_{11} = \frac{\beta}{\gamma \, C}
 \left[ \begin {array}{cccc} 
 C-C_1, C-C_1-C_2\end {array} \right],
 \end{equation}
-where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e.,
+where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e., \ali{all equations after this point need to be updated.}
 $$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,\hat F_I),$$
 and $C_1$ and $C_2$ are 
 \begin{align}
