@@ -69,8 +69,7 @@ label_special <- function (labels, multi_line=FALSE, sep = "== ") {
 }
 
 n_contour <- 8 ## number of desired contours or bins
-bins <- cut(sort(unique(c(df_random$Delta,df_targeted$Delta))), 
-            n_contour)
+bins <- cut(sort(unique(c(df_random$Delta,df_targeted$Delta))), n_contour)
 brks <- levels(bins)
 brks_vec <- unique(as.numeric(unlist(lapply(strsplit(brks, ","), function(x) gsub("\\(|]", "", x)))))
 brks_vec <- sort(ifelse(brks_vec[]< 0,0,brks_vec[]), decreasing = TRUE) ## replace neg with 0 and reorder
@@ -105,7 +104,7 @@ p1_temp
 # 1. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp + ggtitle(TeX("w_S=w_I=w_R=1")) +
+ggsave(p1_temp + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) +
        theme(legend.position = "none"),
        filename = "R0contour_random.pdf" ,
        width = 12, height = 12, units = "cm")
@@ -115,11 +114,10 @@ ggsave(p1_temp + ggtitle(TeX("w_S=w_I=w_R=1")) +
 # #################################
 
 ggsave((p1_temp %+% df_targeted) +
-       ggtitle(TeX(sprintf("w_S=%.1f, w_I=w_R=1",W_S_targeted))) +
+       ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted))) +
        theme(legend.position = c(0.2, 0.3),legend.text = element_text(size = 8)),
        filename = "R0contour_TTI.pdf" ,
        width = 12, height = 12, units = "cm")
-
 
 # #################################
 # 3. Plots for high rho Scenario:
@@ -160,7 +158,7 @@ p1_temp2
 # 4. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp2 + ggtitle(TeX("w_S=w_I=w_R=1")) +
+ggsave(p1_temp2 + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) +
          theme(legend.position = "none"),
        filename = "R0contour_random2.pdf" ,
        width = 12, height = 12, units = "cm")
@@ -170,7 +168,7 @@ ggsave(p1_temp2 + ggtitle(TeX("w_S=w_I=w_R=1")) +
 # #################################
 
 ggsave((p1_temp2 %+% df_targeted_h) +
-         ggtitle(TeX(sprintf("w_S=%.1f, w_I=w_R=1",W_S_targeted))) +
+         ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted))) +
          theme(legend.position = c(0.2, 0.3),legend.text = element_text(size = 8)),
        filename = "R0contour_TTI2.pdf" ,
        width = 12, height = 12, units = "cm")
