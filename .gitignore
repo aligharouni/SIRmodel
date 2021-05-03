@@ -312,3 +312,10 @@ cpdir/
 *.out
 .texdeps/*
 *.Rout
+*.rda
+*.Rout.args
+*.Rlog
+*.deps
+*.mk
+*.subdeps
+*.pdf
