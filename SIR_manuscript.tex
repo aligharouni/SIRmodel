@@ -430,7 +430,7 @@ G_{11} = \frac{\beta}{\gamma \, C}
 \left[ \begin {array}{cccc} 
 C-C_1, C-C_1-C_2\end {array} \right],
 \end{equation}
-where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e., \ali{all equations after this point need to be updated.}
+where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e., 
 $$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,\hat F_I),$$
 and $C_1$ and $C_2$ are 
 \begin{align}
@@ -440,7 +440,50 @@ C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,\omega\,p
 \end{align}
 where $\hat F_I$ is given in Eq. \eqref{eq:fi}.
 $\Rnum$ is in the same form as in Eq. \eqref{R0}  
-$$\Rnum= \frac{\beta}{\gamma} (1-\Delta).$$
+$$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
+where 
+\begin{equation}
+\label{eq:del4}
+\Delta= \frac{1}{N_0\,C}\big(C_1\,S\_u^*+((C_1+C_2)(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
+\end{equation}
+Note that for analysis convention, we let $N_0=1$, thus $S\_u^*$ and $S\_n^*$ are in the scale of 0 to 1. 
+To derive the first result, i.e., how changes in $\theta\_w$ and $\theta\_c$ affects $\Rnum$, we factor these parameters in $\Delta$ \eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
+\begin{equation}
+\label{eq:del4_theta}
+\Delta= \frac{1}{C}\Big(
+-D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
+\big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w}+
+(\omega+\gamma\,S\_u^*)\omega\,p_I\,\hat F_I\,\boldsymbol{\theta\_c}
+\Big),
+\end{equation}
+where
+\begin{align}
+\label{eq:del4_d1d2}
+D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega\,p_I)\gamma\,\hat F_I, \\
+D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega\,p_I)\gamma\,\hat F_I+(\gamma+p_I\,\hat F_I)\omega^2.
+\end{align}
+The scaled expression of $\Delta$, specifically $\Delta\,C$, in Eq.\,\eqref{eq:del4_theta} is linear in $\theta\_c$ with a positive coefficient given by 
+$$(\gamma\,S\_u^*\,+\omega(1-\theta\_w\,S\_u^*))\omega\,p_I\,\hat F_I.$$
+This results in increasing $\Delta$, thus decreasing $\Rnum$ with respect to $\theta\_c$, that is $\pder[\Rnum]{\theta\_c}\leq 0$. Note that $C$ is independant of $\theta\_c$ and $\theta\_w$. 
+
+With a similar logic, the expression of $\Delta\,C$ derived from Eq.\,\eqref{eq:del4_theta} is a concave-down quadratic equation in $\theta\_w$, given by
+\begin{equation}
+\label{eq:del4_thetaw}
+-D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
+\big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w}.
+\end{equation}
+We show that the feasible range of $\theta\_w$ lies btween 0 and the vertex of this parabola where the parabola is increasing in $\theta\_w$, and so does $\Delta$ which results in inferring $\pder[\Rnum]{\theta\_w}\leq 0$.
+It is enough to show that partial derivative of the expression \eqref{eq:del4_thetaw} with respect to $\theta\_w$ at $\theta\_w=1$ is non-negative. It follows that
+\begin{align}
+\label{eq:d_del4_thetaw}
+\pder[\Delta\,C]{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
+(D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \\
+=& (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2\,p_I\,\hat F_I )\,S\_n^*
++\gamma(\omega+\gamma)\,\hat F_I\,(1-S\_n^*),
+\end{align}
+which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
+
+\ali{stoped here!}
 
 Let define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, thus
 \begin{equation}
