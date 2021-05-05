@@ -547,21 +547,12 @@ d_3&= \frac{(\omega+\gamma)}{\omega} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi
 \end{align}
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
 If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. 
-If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this scenario occures when $\theta\_w=0$ and $\theta\_c=1$, which is illustraited in the top-right panel of the Fig.\,\ref{pan2} panel (b). This is when the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case 
+If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this counter-vailing effect of $\rho$ on $\Rnum$ occures when $\theta\_w=0$ and $\theta\_c=1$. This is illustraited in the top-right panel of the Fig.\,\ref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
+Specifically, in the case of targeted testing which is identified with $\frac{w_I}{w_S}> 1$, and using a perfect sensative test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder[\Rnum]{\rho}\leq\,0$.  
+Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the counter-vailing effect, which is not obvious, of these two parameters on $\Rnum$. 
+% that people in the DFE waiting for negative test, $S_n^*$.
+% More testing may have a counter effect on $\Rnum$, as if we have more testing we have more people in $S_n^*$ which will take them longer to get to $I\_c$.
 \ali{I stoped here!}
-\begin{equation}
-\label{ineq:a3}
-a_3 <0\iff\omega+\gamma<(\omega\,p_I+\gamma)\frac{w_I}{w_S}.
-\end{equation}
-Given that $\frac{w_I}{w_S}\geq 1$, and $0\leq\,p_I\leq\,1$, this inequality is hold when a perfect sensitive test is used, i.e., $p_I=1$, and a targeted tesing strategy is followed, i.e., $\frac{w_I}{w_S}>1$. \ali{i)what is the interpretation of this? 2) (Ben:) calculate the corresponding eigenvector to $\Rnum$, scale it to 1, and plot the population of each infected compartment, what does this tell us? }
-
-Note that $\rho$ and $\omega$ have similar mechanism in delaying people to get into $I\_c$. The non monotonic countereffect of testing rate and test return rate are not obvious. 
-that people in the DFE waiting for negative test, $S_n^*$.
-More testing may have a counter effect on $\Rnum$, as if we have more testing we have more people in $S_n^*$ which will take them longer to get to $I\_c$.
-
-
-more $\rho$ then
-
 
 % %%%%%%%
 \subsection{rate of returning tests} \label{app:omega}
