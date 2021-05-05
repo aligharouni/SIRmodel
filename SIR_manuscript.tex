@@ -154,7 +154,7 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
 The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
 \begin{equation}
 \label{dfe}
-S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S\_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
+S\_n^*= \frac{\rho}{\omega}\,N_0, \ S\_u^*= \frac{\omega-\rho}{\omega}\,N_0, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
 The corresponding \percap testing rate (Eq. \ref{F}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
 \begin{equation}
@@ -381,7 +381,7 @@ V^{-1} =&
 \omega(\omega+\gamma) p_I \hat F_I & \omega^2 p_I \hat F_I & C \omega/(\omega+\gamma) & C
 \end {array} \right],
 \end{align}
-where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I \big) (\omega+\gamma)$ and $\hat F_I$ is the \percap testing rate for the infected people and represented in Eq. \eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
+where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I \big) (\omega+\gamma)$ and $\hat F_I$ is the \percap testing rate for the infected people and represented in Eq.\,\eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
 
 The particular form of $F$ with two rows of zeros at the bottom results in the following blocked form of matrix $G$.
 \begin{equation}
@@ -422,11 +422,12 @@ In the next section we provide an equivalent representation of $\Rnum$ to provid
 % %%%%%%%
 \subsection{More testing intensity may decreases $\Rnum$}\label{app:rho}
 
-This is to provide a mathematical materials to prove that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
+This is to provide a mathematical materials to prove that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eq.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
-\left[ \begin {array}{c}  (\omega-\rho)/\omega \\ (1-\theta\_w)\rho/\omega  \end {array} \right]
+% \left[ \begin {array}{c}  (\omega-\rho)/\omega \\ (1-\theta\_w)\rho/\omega  \end {array} \right]
+\left[ \begin {array}{c}  S\_u^*/N_0 \\ (1-\theta\_w)\,S\_n^*/N_0  \end {array} \right]
 \left[ \begin {array}{cccc} 
 C-C_1, C-C_1-C_2\end {array} \right],
 \end{equation}
@@ -438,16 +439,17 @@ and $C_1$ and $C_2$ are
 C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
 C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,\omega\,p_I\,\hat F_I,
 \end{align}
-where $\hat F_I$ is given in Eq. \eqref{eq:fi}.
+where $\hat F_I$ is given in Eq.\,\eqref{eq:fi}.
+Note that for analysis brevity, we let $N_0=1$, thus $S\_u^*$ and $S\_n^*$ are in the scale of 0 to 1.
 $\Rnum$ is in the same form as in Eq. \eqref{R0}  
 $$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
 where 
 \begin{equation}
 \label{eq:del4}
-\Delta= \frac{1}{N_0\,C}\big(C_1\,S\_u^*+((C_1+C_2)(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
+\Delta= \frac{1}{C}\big(C_1\,S\_u^*+((C_1+C_2)(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
 \end{equation}
-Note that for analysis convention, we let $N_0=1$, thus $S\_u^*$ and $S\_n^*$ are in the scale of 0 to 1. 
-To derive the first result, i.e., how changes in $\theta\_w$ and $\theta\_c$ affects $\Rnum$, we factor these parameters in $\Delta$ \eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
+
+{\bf The first goal} is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\theta\_w}$ and $\pder[\Rnum]{\theta\_c}$. We start with simpliying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.\,\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
 \begin{equation}
 \label{eq:del4_theta}
 \Delta= \frac{1}{C}\Big(
@@ -476,51 +478,77 @@ We show that the feasible range of $\theta\_w$ lies btween 0 and the vertex of t
 It is enough to show that partial derivative of the expression \eqref{eq:del4_thetaw} with respect to $\theta\_w$ at $\theta\_w=1$ is non-negative. It follows that
 \begin{align}
 \label{eq:d_del4_thetaw}
-\pder[\Delta\,C]{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
+\pder[\Delta]{\theta\_w}\,C\bigg\rvert_{\theta\_w=1} =&
 (D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \\
 =& (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2\,p_I\,\hat F_I )\,S\_n^*
 +\gamma(\omega+\gamma)\,\hat F_I\,(1-S\_n^*),
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
-\ali{stoped here!}
 
-Let define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, thus
+
+
+{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\rho}$, which specifically depends on $\pder[\Delta]{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4_theta}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparametrize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparametrized as 
 \begin{equation}
 \label{eq:phi}
 \rho=\frac{\omega \phi}{\omega+\phi}.
 \end{equation}
-Reparametrizing testing rate $\rho$ by $\phi$ in the expression of $\Rnum$, in Eq.\,\eqref{R0}, and applying the derivative with respect to $\phi$ results in the following simplified expression for $\partial\Delta/\partial\phi$.
-
-with an equivalent but simplified $\Delta$ in Eq.\,\eqref{eq:abc} as
-\begin{equation}
-\label{eq:del3}
-\Delta= \frac{K_1\,\phi^2+K_2\,\phi}{K_3},
-\end{equation}
-where
-\begin{align}
-\label{eq:K}
-K_1=& \frac{w_I}{w_S}\Big(((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big), \\
-K_2=& (\omega+\gamma)\Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
-K_3=& (\omega+\gamma) \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)(\omega+\phi).
-\end{align}
+This one-to-one monotonic reparametrization enables us to simplify the mathematical expressions and explore the simpler $\pder[\Delta]{\phi}$ instead of the complicated $\pder[\Delta]{\rho}$.
+% with an equivalent but simplified $\Delta$ in Eq.\,\eqref{eq:abc} as
+% \begin{equation}
+% \label{eq:del3}
+% \Delta= \frac{K_1\,\phi^2+K_2\,\phi}{K_3},
+% \end{equation}
+% where
+% \begin{align}
+% \label{eq:K}
+% K_1=& \frac{w_I}{w_S}\Big(((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big), \\
+% K_2=& (\omega+\gamma)\Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+% K_3=& (\omega+\gamma) \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)(\omega+\phi).
+% \end{align}
 The derivative is
 \begin{align}
 \label{eq:dd3dr}
 \partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
 \end{align}
 where
+
+\begin{multline}
+\label{eq:a3}
+a_3 = \frac{w_I}{w_S}
+\Bigg(\Big(
+( \theta_{{w}}{{\it p\_I}}^{2}-\theta_{{c}}{{\it p\_I}}^
+{2}\theta_{{w}} ) {\omega}^{3} 
++ ( 2\,\theta_{{w}}{{\it p\_I
+}}^{2}-\theta_{{c}}{{\it p\_I}}^{2}-{\it p\_I}\,{\theta_{{w}}}^{2}-
+\theta_{{c}}{\it p\_I}\,\theta_{{w}}-{{\it p\_I}}^{2}{\theta_{{w}}}^{2
+}+2\,\theta_{{w}}{\it p\_I} ) \gamma\,{\omega}^{2} \\
+ + ( -2\,{ \it p\_I}\,{\theta_{{w}}}^{2}-\theta_{{c}}{\it p\_I}+3\,\theta_{{w}}{
+\it p\_I}-{\theta_{{w}}}^{2}+\theta_{{w}} ) {\gamma}^{2}\omega 
+ + ( \theta_{{w}}-{\theta_{{w}}}^{2} ) {\gamma}^{3} \Big) \frac{w_I}{w_S}
+ + ( -\theta_{{c}}{\it p\_I}\,\theta_{{w}}+\theta_{{c}}{\it p\_I}
+ ) \gamma\,{\omega}^{2}+ \\
+ ( \theta_{{w}}+\theta_{{c}}{\it
+p\_I}-{\theta_{{w}}}^{2}-\theta_{{c}}{\it p\_I}\,\theta_{{w}} )
+{\gamma}^{2}\omega+ ( \theta_{{w}}-{\theta_{{w}}}^{2} ) {
+\gamma}^{3}
+\Bigg),
+\end{multline}
 \begin{align}
 \label{eq:abcd2}
-a_3=& \frac{w_I}{w_S} \Big((\omega\,p_I+\gamma)(\theta\_w-\theta\_c)\frac{w_I}{w_S}\omega\,p_I+(\gamma\theta\_w+\omega\,p_I\theta\_c)(\omega+\gamma) \Big),\\
-b_3=& 2\frac{w_I}{w_S}(\omega+\gamma)\Big( ((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big) ,\\
-c_3=& (\omega+\gamma)^2 \Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
-d_3=& \frac{(\omega+\gamma)}{\omega\gamma} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2. 
+b_3&= 2\frac{w_I}{w_S}(\omega+\gamma)\gamma\Big( 
+(\omega+\gamma+\omega\,p_I)(2-\theta\_w)\,\gamma\,\theta\_w+ (1-\theta\_w)\,\omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w 
+\Big) ,\\
+c_3&= (\omega+\gamma)^2\,\gamma\Big( 
+(2-\theta\_w)\,\gamma^2\,\theta\_w+
+(1+\frac{w_I}{w_S})\,\omega\,\gamma\,\theta\_w+
+\frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+d_3&= \frac{(\omega+\gamma)}{\omega} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2. 
 \end{align}
-
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
-If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Delta \leq 0$. 
+If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. 
 If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this scenario occures when $\theta\_w=0$ and $\theta\_c=1$, which is illustraited in the top-right panel of the Fig.\,\ref{pan2} panel (b). This is when the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case 
+\ali{I stoped here!}
 \begin{equation}
 \label{ineq:a3}
 a_3 <0\iff\omega+\gamma<(\omega\,p_I+\gamma)\frac{w_I}{w_S}.
