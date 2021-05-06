@@ -108,6 +108,44 @@ V^{-1} =&
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
+Mathematical modeling of infectious disease outbreaks provides insights on how testing processes influence the epidemiological processes through isolation. 
+Here, we develop a compartmental SIR-type model to study the potential effect of testing strategies, testing intensity, test sensitivity and specificity, test reporting time and isolation on epidemic dynamics. 
+While targeted testing strategies, including targeting people with infection-like symptoms or the contacts of confirmed cases, are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is that viral spread is greater for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing). \ali{this is a valid sentence especially when $\theta\_w$ is closer to 1, but not sure if this was counter-intuitive or was the opposite of it? i.e., that viral spread is greater for a fast test ($1/\omega$ closer to 0) than for a slow test.}
+
+We incorporated the compartment-specific relative testing weights, $w_S$, $w_I$ and $w_R$, to model random testing and \emph{targeted} testing strategies. Here, in the case of targeted testing and for the simplicity and illustration purposes, we assumed that infected and recovered individuals are tested at three times the \percap rate of susceptible individuals, thus $w_I/w_S=3$ and $w_R=w_I$. Note that we have not specified a methodology to assign particular relative testing weights corresponding to a particular targeted testing scenario. 
+Modeling different targeted testing strategies, equivalently test-specific testing weights in our framework, requires prior information of the conditional probabilities of getting tested for people in a given compartment. 
+This can be implied when we would like to quantify and compare the effect of different levels of test focus for infectious people on the basic reproduction number $\Rnum$, and conclude about the disease spread management. For example, when people are tested for "screening", the individuals with potential higher mobility, eg. people who are getting on flights, get more tested and thus the coresponding heavier testing weight is assigned than people awaiting for a surgery and are probably going to stay in a long-term-care facility and consequently less mobile and more isolated to begin with. With our model, we would be able to compare the sensitivity of the disease dynamics, through $\Rnum$, with respect to testing different high-risk groups in the population. This part needs to be developed further in future work.
+
+{\bf The \percap testing intensity, $\rho$;}
+Proposition \ref{p1:rho} and also Figures \ref{pan} and \ref{pan2} indicates that increasing testing intensity $\rho$ may reduce $\Rnum$ but there is a counter-intuitive machanism. 
+The expected mechanism was that as more untested infected individuals are moved to the test compartments, i.e., from $I\_u$ to $I\_p$ and $I\_n$, and eventually to the confirmed compartment $I\_c$, they may partially or fully self-isolate ($\theta\_w$ and $\theta\_c$ varies between 0 and 1 with $\theta\_w\leq\theta\_c$). Thus, the higher the \percap testing intensity $\rho$, the lower the force of infection \eqref{Lambda} and the lower $\Rnum$ will become. This is true when $\rho$ is very small relative to $N_0$ and can be verified analytically and through our simulation. The counter-intuitive mechanism is that at the DFE, higher \percap testing intensity, may delay recognition of true infected individuals $I\_p$ and causing an increase in $\Rnum$ as follows. At high $\rho$, more people will be moved from $S\_u^*$ to $S\_n^*$, thus a higher proportion of awaiting people may get infected and end up in $I\_n$, and be delayed from being eligable for retesting $I\_u$ and eventually to $I\_p$ and $I\_c$. Our analysis (Sec.\,\ref{app:rho}) and simulation (see Fig.\,\ref{pan2} panel (b) when $\theta\_c=1$ and $\theta\_w=0$) support such a mechanism. In particular, if \eqref{ineq:a3} holds we will have such a result. 
+
+ 
+
+{\bf The potential advantage of slow test reporting, or favorable-delay-reporting;}
+Individuals are highly likely to fully self-isolate when they are either awaiting the test results or they are reported, thus reducing or eliminating their potentially infectious contacts. Thus, the faster the test reporting rate, $\omega$, the shorter these individuals stay in the ``\emph {safe}'' awaiting-confirmed compartments, namely $X_n$, $X_p$ and $X_c$ for $X \in \{S,I,R\}$, and the more they get involved in the infection process.
+This advantage of slow test reporting is real, and neglected. 
+We also compare to an individual-level advantage of fast tests: people who test positive may be even more careful.
+In our model analysis, Proposition \ref{prop1} part \ref{p1:omega} is describing this potential advantage. 
+It states that returning test results more rapidly, i.e., increasing the rate $\omega$, does not necessarily lower the reproduction number $\Rnum$; whether increasing $\omega$ lowers $\Rnum$ depends on the precise combination of model parameters  including test reporting rate, testing strategies represented by compartment-specific testing weights, test sensitivity and specificity, and the level of isolation. 
+Specifically, in the case of perfect isolation, i.e., when $\theta\_w=1$ and $\theta\_c=1$, $\Rnum$ may increase as the test reporting process becomes faster. This can be seen from expression \eqref{Rom}.
+Another example of this favorable delay in $\omega$ could be when the test being employed produces many false negatives. Because many infected asymptomatic individuals will believe they are uninfected/uninfectious, thus may unknowingly spread the virus to many others. Again the delay in the test reporting rate keeps these individuals in the ``\emph {safe}'' awaiting-confirmed compartments.  
+
+we are missing out on
+community-level advantages of fast testing: better assessment of the
+situation, identification of hot spots, contact-tracing, etc.
+The \percap testing intensity of CIVID-19 after about a year from the first case reported in December 2019, is still low (($\rho \approx 0$) in our model). In near future new test kits may be widely accessible, our model provide insights in this case. 
+In particular, if a cheap test can identify on average more infected individuals as an expensive test, then our model predicts that the cheap test will lower $\Rnum$ more. In contrast, if an expensive test can identify on average more infected individuals, it will not necessarily lower $\Rnum$ more than the cheap test. The use of tests cheaper than RT-PCR has been proposed as a potential strategy for containing the COVID pandemic. While cheaper tests may be less sensitive and reliable than RT-PCR, they allow for broader and more intense testing. Using our Taylor approximation of $\Rnum$ near $\rho = 0$, we examined what circumstances (i.e., model parameters) make the use of one test more favourable than another, and give a complete description through inequality \ref{eq:rho1vsrho2}. In general, we found that the expensive test tends to more effectively lower $\Rnum$ when (a) individuals who test positive self-isolate much more than individuals who are waiting for their test result, (b) the time it takes to return tests is much shorter than the mean infectious period, and (c) the testing intensity is much greater for infected individuals than susceptible individuals.
+
+\ali{ not sure if we want these 2 following parageraphs, or shrink it into afew short sentences?}
+In addition to the favorable-delay-reporting observation of our model \eqref{model}, the model enables us to quantify the amount of delay required in the test reporting process as a strategy to reduce $\Rnum$.
+To give a biological interpretation, we describe the qualitative trends predicted by the inequality \eqref{eq:necsuf}. To summarise, returning test results more rapidly tends to be favourable (i.e., reduces $\Rnum$) when (i) \emph{Confirmed-positive} individuals, lower their contact much more than individuals who are waiting for their test results (i.e., $\theta\_c \gg \theta\_w$), (ii) the test is highly sensitive (i.e., $p_I$ is close to 1), and (iii) the targeted testing strategy is used (i.e., $w_I \gg w_S$). 
+
+one point we can make when discussing the relative weight of testing in different compartments is to discuss pre-testing screening tools, such as surveys or questionnaires. If we have a quantitative description of how the testing intensities affect the dynamics, we can make statements like ``our results suggest that employing a pre-testing screening tool can help target infected individuals more effectively. In particular, doubling the sensitivity of the pre-screening tool would *do something* to $\Rnum$.
+
+\david{Some of this reads like notes for discussion rather than text for the paper, so I'm not trying to edit.}
+
+
 
 \bibliography{../SIRlibrary}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -213,6 +251,8 @@ One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day)
 
 % %%%%%%%
 \subsection{More testing intensity decreases $\Rnum$}
+% that people in the DFE waiting for negative test, $S_n^*$.
+% More testing may have a counter effect on $\Rnum$, as if we have more testing we have more people in $S_n^*$ which will take them longer to get to $I\_c$.
 
 This is to prove that $\pro \Delta > 0$ with $\Delta$ defined in Eq. \eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eqs. \eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
 \begin{equation}
