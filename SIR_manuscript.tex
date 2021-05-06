@@ -485,9 +485,6 @@ It is enough to show that partial derivative of the expression \eqref{eq:del4_th
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
-
-
-
 {\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\rho}$, which specifically depends on $\pder[\Delta]{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4_theta}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparametrize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparametrized as 
 \begin{equation}
 \label{eq:phi}
@@ -512,7 +509,6 @@ The derivative is
 \partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
 \end{align}
 where
-
 \begin{multline}
 \label{eq:a3}
 a_3 = \frac{w_I}{w_S}
@@ -549,20 +545,28 @@ Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a
 If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. 
 If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this counter-vailing effect of $\rho$ on $\Rnum$ occures when $\theta\_w=0$ and $\theta\_c=1$. This is illustraited in the top-right panel of the Fig.\,\ref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
 Specifically, in the case of targeted testing which is identified with $\frac{w_I}{w_S}> 1$, and using a perfect sensative test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder[\Rnum]{\rho}\leq\,0$.  
-Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the counter-vailing effect, which is not obvious, of these two parameters on $\Rnum$. 
-% that people in the DFE waiting for negative test, $S_n^*$.
-% More testing may have a counter effect on $\Rnum$, as if we have more testing we have more people in $S_n^*$ which will take them longer to get to $I\_c$.
-\ali{I stoped here!}
+Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial counter-vailing effect of these two parameters on $\Rnum$. 
 
 % %%%%%%%
 \subsection{rate of returning tests} \label{app:omega}
-\ali{needs editig}
-The linearization of $\Rnum$ around $\rho=0$ is
-\begin{equation}\label{linearization}
-\Rnum \approx \beta/\gamma + \frac{\beta \rho}{\omega (\omega+\gamma) \gamma^2 w_S} \Big(\gamma(-\theta\_w)(\gamma w_S+\omega w_I) + (-\theta\_c)p_I w_I \omega^2 \Big). 
+{\bf The third goal} is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\omega}$, which specifically depends on $\pder[\Delta]{\omega}$. We use
+the linearization of $\Rnum$ around $\rho=0$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The taylor expansion of $\Delta$ at $\rho=0$ is
+\begin{equation}
+\label{eq:lin}
+\Delta = \frac{\rho}{\omega\,\gamma(\omega+\gamma)} \Big(
+\frac{w_I}{w_S}\,\omega^2\,p_I\,\theta\_c+(\frac{w_I}{w_S}+1)\,\gamma\omega\theta\_w\,+\gamma^2\,\theta\_w(2-\theta\_w)
+\Big). 
 \end{equation}
-So when $\rho \approx 0$ we have $$\partial{\Rnum}/\partial{\omega} \approx  \frac{-\beta \rho}{\gamma w_S\omega^2 (\gamma+\omega)^2}  (a \omega^2 + b \omega + c),$$
-where $a=(-\theta\_w)w_I-(-\theta\_c)p_I w_I$, $b=2(-\theta\_w)\gamma w_S$ and $c=(-\theta\_w)\gamma^2 w_S$. 
+This results in
+\begin{equation}
+\label{eq:dlindo}
+\pder[\Delta]{\omega} = \frac{\rho}{\omega^2\,(\omega+\gamma)^2} \Big(
+(p_I\,\frac{w_I}{w_S}\theta\_c\,-(1+\frac{w_I}{w_S})\theta\_w)\omega^2+2\theta_w\,\gamma(\theta_w-2)\,\omega+\theta_w\,\gamma^2\,(\theta_w-2)
+\Big),
+\end{equation}
+around $\rho=0$.
+\ali{I stoped here!}
+
 
 Perhaps counter-intuitively, the equation above does not predict that $\Rnum$ is monotone decreasing with respect to $\omega$. In other words; our model does not predict that returning test results more rapidly \textit{always} lower $\Rnum$. In order to gain insight into this intriguing behavior, we examine the zeroes of $\frac{\partial{\Rnum}}{\partial{\omega}}(\omega)$.
 Defining the following quantity, $Q$, will help us write the roots of $\partial{\Rnum}/\partial{\omega}$ neatly as follows.
