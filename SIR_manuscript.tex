@@ -59,7 +59,7 @@
 % %%%%%%%
 \section{Abstract}
 
-The effect of testing processes, including (testing and test reporting) on an epidemic dynamics (infection and recovery) can be studied at the individual level or the community level (e.g., nursing homes, long-term-care facilities, etc.). 
+The effect of testing processes, including testing and test reporting, on an epidemic dynamics, involving infection and recovery, can be studied at the individual level or the community level (e.g., nursing homes, long-term-care facilities, etc.). 
 Gaining insights to determine the sensitivity of the epidemic dynamics with respect to the testing processes will depend on underlying factors including the level of focus (individual or community), assumptions (model), and the interplay between these factors. 
 In particular, the fast testing and test reporting may be beneficial at the community-level, supported by many studies, as it gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing. However, the potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
 In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
@@ -434,24 +434,24 @@ where
 D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega\,p_I)\gamma\,\hat F_I, \\
 D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega\,p_I)\gamma\,\hat F_I+(\gamma+p_I\,\hat F_I)\omega^2.
 \end{align}
-The scaled expression of $\Delta$, specifically $\Delta\,C$, in Eq.\,\eqref{eq:del4_theta} is linear in $\theta\_c$ with a positive coefficient given by 
-$$(\gamma\,S\_u^*\,+\omega(1-\theta\_w\,S\_u^*))\omega\,p_I\,\hat F_I.$$
+$\Delta$, Eq.\,\eqref{eq:del4_theta}, is linear in $\theta\_c$ with a positive coefficient given by 
+$$1/C\,(\gamma\,S\_u^*\,+\omega(1-\theta\_w\,S\_u^*))\omega\,p_I\,\hat F_I.$$
 This results in increasing $\Delta$, thus decreasing $\Rnum$ with respect to $\theta\_c$, that is $\pder[\Rnum]{\theta\_c}\leq 0$. Note that $C$ is independant of $\theta\_c$ and $\theta\_w$. 
 
-With a similar logic, the expression of $\Delta\,C$ derived from Eq.\,\eqref{eq:del4_theta} is a concave-down quadratic equation in $\theta\_w$, given by
+With a similar logic, $\Delta$ \eqref{eq:del4_theta} is a concave-down quadratic equation in $\theta\_w$, given by
 \begin{equation}
 \label{eq:del4_thetaw}
--D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
-\big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w}.
+1/C\,\Big( -D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
+\big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w} \Big).
 \end{equation}
 We show that the feasible range of $\theta\_w$ lies btween 0 and the vertex of this parabola where the parabola is increasing in $\theta\_w$, and so does $\Delta$ which results in inferring $\pder[\Rnum]{\theta\_w}\leq 0$.
 It is enough to show that partial derivative of the expression \eqref{eq:del4_thetaw} with respect to $\theta\_w$ at $\theta\_w=1$ is non-negative. It follows that
 \begin{align}
 \label{eq:d_del4_thetaw}
-\pder[\Delta]{\theta\_w}\,C\bigg\rvert_{\theta\_w=1} =&
-(D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \\
-=& (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2\,p_I\,\hat F_I )\,S\_n^*
-+\gamma(\omega+\gamma)\,\hat F_I\,(1-S\_n^*),
+\pder[\Delta]{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
+1/C\Big( (D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \Big) \\
+=& 1/C\Big( (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2\,p_I\,\hat F_I )\,S\_n^*
++\gamma(\omega+\gamma)\,\hat F_I\,(1-S\_n^*) \Big),
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
