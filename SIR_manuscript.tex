@@ -64,7 +64,7 @@ Gaining insights to determine the sensitivity of the epidemic dynamics with resp
 In particular, the fast testing and test reporting may be beneficial at the community-level, supported by many studies, as it gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing. However, the potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
 In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
 Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include \percap testing intensity, test sensitivity and specificity, rate of test return, and isolation efficacy in reduction of the probability of transmission. The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control.
-Here, we compare two testing strategies, random vs. targeted, and concluded that the targeted testing strategy is more effective in the sense that achieving reduction of $\Rnum$ can occure in a lower range of testing intensity and longer test return time relative to the random testing. Furthermore, we show that increasing \percap testing intensity and reducing the test return time would be beneficial on the dynamics of an epidemic in general but there are exception cases. In particular, it is possible for the basic reproduction number, $\Rnum$, to be increasing with respect to the \percap testing intensity and the rate of test return when the isolation efficacy in reduction of the probability of transmission for awaiting individuals is loose.  
+Here, we compare two testing strategies, random vs. targeted, and concluded that the targeted testing strategy is more effective in the sense that achieving reduction of $\Rnum$ can occure in a lower range of testing intensity and longer test return time relative to the random testing. Furthermore, we show that increasing \percap testing intensity and reducing the test return time would be beneficial on the dynamics of an epidemic in general but there are exception cases. In particular, it is possible for the basic reproduction number, $\Rnum$, to be increasing with respect to the \percap testing intensity and the rate of test return.  
 
 % %%%%%%%
 \section{Introduction}
@@ -179,10 +179,10 @@ C =& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big)
 C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
 C_2 =& \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2\,(\omega+\gamma+\hat F_I)\Big)\theta\_w + \omega^2\,p_I\,\hat F_I\,\theta\_c.
 \end{align}
-Further details of derivation of $\Rnum$ are provided in appendix sec.\,\ref{app:R0}. Further, we show the nontrivial-nonmonotonic effect of testing intensity on $\Rnum$ appendix (See Sec.\,\ref{app:rho}). It is notable that this non-monotonic effect also occures with the rate of test return $\omega$. We show this for the case when testing intesity is very small by using the Taylor approximation of $\Rnum$ at $\rho=0$. \ali{some of these are methods!}  
+Further details of derivation of $\Rnum$ are provided in appendix, Sec.\,\ref{app:R0}. Further, we show the nontrivial and nonmonotonic effect of testing intensity on $\Rnum$ in appendix, Sec.\,\ref{app:rho}. It is notable that this non-monotonic effect also occures with the rate of test return $\omega$. We show this for the case when testing intesity is very small by using the Taylor approximation of $\Rnum$ at $\rho=0$.  
  
 The analytical calculation of the next-generation matrix and simplifying the expression of $\Rnum$ was carried out in Maple \citep{maple14}. 
-We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:Delta1} over a range of selected set of parameters of interest, i.e., parameters that could be manipulated by public-health policy. These parameters include the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$.
+We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:del4} over a range of selected set of parameters of interest, i.e., parameters that could be manipulated by public-health policy. These parameters include the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$.
 The rest of model parameters kept fixed at sensible values (see Table~\ref{tab:params} for the parameter values). Note that all plots are illustrated in the scale of the mean test return time $1/\omega$ (day).  
 Results are shown in Fig.\,\ref{pan} and Fig.\,\ref{pan2} with two panels; panel (a) represents the random testing, thus $w_S=w_I=w_R=1$, and panel (b) represents targeted testing, thus $w_S=0.3$ and $w_I=w_R=1$. 
 To illustrate the changes in $\Rnum$ with respect to \percap testing intensity$\rho$, two sets of plots are presented. 
@@ -258,7 +258,7 @@ $N_0=1 \times 10^6$, $\omega \in (0.25,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in 
 \end{figure}
 
 
-Numerical results are shown in Fig. \ref{pan}.
+Numerical results are shown in \fref{pan}.
 Targeted testing (panel b) is more effective at control than random testing (panel a).
 
 When $\theta_w =0$ (top row of each panel), we see that shorter test-waiting times reduce \Rnum\ ($\Delta$ increases as we move to the left in each plot in this row). For non-zero $\Delta$, however, we mostly see the opposite effect: less waiting leads to more transmission. This is because returning negative tests leads people to stop distancing; this applies both to susceptibles, and to infectious people who receive negative test results because they were sampled when susceptible (or because of imperfect test sensitivity, which is not modeled in this figure).
@@ -452,7 +452,7 @@ It is enough to show that partial derivative of the expression \eqref{eq:del4_th
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
-{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\rho}$, which specifically depends on $\pder[\Delta]{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4_theta}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparametrize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparametrized as 
+{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\rho}$, which specifically depends on $\pder[\Delta]{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparametrize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparametrized as 
 \begin{equation}
 \label{eq:phi}
 \rho=\frac{\omega \phi}{\omega+\phi}.
@@ -498,7 +498,9 @@ d_3&= \frac{(\omega+\gamma)}{\omega} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi
 \end{align}
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
 If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. 
-If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. An example of this counter-vailing effect of $\rho$ on $\Rnum$ occures when $\theta\_w=0$ and $\theta\_c=1$. This is illustraited in the top-right panel of the Fig.\,\ref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
+If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. 
+
+An example of this counter-vailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occures when $\theta\_w=0$ and $\theta\_c=1$. This is illustraited in the top-right panel of the Fig.\,\ref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
 Specifically, in the case of targeted testing which is identified with $\frac{w_I}{w_S}> 1$, and using a perfect sensative test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder[\Rnum]{\rho}\leq\,0$.  
 Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial counter-vailing effect of these two parameters on $\Rnum$. 
 
