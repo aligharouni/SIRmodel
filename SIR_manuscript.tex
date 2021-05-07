@@ -167,21 +167,19 @@ The basic reproduction number, $\Rnum$, was calculated by using the next generat
 \label{R0}
 \Rnum= \frac{\beta}{\gamma} (1-\Delta), 
 \end{equation}
-where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation (see, e.g., \cite{keeling2011modeling}), and $\Delta$ is the reduction parameter defined as follows. \ali{$\Delta$ should be updated, the expression will be linear in $\theta\_c$ but quadratic in $\theta\_w$, C stay unchanged. It can be proved that $\Delta$ increases in $\theta\_w$ for feasible range of $\theta\_w$ (I think this argument will go to the appendix).?}
+where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation (see, e.g., \cite{keeling2011modeling}), and $\Delta$ is the reduction parameter defined as follows. 
 \begin{equation}
-\label{eq:Delta1}
-\Delta= (A~ \theta\_w + B~ \theta\_c) / C,
+\label{eq:del4}
+\Delta= \frac{1}{C}\big(C_1\,S\_u^*+(C_2(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big),
 \end{equation}
 where
-\begin{equation}
-\begin{aligned}
-\label{eq:abc}
-A=& \gamma \Big( \big(\gamma(\omega+\gamma) + \omega p_I \hat F_I \big) \frac{(1-\theta\_w)S\_n^*}{N_0} + (\omega+\gamma) \hat F_I \Big),\\
-B=& \omega p_I(\gamma \frac{S\_u^*}{N_0}+\omega)\hat F_I, \\ 
-C=& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big).
-\end{aligned}
-\end{equation}
-Further details of derivation of $\Rnum$ are provided in section \ref{app:R0} of the appendix. Note that $\Delta$ has been presented in a specific monotonic form with respect to isolation efficacy parameters, $\theta\_w$ and $\theta\_c$, in order to simplify showing one of the results of this paper which is the reduction effect of isolation on $\Rnum$. Further, we represent $\Delta$ in another equivalent form in the appendix (Sec. \ref{app:rho}) to show the nontrivial-nonmonotonic effect of testing intensity and test return rate on $\Rnum$.  
+\begin{align}
+\label{eq:C12}
+C =& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big),\\
+C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
+C_2 =& \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2\,(\omega+\gamma+\hat F_I)\Big)\theta\_w + \omega^2\,p_I\,\hat F_I\,\theta\_c.
+\end{align}
+Further details of derivation of $\Rnum$ are provided in appendix sec.\,\ref{app:R0}. Further, we show the nontrivial-nonmonotonic effect of testing intensity on $\Rnum$ appendix (See Sec.\,\ref{app:rho}). It is notable that this non-monotonic effect also occures with the rate of test return $\omega$. We show this for the case when testing intesity is very small by using the Taylor approximation of $\Rnum$ at $\rho=0$. \ali{some of these are methods!}  
  
 The analytical calculation of the next-generation matrix and simplifying the expression of $\Rnum$ was carried out in Maple \citep{maple14}. 
 We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:Delta1} over a range of selected set of parameters of interest, i.e., parameters that could be manipulated by public-health policy. These parameters include the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$.
@@ -376,7 +374,7 @@ G_{11} = \frac{\beta}{\gamma \, C}
 \end{equation}
 It is notable that matrix $F$ \eqref{FV} has rank one and consequently $G_{11}$ does so. That is $G_{11}$ has only one non-zero eigenvalue which is $\Rnum$.
 
-The expression of $\Rnum$ has a complicated form with all of the model parameters involved. This expression can be simplifed and represented given the specific form of matrix $G_{11}$ \eqref{G11}. For the purpose of simplicity we present $\Rnum$ in the manuscript in terms of expressions $A$, $B$ and $C$, specified in \eqref{eq:abc}. This is intended to show that $\Rnum$ decreases as the strength of isolation, shown by $\theta\_w$ and $\theta\_c$, increases.
+The expression of $\Rnum$ has a complicated form with all of the model parameters involved. This expression can be simplifed and represented given the specific form of matrix $G_{11}$ \eqref{G11}. For the purpose of simplicity we present $\Rnum$ in the manuscript in terms of expressions $C$, $C1$ and $C2$, specified in \eqref{eq:C12}. 
 
 It remains hard to show that the reproduction number $\Rnum$ is decreasing with respect to \percap testing intensity, $\rho$, and the speed of the test return, $\omega$, for the feasible ranges of the parameters, that is
 \begin{align}
@@ -392,32 +390,31 @@ In the next section we provide an equivalent representation of $\Rnum$ to provid
 % %%%%%%%
 \subsection{More testing intensity may decreases $\Rnum$}\label{app:rho}
 
-This is to provide a mathematical materials to prove that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:abc}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eq.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
+This is to provide a mathematical materials to prove that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:C12}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eq.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
-% \left[ \begin {array}{c}  (\omega-\rho)/\omega \\ (1-\theta\_w)\rho/\omega  \end {array} \right]
 \left[ \begin {array}{c}  S\_u^*/N_0 \\ (1-\theta\_w)\,S\_n^*/N_0  \end {array} \right]
 \left[ \begin {array}{cccc} 
-C-C_1, C-C_1-C_2\end {array} \right],
+C-C_1, C-C_2\end {array} \right],
 \end{equation}
-where $C$ is the same as the one in Eq. \eqref{eq:abc}, i.e., 
+where $C$ is the same as the one in Eq. \eqref{eq:C12}, i.e., 
 $$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,\hat F_I),$$
 and $C_1$ and $C_2$ are 
-\begin{align}
-\label{eq:C12}
+\begin{align*}
+% \label{eq:C12}
 C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
-C_2 =& (\omega+\gamma)\gamma^2\,\theta\_w+(\theta\_w-\theta\_c)\gamma\,\omega\,p_I\,\hat F_I,
-\end{align}
+C_2 =& \big( \omega\gamma(1+p_I)\hat F_I+\gamma^2\,(\omega+\gamma+\hat F_I)\big)\theta\_w + \omega^2\,p_I\,\hat F_I\,\theta\_c,
+\end{align*}
 where $\hat F_I$ is given in Eq.\,\eqref{eq:fi}.
 Note that for analysis brevity, we let $N_0=1$, thus $S\_u^*$ and $S\_n^*$ are in the scale of 0 to 1.
 $\Rnum$ is in the same form as in Eq. \eqref{R0}  
 $$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
 where 
-\begin{equation}
-\label{eq:del4}
-\Delta= \frac{1}{C}\big(C_1\,S\_u^*+((C_1+C_2)(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
-\end{equation}
+\begin{equation*}
+% \label{eq:del4}
+\Delta= \frac{1}{C}\big(C_1\,S\_u^*+(C_2(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
+\end{equation*}
 
 {\bf The first goal} is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\theta\_w}$ and $\pder[\Rnum]{\theta\_c}$. We start with simpliying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.\,\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
 \begin{equation}
@@ -461,18 +458,6 @@ which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0
 \rho=\frac{\omega \phi}{\omega+\phi}.
 \end{equation}
 This one-to-one monotonic reparametrization enables us to simplify the mathematical expressions and explore the simpler $\pder[\Delta]{\phi}$ instead of the complicated $\pder[\Delta]{\rho}$.
-% with an equivalent but simplified $\Delta$ in Eq.\,\eqref{eq:abc} as
-% \begin{equation}
-% \label{eq:del3}
-% \Delta= \frac{K_1\,\phi^2+K_2\,\phi}{K_3},
-% \end{equation}
-% where
-% \begin{align}
-% \label{eq:K}
-% K_1=& \frac{w_I}{w_S}\Big(((1+p_I)\omega+\gamma)\gamma\theta\_w+\omega^2 p_I\theta\_c \Big), \\
-% K_2=& (\omega+\gamma)\Big( (\frac{w_I}{w_S}\omega+\gamma)\gamma\theta\_w + \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
-% K_3=& (\omega+\gamma) \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)(\omega+\phi).
-% \end{align}
 The derivative is
 \begin{align}
 \label{eq:dd3dr}
