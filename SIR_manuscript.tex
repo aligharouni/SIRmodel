@@ -12,6 +12,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
 \usepackage{pdflscape}
+\usepackage{enumerate}
 
 % https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
 \usepackage{array}
@@ -93,19 +94,19 @@ In order to understand the effect of testing processes on an epidemic dynamics, 
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model, Eqs. \eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Symbolically, the testing status of an individual in the disease compartment $X$, where $X \in \{S,I,R\}$, is reflected in the subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Note that the top-to-bottom order of the testing-based compartments of each disease-based compartmenet $X$ in the flowchart (Figure~\ref{fig:flowchart}) and the model equations \eqref{model} should match. However, we switched  $X\_u$ and $X\_n$ in the flowchart (Figure~\ref{fig:flowchart}) for the sake of tidiness of the flowchart.
+We developed a deterministic model, Eqs.\,\eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (Figure~\ref{fig:flowchart}). Symbolically, the testing status of an individual in the disease compartment $X$, where $X \in \{S,I,R\}$, is reflected in the subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Note that the top-to-bottom order of the testing-based compartments of each disease-based compartmenet $X$ in the flowchart (Figure~\ref{fig:flowchart}) and the model equations \eqref{model} should match. However, we switched  $X\_u$ and $X\_n$ in the flowchart (Figure~\ref{fig:flowchart}) for the sake of tidiness of the flowchart.
 Further, two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model equations and details of calculation of the basic reproduction number $\Rnum$ are presented in the appendix (see Sec. \ref{app:R0}).
 
 \begin{figure}
 \begin{center} 
-\includegraphics[scale=2]{pix/sir_comp.pdf}
+\includegraphics[scale=1.5]{pix/sir_comp.pdf}
 \caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model, \ref{model}. Here, the disease-based status of a compartment $X$, where $X \in \{S,I,R\}$, is combined with the testing-based status including $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Also,  $\Lambda$ is the force of infection with definition in Eq.~\eqref{Lambda}, $\gamma$ is the recovery rate, $\omega$ is the rate of test return, $F_X$ (defined in Eq. \eqref{F}) and $p_X$ represent the \percap testing rate and the probability of positive tests, respectively, for compartment $X$. For further description of the parameters see \cref{tab:params}.
 \label{fig:flowchart}}
 \end{center} 
 \end{figure}
 
 Table~\ref{tab:params} defines the model parameters, which are generally straightforward
-\percap flows between compartments, or modifiers to these flow rates. The novel component of the model comes in through the compartment-specific relative testing weights $w_S$, $w_I$ and $w_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. Thus, we can spesify different levels of testing “focus” from random to highly targeted. For example, $w_I/w_S=2$ means that infected individuals are tested at twice the \percap rate of susceptible individuals. 
+\percap flows between compartments, or modifiers to these flow rates. The novel component of the model comes in through the compartment-specific relative testing weights $w_S$, $w_I$ and $w_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. Thus, we can spesify different levels of testing “focus” from random to highly targeted. For example, $w_I/w_S=3$ means that infected individuals are tested at tree times the \percap rate of susceptible individuals. 
 
 In order to link to more applied models, we constructed this model so we could specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = w_S S\_u + w_I I\_u + w_R R\_u$, and calculating a scaling parameter for testing as:
 \begin{equation}
@@ -120,12 +121,18 @@ F_X=\sigma w_X,\,\, \text{where}\, X \in \{S,I,R\}.
 \end{equation}
 For a high-sensitivity test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus unavailable for further testing.  Over the course of the epidemic, a fixed testing rate as specified in \eqref{sigma} can (if large enough) exhaust the pool of people available for testing, leading to a singularity when no one is left untested. Although this phenomenon does not affect our analysis of $\Rnum$, it can affect the temporal dynamics (we discuss an adjustment to the model that solves this problem in the appendix).
 
-The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population (i.e., all individuals are equaly susciptable and equaly infectious for the same length of time when infected), exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model, \ref{model}, assumes: (i) there is a single force of infection (new cases per unit time), $\Lambda$, defined as follows
-\begin{equation}
-\label{Lambda}
-\Lambda=\frac{\beta}{N_0} \big(I\_u + (1-\theta\_w)(I\_n+I\_p) + (1-\theta\_c)I\_c \big),
-\end{equation}
-across all susceptible pools with transmission rate $\beta$ and isolation efficacy in reduction of the probability of transmission for three testing-based compartments ``waiting'' and \emph{confirmed positive} individuals, $\theta\_w$ and $\theta\_c$ respectively, (see Table~\ref{tab:params} for further details), (ii) $\theta\_w\leq\theta\_c$, i.e., the individuals awaiting test results have a higher transmission probability than the reported individuals. Thus, for instance when the awaiting people follow the isolation perfectly, $\theta\_w$ is closer to 1, while when they less follow the isolation, $\theta\_w$ is closer to 0. For this analysis, we also assume a perfectly specific test ($p_S=0$). This last assumption combined with the assumption that no susceptible individual is in waiting-for-\emph{positive} or \emph{confirmed positive} compartments, i.e., $S\_p(0)=S\_c(0)=0$, reduces the model to 10 equations where equations c and d in model \eqref{model} are eliminated.
+The classical SIR model is based on the following implicit assumptions; well-mixed population, homogeneity of the population (i.e., all individuals are equaly susciptable and equaly infectious for the same length of time when infected), exponentially distributed duration of infection and large population size (see, e.g., \cite{keeling2011modeling}). In addition to these standard assumptions, our model assumes: 
+\begin{enumerate}[(i)]
+\item there is a single force of infection (new cases per unit time), $\Lambda$, defined as follows
+  \begin{equation}
+  \label{Lambda}
+  \Lambda=\frac{\beta}{N_0} \big(I\_u + (1-\theta\_w)(I\_n+I\_p) + (1-\theta\_c)I\_c \big),
+  \end{equation}
+  across all susceptible pools with transmission rate $\beta$ and isolation efficacy in reduction of the probability of transmission for three testing-based compartments ``waiting'' and \emph{confirmed positive} individuals, $\theta\_w$ and $\theta\_c$ respectively, (see Table~\ref{tab:params} for further details),
+\item the efficacy of isolation is higher in confirmed individuals relative to the individuals awaiting test results. That is,
+$$0\leq\theta\_w\leq\theta\_c\leq 1.$$ 
+\end{enumerate}
+Thus, for instance when the awaiting people follow the isolation perfectly, $\theta\_w$ is closer to 1, while when they less follow the isolation, $\theta\_w$ is closer to 0. For the simplicity of analysis, we also assume a perfectly specific test ($p_S=0$). This last assumption combined with the assumption that no susceptible individual is in waiting-for-\emph{positive} or \emph{confirmed positive} compartments, i.e., $S\_p(0)=S\_c(0)=0$, reduces the model to 10 equations where equations c and d in model \eqref{model} are eliminated.
 
 \begin{table}[htp]
 \centering
@@ -151,26 +158,26 @@ across all susceptible pools with transmission rate $\beta$ and isolation effica
 \caption{\label{tab:params} Parameters of the model \eqref{model}.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the SIR model, Eqs. \eqref{model}, is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
+The Disease-Free Equilibrium (DFE) for the SIR model (Eqs.\,\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
 \begin{equation}
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega}\,N_0, \ S\_u^*= \frac{\omega-\rho}{\omega}\,N_0, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
-The corresponding \percap testing rate (Eq. \ref{F}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
+The corresponding \percap testing rate (Eq.\,\ref{F}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
 \begin{equation}
 \label{eq:fi}
 \hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S.
 \end{equation}
 
-The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. $\Rnum$ is
+The basic reproduction number, $\Rnum$, was calculated by using the next generation matrix method developed by \cite{van2002reproduction}. We present $\Rnum$ in the following form.
 \begin{equation}
 \label{R0}
 \Rnum= \frac{\beta}{\gamma} (1-\Delta), 
 \end{equation}
-where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation (see, e.g., \cite{keeling2011modeling}), and $\Delta$ is the reduction parameter defined as follows. 
+where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation (see, e.g., \cite{keeling2011modeling}), and the positive quantity $\Delta$ is the ``reduction parameter'' due to testing and isolation processes defined as follows. 
 \begin{equation}
 \label{eq:del4}
-\Delta= \frac{1}{C}\big(C_1\,S\_u^*+(C_2(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big),
+\Delta= \frac{1}{C\,N_0}\big(C_1\,S\_u^*+(C_2(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big),
 \end{equation}
 where
 \begin{align}
@@ -179,7 +186,10 @@ C =& (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big)
 C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
 C_2 =& \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2\,(\omega+\gamma+\hat F_I)\Big)\theta\_w + \omega^2\,p_I\,\hat F_I\,\theta\_c.
 \end{align}
-Further details of derivation of $\Rnum$ are provided in appendix, Sec.\,\ref{app:R0}. Further, we show the nontrivial and nonmonotonic effect of testing intensity on $\Rnum$ in appendix, Sec.\,\ref{app:rho}. It is notable that this non-monotonic effect also occures with the rate of test return $\omega$. We show this for the case when testing intesity is very small by using the Taylor approximation of $\Rnum$ at $\rho=0$.  
+Further details of derivation of $\Rnum$ are provided in appendix, Sec.\,\ref{app:R0}. 
+The explicit formula of $\Rnum$, provides a mathematical ground to study the effect of parameters of interest, i.e., parameters that could be manipulated by public-health policy, on $\Rnum$.
+These parameters include the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$. In partticular, we look at the partial derivatives of $\Delta$ with respect to these parameters (see details in appendix, Sec.\,\ref{app:rho}). 
+It is notable that we study the effect of $\omega$ on $\Rnum$ for the case when testing intesity is very small by using the Taylor approximation of $\Rnum$ at $\rho=0$.  
  
 The analytical calculation of the next-generation matrix and simplifying the expression of $\Rnum$ was carried out in Maple \citep{maple14}. 
 We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:del4} over a range of selected set of parameters of interest, i.e., parameters that could be manipulated by public-health policy. These parameters include the isolation efficacy parameters, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$.
