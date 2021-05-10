@@ -37,6 +37,7 @@ rho_brks <- c(0,0.005,0.01)
 inv_omega_fast_min <- 0.5
 inv_omega_fast_max <- 5
 inv_omega_fast_brks <- c(1,2,4)
+rho_fast_brks <- c(0,0.1,0.2)
 
 background <- "grey90"
 # make dataframe
@@ -188,7 +189,7 @@ df_temp2 <- df_random_h
 p12 <- (ggplot(df_temp2,aes(x=1/omega,y=rho,z=Delta))
        + theme_bw()
        + xlab(TeX('$\\1/omega$, mean test return time (day)'))
-       + ylab(TeX('$\\rho$, testing intensity (1/day per capita)'))
+       + ylab(TeX('$\\rho$, testing intensity (1/day per 1000)'))
 )
 
 p1_temp2 <- (p12
@@ -198,7 +199,9 @@ p1_temp2 <- (p12
             + facet_grid(theta_w~theta_c, labeller=label_special)
             + scale_x_continuous(expand=expansion(c(0,0)), breaks=inv_omega_fast_brks,limits=c(inv_omega_fast_min,inv_omega_fast_max))
             ## scale by 1000, no digits after decimal
-            + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
+            # + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
+            + scale_y_continuous(expand=expansion(c(0,0)), breaks=rho_fast_brks,
+                                 labels=scales::number_format(scale=1000,accuracy=1))
             + scale_fill_viridis_d(name=parse(text="Delta"),drop=FALSE,
                                    labels=hack_breaks)
             + geom_rect(data=df_temp, fill=ifelse(df_temp$theta_c < df_temp$theta_w,background,"NA" ),
