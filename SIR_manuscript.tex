@@ -303,21 +303,6 @@ This can be implied when we would like to quantify and compare the effect of dif
 
 \end{enumerate}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 % %%%%%%%
 \bibliography{SIRlibrary}
 
@@ -505,44 +490,32 @@ The derivative is
 \partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
 \end{align}
 where
-\begin{multline}
-\label{eq:a3}
-a_3 = \frac{w_I}{w_S}
-\Bigg(\Big(
-( \theta_{{w}}{{\it p\_I}}^{2}-\theta_{{c}}{{\it p\_I}}^
-{2}\theta_{{w}} ) {\omega}^{3} 
-+ ( 2\,\theta_{{w}}{{\it p\_I
-}}^{2}-\theta_{{c}}{{\it p\_I}}^{2}-{\it p\_I}\,{\theta_{{w}}}^{2}-
-\theta_{{c}}{\it p\_I}\,\theta_{{w}}-{{\it p\_I}}^{2}{\theta_{{w}}}^{2
-}+2\,\theta_{{w}}{\it p\_I} ) \gamma\,{\omega}^{2} \\
- + ( -2\,{ \it p\_I}\,{\theta_{{w}}}^{2}-\theta_{{c}}{\it p\_I}+3\,\theta_{{w}}{
-\it p\_I}-{\theta_{{w}}}^{2}+\theta_{{w}} ) {\gamma}^{2}\omega 
- + ( \theta_{{w}}-{\theta_{{w}}}^{2} ) {\gamma}^{3} \Big) \frac{w_I}{w_S}
- + ( -\theta_{{c}}{\it p\_I}\,\theta_{{w}}+\theta_{{c}}{\it p\_I}
- ) \gamma\,{\omega}^{2}+ \\
- ( \theta_{{w}}+\theta_{{c}}{\it
-p\_I}-{\theta_{{w}}}^{2}-\theta_{{c}}{\it p\_I}\,\theta_{{w}} )
-{\gamma}^{2}\omega+ ( \theta_{{w}}-{\theta_{{w}}}^{2} ) {
-\gamma}^{3}
-\Bigg),
-\end{multline}
 \begin{align}
 \label{eq:abcd2}
-b_3&= 2\frac{w_I}{w_S}(\omega+\gamma)\gamma\Big( 
-(\omega+\gamma+\omega\,p_I)(2-\theta\_w)\,\gamma\,\theta\_w+ (1-\theta\_w)\,\omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w 
+a_3& = \frac{w_I}{w_S} \Bigg(&& (1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w\,\gamma^3
++(1-\theta\_c)\,p_I^2\,\theta\_w\,\frac{w_I}{w_S}\,\omega^3 \\ \notag
+& ~ &&+\Big( \big( (1-\theta\_w-\frac{w_I}{w_S})\,\theta\_c +(3-2\theta\_w)\,\theta\_w\frac{w_I}{w_S} \big)\,p_I
++(1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w  \Big)\,\omega\,\gamma^2 \\ \notag
+& ~ &&+\Big(
+\big((1-\theta\_w-\theta\_w\,\frac{w_I}{w_S})\,\theta\_c+ (2-\theta\_w)\,\theta\_w\,\frac{w_I}{w_S} \big)\,p_I
++(2\,\theta\_w-\theta\_w^2-\theta\_c)\,\frac{w_I}{w_S}\,p_I^2
+\Big)\,\omega^2\,\gamma \Bigg), \\
+b_3& = && \hspace{-1cm} 2\frac{w_I}{w_S}\,(\omega+\gamma)\gamma\Big(
+(\omega+\gamma+\omega\,p_I)(2-\theta\_w)\,\gamma\,\theta\_w+ (1-\theta\_w)\,\omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w
 \Big) ,\\
-c_3&= (\omega+\gamma)^2\,\gamma\Big( 
+c_3& = && \hspace{-1cm} (\omega+\gamma)^2\,\gamma\Big(
 (2-\theta\_w)\,\gamma^2\,\theta\_w+
 (1+\frac{w_I}{w_S})\,\omega\,\gamma\,\theta\_w+
 \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
-d_3&= \frac{(\omega+\gamma)}{\omega} \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2. 
+d_3&  = && \hspace{-1cm} \frac{(\omega+\gamma)}{\omega}\, \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2.
 \end{align}
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
 If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. It is straight forward to show that $a_3\geq 0$ in case of random testing strategy, i.e., $w\_S=w\_I=1$. 
 If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. 
 
-An example of this counter-vailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occures when $\theta\_w=0$ and $\theta\_c=1$. This is illustraited in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
-Specifically, in the case of targeted testing which is identified with $\frac{w_I}{w_S}> 1$, and using a perfect sensative test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder[\Rnum]{\rho}\leq\,0$.  
+An example of this counter-vailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occures when $\theta\_w=0$ and $\theta\_c=1$.
+This is illustraited in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case, simplifying $a_3$ in Eq.~\eqref{eq:abcd2} gives $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
+Specifically, in the case of targeted testing which is identified by $\frac{w_I}{w_S}> 1$, and using a perfect sensative test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder[\Rnum]{\rho}\leq\,0$.  
 Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial counter-vailing effect of these two parameters on $\Rnum$. 
 
 % %%%%%%%
