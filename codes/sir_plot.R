@@ -37,6 +37,7 @@ rho_brks <- c(0,0.005,0.01)
 inv_omega_fast_min <- 0.5
 inv_omega_fast_max <- 5
 inv_omega_fast_brks <- c(1,2,4)
+rho_fast_brks <- c(0,0.1,0.2)
 
 background <- "grey90"
 # make dataframe
@@ -56,17 +57,17 @@ df_targeted <- make_params_dat(params = update(params,W_S=W_S_targeted),
 df_random_h <- make_params_dat(params = params,
                              eta_ws=0,eta_we=1, ## so theta_w
                              eta_cs=0,eta_ce=1, ## so theta_c
-                             omega_s=0.25,omega_e=2,
+                             omega_s=1/inv_omega_fast_max,omega_e=1/inv_omega_fast_min,
                              rho_s=0,rho_e=0.25-0.000001)
 
 df_targeted_h <- make_params_dat(params = update(params,W_S=W_S_targeted),
                                eta_ws=0,eta_we=1, ## so theta_w
                                eta_cs=0,eta_ce=1, ## so theta_c
-                               omega_s=0.25,omega_e=2,
+                               omega_s=1/inv_omega_fast_max,omega_e=1/inv_omega_fast_min,
                                rho_s=0,rho_e=0.25-0.000001)
 
 ##important contour, ie R0=1 thus threshold=1 when plotting R0 contours, or Delta(R0=1)
-threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## Or 0?  corresponding to R0=1
+threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## corresponding to R0=1
 # #################################
 # Plotting Part
 # #################################
@@ -188,33 +189,37 @@ df_temp2 <- df_random_h
 p12 <- (ggplot(df_temp2,aes(x=1/omega,y=rho,z=Delta))
        + theme_bw()
        + xlab(TeX('$\\1/omega$, mean test return time (day)'))
-       + ylab(TeX('$\\rho$, testing intensity (1/day per capita)'))
+       + ylab(TeX('$\\rho$, testing intensity (1/day per 1000)'))
 )
-## There might be a solution for the tick label collision with expand_limits(), but that's hard to do across facets
-## see https://stackoverflow.com/questions/41575045/avoiding-axis-tick-label-collision-in-faceted-ggplots
+
 p1_temp2 <- (p12
             # + geom_contour_filled(breaks=brks)
             + geom_contour_filled(breaks=brks_vec)
-            + geom_contour(breaks=threshold,alpha=0.5,colour="black")
+            + geom_contour(breaks=threshold,alpha=0.5,colour="black",lty="11",lwd=1)
             + facet_grid(theta_w~theta_c, labeller=label_special)
-            + scale_x_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
-            + scale_fill_viridis_d(name=parse(text="Delta"),drop=FALSE)
-            + geom_rect(data=df_temp2, fill=ifelse(df_temp2$theta_c < df_temp2$theta_w,background,"NA" ),
+            + scale_x_continuous(expand=expansion(c(0,0)), breaks=inv_omega_fast_brks,limits=c(inv_omega_fast_min,inv_omega_fast_max))
+            ## scale by 1000, no digits after decimal
+            # + scale_y_continuous(expand=expansion(c(0,0)), n.breaks=3)
+            + scale_y_continuous(expand=expansion(c(0,0)), breaks=rho_fast_brks,
+                                 labels=scales::number_format(scale=1000,accuracy=1))
+            + scale_fill_viridis_d(name=parse(text="Delta"),drop=FALSE,
+                                   labels=hack_breaks)
+            + geom_rect(data=df_temp, fill=ifelse(df_temp$theta_c < df_temp$theta_w,background,"NA" ),
                         color= NA,
                         ymin=-1,
                         ymax=10,
-                        xmin=-1,
-                        xmax=10)
+                        xmin=-Inf,
+                        xmax=Inf)
             + theme(panel.spacing=grid::unit(0,"lines"))
 )
-p1_temp2
+print(p1_temp2)
 # #################################
 # 4. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp2 + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) +
-         theme(legend.position = "none"),
+ggsave(p1_temp2 
+       + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) 
+       + theme(legend.position = "none"),
        filename = "R0contour_random2.pdf" ,
        width = 12, height = 12, units = "cm")
 
@@ -222,9 +227,29 @@ ggsave(p1_temp2 + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) +
 # 5. Plot the Targeted Testing Scenario:
 # #################################
 
-ggsave((p1_temp2 %+% df_targeted_h) +
-         ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted))) +
-         theme(legend.position = c(0.2, 0.3),legend.text = element_text(size = 8)),
+p1_targeted_h <- ((p1_temp2 %+% df_targeted_h)
+                + ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted)))
+                ## REMOVE legend title here ... add it back in with ggdraw
+                + theme(
+                  legend.title = element_blank(),
+                  legend.position = c(0.14, 0.30),
+                  legend.text = element_text(size = 7),
+                  legend.background = element_rect(
+                    fill=background,
+                    ## adjustcolor("gray",alpha.f=0.1),
+                    ## fill=NA,
+                    ## skinny edge
+                    colour = "black",
+                    size=0.2))
+)
+
+p1_targeted_hacked <- (ggdraw(p1_targeted_h)
+                       + draw_label(TeX("$\\Delta$"), ## \u0394",  ## Unicode Delta?
+                                    x=0.15,
+                                    y=0.6,
+                                    size=20)
+)
+
+ggsave(p1_targeted_hacked,
        filename = "R0contour_TTI2.pdf" ,
        width = 12, height = 12, units = "cm")
-
