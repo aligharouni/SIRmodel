@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{grffile}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage[nameinlink,capitalize]{cleveref}
+\usepackage{cleveref}
+\usepackage[margin=1in]{geometry}
+\usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
+\usepackage{pdflscape}
+\usepackage{enumerate}
+
+\newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
+
+\usepackage{xspace}
+
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+\newcommand{\Rlogo}{R\xspace}
+\newcommand{\percap}{\emph{per capita}\xspace}
+\newcommand{\Rnot}{\ensuremath{\mathcal{R}_0}}
+\newcommand{\covid}{COVID-19\xspace}
+\newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
+\newcommand\pder[2][]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
+
+\newcommand{\comment}{\showcomment}
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
+\newcommand{\nocomment}[3]{}
+
+\theoremstyle{definition} % amsthm only
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+
+\bibliographystyle{apalike}
+
+\title{The Paradigm of Cohort Equations for the SIR  Model With Testing and Isolation}
+
+\begin{document}
+\maketitle
+\linenumbers
+
+
+
+
+\section{Introduction}
+
+\section{Ideas}
+This is follwoing the work of \cite{champredon2018equivalence}.
+
+In Watmough 2002's work matrix form of the I compartment $I'=(-V)I$, where I is n-by-1 and $V$ is n-by-1.
+
+In the context of our SIR model with testing, $I^T=[I_u,I_n,I_p,I_c]$ where $T$ is the transposed operator.
+And the solution is given by $I(\tau) = \exp(-V\tau) I(0)$, where $\tau$ is in the infection-time scale.
+$K(\tau)=\Rnot g(\tau)= F I(\tau)$,
+where $F$ is n-by-n matrix of new infections, $I(0)=[1,0,0,0]$.
+
+$\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$.
+
+$\exp(-V\tau)=\sum_{i=0}^\infty \tau^n (-V)^n/n!$.
+
+
+
+
+
+\bibliography{../SIRlibrary}
+\end{document}

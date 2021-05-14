@@ -12,6 +12,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
 \usepackage{pdflscape}
+\usepackage{enumerate}
 
 % https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
 \usepackage{array}
@@ -25,6 +26,8 @@
 \newcommand{\percap}{\emph{per capita}\xspace}
 \newcommand{\Rnum}{\mathcal{R}_0}
 \newcommand{\covid}{COVID-19\xspace}
+\newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
+\newcommand\pder[2][]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
