@@ -36,19 +36,31 @@
 
 \bibliographystyle{apalike}
 
-\title{The Paradigm of Cohort Equations for the SIR  Model With Testing and Isolation}
+\title{The analogy of the cohort-equations paradigm to the compartmental epidemic models}
 
 \begin{document}
 \maketitle
 \linenumbers
 
+\section{Vision}
+\begin{enumerate}
+\item 2 frameworks of \cite{van2002reproduction}, I call it compartment framework, and \cite{champredon2018equivalence}, I call it cohort framework, can be tied together and a mechanistic approach to go from one framework to another can be constructed.
 
-
+\item 
+\end{enumerate}
 
 \section{Introduction}
+Notation; we use $I'$ for the cohort-framework of $dI/d\tau$ and $\dot I$ for the compartment-framework of $dI/dt$. 
 
-\section{Ideas}
-This is follwoing the work of \cite{champredon2018equivalence}.
+A simple example of this transition is the cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort-framework is via the cohort Eq. with the following steps
+step 1: write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
+step 2: finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
+$k(\tau)=\beta \exp(-\gamma \tau)$.
+step 3: $R$ will be the integration of the kernel. That is $R=\beta/\gamma$. 
+Note that in the comartment framework, steps 2 and 3 are combined.
+
+
+
 
 In Watmough 2002's work matrix form of the I compartment $I'=(-V)I$, where I is n-by-1 and $V$ is n-by-1.
 
