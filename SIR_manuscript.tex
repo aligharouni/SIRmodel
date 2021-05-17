@@ -69,10 +69,10 @@ Although the model development was motivated by the \covid epidemic, the model h
 % %%%%%%%
 \section{Introduction}
 
-The observed dynamics of the \covid epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes can also affect epidemiological dynamics. In particular, individuals with confirmed infections (positive tests) are likely to self-isolate, and individuals who are awaiting the results of a test may also do so (possibly to a lesser extent). We developed a mechanistic model that incorporates epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
+The observed dynamics of the \covid epidemic are driven by both epidemiological processes (infection and recovery) and testing processes (testing and test reporting). In addition to shaping epidemic observations (via case reports), testing processes also affect epidemiological dynamics. In particular, individuals with confirmed infections (positive tests) are likely to self-isolate, and individuals who are awaiting the results of a test may also do so (possibly to a lesser extent). We developed a mechanistic model that incorporates epidemic processes and testing in order to explore the effects of testing and isolation on epidemic dynamics.
 
-If testing influences behavior, then epidemic dynamics will depend on patterns of who gets tested.
-The impacts of testing will depend on intensity (tests performed per day), and on how strongly testing is focused on people who are infectious.
+If testing influences behavior, then epidemic dynamics will depend on who gets tested.
+The impacts of testing will depend both on testing intensity (tests performed per day) and on how strongly testing is focused on people who are infectious.
 This level of focus depends in turn on the purpose and design of testing programs. 
 When testing is done for the purposes of disease surveillance \citep{foddai2020base}
 tests should be assigned randomly (or using a stratified random design) across the population in
@@ -82,19 +82,21 @@ Over the course of the \covid pandemic, however, the vast majority of testing ha
 primarily diagnostic (determining infection status for clinical purposes), or for control (determining  infection status in order to isolate cases that have been found by contact tracing), which we characterize as \emph{targeted} testing strategies.
 In these cases, testing probabilities vary widely across epidemiological compartments; in our dynamical model, we will characterize these probabilities by assigning a \percap testing weight to each compartment that determines the \emph{relative} probability that an individual in that compartment will be selected for testing (see Methods). 
 
-When testing is used primarily for diagnosis it will focus on people with infection-like symptoms; thus the relative testing weights for infected people will depend on the relative probability of infected people having symptoms. For \covid infection, the testing weights will depend on the relative asymptomatic infections, time spent pre-symptomatic vs.\ symptomatic infections -- and also the incidence of \covid-like symptoms among people in the population \emph{not} infected with \covid. Testing for epidemic control will focus on people who are known to have been in contact with known infected cases; in this case the testing weights for infected vs.\ uninfected people will depend on the probability of infection given contact, as well as the thoroughness and effectiveness of the system for identifying suspicious contacts.
+When testing is used primarily for diagnosis it focuses on people with infection-like symptoms; thus the relative testing weights for infected people will depend on the relative probability of infected people having symptoms. For \covid infection, the testing weights will depend on the proportion of asymptomatic infections, the time spent pre-symptomatic vs.\ symptomatic during the course of an infection, and on the incidence of \covid-like symptoms among people in the population \emph{not} infected with \covid. Testing for epidemic control focuses on known contacts of infected people; in this case the testing weights for infected vs.\ uninfected people will depend on the probability of infection given contact, as well as the effectiveness of the system for identifying suspicious contacts.
 
-The main interest from the epidemiological point of view is to know whether the number of infected individuals goes through an exponential growth phase, following the introduction of an infection in a totally susceptible population, before the disease becomes extinct. This is determined by studying the basic reproduction number $\Rnum$. It is defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. 
+Our main interest from the epidemiological point of view is to know whether an epidemic will initially grows exponentially following its introduction in a susceptible population. In mathematical epidemiology, this characteristic is determined by studying the basic reproduction number $\Rnum$, defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. 
 In the early stages of an epidemic the number of infected individuals is expected to grow exponentially over time when $\Rnum>1$, and to decline over time when $\Rnum<1$. 
 Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model
-\citep{shaw2021what}, it does give a simple and widely accepted index for the difficulty of control, as well as some indication of the likely final size of an epidemic \citep{ma2006generality}.  
+\citep{shaw2021what}, it does give a simple and widely accepted index for the difficulty of control, as well as an indication of the likely final size of an epidemic \citep{ma2006generality}.  
 
-In order to understand the effect of testing processes on an epidemic dynamics, we developed a mechanistic SIR-type model with epidemic and testing components. This model provides a sensible platform to link the modeling of epidemic and testing components and study their interaction. Here, we studied the the effect of testing intensity, rate of test return and the isolation efficacy in reduction of the probability of transmission on the epidemic dynamics when different levels of testing ``focus'' (from random to highly targeted) are in place. Our model provides insights to the sensitivity of the epidemic dynamics, through $\Rnum$, with respect to the underlying testing and isolation parameters.\ali{edited in response to David comments.}
+In order to understand the effect of testing processes on an epidemic dynamics, we developed a mechanistic SIR-type model with epidemic and testing components. This model provides a sensible platform to link the modeling of epidemic and testing components and study their interaction. Here, we studied the the effect of testing intensity, rate of test return and the isolation efficacy in reduction of the probability of transmission on the epidemic dynamics when different levels of testing ``focus'' (from random to highly targeted) are in place.
+% Our model provides insights to the sensitivity of the epidemic dynamics, through $\Rnum$, with respect to the underlying testing and isolation parameters.
+%% BMB: last sentence seems to belong in conclusions
 
 % %%%%%%%
 \section{Methods}
 
-We developed a deterministic model, Eqs.\,\eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered (thus this is an SIR-type model), and testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (\fref{fig:flowchart}). Symbolically, the testing status of an individual in the disease compartment $X$, where $X \in \{S,I,R\}$, is reflected in the subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Note that the top-to-bottom order of the testing-based compartments of each disease-based compartment $X$ in the flowchart (\fref{fig:flowchart}) and the model equations \eqref{model} should match. However, we switched  $X\_u$ and $X\_n$ in the flowchart (\fref{fig:flowchart}) for the sake of tidiness of the flowchart.
+We developed a deterministic model, Eqs.~\eqref{model}, which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered; testing status categorizes people as \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (\fref{fig:flowchart}). Symbolically, the testing status of an individual in the disease compartment $X$, where $X \in \{S,I,R\}$, is reflected in the subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. Note that the top-to-bottom order of the testing-based compartments of each disease-based compartment $X$ in the flowchart (\fref{fig:flowchart}) and the model equations \eqref{model} should match. However, we switched  $X\_u$ and $X\_n$ in the flowchart (\fref{fig:flowchart}) for the sake of tidiness of the flowchart.
 Further, two `accumulator' compartments, $N$ and $P$, were also incorporated in the model in order to collect cumulative reported negative or positive tests. The model equations and details of calculation of the basic reproduction number $\Rnum$ are presented in the appendix (see Sec. \ref{app:R0}).
 
 \begin{figure}
@@ -106,7 +108,7 @@ Further, two `accumulator' compartments, $N$ and $P$, were also incorporated in 
 \end{figure}
 
 Table~\ref{tab:params} defines the model parameters, which are generally straightforward
-\percap flows between compartments, or modifiers to these flow rates. The novel component of the model comes in through the compartment-specific relative testing weights $w_S$, $w_I$ and $w_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. Thus, we can specify different levels of testing “focus” from random to highly targeted. For example, $w_I/w_S=3$ means that infected individuals are tested at tree times the \percap rate of susceptible individuals. 
+\percap flows between compartments, or modifiers to these flow rates. The novel component of the model comes in through the compartment-specific relative testing weights $w_S$, $w_I$ and $w_R$; these give the relative rates at which people in the $S$, $I$, and $R$ compartments are tested, respectively. Thus, we can specify different levels of testing “focus” from random to highly targeted. For example, $w_I/w_S=3$ means that infected individuals are tested at three times the \percap rate of susceptible individuals. 
 
 In order to link to more applied models, we constructed this model so we could specify the total \percap testing rate. We do this by defining the weighted size of the testing pool $W = w_S S\_u + w_I I\_u + w_R R\_u$, and calculating a scaling parameter for testing as:
 \begin{equation}
@@ -191,7 +193,7 @@ The explicit formula of $\Rnum$, enables us to study the effect of parameters of
 These parameters, i.e., parameters that could be manipulated by public-health policy include the isolation efficacy, $\theta\_c$ and $\theta\_w$, \percap testing intensity, $\rho$, and the rate of test return, $\omega$. In particular, we look at the partial derivative of $\Delta$ with respect to these parameters (see details in appendix, Sec.\,\ref{app:rho}). 
 It is notable that the derivative of $\Delta$ with respect to $\theta\_w$, $\theta\_c$ and $\rho$ was derived explicitly and for the whole domain of the parameter space. However, we analyzed the effect of $\omega$ on $\Rnum$ for the case when testing intensity is very small relative to the population size, $N_0$. Specifically, we used the Taylor approximation of $\Delta$ at $\rho=0$ to illustrate the unexpected non-monotonic relationship between $\Rnum$ and $\omega$, and also to avoid unnecessary complicated computations for making this point.   
  
-The analytical calculation of the next-generation matrix and simplifying the expression of $\Rnum$ was carried out in Maple \citep{maple14}. We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:tel4} over a range of selected set of parameters of interest.
+The analytical calculation of the next-generation matrix and simplifying the expression of $\Rnum$ was carried out in Maple \citep{maple14}. We used R \citep{r} for simulations, in particular,  for plotting the contours of $\Delta$ \eqref{eq:tel4} \bmb{broken ref} over a range of selected set of parameters of interest.
 The rest of model parameters kept fixed at sensible values (see Table~\ref{tab:params} for the parameter values). Note that all plots are illustrated in the scale of the mean test return time $1/\omega$ (day) and testing intensity $\rho$ (1\//day per 1000).  
 Results are shown in \fref{pan} and \fref{pan2} with two sets of panels; panel set (a) represents the random testing, identified by $w_S=w_I=w_R=1$, and panel set (b) represents targeted testing, identified by $w_S=0.3$ and $w_I=w_R=1$.
 Each panel set partitions a plot into a matrix of panels, namely facets, in which rows are specified by a value of $\theta\_w$ and columns are specified by a value of $\theta\_c$. In our simulation, $\theta\_w$ and $\theta\_c$ vary in a discrete scale from 0 to 1 with 0.25 increment. Note that we are only plotting facets with $\theta\_w\leq\theta\_c$ which is an assumption of our model.  
@@ -345,7 +347,7 @@ The model in the form of a system of ordinary differential equations is
  dP/dt &= \omega(I\_p + R\_p) ,
 \end{align}
 \end{subequations}
-
+%
 where parameters are specified in Table \ref{tab:params}. The next generation matrix for this model is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susceptible. 
 Matrices $F$ and $V$ are
 \begin{align}
@@ -416,9 +418,9 @@ One way to do such an analysis is based on the fact that $\rho$ is \percap rate 
 In the next section we provide an equivalent representation of $\Rnum$ to provide a ground to prove that more testing intensity decreases $\Rnum$ for a general range of parameters.  
 
 % %%%%%%%
-\subsection{More testing intensity may decreases $\Rnum$}\label{app:rho}
+\subsection{More testing intensity may decrease $\Rnum$}\label{app:rho}
 
-This is to provide a mathematical materials to prove that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:C12}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eq.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
+This section shows that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:C12}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eq.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
