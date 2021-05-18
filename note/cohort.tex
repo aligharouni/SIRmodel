@@ -41,41 +41,53 @@
 \begin{document}
 \maketitle
 \linenumbers
-
+%%%%%%%%%%%%%%%%%%%%
 \section{Vision}
 \begin{enumerate}
 \item 2 frameworks of \cite{van2002reproduction}, I call it compartment framework, and \cite{champredon2018equivalence}, I call it cohort framework, can be tied together and a mechanistic approach to go from one framework to another can be constructed.
 
-\item 
+\item Having the cohort framework enables one to study the strength-like and speed-like interventions. For example in our SIR model with testing and isolation, testing susciptables is a strength-like intervention and testing the infecteds' is a speed-like intervention. \todo{more context is required here.}
 \end{enumerate}
 
-\section{Introduction}
-Notation; we use $I'$ for the cohort-framework of $dI/d\tau$ and $\dot I$ for the compartment-framework of $dI/dt$. 
+%%%%%%%%%%%%%%%%%%%%
+\section{Math foundation}
+Notation; we use $I'$ for the cohort-framework of $dI/d\tau$, where $\tau$ is in the infection-time scale and $\dot I$ for the compartment-framework of $dI/dt$. 
 
-A simple example of this transition is the cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort-framework is via the cohort Eq. with the following steps
+The matrix form of the cohort framework consists of the following 3 steps.
+\begin{enumerate}[step 1]
+\item
+write the cohort Eq. $I'=-V I$, with the initial condition $I(0)$, where the n-by-n matrix $V$ is the flow matrix of leaving infected compartments in \cite{van2002reproduction}.
+
+\item 
+finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
+the solution would be $I(\tau) = \exp(-V\tau) I(0)$. The kernel will be 
+$K(\tau) = F I(\tau)$, where $F$ is the matrix of new infections in the compartment framework.
+Note that the n-by-n matrix $\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$, where
+$\exp(-V\tau)=\sum_{n=0}^\infty \tau^n (-V)^n/n!$.
+
+\item
+Calculating $R$ by integrating kernel $K(\tau)$.
+\end{enumerate}
+
+Note that in the comartment framework, steps 2 and 3 are combined.
+%%%%%%%%%%%%%%%%%%%%
+\section{examples}
+
+{\bf Example 1, the simple SIR;}
+The cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort framework is via the cohort Eq. with the following steps
 step 1: write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
+
 step 2: finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
 $k(\tau)=\beta \exp(-\gamma \tau)$.
+
 step 3: $R$ will be the integration of the kernel. That is $R=\beta/\gamma$. 
-Note that in the comartment framework, steps 2 and 3 are combined.
 
-
-
-
-In Watmough 2002's work matrix form of the I compartment $I'=(-V)I$, where I is n-by-1 and $V$ is n-by-1.
-
+{\bf Example 2, the SIR model with testing;}
 In the context of our SIR model with testing, $I^T=[I_u,I_n,I_p,I_c]$ where $T$ is the transposed operator.
-And the solution is given by $I(\tau) = \exp(-V\tau) I(0)$, where $\tau$ is in the infection-time scale.
-$K(\tau)=\Rnot g(\tau)= F I(\tau)$,
-where $F$ is n-by-n matrix of new infections, $I(0)=[1,0,0,0]$.
-
-$\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$.
-
-$\exp(-V\tau)=\sum_{i=0}^\infty \tau^n (-V)^n/n!$.
+And the solution is given by $I(\tau) = \exp(-V\tau) I(0)$ where $I(0)=[1,0,0,0]$.
 
 
-
-
+%%%%%%%%%%%%%%%%%%%%
 
 \bibliography{../SIRlibrary}
 \end{document}
