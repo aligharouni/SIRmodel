@@ -56,12 +56,26 @@ Notation; we use $I'$ for the cohort-framework of $dI/d\tau$, where $\tau$ is in
 The matrix form of the cohort framework consists of the following 3 steps.
 \begin{enumerate}[step 1]
 \item
-write the cohort Eq. $I'=-V I$, with the initial condition $I(0)$, where the n-by-n matrix $V$ is the flow matrix of leaving infected compartments in \cite{van2002reproduction}.
+write the cohort Eq. 
+\begin{equation}
+\label{eq:cohort}
+I'=-V I,
+\end{equation}
+ with the proper initial condition $I(0)$, where the n-by-n matrix $V$ is the flow matrix of leaving infected compartments in \cite{van2002reproduction}.
 
 \item 
 finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
-the solution would be $I(\tau) = \exp(-V\tau) I(0)$. The kernel will be 
-$K(\tau) = F I(\tau)$, where $F$ is the matrix of new infections in the compartment framework.
+the solution would be 
+\begin{equation}
+\label{eq:I}
+I(\tau) = \exp(-V\tau) I(0).
+\end{equation}
+The kernel will be 
+\begin{equation}
+\label{eq:kernel}
+K(\tau) = F I(\tau), 
+\end{equation}
+where $F$ is the matrix of new infections in the compartment framework.
 Note that the n-by-n matrix $\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$, where
 $\exp(-V\tau)=\sum_{n=0}^\infty \tau^n (-V)^n/n!$.
 
@@ -89,5 +103,5 @@ And the solution is given by $I(\tau) = \exp(-V\tau) I(0)$ where $I(0)=[1,0,0,0]
 
 %%%%%%%%%%%%%%%%%%%%
 
-\bibliography{../SIRlibrary}
+\bibliography{SIRlibrary}
 \end{document}

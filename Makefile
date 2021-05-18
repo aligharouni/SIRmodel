@@ -32,6 +32,7 @@ Ignore += pix/sir_comp.pdf
 pix/sir_comp.pdf: pix/sir_comp.ipe
 	ipetoipe -pdf $< $@
 
+cohort.pdf: cohort.tex 
 ######################################################################
 
 ## Old and busted notes
