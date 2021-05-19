@@ -55,9 +55,9 @@
 Notation; we use $I'$ for the cohort-framework of $dI/d\tau$, where $\tau$ is in the infection-time scale and $\dot I$ for the compartment-framework of $dI/dt$. 
 
 The matrix form of the cohort framework consists of the following 3 steps.
-\begin{enumerate}[{\it step 1}]
+\begin{enumerate}[{\it Step 1.}]
 \item
-write the cohort Eq. 
+Form the cohort Eq. 
 \begin{equation}
 \label{eq:cohort}
 \vec I'=-V \vec I,
@@ -65,7 +65,7 @@ write the cohort Eq.
  with the proper initial condition $I(0)$, where the n-by-n matrix $V$ is the flow matrix of leaving infected compartments in \cite{van2002reproduction}.
 
 \item 
-finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
+Finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
 the solution would be 
 \begin{equation}
 \label{eq:I}
@@ -89,9 +89,9 @@ Note that in the compartment framework \citep{van2002reproduction}, steps 2 and 
 
 \subsection {Simple SIR}
 The cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort framework is via the cohort Eq. with the following steps.
-{\it step 1;} write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
-{\it step 2;} finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus $k(\tau)=\beta \exp(-\gamma \tau)$.
-{\it step 3;} $\R$ will be the integration of the kernel. That is $\R=\beta/\gamma$. 
+{\it Step 1;} write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
+{\it Step 2;} finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus $k(\tau)=\beta \exp(-\gamma \tau)$.
+{\it Step 3;} $\R$ will be the integration of the kernel. That is $\R=\beta/\gamma$. 
 
 \subsection{Simple SEIR model}
 The simplest form of a SEIR model without vital rates is 
