@@ -21,10 +21,11 @@
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
 \newcommand{\Rlogo}{R\xspace}
 \newcommand{\percap}{\emph{per capita}\xspace}
-\newcommand{\Rnot}{\ensuremath{\mathcal{R}_0}}
+\newcommand{\R}{\ensuremath{\mathcal{R}_0}}
 \newcommand{\covid}{COVID-19\xspace}
 \newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
 \newcommand\pder[2][]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
+\renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}} %bold font for vector
 
 \newcommand{\comment}{\showcomment}
 \newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
@@ -54,12 +55,12 @@
 Notation; we use $I'$ for the cohort-framework of $dI/d\tau$, where $\tau$ is in the infection-time scale and $\dot I$ for the compartment-framework of $dI/dt$. 
 
 The matrix form of the cohort framework consists of the following 3 steps.
-\begin{enumerate}[step 1]
+\begin{enumerate}[{\it step 1}]
 \item
 write the cohort Eq. 
 \begin{equation}
 \label{eq:cohort}
-I'=-V I,
+\vec I'=-V \vec I,
 \end{equation}
  with the proper initial condition $I(0)$, where the n-by-n matrix $V$ is the flow matrix of leaving infected compartments in \cite{van2002reproduction}.
 
@@ -68,37 +69,87 @@ finding the intrinsic infectiousness kernel by integrating the cohort Eq. and so
 the solution would be 
 \begin{equation}
 \label{eq:I}
-I(\tau) = \exp(-V\tau) I(0).
+\vec I(\tau) = \exp(-V\tau) \vec I(0).
 \end{equation}
 The kernel will be 
 \begin{equation}
 \label{eq:kernel}
-K(\tau) = F I(\tau), 
+\vec K(\tau) = F \vec I(\tau), 
 \end{equation}
 where $F$ is the matrix of new infections in the compartment framework.
-Note that the n-by-n matrix $\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$, where
-$\exp(-V\tau)=\sum_{n=0}^\infty \tau^n (-V)^n/n!$.
+Note that the n-by-n matrix $\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$. 
+% where $\exp(-V\tau)=\sum_{n=0}^\infty \tau^n (-V)^n/n!$.
 
 \item
-Calculating $R$ by integrating kernel $K(\tau)$.
+Calculating $\vec R$ by integrating kernel $\vec K(\tau)$. Note that $\R$ would be the non-negative element of $\vec R$.
 \end{enumerate}
-
-Note that in the comartment framework, steps 2 and 3 are combined.
+Note that in the compartment framework \citep{van2002reproduction}, steps 2 and 3 are combined.
 %%%%%%%%%%%%%%%%%%%%
-\section{examples}
+\section{Examples}
 
-{\bf Example 1, the simple SIR;}
-The cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort framework is via the cohort Eq. with the following steps
-step 1: write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
+\subsection {Simple SIR}
+The cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort framework is via the cohort Eq. with the following steps.
+{\it step 1;} write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
+{\it step 2;} finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus $k(\tau)=\beta \exp(-\gamma \tau)$.
+{\it step 3;} $\R$ will be the integration of the kernel. That is $\R=\beta/\gamma$. 
 
-step 2: finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
-$k(\tau)=\beta \exp(-\gamma \tau)$.
+\subsection{Simple SEIR model}
+The simplest form of a SEIR model without vital rates is 
+\begin{align}\label{mo:sier1}
+\dot S=-\beta\,S\,I/N,~~
+\dot E= \beta\,S\,I/N -\sigma\,E,~~
+\dot I= \sigma\,E -\gamma\,I,~~
+\dot R= \gamma\,I.
+\end{align}
+We know that $\R=\beta/\gamma$ from next generation method where 
 
-step 3: $R$ will be the integration of the kernel. That is $R=\beta/\gamma$. 
+\begin{align}
+\label{seir1FV}
+F = \beta \left[ \begin {array}{cc} 
+0 & 1 \\
+0 & 0
+ \end {array} \right],~~
+V=
+ \left[ \begin {array}{cc}
+ \sigma & 0 \\
+-\sigma & \gamma
+\end {array} \right],
+~~ \text{thus}~~
+V^{-1} = \frac{1}{\sigma\,\gamma}
+\left[ \begin {array}{cc}
+\gamma & 0 \\
+\sigma & \sigma
+\end {array} \right].
+\end{align}
+I the context of the cohort framework we show that the same $\R$ can be calculated by following the three steps.
 
-{\bf Example 2, the SIR model with testing;}
-In the context of our SIR model with testing, $I^T=[I_u,I_n,I_p,I_c]$ where $T$ is the transposed operator.
-And the solution is given by $I(\tau) = \exp(-V\tau) I(0)$ where $I(0)=[1,0,0,0]$.
+{\it Step 1;} The cohort equation with the initial condition (in matrix form) is 
+\begin{align}
+\vec I'=-V\,\vec I,~~ \text{where}~~ \vec I(\tau)=\left[ \begin {array}{c} E(\tau)\\I(\tau) \end {array} \right], ~~
+\vec I(0)=\left[ \begin {array}{c} 1\\0 \end {array} \right].
+\end{align}
+Solving for $I(\tau)$ by finding the eigenvalues and eigenvectors of the above linear system results in
+\begin{align}
+\vec I(\tau) = \left[ \begin {array}{c} E(\tau)\\I(\tau) \end {array} \right] =
+c_1 \exp(-\sigma\,\tau)\,\left[ \begin {array}{c} \gamma/\sigma-1\\1 \end {array} \right] 
+-c_1 \exp(-\gamma\,\tau)\,\left[ \begin {array}{c} 0\\1 \end {array} \right],
+\end{align}
+where $$c_1=\frac{\sigma}{\gamma-\sigma}.$$
+
+{\it Step 2;} The kernel is
+\begin{align}
+\vec K(\tau)= F \vec I(\tau)
+= c_1 \exp(-\sigma\,\tau)\,\left[ \begin {array}{c} \beta\\0 \end {array} \right] 
+ -c_1 \exp(-\gamma\,\tau)\,\left[ \begin {array}{c} \beta\\0 \end {array} \right].
+\end{align}
+
+{\it Step 3;} The basic reproduction number $\R$ is given by integrating the non-zero element of the kernel as follows.
+\begin{align}
+\R=\int_0^\infty \vec K_1(\tau) d\tau
+=\beta\,c_1(1/\sigma-1/\gamma)
+=\beta/\gamma.
+\end{align}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
