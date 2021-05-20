@@ -32,6 +32,7 @@ Ignore += pix/sir_comp.pdf
 pix/sir_comp.pdf: pix/sir_comp.ipe
 	ipetoipe -pdf $< $@
 
+Sources += cohort.txt
 cohort.pdf: cohort.tex 
 ######################################################################
 
