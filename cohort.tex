@@ -14,6 +14,10 @@
 \usepackage{pdflscape}
 \usepackage{enumerate}
 
+\newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
+\newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
+\newcommand{\david}[1]{\comment{red}{DJDE}{#1}}
+\newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
 \newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
 
 \usepackage{xspace}
@@ -78,10 +82,14 @@ The kernel will be
 \end{equation}
 where $F$ is the matrix of new infections in the compartment framework.
 Note that the n-by-n matrix $\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$. 
-% where $\exp(-V\tau)=\sum_{n=0}^\infty \tau^n (-V)^n/n!$.
 
 \item
-Calculating $\vec R$ by integrating kernel $\vec K(\tau)$. Note that $\R$ would be the non-negative element of $\vec R$.
+Calculating the next-generation vector $\vec G$ (\ali{feels odd here, help! also check Heesterbeek work what he calls this}) is
+\begin{equation}
+\label{eq:ng} %next generation
+\vec G = \int_0^\infty \vec K(\tau) d\tau.
+\end{equation}
+Note that $\R$ would be the non-zero element of $\vec G$.
 \end{enumerate}
 Note that in the compartment framework \citep{van2002reproduction}, steps 2 and 3 are combined.
 %%%%%%%%%%%%%%%%%%%%
