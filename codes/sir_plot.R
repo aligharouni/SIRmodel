@@ -129,7 +129,7 @@ print(p1_temp)
 # 1. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) +
+ggsave(p1_temp + ggtitle(TeX('(Random testing, $w_S=w_I=1$)')) +
        theme(legend.position = "none"),
        filename = "R0contour_random.pdf" ,
        width = 12, height = 12, units = "cm")
@@ -218,7 +218,7 @@ print(p1_temp2)
 # #################################
 
 ggsave(p1_temp2 
-       + ggtitle(TeX(r'(Random testing, $w_S=w_I=1$)')) 
+       + ggtitle(TeX('(Random testing, $w_S=w_I=1$)')) 
        + theme(legend.position = "none"),
        filename = "R0contour_random2.pdf" ,
        width = 12, height = 12, units = "cm")
