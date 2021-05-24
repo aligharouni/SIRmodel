@@ -27,8 +27,8 @@
 \newcommand{\percap}{\emph{per capita}\xspace}
 \newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
 \newcommand{\covid}{COVID-19\xspace}
-\newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
-\newcommand\pder[2][]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
+\newcommand{\pro}[1]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
+\newcommand\pder[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
@@ -66,7 +66,7 @@ The effect of testing processes, including testing and test reporting, on epidem
 Gaining insights to determine the sensitivity of the epidemic dynamics with respect to the testing processes will depend on underlying factors including the level of focus (individual or community), assumptions (model), and the interplay between these factors. 
 In particular, fast testing and test reporting may be beneficial at the community-level, supported by many studies, as it gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing. However, the potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
 In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
-Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include \percap testing intensity, test sensitivity and specificity, rate of test return, and isolation efficacy in reduction of the probability of transmission. The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control. Here, we compare two testing strategies, random vs. targeted, and concluded that increasing testing “focus” from random to targeted always decreases \Rnum. Further, the following processes always decreases $\Rnum$; increasing the isolation efficacy parameters for tested and confirmed individuals, higher testing intensity if testing is random or testing intensity is small, and a higher rate of test return if the isolation efficacy for tested-awaiting individuals is low.
+Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include \percap testing intensity, test sensitivity and specificity, rate of test return, and isolation efficacy (i.e., reduction of the transmission probability by isolating individuals). The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control. Here, we compare two testing strategies, random vs. targeted, and concluded that increasing testing “focus” from random to targeted always decreases \Rnum. Further, the following processes always decreases $\Rnum$; increasing the isolation efficacy parameters for tested and confirmed individuals, higher testing intensity if testing is random or testing intensity is small, and a higher rate of test return if the isolation efficacy for tested-awaiting individuals is low.
 
 % %%%%%%%
 \section{Introduction}
@@ -147,8 +147,8 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
   $\omega$  & Rate of test return, i.e., rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
   $\gamma$ & Recovery rate & 1/day & 1/3 \\ \hline 
   $\rho$   & \percap testing intensity & 1/day & - \\ \hline 
-  $\theta\_w$ & Isolation efficacy in reduction of the probability of transmission for ``waiting'' individuals & - & - \\ \hline
-  $\theta\_c$ & Isolation efficacy in reduction of the probability of transmission for ``confirmed positive'' individuals & - & -  \\ \hline
+  $\theta\_w$ & Isolation efficacy (reduction of the transmission probability) for ``waiting'' individuals & - & - \\ \hline
+  $\theta\_c$ & Isolation efficacy ``confirmed positive'' individuals & - & -  \\ \hline
   $\beta$ & Transmission rate & 1/day & 0.339 \\ \hline
   $\Lambda$ & Force of infection & 1/day & - \\ \hline
   $p_S$ & Probability of positive tests for $S$ ($= 1-\textrm{specificity}$) & - & 0 \\ \hline
@@ -208,10 +208,11 @@ In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the populati
 The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is $\approx 1.017$, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. \bmb{how did we choose this particular value?}
 
 % %%%%%%%
-\section{Results}
+\section{Results and discussion}
 
 We can use the formula for $\Rnum$ \eqref{R0} to make a number of straightforward conclusions about parameters whose effects on $\Rnum$ are monotonic (i.e. the partial derivative of $\Delta$ has a consistent sign: Sections~\ref{app:rho}, \ref{app:omega}, \ref{app:w}).
 
+\bmb{can we connect each of these results to specific equations in the appendix?}
 \begin{enumerate}
 
 \item \label{p1:eta} Increasing isolation efficacy for waiting ($\theta\_w$) and confirmed-positive ($\theta\_c$) individuals always decreases \Rnum;
@@ -269,19 +270,17 @@ $N_0=1 \times 10^6$, $\omega \in [1/5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [
 
 However, there are also two specific cases where $\Delta$ changes \emph{non-monotonically}, in counterintuitive directions, as a function of testing and isolation parameters.
 
-\bmb{stopped about here. I'm a little unclear about the distinction between the results above and below here. I assumed that results above were intuitive/expected and those below weren't. But the last point here (targeting testing increases $\Delta$) seems intuitive. Is it about things we can prove/can't prove? Do we know anything about $\Delta$ vs. targeting?}
-  
 \begin{itemize}
-\item When waiting individuals isolate strongly (e.g. $\theta_w =0$, top row of \fref{pan}), increasing the rate at which tests are returned/shortening testing delays (i.e. increasing $\omega$) reduces \Rnum, as we might expect ($\Delta$ increases as we move to the left in each plot in this row). For non-zero $\Delta$, however, we mostly see the opposite effect: less waiting leads to more transmission. This is because returning negative tests leads people to stop distancing; this applies both to susceptibles, and to infectious people who receive negative test results because they were sampled when susceptible (or because of imperfect test sensitivity, which is not modeled in this figure).
+\item When waiting individuals do not isolate (e.g. $\theta_w =0$, top row of \fref{pan}), increasing testing delays (i.e. decreasing $\omega$) increases \Rnum, as we might expect: $\Delta$ decreases --- a larger region of the parameter space has $\Rnum>1$, and the threshold testing intensity required to control the epidemic increases --- as we move to the right within each plot in this row. However, when waiting individuals are at least partially isolated ($\theta_w>0$), we typically see the opposite effect: longer testing delays lead to \emph{less} transmission. This is because returning negative tests leads people to stop distancing; this applies both to susceptibles, and to infectious people who receive negative test results because they were sampled when susceptible (or because of imperfect test sensitivity, which we have not considered in our analysis). For small but non-zero waiting-isolation levels (e.g. $\theta_w=0.25$, second row from top), with high levels of confirmed isolation ($\theta_c \ge 0.5$), increasing testing delays initially decreases $\Delta$, then increases it as the testing delays pass a threshold value of approximately 2--5 days.
+\item \fref{pan} also shows that greater testing intensity (increasing $\rho$) generally increases the effectiveness of control (moving up in each panel). This relationship can be reversed, but only for an unrealistic scenario --- very high testing intensities \emph{that begin before the epidemic starts}. It occurs when waiting people do not isolate ($\theta_w=0$), and most easily for targeted testing (\fref{pan2}(b), right three panels of top row) \bmb{can we rule out the possibility that this phenomenon could happen with random testing? In the left panel of \fref{pan2}, $\theta_w=0$/$\theta_c=0.75$ panel, there is a hint of this behaviour; it looks like the light green [second lightest] region displays this behaviour, but it's hard to see even a maximum magnification}. This phenomenon occurs --- increasing testing intensity \emph{increases} \Rnum --- because more rapid testing leaves more susceptibles in the ``waiting-for-negative-results'' category at the DFE; these people must then wait for their tests to be returned (during which time they may become infected) before they can be tested again, receive a positive test, and then begin self-isolating. This effect is usually weak compared to the beneficial effects of testing.
 
-\item We also see that greater test intensity $\rho$ increases the effectiveness of control $\Delta$ ($\Delta$ increases as we move up in each plot in this Figure). Mathematically speaking, we did find a countervailing effect, but this can only be seen when we allow $\rho$ to take unrealistically large values, and only for weighted/targeted testing (see \fref{pan2}). The explanation here is that more rapid testing leaves more susceptibles in the ``waiting-for-no'' category at the DFE; these people must then wait for their tests to be returned before they can be tested again, receive a positive test, and become cautious. This effect is usually weak compared to the helpful effects of testing, but if testing is weighted, $\theta_w$ is low, and test returns are slow, it is possible for increasing $\rho$ to reduce $\Delta$ (see upper-right part of upper-right plot of \fref{pan2}(b)).
-
-\item Lastly, we show that increasing the focus of testing from random to targeted, always increases $\Delta$, thus decreases \Rnum. This can be seen in \fref{pan} and \fref{pan2}. In particular, we realize higher $\Delta$ levels, i.e., darker colors in corresponding plots\/facets as we go from panel~(a) to panel~(b) in the figures.
+\item Lastly, we show that increasing the focus of testing from random to targeted, always increases $\Delta$, thus decreases \Rnum. This can be seen in \fref{pan} and \fref{pan2}. In particular, we realize higher $\Delta$ levels, i.e., darker colors in corresponding plots\/facets as we go from panel~(a) to panel~(b) in the figures. \bmb{this is the same as point 4 above, right? Am I missing something?}
 \end{itemize}
   
 
 %%%%%%%%%%%%
 \section{Discussion}
+
 \begin{enumerate}
 
 \item {\bf A potential advantage of slow test reporting $\omega$, result~\ref{p1:omega};}
@@ -290,7 +289,6 @@ However, there are also two specific cases where $\Delta$ changes \emph{non-mono
 - The potential advantage of slow test reporting is in the individual level as opposed to the community level, but seems inapplicable as a strategy.
 - May be this mechanism combined with increasing testing intensity $\rho$ can be considered alongside other prevention methods, eg., social distancing etc, when the transmission is in the exponential-growth phase (in order to increase the generation interval).
 - One reason in favor of prolonging $1/\omega$ is that it is easy to manipulate while increasing $\rho$ can be limited to the resources.
-
 
 \item {\bf The counter-vailing effect of \percap testing intensity, $\rho$, on $\Rnum$;}
 - The explanation here is that more rapid testing leaves more susceptibles in the ``waiting-for-no'' $S\_n$ category at the DFE and delay them to get to $I\_c$ where they are subject to a full isolation, thus no transmission.
@@ -418,13 +416,13 @@ It remains hard to show that the reproduction number $\Rnum$ is decreasing with 
 & 0 \leq \theta\_w \leq \theta\_c \leq 1, \\
 & \frac{w_I}{w_S}\geq 1.
 \end{align}
-One way to do such an analysis is based on the fact that $\rho$ is \percap rate so for a large population size, $N_0 \gg 1$, $\rho$ is very small or close to 0, comparing to $N_0$. This provides a base to linearly approximate $\Rnum$ when $\rho$ is close to 0, and use this approximation to analyze the behaviour of $\Rnum$ with respect to $\omega$ (see section \ref{app:omega}). 
-In the next section we provide an equivalent representation of $\Rnum$ to provide a ground to prove that more testing intensity decreases $\Rnum$ for a general range of parameters.  
+In realistic cases the testing rate $\rho$ is very small (i.e., only a small fraction of the population can be tested every day); it is thus reasonable to use a linear approximation of $\Rnum$ for $\rho \ll 1$ to analyze the behaviour of $\Rnum$ with respect to $\omega$ (see section \ref{app:omega}). 
+In the next section we provide an equivalent representation of $\Rnum$ in order to show that increasing testing intensity typically decreases $\Rnum$.
 
 % %%%%%%%
 \subsection{More testing intensity may decrease $\Rnum$}\label{app:rho}
 
-This section shows that $\pro \Delta$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:C12}, and thus $\pro \Rnum < 0$, where $\Rnum$ is the basic reproduction number, given in Eq.\,\eqref{R0}. We can rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations.
+This section shows that $\pro{\Delta}$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:C12}, and thus $\pro{\Rnum} < 0$, where $\Rnum$ is given in Eq.~\eqref{R0}. We rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations:
 \begin{equation}
 \label{G112}
 G_{11} = \frac{\beta}{\gamma \, C} 
