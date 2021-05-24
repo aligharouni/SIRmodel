@@ -25,7 +25,7 @@
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
 \newcommand{\Rlogo}{R\xspace}
 \newcommand{\percap}{\emph{per capita}\xspace}
-\newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}}
+\newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
 \newcommand{\covid}{COVID-19\xspace}
 \newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
 \newcommand\pder[2][]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
@@ -198,20 +198,19 @@ C_2 =& \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2\,(\omega+\gamma+\hat F_I)\Big)
 Further details of derivation of $\Rnum$ are provided in appendix, Sec.\,\ref{app:R0}. 
 The explicit formula of $\Rnum$ enables us to study the effects of testing and isolation parameters on $\Rnum$ both analytically and via numerical solutions.
 We are specifically interested in parameters that could be manipulated by public health policy: isolation efficacy, $\theta\_c$ and $\theta\_w$; \percap testing intensity, $\rho$; and the rate of test return, $\omega$. In particular, we look at the partial derivatives of $\Delta$ with respect to these parameters (Sec.\,\ref{app:rho}). 
-We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the case when testing intensity is very small relative to the population size, $N_0$. Specifically, we used the Taylor approximation of $\Delta$ at $\rho=0$ to illustrate the unexpected non-monotonic relationship between $\Rnum$ and $\omega$, and also to avoid unnecessary complicated computations for making this point. \bmb{clarify/check}
+We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Rnum$ and $\omega$. \bmb{The previous version of this implied that the restriction was $\rho \ll N_0$; that seems very odd since $\rho$ has units of time$^{-1}$. I think $\rho \ll 1$ is the correct statement (i.e. $\rho$ is already a \emph{per capita} measure), but please check. If I am wrong and $\rho$ is expressed in absolute units of tests/day, then the range quoted in the caption for \fref{pan} is weird \ldots}
  
 The analytical calculation of the next-generation matrix and simplification of the $\Rnum$ expression was carried out in Maple \citep{maple14}. We used R \citep{r} for numerical solutions, in particular for plotting the contours of $\Delta$ (Eq.~\eqref{NOTSURE}) \bmb{not sure what the right ref. is. This was previously ``eq:tel4'', which doesn't exist. Should it have been ``eq:del4''?} over a range of parameters.
 We computed the values and contours of Delta at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
 
-The low-testing case \fref{pan} reflects the case where $rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic. For example, since 1\% of a population are tested per day at maximum capacity, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$. The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
-\bmb{stopped here}
-\fref{pan2} with maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$, and the test return rate $\omega\in [1/5,2]$. 
-Note that the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is plotted in dotted line in the panels. Thus, a combination of $\rho$ and $\omega$ above this critical contour results in reducing $\Rnum$. Also realize that $\Rnum=\frac{\beta}{\gamma}$, about 1.017 here, for the classical SIR model which can be achieved in the context of our model when no testing and no isolation are implied, that is $\rho=0$ or $\theta\_w=\theta\_w=0$.  
+The low-testing case \fref{pan} reflects the case where $rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
+In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university.
+The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is $\approx 1.017$, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. \bmb{how did we choose this particular value?}
 
 % %%%%%%%
 \section{Results}
 
-For a variety of changes in testing and isolation parameters, we can use the formula for $\Rnum$ \eqref{R0} to confirm monotonic changes in the expected, intuitive direction (i.e. the partial derivative of $\Delta$ has a consistent sign: Sections~\ref{app:rho}, \ref{app:omega}, \ref{app:w}).
+We can use the formula for $\Rnum$ \eqref{R0} to make a number of straightforward conclusions about parameters whose effects on $\Rnum$ are monotonic (i.e. the partial derivative of $\Delta$ has a consistent sign: Sections~\ref{app:rho}, \ref{app:omega}, \ref{app:w}).
 
 \begin{enumerate}
 
@@ -221,7 +220,7 @@ For a variety of changes in testing and isolation parameters, we can use the for
 testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small.
 %% \end{enumerate}
 \item \label{p1:omega} Increasing the rate of test return ($\omega$) always decreases \Rnum if waiting individuals do not isolate ($\theta_w=0$).
-\item \label{p1:w} Increasing testing focus from random ($w_S=w_I$) to targeted  ($w_S<w_I$) always decreases \Rnum.
+\item \label{p1:w} Increasing testing focus, i.e. changing the testing weights from random ($w_S=w_I$) toward targeted  ($w_S<w_I$), always decreases \Rnum.
 \end{enumerate}
 
 \newpage
@@ -242,7 +241,8 @@ testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small.
 {\bf A comparison of effectiveness control on $\Rnum$ at low level of \percap testing intensity $\rho$.}
 Numerical evaluation of the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to changes in testing and isolation. Parameter values (Table~\ref{tab:params}):
 $N_0=10^6$, $\beta=0.339$ day$^{-1}$ $\gamma= 1/3$ day$^{-1}$; $\omega \in [1/12,2]$ day$^{-1}$;  $\rho \in [0,0.013]$ day$^{-1}$; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). Black dotted lines in each panel represent the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ such that $\Rnum=1$.
-\bmb{does $N_0$ enter the expression at all, i.e. can we omit it? Perhaps we can also include baseline $\Rnum$ and $r$ (or doubling time), i.e. $\beta/\gamma$ and $\beta-\gamma$. (Why did we pick these particular beta/gamma values?)}
+\bmb{Perhaps we can also include baseline $\Rnum$ and $r$ (or doubling time), i.e. $\beta/\gamma$ and $\beta-\gamma$. (Why did we pick these particular beta/gamma values?)
+If $\rho$ is per capita then does the figure depend on $N_0$ at all/can we leave it out of the list of specified parameters?}
 }
 \label{pan}
 \end{figure}
@@ -274,7 +274,7 @@ However, there are also two specific cases where $\Delta$ changes \emph{non-mono
 \begin{itemize}
 \item When waiting individuals isolate strongly (e.g. $\theta_w =0$, top row of \fref{pan}), increasing the rate at which tests are returned/shortening testing delays (i.e. increasing $\omega$) reduces \Rnum, as we might expect ($\Delta$ increases as we move to the left in each plot in this row). For non-zero $\Delta$, however, we mostly see the opposite effect: less waiting leads to more transmission. This is because returning negative tests leads people to stop distancing; this applies both to susceptibles, and to infectious people who receive negative test results because they were sampled when susceptible (or because of imperfect test sensitivity, which is not modeled in this figure).
 
-\item We also see that greater test intensity $\rho$ increases the effectiveness of control $\Delta$ ($\Delta$ increases as we move up in each plot in this Figure). Mathematically speaking, we did find a counter-vailing effect, but this can only be seen when we allow $\rho$ to take unrealistically large values, and only for weighted/targeted testing (see \fref{pan2}). The explanation here is that more rapid testing leaves more susceptibles in the ``waiting-for-no'' category at the DFE; these people must then wait for their tests to be returned before they can be tested again, receive a positive test, and become cautious. This effect is usually weak compared to the helpful effects of testing, but if testing is weighted, $\theta_w$ is low, and test returns are slow, it is possible for increasing $\rho$ to reduce $\Delta$ (see upper-right part of upper-right plot of \fref{pan2}(b)).
+\item We also see that greater test intensity $\rho$ increases the effectiveness of control $\Delta$ ($\Delta$ increases as we move up in each plot in this Figure). Mathematically speaking, we did find a countervailing effect, but this can only be seen when we allow $\rho$ to take unrealistically large values, and only for weighted/targeted testing (see \fref{pan2}). The explanation here is that more rapid testing leaves more susceptibles in the ``waiting-for-no'' category at the DFE; these people must then wait for their tests to be returned before they can be tested again, receive a positive test, and become cautious. This effect is usually weak compared to the helpful effects of testing, but if testing is weighted, $\theta_w$ is low, and test returns are slow, it is possible for increasing $\rho$ to reduce $\Delta$ (see upper-right part of upper-right plot of \fref{pan2}(b)).
 
 \item Lastly, we show that increasing the focus of testing from random to targeted, always increases $\Delta$, thus decreases \Rnum. This can be seen in \fref{pan} and \fref{pan2}. In particular, we realize higher $\Delta$ levels, i.e., darker colors in corresponding plots\/facets as we go from panel~(a) to panel~(b) in the figures.
 \end{itemize}
