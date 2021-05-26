@@ -13,6 +13,7 @@
 \usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
 \usepackage{pdflscape}
 \usepackage{enumerate}
+\usepackage{xspace}
 
 \newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
 \newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
@@ -20,7 +21,8 @@
 \newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
 \newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
 
-\usepackage{xspace}
+\newcommand*\subtxt[1]{_{\textnormal{#1}}}
+\DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
 
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
 \newcommand{\Rlogo}{R\xspace}
@@ -158,8 +160,54 @@ where $$c_1=\frac{\sigma}{\gamma-\sigma}.$$
 =\beta/\gamma.
 \end{align}
 
+\subsection{SIR with testing and isolation}
+The model can be summarized in the form of following matrices.
+\begin{align}
+\label{FV}
+F =&\beta/N_0 \left[ \begin {array}{c} S\_u^* \\ (1-\theta\_w)S\_n^* \\ 0 \\ 0 \end {array} \right]
+        \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right], \text{and}\\  V=&
+ \left[ \begin {array}{cccc}  
+\hat F_I+\gamma&-\omega&0&0\\
+-(1-p_I)\hat F_I&\omega+\gamma&0&0\\
+-p_I \hat F_I&0&\omega+\gamma&0\\
+0&0&-\omega&\gamma
+\end {array} \right].
+\end{align}
 
+Let the test be perfectly sensative, that is $p_I=1$.
 
+{\it Step 1;} The cohort Eq.~ is
+\begin{align}
+\vec I'=-V\,\vec I,~~ \text{where}~~ \vec I(\tau)=\left[ \begin {array}{c} I\_u(\tau)\\I_n(\tau)\\I_p(\tau)\\I_c(\tau) \end {array} \right], ~~
+\vec I(0)=\left[ \begin {array}{c} S\_u^*\\S\_n^*\\0\\0 \end {array} \right].
+\end{align}
+Solving for $\vec I(\tau)$ by finding the eigenvalues and eigenvectors of the above linear system results in
+\begin{align}
+\vec I(\tau)=&
+c_1\,\exp(-\gamma\,\tau)\,\left[ \begin {array}{c} 0\\0\\0\\1 \end {array} \right] 
++c_2\,\exp(-(F_I+\gamma)\,\tau)\,\left[ \begin {array}{c} \frac{F_I-\omega}{\omega}\\0\\\frac{-F_I}{\omega}\\1 \end {array} \right]
++c_3\,\exp(-(\omega+\gamma)\,\tau)\,\left[ \begin {array}{c} 0\\0\\-1\\1 \end {array} \right] \\\notag
++& c_4\,\exp(-(\omega+\gamma)\,\tau)\,\Big(\tau\,\left[ \begin {array}{c} 0\\0\\-1\\1 \end {array} \right]+
+\left[ \begin {array}{c} \frac{-1}{F_I}\\ \frac{\omega-F_I}{F_I\,\omega}\\ \frac{1}{\omega}\\0 \end {array} \right]\Big),
+\end{align}
+where 
+\begin{align}
+c_1=&1\\
+c_2=&\frac{\omega}{F_I-\omega}(S\_u^*-\frac{\omega}{F_I-\omega}\,S\_n^*)\\
+c_3=&\frac{-F_I}{F_I-\omega}(1-\frac{\omega}{F_I-\omega}S\_n^*)\\
+c_4=&\frac{-\omega\,F_I}{F_I-\omega}S\_n^*.
+\end{align}
+
+{\it Step 2;} The kernel is
+\begin{align}
+\vec K(\tau)= F \vec I(\tau)
+\end{align}
+
+{\it Step 3;} The next-generation vector is $\vec G$ as follows.
+\begin{align}
+\vec G=&\int_0^\infty \vec K(\tau) d\tau\\
+=&
+\end{align}
 %%%%%%%%%%%%%%%%%%%%
 
 \bibliography{SIRlibrary}
