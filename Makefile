@@ -34,6 +34,7 @@ pix/sir_comp.pdf: pix/sir_comp.ipe
 
 Sources += cohort.txt
 cohort.pdf: cohort.tex 
+
 ######################################################################
 
 ## Old and busted notes
