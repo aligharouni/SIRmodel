@@ -68,7 +68,11 @@ Form the cohort Eq.
 \label{eq:cohort}
 \vec I'=-V \vec I,
 \end{equation}
- with the proper initial condition $I(0)$, where the n-by-n matrix $V$ is the flow matrix of leaving infected compartments in \cite{van2002reproduction}.
+ with the vector of initial condition $\vec I(0)$ where $\vec I_i(0)$ be the number of infected individuals initially in compartment $i$, and $I(\tau)$ is the number of these initially infected individuals remaining in the infected compartments after $\tau$ time units.
+Note that as \cite{van2002reproduction} set their formulation, 
+``the $(i,j)$ entry of $F$ is the rate at which infected individuals in compartment $j$ produce new infections in compartment $i$". Matrix $V$ is the flow matrix in which the $(i,j)$ entry is the the rate of transfering infected individuals from compartment $j$ into compartment $i$, with positive (negative) means transfering out (into) a compartment.
+The $(j,k)$ entry of $V^{-1}$ is the average length of time an infected individual introduced into compartment $k$ spends in compartment $j$ during its lifetime, assuming that the population remains near the DFE and barring reinfection.
+Note that $V$ is a non-singular M-matrix and is, therefore, invertible and all of its eigenvalues have positive real parts \citep{van2002reproduction}.
 
 \item 
 Finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus
@@ -86,24 +90,39 @@ where $F$ is the matrix of new infections in the compartment framework.
 Note that the n-by-n matrix $\exp(-V\tau)$ is the probability of being infected and stay infectious at time $\tau$. 
 
 \item
-Calculating the next-generation vector $\vec G$ (\ali{feels odd here, help! also check Heesterbeek work what he calls this}) is
+Calculating the next-generation vector $\vec G$ is 
+(\ali{feels odd here, help! $\vec G$ here is a vector with elements of the eigenvalues of the \citep{van2002reproduction}'s next-generation matrix $FV^{-1}$. 
+Also check Heesterbeek work what he calls this}) 
 \begin{equation}
 \label{eq:ng} %next generation
-\vec G = \int_0^\infty \vec K(\tau) d\tau.
+\vec G = FV^{-1} = \int_0^\infty \vec K(\tau) d\tau.
 \end{equation}
-Note that $\R$ would be the non-zero element of $\vec G$.
+Note that $\R$ would be the dominant element of $\vec G$.
 \end{enumerate}
-Note that in the compartment framework \citep{van2002reproduction}, steps 2 and 3 are combined.
+Note that in the compartment framework \cite{van2002reproduction}, steps 2 and 3 are combined.
 %%%%%%%%%%%%%%%%%%%%
 \section{Examples}
 
-\subsection {Simple SIR}
-The cohort analogy of a simple SIR compartmental model where $\dot I=\beta S I/N-\gamma I$. The cohort framework is via the cohort Eq. with the following steps.
-{\it Step 1;} write the cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$, 
-{\it Step 2;} finding the intrinsic infectiousness kernel by integrating the cohort Eq. and solving for its time evolution, thus $k(\tau)=\beta \exp(-\gamma \tau)$.
-{\it Step 3;} $\R$ will be the integration of the kernel. That is $\R=\beta/\gamma$. 
+{\bf Example 1. Simple SIR model;}
+The model is
+\begin{align}\label{mo:sir}
+\dot S=-\beta\,S\,I/N,~~
+\dot I= \beta\,S\,I/N -\gamma\,I,~~
+\dot R= \gamma\,I.
+\end{align}
+Where $F=\beta$ and $V=\gamma$, thus $V^{-1}=1/\gamma$. The next-generation matrix $G=FV^{-1}=\beta/\gamma$ which results in $\R=\beta/\gamma$ in the compartment framework.
+The cohort analogy of the simple SIR model is via the cohort Eq. with the following steps.
 
-\subsection{Simple SEIR model}
+{\it Step 1;} The cohort Eq. $I'=-\gamma I$ with the initial condition $I(0)=1$. Thus, the solution is $I(\tau)=\exp(-\gamma \tau)$. 
+
+{\it Step 2;} The intrinsic infectiousness kernel is given by integrating the cohort Eq. and solving for its time evolution.  Thus, $K(\tau)=F\,I(\tau)=\beta \exp(-\gamma \tau)$.
+
+{\it Step 3;} The next-generation vector would be 
+$$G=FV^{-1}=\int_0^\infty\,K(\tau)\,d\tau=\beta/\gamma.$$ This gives $\R=\beta/\gamma$. 
+
+%%%%%%%%%
+\noindent
+{\bf Example 2. Simple SEIR model;}
 The simplest form of a SEIR model without vital rates is 
 \begin{align}\label{mo:sier1}
 \dot S=-\beta\,S\,I/N,~~
@@ -131,7 +150,8 @@ V^{-1} = \frac{1}{\sigma\,\gamma}
 \sigma & \sigma
 \end {array} \right].
 \end{align}
-I the context of the cohort framework we show that the same $\R$ can be calculated by following the three steps.
+Note that matrix $F$ determines the rate of new infections and their source. Specifically, here $F_{12}=\beta$, that is the rate of new infections in compartment $E$ is $\beta$ and it is originated from compartment $I$.  Also note that matrix $V$ determines the flow   
+In the context of the cohort framework we show that the same $\R$ can be calculated by following the three steps.
 
 {\it Step 1;} The cohort equation with the initial condition (in matrix form) is 
 \begin{align}
@@ -141,26 +161,27 @@ I the context of the cohort framework we show that the same $\R$ can be calculat
 Solving for $I(\tau)$ by finding the eigenvalues and eigenvectors of the above linear system results in
 \begin{align}
 \vec I(\tau) = \left[ \begin {array}{c} E(\tau)\\I(\tau) \end {array} \right] =
-c_1 \exp(-\sigma\,\tau)\,\left[ \begin {array}{c} \gamma/\sigma-1\\1 \end {array} \right] 
--c_1 \exp(-\gamma\,\tau)\,\left[ \begin {array}{c} 0\\1 \end {array} \right],
+\frac{\sigma}{\gamma-\sigma}\,\Big( \exp(-\sigma\,\tau)\,\left[ \begin {array}{c} \gamma/\sigma-1\\1 \end {array} \right] 
+- \exp(-\gamma\,\tau)\,\left[ \begin {array}{c} 0\\1 \end {array} \right] \Big).
 \end{align}
-where $$c_1=\frac{\sigma}{\gamma-\sigma}.$$
 
 {\it Step 2;} The kernel is
 \begin{align}
 \vec K(\tau)= F \vec I(\tau)
-= c_1 \exp(-\sigma\,\tau)\,\left[ \begin {array}{c} \beta\\0 \end {array} \right] 
- -c_1 \exp(-\gamma\,\tau)\,\left[ \begin {array}{c} \beta\\0 \end {array} \right].
+= \frac{\sigma}{\gamma-\sigma} \Big(\exp(-\sigma\,\tau)\,\left[ \begin {array}{c} \beta\\0 \end {array} \right] 
+ -\exp(-\gamma\,\tau)\,\left[ \begin {array}{c} \beta\\0 \end {array} \right]\Big).
 \end{align}
 
-{\it Step 3;} The basic reproduction number $\R$ is given by integrating the non-zero element of the kernel as follows.
+{\it Step 3;} The next-generation vector is 
 \begin{align}
-\R=\int_0^\infty \vec K_1(\tau) d\tau
-=\beta\,c_1(1/\sigma-1/\gamma)
-=\beta/\gamma.
+\vec G=\int_0^\infty \vec K(\tau) d\tau
+=\beta\,\frac{\sigma}{\gamma-\sigma}\,\Big(\left[ \begin{array}{c} 1/\sigma-1/\gamma\\0 \end{array} \right]\Big)
+=\left[ \begin{array}{c} \beta/\gamma\\0 \end{array} \right].
 \end{align}
 
-\subsection{SIR with testing and isolation}
+%%%%%%%%%
+\noindent
+{\bf Example 3. SIR with testing and isolation;}
 The model can be summarized in the form of following matrices.
 \begin{align}
 \label{FV}
