@@ -1,6 +1,3 @@
-library(shellpipes)
-rpcall("SIRfunctions.Rout SIRfunctions.R")
-
 # Functions for the SIR model
 # By: A Gharouni
 
@@ -19,6 +16,12 @@ while (!require(McMasterPandemic)) {
                           build_vignettes = TRUE
   )
 }
+if (!require("shellpipes") ) {
+  remotes::install_github("dushoff/shellpipes")
+}
+
+library(shellpipes)
+rpcall("SIRfunctions.Rout SIRfunctions.R")
 
 unpack <- McMasterPandemic::unpack
 

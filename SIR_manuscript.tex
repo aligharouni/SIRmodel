@@ -28,7 +28,7 @@
 \newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
 \newcommand{\covid}{COVID-19\xspace}
 \newcommand{\pro}[1]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
-\newcommand\pder[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
+\newcommand\pder[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder y{x}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
@@ -186,7 +186,7 @@ where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number
 \end{equation}
 \bmb{super-fussy, but: I don't think we should introduce explicit thinspaces everywhere; why not let
   TeX do the typesetting itself? Do we really prefer more compact equations, and if so is there a package
-  that will just change the appropriate settings globally?}\ali{are we talking about \,? not sure about the package!}
+  that will just change the appropriate settings globally?}\ali{are we talking about \\,?}
 where
 \begin{align}
 \label{eq:C12}
@@ -205,35 +205,34 @@ We computed the values and contours of Delta at both low (\fref{pan}) and high (
 The low-testing case \fref{pan} reflects the case where $rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
 In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university.
   The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is $\approx 1.017$, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. \bmb{how did we choose this particular value?}\ali{I was thinking of ``critical'' $\Rnum=1$ and wanted to have the baseline in the plot.}
-  \bmb{JD wonders whether we really need the ``critical'' $\Rnum=1$ contour or not; any contour will do to illustrate a threshold level of testing intensity, and the fact that $\Rnum=1$ falls in the middle of our range is a bit arbitrary (i.e. the fact that testing can control the epidemic depends on the baseline $\Rnum$ value we have chosen). (I know it was my idea in the first place, but maybe we could dispense with it?)}\ali{agree with the point, the plots will be modified.}
+  \bmb{JD wonders whether we really need the ``critical'' $\Rnum=1$ contour or not; any contour will do to illustrate a threshold level of testing intensity, and the fact that $\Rnum=1$ falls in the middle of our range is a bit arbitrary (i.e. the fact that testing can control the epidemic depends on the baseline $\Rnum$ value we have chosen). (I know it was my idea in the first place, but maybe we could dispense with it?)}\ali{agree, the plots are updated.}
 
 % %%%%%%%
 \section{Results and discussion}
 
 We can use the formula for $\Rnum$ \eqref{R0} to make a number of straightforward conclusions about parameters whose effects on $\Rnum$ are monotonic (i.e. the partial derivative of $\Delta$ has a consistent sign: Sections~\ref{app:rho}, \ref{app:omega}, \ref{app:w}).
 
-\bmb{can we connect each of these results to specific equations in the appendix?}
 \begin{enumerate}
 
-\item \label{p1:eta} Increasing isolation efficacy for waiting ($\theta\_w$) and confirmed-positive ($\theta\_c$) individuals always decreases \Rnum;
+\item \label{p1:eta} Increasing isolation efficacy for waiting ($\theta\_w$) and confirmed-positive ($\theta\_c$) individuals always decreases \Rnum (Eqs.~\ref{eq:del4_theta},~\ref{eq:d_del4_thetac},~\ref{eq:d_del4_thetaw});
 \item \label{p1:rho} Higher testing intensity $\rho$ decreases $\Rnum$ if
 %% \begin{enumerate} \item
-testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small.
+testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small (Eq.~\ref{eq:dd3dr}).
 %% \end{enumerate}
-\item \label{p1:omega} Increasing the rate of test return ($\omega$) always decreases \Rnum if waiting individuals do not isolate ($\theta_w=0$).
-\item \label{p1:w} Increasing testing focus, i.e. changing the testing weights from random ($w_S=w_I$) toward targeted  ($w_S<w_I$), always decreases \Rnum.
+\item \label{p1:omega} Increasing the rate of test return ($\omega$) always decreases \Rnum if waiting individuals do not isolate ($\theta_w=0$) (Eq.~\ref{eq:dlindo}).
+\item \label{p1:w} Increasing testing focus, i.e. changing the testing weights from random ($w_S=w_I$) toward targeted  ($w_S<w_I$), always decreases \Rnum (Eq.~\ref{eq:d_del_wis}).
 \end{enumerate}
 
 \newpage
 \begin{figure}[h!]
 \centering
-\begin{subfigure}[t]{.45\textwidth}
+\begin{subfigure}[t]{.46\textwidth}
 \centering
 \includegraphics[width=\linewidth]{codes/R0contour_random.pdf}
 \caption{}\label{p.a}
 \end{subfigure}
 %
-\begin{subfigure}[t]{.45\textwidth}
+\begin{subfigure}[t]{.44\textwidth}
 \centering
 \includegraphics[width=\linewidth]{codes/R0contour_TTI.pdf}
 \caption{}\label{p.b}
@@ -241,22 +240,21 @@ testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small.
 \caption{
 {\bf A comparison of effectiveness control on $\Rnum$ at low level of \percap testing intensity $\rho$.}
 Numerical evaluation of the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to changes in testing and isolation. Parameter values (Table~\ref{tab:params}):
-$N_0=10^6$, $\beta=0.339$ day$^{-1}$ $\gamma= 1/3$ day$^{-1}$; $\omega \in [1/12,2]$ day$^{-1}$;  $\rho \in [0,0.013]$ day$^{-1}$; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). Black dotted lines in each panel represent the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ such that $\Rnum=1$.
-\bmb{Perhaps we can also include baseline $\Rnum$ and $r$ (or doubling time), i.e. $\beta/\gamma$ and $\beta-\gamma$. (Why did we pick these particular beta/gamma values?)
-If $\rho$ is per capita then does the figure depend on $N_0$ at all/can we leave it out of the list of specified parameters?}
+$\beta=0.339$ day$^{-1}$ $\gamma= 1/3$ day$^{-1}$; $\omega \in [1/12,2]$ day$^{-1}$;  $\rho \in [0,0.013]$ day$^{-1}$; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
+The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.017 and 0.006 in this simulation.
 }
 \label{pan}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\begin{subfigure}[t]{.45\textwidth}
+\begin{subfigure}[t]{.46\textwidth}
 \centering
 \includegraphics[width=\linewidth]{codes/R0contour_random2.pdf}
 \caption{}
 \end{subfigure}
 %
-\begin{subfigure}[t]{.45\textwidth}
+\begin{subfigure}[t]{.44\textwidth}
 \centering
 \includegraphics[width=\linewidth]{codes/R0contour_TTI2.pdf}
 \caption{}
@@ -264,7 +262,9 @@ If $\rho$ is per capita then does the figure depend on $N_0$ at all/can we leave
 \caption{
 {\bf A comparison of effectiveness control on $\Rnum$ at high level of \percap testing intensity $\rho$.}
 We numerically evaluate the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to testing and isolation. We use the following parameters (see Table~\ref{tab:params} for a brief description):
-$N_0=1 \times 10^6$, $\omega \in [1/5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.339$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The black dotted line in each panel represents the critical contour of $\Delta=1-\frac{\gamma}{\beta}$, i.e., the $\Delta$ corresponding to the threshold of $\Rnum=1$. \bmb{consider removing dotted line (see note elsewhere); on this and prev figure consider removing redundant y-axis label on right panel (and adjusting/squashing interpanel spacing)?}}
+$\omega \in [1/5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.339$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.017 and 0.006 in this simulation. \bmb{consider removing dotted line (see note elsewhere); on this and prev figure consider removing redundant y-axis label on right panel (and adjusting/squashing interpanel spacing)?}
+\ali{ok?}
+}
 \label{pan2}
 \end{figure}
 
@@ -276,6 +276,7 @@ However, there are also two specific cases where $\Delta$ changes \emph{non-mono
   \bmb{I am still trying to understand why slowing testing return (decreasing $\omega$) decreases \Rnum over \textbf{most} of the parameter space considered here, which is a counterintuitive/silly result. Fast test returns help when we have high test positivity and low isolation during the waiting period (specifically, [much] lower isolation while waiting than when confirmed, but I think we're assuming that); we want to get waiting people into the ``confirmed'' compartment as quickly as possible. Can we understand/explain this result more thoroughly using that logic, and can we argue that what we are looking at is \emph{not} a realistic parameter range? Does the low baseline \Rnum we are using play into this, e.g. by reducing test positivity? Is there a simple expression for test positivity during the invasion phase?}
 
 \item Lastly, we show that increasing the focus of testing from random to targeted, always increases $\Delta$, thus decreases \Rnum. This can be seen in \fref{pan} and \fref{pan2}. In particular, we realize higher $\Delta$ levels, i.e., darker colors in corresponding plots\/facets as we go from panel~(a) to panel~(b) in the figures. \bmb{this is the same as point 4 above, right? Am I missing something?}
+\ali{you are right.}
 \end{itemize}
   
 
@@ -449,7 +450,8 @@ where
 \Delta= \frac{1}{C}\big(C_1\,S\_u^*+(C_2(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
 \end{equation*}
 
-{\bf The first goal} is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\theta\_w}$ and $\pder[\Rnum]{\theta\_c}$. We start with simplifying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.\,\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
+{\bf The first goal}
+is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder \Rnum{\theta\_w}$ and $\pder \Rnum{\theta\_c}$. We start with simplifying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.\,\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
 \begin{equation}
 \label{eq:del4_theta}
 \Delta= \frac{1}{C}\Big(
@@ -464,9 +466,12 @@ where
 D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega\,p_I)\gamma\,\hat F_I, \\
 D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega\,p_I)\gamma\,\hat F_I+(\gamma+p_I\,\hat F_I)\omega^2.
 \end{align}
-$\Delta$, Eq.\,\eqref{eq:del4_theta}, is linear in $\theta\_c$ with a positive coefficient given by 
-$$1/C\,(\gamma\,S\_u^*\,+\omega(1-\theta\_w\,S\_u^*))\omega\,p_I\,\hat F_I.$$
-This results in increasing $\Delta$, thus decreasing $\Rnum$ with respect to $\theta\_c$, that is $\pder[\Rnum]{\theta\_c}\leq 0$. Note that $C$ is independent of $\theta\_c$ and $\theta\_w$. 
+$\Delta$, Eq.\,\eqref{eq:del4_theta}, is linear in $\theta\_c$ with a positive coefficient. thus
+\begin{equation}
+\label{eq:d_del4_thetac}
+\pder\Delta{\theta\_c}=1/C(\gamma S\_u^*+\omega(1-\theta\_w S\_n^*))\omega p_I \hat F_I.
+\end{equation}
+This results in increasing $\Delta$, thus decreasing $\Rnum$ with respect to $\theta\_c$, that is $\pder \Rnum{\theta\_c}\leq 0$. Note that $C$ is independent of $\theta\_c$ and $\theta\_w$. 
 
 With a similar logic, $\Delta$ \eqref{eq:del4_theta} is a concave-down quadratic equation in $\theta\_w$, given by
 \begin{equation}
@@ -474,23 +479,23 @@ With a similar logic, $\Delta$ \eqref{eq:del4_theta} is a concave-down quadratic
 1/C\,\Big( -D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
 \big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w} \Big).
 \end{equation}
-We show that the feasible range of $\theta\_w$ lies between 0 and the vertex of this parabola where the parabola is increasing in $\theta\_w$, and so does $\Delta$ which results in inferring $\pder[\Rnum]{\theta\_w}\leq 0$.
+We show that the feasible range of $\theta\_w$ lies between 0 and the vertex of this parabola where the parabola is increasing in $\theta\_w$, and so does $\Delta$ which results in inferring $\pder\Rnum{\theta\_w}\leq 0$.
 It is enough to show that partial derivative of the expression \eqref{eq:del4_thetaw} with respect to $\theta\_w$ at $\theta\_w=1$ is non-negative. It follows that
 \begin{align}
 \label{eq:d_del4_thetaw}
-\pder[\Delta]{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
-1/C\Big( (D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \Big) \\
+\pder\Delta{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
+1/C\Big( (D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \Big) \\\notag
 =& 1/C\Big( (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2\,p_I\,\hat F_I )\,S\_n^*
 +\gamma(\omega+\gamma)\,\hat F_I\,(1-S\_n^*) \Big),
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
-{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\rho}$, which specifically depends on $\pder[\Delta]{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparameterize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparameterized as 
+{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\rho}$, which specifically depends on $\pder\Delta{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparameterize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparameterized as 
 \begin{equation}
 \label{eq:phi}
 \rho=\frac{\omega \phi}{\omega+\phi}.
 \end{equation}
-This one-to-one monotonic reparameterization enables us to simplify the mathematical expressions and explore the simpler $\pder[\Delta]{\phi}$ instead of the complicated $\pder[\Delta]{\rho}$.
+This one-to-one monotonic reparameterization enables us to simplify the mathematical expressions and explore the simpler $\pder\Delta{\phi}$ instead of the complicated $\pder\Delta{\rho}$.
 The derivative is
 \begin{align}
 \label{eq:dd3dr}
@@ -522,12 +527,12 @@ If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr}
 
 An example of this counter-vailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occurs when $\theta\_w=0$ and $\theta\_c=1$.
 This is illustrated in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case, simplifying $a_3$ in Eq.~\eqref{eq:abcd2} gives $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
-Specifically, in the case of targeted testing which is identified by $\frac{w_I}{w_S}> 1$, and using a perfect sensitive test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder[\Rnum]{\rho}\leq\,0$.  
+Specifically, in the case of targeted testing which is identified by $\frac{w_I}{w_S}> 1$, and using a perfect sensitive test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder\Rnum{\rho}\leq\,0$.  
 Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial counter-vailing effect of these two parameters on $\Rnum$. 
 
 % %%%%%%%
 \subsection{rate of returning tests} \label{app:omega}
-{\bf The third goal} is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder[\Rnum]{\omega}$, which specifically depends on $\pder[\Delta]{\omega}$. We use
+{\bf The third goal} is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\omega}$, which specifically depends on $\pder\Delta{\omega}$. We use
 the linearization of $\Rnum$ around $\rho=0$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The Taylor expansion of $\Delta$ at $\rho=0$ is
 \begin{equation}
 \label{eq:lin}
@@ -538,7 +543,7 @@ the linearization of $\Rnum$ around $\rho=0$ to show that there a non-monotonic 
 This results in
 \begin{equation}
 \label{eq:dlindo}
-\pder[\Delta]{\omega} = \frac{\rho}{\omega^2\,(\omega+\gamma)^2} \Big(
+\pder\Delta{\omega} = \frac{\rho}{\omega^2\,(\omega+\gamma)^2} \Big(
 (p_I\,\frac{w_I}{w_S}\theta\_c\,-(1+\frac{w_I}{w_S})\theta\_w)\omega^2+2\theta_w\,\gamma(\theta_w-2)\,\omega+\theta_w\,\gamma^2\,(\theta_w-2)
 \Big),
 \end{equation}
@@ -560,11 +565,12 @@ One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day)
 
 We define $w\_{IS}=\frac{w_I}{w_S}$.
 \begin{align}
-\pder[\Delta]{w\_{IS}}= \dfrac{(\omega-\rho)\,(\omega(\omega-\rho\theta\_w)+\gamma(\omega-\rho))\,(\theta\_w\gamma+\theta\_c\omega\,p\_I)}
+\label{eq:d_del_wis}
+\pder \Delta{w\_{IS}}= \dfrac{(\omega-\rho)\,(\omega(\omega-\rho\theta\_w)+\gamma(\omega-\rho))\,(\theta\_w\gamma+\theta\_c\omega\,p\_I)}
 {(-\omega^2\,\gamma+\omega\,\gamma\,\rho-\gamma\,\rho\,\omega\,w\_{IS}-
 \omega\,\gamma^2+\gamma^2\,\rho-\omega^2\,p_I\,\rho\,w\_{IS})^2},
 \end{align}
-which is a positive quantity. Thus, $\pder[\Rnum]{w\_{IS}}\leq 0$. Therefore, increasing the focus of testing on the infectious people will result in less transmission.  
+which is a positive quantity. Thus, $\pder \Rnum{w\_{IS}}\leq 0$. Therefore, increasing the focus of testing on the infectious people will result in less transmission.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \todo{Fady:To be change accordingly please.} 

@@ -107,7 +107,7 @@ p1 <- (ggplot(df_temp,aes(x=1/omega,y=rho,z=Delta))
 p1_temp <- (p1
   # + geom_contour_filled(breaks=brks)
   + geom_contour_filled(breaks=brks_vec)
-  + geom_contour(breaks=threshold,alpha=0.5,colour="black",lty="11",lwd=1)
+  ##+ geom_contour(breaks=threshold,alpha=0.5,colour="black",lty="11",lwd=1)
   + facet_grid(theta_w~theta_c, labeller=label_special)
   + scale_x_continuous(expand=expansion(c(0,0)), breaks=inv_omega_brks,limits=c(inv_omega_min,inv_omega_max))
   ## scale by 1000, no digits after decimal
@@ -152,6 +152,7 @@ p1_targeted <- ((p1_temp %+% df_targeted)
   + ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted)))
   ## REMOVE legend title here ... add it back in with ggdraw
   + theme(
+        axis.title.y=element_blank(),
         legend.title = element_blank(),
         legend.position = c(0.14, 0.30),
         legend.text = element_text(size = 7),
@@ -195,7 +196,7 @@ p12 <- (ggplot(df_temp2,aes(x=1/omega,y=rho,z=Delta))
 p1_temp2 <- (p12
             # + geom_contour_filled(breaks=brks)
             + geom_contour_filled(breaks=brks_vec)
-            + geom_contour(breaks=threshold,alpha=0.5,colour="black",lty="11",lwd=1)
+            ##+ geom_contour(breaks=threshold,alpha=0.5,colour="black",lty="11",lwd=1)
             + facet_grid(theta_w~theta_c, labeller=label_special)
             + scale_x_continuous(expand=expansion(c(0,0)), breaks=inv_omega_fast_brks,limits=c(inv_omega_fast_min,inv_omega_fast_max))
             ## scale by 1000, no digits after decimal
@@ -231,6 +232,7 @@ p1_targeted_h <- ((p1_temp2 %+% df_targeted_h)
                 + ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted)))
                 ## REMOVE legend title here ... add it back in with ggdraw
                 + theme(
+                  axis.title.y=element_blank(),
                   legend.title = element_blank(),
                   legend.position = c(0.14, 0.30),
                   legend.text = element_text(size = 7),
