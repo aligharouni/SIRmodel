@@ -272,7 +272,7 @@ However, there are also two specific cases where $\Delta$ changes \emph{non-mono
 
 \begin{itemize}
 \item When waiting individuals do not isolate (e.g. $\theta_w =0$, top row of \fref{pan}), increasing testing delays (i.e. decreasing $\omega$) increases \Rnum, as we might expect: $\Delta$ decreases --- a larger region of the parameter space has $\Rnum>1$, and the threshold testing intensity required to control the epidemic increases --- as we move to the right within each plot in this row. However, when waiting individuals are at least partially isolated ($\theta_w>0$), we typically see the opposite effect: longer testing delays lead to \emph{less} transmission. This is because returning negative tests leads people to stop distancing; this applies both to susceptibles, and to infectious people who receive negative test results because they were sampled when susceptible (or because of imperfect test sensitivity, which we have not considered in our analysis). For small but non-zero waiting-isolation levels (e.g. $\theta_w=0.25$, second row from top), with high levels of confirmed isolation ($\theta_c \ge 0.5$), increasing testing delays initially decreases $\Delta$, then increases it as the testing delays pass a threshold value of approximately 2--5 days.
-\item \fref{pan} also shows that greater testing intensity (increasing $\rho$) generally increases the effectiveness of control (moving up in each panel). This relationship can be reversed, but only for an unrealistic scenario --- very high testing intensities \emph{that begin before the epidemic starts}. It occurs when waiting people do not isolate ($\theta_w=0$), and most easily for targeted testing (\fref{pan2}(b), right three panels of top row) \bmb{can we rule out the possibility that this phenomenon could happen with random testing? In the left panel of \fref{pan2}, $\theta_w=0$/$\theta_c=0.75$ panel, there is a hint of this behaviour; it looks like the light green [second lightest] region displays this behaviour, but it's hard to see even a maximum magnification}. This phenomenon occurs --- increasing testing intensity \emph{increases} \Rnum --- because more rapid testing leaves more susceptibles in the ``waiting-for-negative-results'' category at the DFE; these people must then wait for their tests to be returned (during which time they may become infected) before they can be tested again, receive a positive test, and then begin self-isolating. This effect is usually weak compared to the beneficial effects of testing.
+\item \fref{pan} also shows that greater testing intensity (increasing $\rho$) generally increases the effectiveness of control (moving up in each panel). This relationship can be reversed, but only for an unrealistic scenario --- very high testing intensities \emph{that begin before the epidemic starts}. It occurs when waiting people do not isolate ($\theta_w=0$), and most easily for targeted testing (\fref{pan2}(b), right three panels of top row) \bmb{can we rule out the possibility that this phenomenon could happen with random testing? In the left panel of \fref{pan2}, $\theta_w=0$/$\theta_c=0.75$ panel, there is a hint of this behaviour; it looks like the light green [second lightest] region displays this behaviour, but it's hard to see even a maximum magnification}. \ali{Yes we can rule out this for random testing, (see Eqs.~\ref{eq:dd3dr} and \ref{eq:abcd2} and the brief analysis followed)}This phenomenon occurs --- increasing testing intensity \emph{increases} \Rnum --- because more rapid testing leaves more susceptibles in the ``waiting-for-negative-results'' category at the DFE; these people must then wait for their tests to be returned (during which time they may become infected) before they can be tested again, receive a positive test, and then begin self-isolating. This effect is usually weak compared to the beneficial effects of testing.
   \bmb{I am still trying to understand why slowing testing return (decreasing $\omega$) decreases \Rnum over \textbf{most} of the parameter space considered here, which is a counterintuitive/silly result. Fast test returns help when we have high test positivity and low isolation during the waiting period (specifically, [much] lower isolation while waiting than when confirmed, but I think we're assuming that); we want to get waiting people into the ``confirmed'' compartment as quickly as possible. Can we understand/explain this result more thoroughly using that logic, and can we argue that what we are looking at is \emph{not} a realistic parameter range? Does the low baseline \Rnum we are using play into this, e.g. by reducing test positivity? Is there a simple expression for test positivity during the invasion phase?}
 
 \item Lastly, we show that increasing the focus of testing from random to targeted, always increases $\Delta$, thus decreases \Rnum. This can be seen in \fref{pan} and \fref{pan2}. In particular, we realize higher $\Delta$ levels, i.e., darker colors in corresponding plots\/facets as we go from panel~(a) to panel~(b) in the figures. \bmb{this is the same as point 4 above, right? Am I missing something?}
@@ -496,7 +496,7 @@ which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0
 \rho=\frac{\omega \phi}{\omega+\phi}.
 \end{equation}
 This one-to-one monotonic reparameterization enables us to simplify the mathematical expressions and explore the simpler $\pder\Delta{\phi}$ instead of the complicated $\pder\Delta{\rho}$.
-The derivative is
+The derivative is 
 \begin{align}
 \label{eq:dd3dr}
 \partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
@@ -504,21 +504,20 @@ The derivative is
 where
 \begin{align}
 \label{eq:abcd2}
-a_3& = \frac{w_I}{w_S} \Bigg(&& (1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w\,\gamma^3
-+(1-\theta\_c)\,p_I^2\,\theta\_w\,\frac{w_I}{w_S}\,\omega^3 \\ \notag
-& ~ &&+\Big( \big( (1-\theta\_w-\frac{w_I}{w_S})\,\theta\_c +(3-2\theta\_w)\,\theta\_w\frac{w_I}{w_S} \big)\,p_I
-+(1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w  \Big)\,\omega\,\gamma^2 \\ \notag
+a_3& = \frac{w_I}{w_S} \Bigg(
+&& (1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w\,\gamma^3 +(1-\theta\_c)\,p_I^2\,\theta\_w\,\frac{w_I}{w_S}\,\omega^3 \\ \notag
+& ~ &&+\Big( \big( (1-\theta\_w-\frac{w_I}{w_S})\,\theta\_c +(3-2\theta\_w)\,\theta\_w\frac{w_I}{w_S} \big)\,p_I +(1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w  \Big)\,\omega\,\gamma^2 \\ \notag
 & ~ &&+\Big(
 \big((1-\theta\_w-\theta\_w\,\frac{w_I}{w_S})\,\theta\_c+ (2-\theta\_w)\,\theta\_w\,\frac{w_I}{w_S} \big)\,p_I
 +(2\,\theta\_w-\theta\_w^2-\theta\_c)\,\frac{w_I}{w_S}\,p_I^2
-\Big)\,\omega^2\,\gamma \Bigg), \\
+\Big)\,\omega^2\,\gamma \Bigg), \\ \notag
 b_3& = && \hspace{-1cm} 2\frac{w_I}{w_S}\,(\omega+\gamma)\gamma\Big(
 (\omega+\gamma+\omega\,p_I)(2-\theta\_w)\,\gamma\,\theta\_w+ (1-\theta\_w)\,\omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w
-\Big) ,\\
+\Big) ,\\ \notag
 c_3& = && \hspace{-1cm} (\omega+\gamma)^2\,\gamma\Big(
 (2-\theta\_w)\,\gamma^2\,\theta\_w+
 (1+\frac{w_I}{w_S})\,\omega\,\gamma\,\theta\_w+
-\frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\
+\frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\ \notag
 d_3&  = && \hspace{-1cm} \frac{(\omega+\gamma)}{\omega}\, \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2.
 \end{align}
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
