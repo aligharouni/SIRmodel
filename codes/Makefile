@@ -19,6 +19,8 @@ SIRfunctions.Rout: SIRfunctions.R
 
 sir_plot.Rout: sir_plot.R SIRfunctions.rda params.rda
 
+modeldefs.tex: sir_plot.R SIRfunctions.rda params.rda
+
 Ignore += R0contour_TTI.pdf R0contour_random.pdf R0contour_TTI2.pdf R0contour_random2.pdf
 R0contour_TTI.pdf R0contour_random.pdf R0contour_TTI2.pdf R0contour_random.pdf2: sir_plot.Rout ;
 

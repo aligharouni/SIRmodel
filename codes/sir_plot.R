@@ -9,6 +9,9 @@ library(cowplot) ## for ggdraw()/rectangle-hacking
 
 library(shellpipes)
 
+texfile <- "modeldefs.tex"
+unlink(texfile)
+
 rpcall("sir_plot.Rout sir_plot.R params.rda SIRfunctions.rda")
 
 loadEnvironments()
@@ -38,6 +41,13 @@ inv_omega_fast_min <- 0.5
 inv_omega_fast_max <- 5
 inv_omega_fast_brks <- c(1,2,4)
 rho_fast_brks <- c(0,0.1,0.2)
+
+unlink("modeldefs.tex")
+
+catt("% parameter values\n")
+latexout(params[["beta"]],"betaparam")
+latexout(params[["gamma"]],"gammaparam")
+
 
 background <- "grey90"
 # make dataframe
@@ -218,8 +228,8 @@ print(p1_temp2)
 # 4. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp2 
-       + ggtitle(TeX('(Random testing, $w_S=w_I=1$)')) 
+ggsave(p1_temp2
+       + ggtitle(TeX('(Random testing, $w_S=w_I=1$)'))
        + theme(legend.position = "none"),
        filename = "R0contour_random2.pdf" ,
        width = 12, height = 12, units = "cm")
