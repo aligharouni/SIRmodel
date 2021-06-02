@@ -139,7 +139,7 @@ print(p1_temp)
 # 1. Plot the Random Testing Scenario:
 # #################################
 
-ggsave(p1_temp + ggtitle(TeX('(Random testing, $w_S=w_I=1$)')) +
+ggsave(p1_temp + ggtitle(TeX('Random testing, $w_S=w_I=1$')) +
        theme(legend.position = "none"),
        filename = "R0contour_random.pdf" ,
        width = 12, height = 12, units = "cm")
@@ -162,7 +162,7 @@ p1_targeted <- ((p1_temp %+% df_targeted)
   + ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted)))
   ## REMOVE legend title here ... add it back in with ggdraw
   + theme(
-        axis.title.y=element_blank(),
+        ##axis.title.y=element_blank(),
         legend.title = element_blank(),
         legend.position = c(0.14, 0.30),
         legend.text = element_text(size = 7),
@@ -229,7 +229,7 @@ print(p1_temp2)
 # #################################
 
 ggsave(p1_temp2
-       + ggtitle(TeX('(Random testing, $w_S=w_I=1$)'))
+       + ggtitle(TeX('Random testing, $w_S=w_I=1$'))
        + theme(legend.position = "none"),
        filename = "R0contour_random2.pdf" ,
        width = 12, height = 12, units = "cm")
@@ -242,7 +242,7 @@ p1_targeted_h <- ((p1_temp2 %+% df_targeted_h)
                 + ggtitle(TeX(sprintf("Targeted testing, w_S=%.1f, w_I=1",W_S_targeted)))
                 ## REMOVE legend title here ... add it back in with ggdraw
                 + theme(
-                  axis.title.y=element_blank(),
+                  ##axis.title.y=element_blank(),
                   legend.title = element_blank(),
                   legend.position = c(0.14, 0.30),
                   legend.text = element_text(size = 7),

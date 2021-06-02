@@ -151,11 +151,11 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
   Symbol & Description & Unit & Value \\ \hline
   $N_0$     & Total population size & people & $10^6$ \\ \hline
   $\omega$  & Rate of test return, i.e., rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
-  $\gamma$ & Recovery rate & 1/day & 1/3 \\ \hline 
+  $\gamma$ & Recovery rate & 1/day & 1/6 \\ \hline 
   $\rho$   & \percap testing intensity & 1/day & - \\ \hline 
   $\theta\_w$ & Isolation efficacy (reduction of the transmission probability) for ``waiting'' individuals & - & - \\ \hline
   $\theta\_c$ & Isolation efficacy for ``confirmed positive'' individuals & - & -  \\ \hline
-  $\beta$ & Transmission rate & 1/day & 0.339 \\ \hline
+  $\beta$ & Transmission rate & 1/day & 0.25 \\ \hline
   $\Lambda$ & Force of infection & 1/day & - \\ \hline
   $p_S$ & Probability of positive tests for $S$ ($= 1-\textrm{specificity}$) & - & 0 \\ \hline
   $p_I$ & Probability of positive tests for $I$ ($= \textrm{sensitivity}$) & - & 1 \\ \hline
@@ -190,9 +190,6 @@ where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number
   \label{eq:del4a}
   \Delta= \frac{1}{C N_0}\big(C_1 S\_u^*+(C_2(1-\theta\_w)+C \theta\_w)S\_n^*\big),
 \end{equation}
-\bmb{super-fussy, but: I don't think we should introduce explicit thinspaces everywhere; why not let
-  TeX do the typesetting itself? Do we really prefer more compact equations, and if so is there a package
-  that will just change the appropriate settings globally?}\ali{are we talking about \\,?}
 where
 \begin{align}
 \label{eq:C12}
@@ -210,9 +207,8 @@ We computed the values and contours of Delta at both low (\fref{pan}) and high (
 
 The low-testing case \fref{pan} reflects the case where $rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
 In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university.
-  The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is $\approx 1.017$, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. \bmb{how did we choose this particular value?}\ali{I was thinking of ``critical'' $\Rnum=1$ and wanted to have the baseline in the plot.}
-  \bmb{JD wonders whether we really need the ``critical'' $\Rnum=1$ contour or not; any contour will do to illustrate a threshold level of testing intensity, and the fact that $\Rnum=1$ falls in the middle of our range is a bit arbitrary (i.e. the fact that testing can control the epidemic depends on the baseline $\Rnum$ value we have chosen). (I know it was my idea in the first place, but maybe we could dispense with it?)}\ali{agree, the plots are updated.}
-
+  The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is $\approx 1.5$, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. 
+  
 % %%%%%%%
 \section{Results and discussion}
 
@@ -246,8 +242,8 @@ testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small (Eq.~
 \caption{
 {\bf A comparison of effectiveness control on $\Rnum$ at low level of \percap testing intensity $\rho$.}
 Numerical evaluation of the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to changes in testing and isolation. Parameter values (Table~\ref{tab:params}):
-$\beta=0.339$ day$^{-1}$ $\gamma= 1/3$ day$^{-1}$; $\omega \in [1/12,2]$ day$^{-1}$;  $\rho \in [0,0.013]$ day$^{-1}$; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
-The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.017 and 0.006 in this simulation.
+$\beta=0.25$ day$^{-1}$, $1/\gamma= 1/3$ days; $\omega \in [1/12,2]$ day$^{-1}$;  $\rho \in [0,0.013]$ day$^{-1}$; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
+The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.5 and 0.08 in this simulation.
 }
 \label{pan}
 \end{figure}
@@ -268,8 +264,7 @@ The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $
 \caption{
 {\bf A comparison of effectiveness control on $\Rnum$ at high level of \percap testing intensity $\rho$.}
 We numerically evaluate the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to testing and isolation. We use the following parameters (see Table~\ref{tab:params} for a brief description):
-$\omega \in [1/5,2]$ 1/day, $1/\gamma= 3$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.339$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.017 and 0.006 in this simulation. \bmb{consider removing dotted line (see note elsewhere); on this and prev figure consider removing redundant y-axis label on right panel (and adjusting/squashing interpanel spacing)?}
-\ali{ok?}
+$\omega \in [1/5,2]$ 1/day, $1/\gamma= 6$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.25$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.5 and 0.08 in this simulation.
 }
 \label{pan2}
 \end{figure}
