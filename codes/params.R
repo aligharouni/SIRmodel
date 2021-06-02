@@ -5,8 +5,8 @@ loadEnvironments()
 
 params <- c(
 N0=1000000, #total population size, 
-beta= 0.339, #transmission rate 0.339
-gamma=1/3, #recovery rate, was 1/3
+beta= 0.25, #transmission rate 0.339
+gamma=1/5, #recovery rate, was 1/3
 omega=0.25, #test returning rate 
 rho=0.01, #testing rate percapita (also used 0.8, 1/3)
 W_S=1, W_I=1, W_R=1, #Testing relative weights
