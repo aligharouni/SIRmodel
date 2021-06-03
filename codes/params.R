@@ -5,7 +5,7 @@ loadEnvironments()
 
 params <- c(
 N0=1000000, #total population size, 
-beta= 0.25, #transmission rate 0.339
+beta= 0.5, #transmission rate 0.339
 gamma=1/5, #recovery rate, was 1/3
 omega=0.25, #test returning rate 
 rho=0.01, #testing rate percapita (also used 0.8, 1/3)
