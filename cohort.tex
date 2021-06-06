@@ -40,6 +40,7 @@
 \theoremstyle{definition} % amsthm only
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{note}{Note}
 
 \bibliographystyle{apalike}
 
@@ -95,11 +96,25 @@ Calculating the next-generation vector $\vec G$ is
 Also check Heesterbeek work what he calls this}) 
 \begin{equation}
 \label{eq:ng} %next generation
-\vec G = FV^{-1} = \int_0^\infty \vec K(\tau) d\tau.
+\vec G = FV^{-1} \vec I(0)= \int_0^\infty \vec K(\tau) d\tau.
 \end{equation}
 Note that $\R$ would be the dominant element of $\vec G$.
 \end{enumerate}
-Note that in the compartment framework \cite{van2002reproduction}, steps 2 and 3 are combined.
+
+\begin{note}
+The following notes/points are to be considered in moving from one framework to another, namely, cohort framework \citep{champredon2018equivalence} and comartmental framework \citep{van2002reproduction}; 
+\begin{enumerate}
+\item
+In the compartment framework, steps 2 and 3 are combined.
+\item
+If the initial condition $\vec I(0)$ of the cohort Eq.~\eqref{eq:I} (in the cohort framework) is chosen as the principal eigenvector of the next-generation matrix $FV^{-1}$ corresponding to $\R$ (in compartmental framework), the next generation vector $\vec G$~\eqref{eq:ng} would be 
+\begin{equation}
+\vec G = FV^{-1} \vec I(0) = \R \vec I(0).
+\end{equation}
+Thus, in this case inorder to collapse $\vec G$ to $\R$, if $\vec I(0)$ is a unit vector as well, i.e., $\lVert \vec I(0) \rVert = 1$, it follows that $\vec I(0)^t \cdot \vec G = \R$, where $\vec I(0)^t$ is the transpose of $\vec I(0)$.
+\end{enumerate}
+\end{note}
+
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Examples}
