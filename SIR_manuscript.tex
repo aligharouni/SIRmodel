@@ -155,7 +155,7 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
   $\rho$   & \percap testing intensity & 1/day & - \\ \hline 
   $\theta\_w$ & Isolation efficacy (reduction of the transmission probability) for ``waiting'' individuals & - & - \\ \hline
   $\theta\_c$ & Isolation efficacy for ``confirmed positive'' individuals & - & -  \\ \hline
-  $\beta$ & Transmission rate & 1/day & 0.25 \\ \hline
+  $\beta$ & Transmission rate & 1/day & 0.5 \\ \hline
   $\Lambda$ & Force of infection & 1/day & - \\ \hline
   $p_S$ & Probability of positive tests for $S$ ($= 1-\textrm{specificity}$) & - & 0 \\ \hline
   $p_I$ & Probability of positive tests for $I$ ($= \textrm{sensitivity}$) & - & 1 \\ \hline
@@ -207,7 +207,7 @@ We computed the values and contours of Delta at both low (\fref{pan}) and high (
 
 The low-testing case \fref{pan} reflects the case where $rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
 In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university.
-  The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is $\approx 1.5$, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. 
+  The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is 3, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. 
   
 % %%%%%%%
 \section{Results and discussion}
@@ -242,8 +242,8 @@ testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small (Eq.~
 \caption{
 {\bf A comparison of effectiveness control on $\Rnum$ at low level of \percap testing intensity $\rho$.}
 Numerical evaluation of the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to changes in testing and isolation. Parameter values (Table~\ref{tab:params}):
-$\beta=0.25$ day$^{-1}$, $1/\gamma= 1/3$ days; $\omega \in [1/12,2]$ day$^{-1}$;  $\rho \in [0,0.013]$ day$^{-1}$; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
-The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.5 and 0.08 in this simulation.
+$\beta=0.5$ 1/day, $1/\gamma= 6$ days; $\omega \in [1/12,2]$ 1/day;  $\rho \in [0,0.013]$ 1/day per capita; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
+The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are 3 and about 0.3 in this simulation.
 }
 \label{pan}
 \end{figure}
@@ -264,7 +264,7 @@ The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $
 \caption{
 {\bf A comparison of effectiveness control on $\Rnum$ at high level of \percap testing intensity $\rho$.}
 We numerically evaluate the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to testing and isolation. We use the following parameters (see Table~\ref{tab:params} for a brief description):
-$\omega \in [1/5,2]$ 1/day, $1/\gamma= 6$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.25$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are approximately 1.5 and 0.08 in this simulation.
+$\omega \in [1/5,2]$ 1/day, $1/\gamma= 6$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.5$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are 3 and 0.3 in this simulation.
 }
 \label{pan2}
 \end{figure}
@@ -276,16 +276,13 @@ However, there are also two specific cases where $\Delta$ changes \emph{non-mono
 However, when waiting individuals isolate ($\theta_w>0$), we more often see the opposite effect: longer testing delays lead to a greater control effect $\Delta$. This is because people waiting for negative tests are assumed to continue to isolate; this applies both to susceptibles and to people who became infected while waiting for negative test results. This effect outweighs the effect of confirmed individuals isolating except when this isolation parameter $\theta_c$ is substantially bigger than $\theta_w$. This result depends on the idea that, all else equal, people who have to wait longer for test results isolate at the same level (but for a longer time) as they would if the wait were shorter.
 \item \fref{pan} also shows that greater testing intensity (increasing $\rho$) generally increases the effectiveness of control (moving up in each panel). This relationship can be reversed, however, at very high testing intensities. This can only occur when testing is targeted, and $\theta_w$ is relatively small (\fref{pan2}(b), right three panels of top row). It is theoretically possible for increasing testing intensity to \emph{increase} \Rnum because more rapid testing leaves more susceptibles in the ``waiting-for-negative-results'' category at the DFE; if these people become infected while waiting, they will need to wait for their negative test result before they can be tested again, receive a positive test, and then begin self-isolating. This effect is usually weak compared to the beneficial effects of testing.
 
-\item Lastly, we show that increasing the focus of testing from random to targeted, always increases $\Delta$, thus decreases \Rnum. This can be seen in \fref{pan} and \fref{pan2}. In particular, we realize higher $\Delta$ levels, i.e., darker colors in corresponding plots\/facets as we go from panel~(a) to panel~(b) in the figures. \todo{Ali to restructure or delete; feels redundant.}
 \end{itemize}
   
-%%%%%%%%%%%%
 
+%%%%%%%%%%%%
 \section{Discussion}
 
-In this paper, we have defined and analyzed a simple compartmental model that combines epidemiological dynamics (as defined by a simple SIR model) with the dynamics of testing and isolation. Our model is a caricature --- it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g. exposed, presymptomatic, and asymptomatic compartments [REFS]; time-varying testing rates [REFS?]; behavioural dynamics [REF Weitz/Park/Dushoff]). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between epidemiology and testing, rather than for making quantitative predictions or guiding pandemic responses.
-
-Many of the qualitative results we have derived are mathematical confirmations of simple, common-sense intuitions. In particular, we can decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g. symptomatic people or close contacts of known infections).
+\begin{enumerate}
 
 {\bf A potential advantage of slow test reporting $\omega$, result~\ref{p1:omega};}
 
