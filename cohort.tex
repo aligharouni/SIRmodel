@@ -32,6 +32,7 @@
 \newcommand{\pro}[1][]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
 \newcommand\pder[2][]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder[x]{y}
 \renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}} %bold font for vector
+\newcommand{\e}{\ensuremath{{\rm e}}}
 
 \newcommand{\comment}{\showcomment}
 \newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
@@ -107,11 +108,11 @@ The following notes/points are to be considered in moving from one framework to 
 \item
 In the compartment framework, steps 2 and 3 are combined.
 \item
-If the initial condition $\vec I(0)$ of the cohort Eq.~\eqref{eq:I} (in the cohort framework) is chosen as the principal eigenvector of the next-generation matrix $FV^{-1}$ corresponding to $\R$ (in compartmental framework), the next generation vector $\vec G$~\eqref{eq:ng} would be 
+If the initial condition $\vec I(0)$ of the cohort Eq.~\eqref{eq:I} (in the cohort framework) is chosen as the normalized principal eigenvector of the next-generation matrix $FV^{-1}$ corresponding to $\R$ (in compartmental framework), the next generation vector $\vec G$~\eqref{eq:ng} would be 
 \begin{equation}
 \vec G = FV^{-1} \vec I(0) = \R \vec I(0).
 \end{equation}
-Thus, in this case inorder to collapse $\vec G$ to $\R$, if $\vec I(0)$ is a unit vector as well, i.e., $\lVert \vec I(0) \rVert = 1$, it follows that $\vec I(0)^t \cdot \vec G = \R$, where $\vec I(0)^t$ is the transpose of $\vec I(0)$.
+Thus, in this case inorder to collapse $\vec G$ to $\R$, when $\vec I(0)$ is the normalized initial distribution of infected individuals, i.e., $\lVert \vec I(0) \rVert = 1$, it follows that $\vec I(0)^t \cdot \vec G = \R$, where the row vector $\vec I(0)^t$ is the transpose of $\vec I(0)$.
 \end{enumerate}
 \end{note}
 
@@ -194,6 +195,7 @@ Solving for $I(\tau)$ by finding the eigenvalues and eigenvectors of the above l
 =\beta\,\frac{\sigma}{\gamma-\sigma}\,\Big(\left[ \begin{array}{c} 1/\sigma-1/\gamma\\0 \end{array} \right]\Big)
 =\left[ \begin{array}{c} \beta/\gamma\\0 \end{array} \right].
 \end{align}
+Note that, $\R =\vec I(0)^t \cdot \vec G =\beta/\gamma$.
 
 %%%%%%%%%
 \noindent
@@ -216,23 +218,32 @@ Let the test be perfectly sensative, that is $p_I=1$.
 {\it Step 1;} The cohort Eq.~ is
 \begin{align}
 \vec I'=-V\,\vec I,~~ \text{where}~~ \vec I(\tau)=\left[ \begin {array}{c} I\_u(\tau)\\I_n(\tau)\\I_p(\tau)\\I_c(\tau) \end {array} \right], ~~
-\vec I(0)=\left[ \begin {array}{c} S\_u^*\\(1-\theta\_w)S\_n^*\\0\\0 \end {array} \right].
+\vec I(0)=\left[ \begin {array}{c} \frac{S\_u^*}{(1-\theta\_w)S\_n^*}\\1\\0\\0 \end {array} \right].
 \end{align}
 Solving for $\vec I(\tau)$ by finding the eigenvalues and eigenvectors of the above linear system results in
 \begin{align}
 \vec I(\tau)=&
-c_1\,\exp(-\gamma\,\tau)\,\left[ \begin {array}{c} 0\\0\\0\\1 \end {array} \right] 
-+c_2\,\exp(-(F_I+\gamma)\,\tau)\,\left[ \begin {array}{c} \frac{F_I-\omega}{\omega}\\0\\\frac{-F_I}{\omega}\\1 \end {array} \right]
-+c_3\,\exp(-(\omega+\gamma)\,\tau)\,\left[ \begin {array}{c} 0\\0\\-1\\1 \end {array} \right] \\\notag
-+& c_4\,\exp(-(\omega+\gamma)\,\tau)\,\Big(\tau\,\left[ \begin {array}{c} 0\\0\\-1\\1 \end {array} \right]+
-\left[ \begin {array}{c} \frac{-1}{F_I}\\ \frac{\omega-F_I}{F_I\,\omega}\\ \frac{1}{\omega}\\0 \end {array} \right]\Big),
+\left[ \begin {array}{cccc}  
+\frac{F_I-\omega}{\omega} \e^{-(F_I+\gamma)\tau}&0&0&\frac{-1}{F_I}\e^{-(\omega+\gamma)\tau}\\
+0&0&0&\frac{F_I-\omega}{-F_I\omega} \e^{-(\omega+\gamma)\tau}\\
+\frac{-F_I}{\omega} \e^{-(F_I+\gamma)\tau}&0&-\e^{-(\omega+\gamma)\tau}&(\frac{1}{\omega}-\tau)\e^{-(\omega+\gamma)\tau}\\
+\e^{-(F_I+\gamma)\tau}&\e^{-\gamma\tau}&\e^{-(\omega+\gamma)\tau}&\tau\e^{-(\omega+\gamma)\tau}
+\end {array} \right] \vec c,
 \end{align}
 where 
 \begin{align}
-c_1=&1\\
-c_2=&\frac{\omega}{F_I-\omega}(S\_u^*-\frac{\omega}{F_I-\omega}\,S\_n^*)\\
-c_3=&\frac{-F_I}{F_I-\omega}(1-\frac{\omega}{F_I-\omega}S\_n^*)\\
-c_4=&\frac{-\omega\,F_I}{F_I-\omega}S\_n^*.
+\vec c =
+\left[ \begin {array}{c} -{\frac {\omega\, \left(  \left( -\omega\,
+\theta_{{w}}+{\it F_I} \right) {\it S\_u}+\omega\,\theta_{{w}}-\omega
+ \right) }{ \left( {\it F_I}-\omega \right) ^{2} \left( -1+\theta_{{w
+}} \right) {  S\_n}}}\\ \noalign{\medskip}{\frac {-{ S\_u}\,
+\theta_{{w}}-1+\theta_{{w}}}{ \left( -1+\theta_{{w}} \right) { S\_n
+}}}\\ \noalign{\medskip}-{\frac {{ F_I}\, \left(  \left( -\omega-{
+ F_I}\,\theta_{{w}}+2\,\omega\,\theta_{{w}} \right) { S\_u}-{
+ F_I}+{ F_I}\,\theta_{{w}}+2\,\omega-2\,\omega\,\theta_{{w}}
+ \right) }{ \left( { F_I}-\omega \right) ^{2} \left( -1+\theta_{{w
+}} \right) { S\_n}}}\\ \noalign{\medskip}-{\frac {{ F_I}\,
+\omega}{{ F_I}-\omega}}\end {array} \right] .
 \end{align}
 
 {\it Step 2;} The kernel is
@@ -243,8 +254,9 @@ c_4=&\frac{-\omega\,F_I}{F_I-\omega}S\_n^*.
 {\it Step 3;} The next-generation vector is $\vec G$ as follows.
 \begin{align}
 \vec G=&\int_0^\infty \vec K(\tau) d\tau\\
-=&
+=& \R\, \vec I(0), 
 \end{align}
+where $\R$ is calculated in the previous work.
 %%%%%%%%%%%%%%%%%%%%
 \section{Ideas-Unknowns}
 - Collapsing the vectorized kernek $\vec K(\tau)$ into a scalar function of time.
