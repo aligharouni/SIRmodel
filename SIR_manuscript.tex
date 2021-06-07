@@ -287,14 +287,14 @@ In this paper, we have defined and analyzed a simple compartmental model that co
 
 Many of the qualitative results we have derived are mathematical confirmations of simple, common-sense intuitions. In particular, we can decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g. symptomatic people or close contacts of known infections).
 
-\item {\bf A potential advantage of slow test reporting $\omega$, result~\ref{p1:omega};}
+{\bf A potential advantage of slow test reporting $\omega$, result~\ref{p1:omega};}
 
 - Whether increasing $\omega$ lowers $\Rnum$ depends on the precise combination of model parameters  including $\rho$, testing strategies represented by compartment-specific testing weights, test sensitivity and specificity, and the level of isolation efficacy. 
 - The potential advantage of slow test reporting is in the individual level as opposed to the community level, but seems inapplicable as a strategy.
 - May be this mechanism combined with increasing testing intensity $\rho$ can be considered alongside other prevention methods, eg., social distancing etc, when the transmission is in the exponential-growth phase (in order to increase the generation interval).
 - One reason in favor of prolonging $1/\omega$ is that it is easy to manipulate while increasing $\rho$ can be limited to the resources.
 
-\item {\bf The counter-vailing effect of \percap testing intensity, $\rho$, on $\Rnum$;}
+{\bf The counter-vailing effect of \percap testing intensity, $\rho$, on $\Rnum$;}
 - The explanation here is that more rapid testing leaves more susceptibles in the ``waiting-for-no'' $S\_n$ category at the DFE and delay them to get to $I\_c$ where they are subject to a full isolation, thus no transmission.
 - We are missing out on community-level advantages of fast testing.
 - What is the explanation for having this counter-vailing effect of $\rho$ in targeted testing and not in the random one?
@@ -302,16 +302,15 @@ Many of the qualitative results we have derived are mathematical confirmations o
  that higher $\omega$ leaves more people in $S\_n$ and $I\_n$ which results in more transmission.
 - While targeted testing strategies, including targeting people with infection-like symptoms or the contacts of confirmed cases, are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is that viral spread is greater for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing).
 
-\item {\bf Specifying the compartment-specific relative testing weights, Specifically $\frac{w_I}{w_S}$;}
+{\bf Specifying the compartment-specific relative testing weights, Specifically $\frac{w_I}{w_S}$;}
 
 - More targeted testing is always good in viral control,
 - We incorporated the compartment-specific relative testing weights, $w_S$, $w_I$ and $w_R$, to model random testing and \emph{targeted} testing strategies. Here, in the case of targeted testing and for the simplicity and illustration purposes, we assumed that infected and recovered individuals are tested at three times the \percap rate of susceptible individuals, thus $w_I/w_S=3$ and $w_R=w_I$. Note that we have not specified a methodology to assign particular relative testing weights corresponding to a particular targeted testing scenario. 
 Modeling different targeted testing strategies, equivalently test-specific testing weights in our framework, requires prior information of the conditional probabilities of getting tested for people in a given compartment. 
 This can be implied when we would like to quantify and compare the effect of different levels of test focus for infectious people on the basic reproduction number $\Rnum$, and conclude about the disease spread management. For example, when people are tested for "screening", the individuals with potential higher mobility, eg. people who are getting on flights, get more tested and thus the corresponding heavier testing weight is assigned than people awaiting for a surgery and are probably going to stay in a long-term-care facility and consequently less mobile and more isolated to begin with. With our model, we would be able to compare the sensitivity of the disease dynamics, through $\Rnum$, with respect to testing different high-risk groups in the population. This part needs to be developed further in future work.
 
-\item What can we say in the context of strength and speed paradigm?
+What can we say in the context of strength and speed paradigm?
 
-\end{enumerate}
 
 % %%%%%%%
 \bibliography{SIRlibrary}
