@@ -204,8 +204,8 @@ catt <- function(...,file="modeldefs.tex") {
 ##' @param x numeric value
 ##' @param nm name of macro (will be \nm in LaTeX)
 ##' @param fmt number format (e.g. number of decimal places)
-latexout <- function(x,nm,fmt="%1.1f") {
-    catt(sprintf("\\newcommand{\\%s}{%s}\n",nm,sprintf(fmt,x)))
+latexout <- function(x,nm,fmt="%1.1f", ...) {
+    catt(sprintf("\\newcommand{\\%s}{%s}\n",nm,sprintf(fmt,x)), ...)
 }
 
 saveEnvironment()

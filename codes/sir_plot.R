@@ -44,11 +44,12 @@ rho_fast_min <- 0
 rho_fast_max <- (1/inv_omega_fast_max)-0.000001
 rho_fast_brks <- c(0,0.1,0.17)
 
-unlink("modeldefs.tex")
-
 catt("% parameter values\n")
-latexout(params[["beta"]],"betaparam")
-latexout(params[["gamma"]],"gammaparam")
+latexout(params[["beta"]],"betaparam", file="modeldefs.tex")
+latexout(params[["gamma"]],"gammaparam", file="modeldefs.tex")
+latexout(1/params[["gamma"]],"invgammaparam", file="modeldefs.tex")
+latexout(params[["beta"]]/params[["gamma"]],"Rnumparam", file="modeldefs.tex")
+latexout(params[["beta"]]-params[["gamma"]],"rparam", file="modeldefs.tex")
 
 
 background <- "grey90"
@@ -71,14 +72,14 @@ df_random_h <- make_params_dat(params = params,
                              eta_cs=0,eta_ce=1, ## so theta_c
                              omega_s=1/inv_omega_fast_max,omega_e=1/inv_omega_fast_min,
                              rho_s=rho_fast_min,rho_e=rho_fast_max)
-                             
+
 
 df_targeted_h <- make_params_dat(params = update(params,W_S=W_S_targeted),
                                eta_ws=0,eta_we=1, ## so theta_w
                                eta_cs=0,eta_ce=1, ## so theta_c
                                omega_s=1/inv_omega_fast_max,omega_e=1/inv_omega_fast_min,
                                rho_s=rho_fast_min,rho_e=rho_fast_max)
-                               
+
 
 ##important contour, ie R0=1 thus threshold=1 when plotting R0 contours, or Delta(R0=1)
 threshold <- 1-(params[["gamma"]]/params[["beta"]]) ## corresponding to R0=1
@@ -274,7 +275,7 @@ ggsave(p1_targeted_hacked,
 # 6. Check: in random testing when rho is high, $\theta_w=0$/$\theta_c=0.75$ panel
 # #################################
 
-df_random_h_check <- df_random_h %>% 
+df_random_h_check <- df_random_h %>%
   filter(theta_w==0 & theta_c==.75)
 p_temp <- (ggplot(df_random_h_check,aes(x=1/omega,y=rho,z=Delta))
         + theme_bw()

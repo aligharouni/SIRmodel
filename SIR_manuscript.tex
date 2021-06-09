@@ -33,6 +33,7 @@
 \newcommand\pder[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder y{x}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
+%% Roman subscript
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
 
 \newcommand{\comment}{\showcomment}
@@ -68,7 +69,7 @@ The effect of testing processes, including testing and test reporting, on epidem
 Gaining insights to determine the sensitivity of the epidemic dynamics with respect to the testing processes will depend on underlying factors including the level of focus (individual or community), assumptions (model), and the interplay between these factors. 
 In particular, fast testing and test reporting may be beneficial at the community-level, supported by many studies, as it gives a rapid assessment of the situation, identifies hot spots, and may enable rapid contact-tracing. However, the potential advantage of a slow rate of test return on the dynamics of an epidemic is real, often neglected, and needs to be quantified. At the individual level, this advantage can manifest in the following sense: individuals awaiting their test results or who have tested positive may partially or fully self-isolate, thus reducing or eliminating their potential in the transmission process.
 In this paper, we investigated this individual-level effect of testing processes on the epidemic dynamics by developing a SIR-type model.
-Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include \percap testing intensity, test sensitivity and specificity, rate of test return, and isolation efficacy (i.e., reduction of the transmission probability by isolating individuals). The novel component is the compartment-specific relative testing weights, which reflect the testing strategies-- surveillance, diagnosis, or control. Here, we compare two testing strategies, random vs. targeted, and concluded that increasing testing “focus” from random to targeted always decreases \Rnum. Further, the following processes always decreases $\Rnum$; increasing the isolation efficacy parameters for tested and confirmed individuals, higher testing intensity if testing is random or testing intensity is small, and a higher rate of test return if the isolation efficacy for tested-awaiting individuals is low.
+Although the model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. The realistic components of the model include \percap testing intensity, test sensitivity and specificity, rate of test return, and isolation efficacy (i.e., reduction of the transmission probability by isolating individuals). The novel component is the compartment-specific relative testing weights, which reflect the testing strategies --- surveillance, diagnosis, or control. Here, we compare two testing strategies, random vs. targeted, and concluded that increasing testing “focus” from random to targeted always decreases \Rnum. Further, the following processes always decreases $\Rnum$; increasing the isolation efficacy parameters for tested and confirmed individuals, higher testing intensity if testing is random or testing intensity is small, and a higher rate of test return if the isolation efficacy for tested-awaiting individuals is low.
 
 % %%%%%%%
 \section{Introduction}
@@ -127,7 +128,7 @@ where $\rho$ is the \percap testing intensity for the population, defined as the
 Thus, the \percap testing rate for compartment $X$ is 
 \begin{equation}
 \label{F}
-F_X=\sigma w_X,\,\, \text{where}\, X \in \{S,I,R\}.
+F_X=\sigma w_X, \quad \text{where} \quad X \in \{S,I,R\}.
 \end{equation}
 For a highly sensitive test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus unavailable for further testing.  Over the course of the epidemic, a sufficiently large fixed testing rate as specified in \eqref{sigma} can exhaust the pool of people available for testing, leading to a singularity when too few people are left untested to support the specified rate. Although this phenomenon does not affect our analysis of $\Rnum$, it can affect the temporal dynamics (in the appendix we present an adjustment to the model that solves this problem).
 
@@ -168,23 +169,23 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
 \caption{\label{tab:params} Parameters of the model \eqref{model}.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the SIR model (Eqs.\,\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
+The Disease-Free Equilibrium (DFE) for the SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
 \begin{equation}
 \label{dfe}
-S\_n^*= \frac{\rho}{\omega}\,N_0, \ S\_u^*= \frac{\omega-\rho}{\omega}\,N_0, \text{~and~} I_j=R_j=0 \ \text{for all }j.
+S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= \frac{\omega-\rho}{\omega} N_0, \text{~and~} I_j=R_j=0 \ \text{for all }j.
 \end{equation}
-The corresponding \percap testing rate (Eq.\,\ref{F}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
+The corresponding \percap testing rate (Eq.~\ref{F}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
 \begin{equation}
 \label{eq:fi}
 \hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S \quad .
 \end{equation}
 
-The basic reproduction number, $\Rnum$, was calculated by using the next-generation matrix method \citep{van2002reproduction}. We present $\Rnum$ in the following form.
+The basic reproduction number, $\Rnum$, was calculated by using the next-generation matrix method \citep{van2002reproduction}. We present $\Rnum$ as
 \begin{equation}
 \label{R0}
-\Rnum= \frac{\beta}{\gamma} (1-\Delta), 
+\Rnum= \frac{\beta}{\gamma} \left(1-\Delta\right), 
 \end{equation}
-where the term $\frac{\beta}{\gamma}$ is the classical basic reproduction number for a SIR model without testing and isolation \citep{keeling2011modeling}, and the positive quantity $\Delta$ is the effectiveness of control due to testing and isolation processes defined as 
+where the term $\beta/\gamma$ is the classical basic reproduction number for a SIR model without testing and isolation \citep{keeling2011modeling}, and $\Delta>0$ is the effectiveness of control due to testing and isolation processes defined as 
 \begin{equation}
   \label{eq:del4a}
   \Delta= \frac{1}{C N_0}\big(C_1 S\_u^*+(C_2(1-\theta\_w)+C \theta\_w)S\_n^*\big),
@@ -196,22 +197,23 @@ C_{\phantom 1} &= (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)
 C_1 &= (\omega+\gamma)(\theta\_w \gamma+\theta\_c \omega p_I) \hat F_I,\\
 C_2 &= \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2(\omega+\gamma+\hat F_I)\Big)\theta\_w + \omega^2p_I\hat F_I\theta\_c.
 \end{align}
-Further details of derivation of $\Rnum$ are provided in appendix, Sec.\,\ref{app:R0}. 
+(Appendix~\ref{app:R0} gives a detailed derivation of these expressions).
 The explicit formula of $\Rnum$ enables us to study the effects of testing and isolation parameters on $\Rnum$ both analytically and via numerical solutions.
-We are specifically interested in parameters that could be manipulated by public health policy: isolation efficacy, $\theta\_c$ and $\theta\_w$; \percap testing intensity, $\rho$; and the rate of test return, $\omega$. In particular, we look at the partial derivatives of $\Delta$ with respect to these parameters (Sec.\,\ref{app:rho}). 
+We are specifically interested in parameters that could be manipulated by public health policy: isolation efficacy, $\theta\_c$ and $\theta\_w$; \percap testing intensity, $\rho$; and the rate of test return, $\omega$. In particular, we look at the partial derivatives of $\Delta$ with respect to these parameters (App.~\ref{app:rho}). 
 We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Rnum$ and $\omega$. 
 
 The analytical calculation of the next-generation matrix and simplification of the $\Rnum$ expression was carried out in Maple \citep{maple14}. We used R \citep{r} for numerical solutions, in particular for plotting the contours of $\Delta$ (Eq.~\eqref{eq:del4a}) over a range of parameters.
 We computed the values and contours of Delta at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
 
-The low-testing case \fref{pan} reflects the case where $rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
+The low-testing case \fref{pan} reflects the case where $\rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
 In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university.
   The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is 3, corresponding to a case where the epidemic spreads slowly even in the absence of testing and tracing. 
   
 % %%%%%%%
-\section{Results and discussion}
+\section{Results}
 
-We can use the formula for $\Rnum$ \eqref{R0} to make a number of straightforward conclusions about parameters whose effects on $\Rnum$ are monotonic (i.e. the partial derivative of $\Delta$ has a consistent sign: Sections~\ref{app:rho}, \ref{app:omega}, \ref{app:w}).
+We can use the formula for $\Rnum$ \eqref{R0} to make a number of straightforward conclusions about parameters whose effects on $\Rnum$ are monotonic, i.e. when the partial derivative of $\Delta$ has a consistent sign
+(Appendices~\ref{app:rho}, \ref{app:omega}, \ref{app:w}).
 
 \begin{enumerate}
 
@@ -239,10 +241,9 @@ testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small (Eq.~
 \caption{}\label{p.b}
 \end{subfigure}
 \caption{
-{\bf A comparison of effectiveness control on $\Rnum$ at low level of \percap testing intensity $\rho$.}
-Numerical evaluation of the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to changes in testing and isolation. Parameter values (Table~\ref{tab:params}):
-$\beta=0.5$ 1/day, $1/\gamma= 6$ days; $\omega \in [1/12,2]$ 1/day;  $\rho \in [0,0.013]$ 1/day per capita; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
-The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are 3 and about 0.3 in this simulation.
+{\bf Effectiveness of testing and isolation in reducing $\Rnum$ at low \percap testing intensity.}
+Numerical evaluation of the effectiveness of control ($\Delta$: eq.~\ref{eq:del4}), over a range of testing and isolation parameters. Parameter values (Table~\ref{tab:params}):
+$\beta=\betaparam$ 1/day, $1/\gamma= \invgammaparam$ days (baseline $\Rnum=\Rnumparam$, $r=\rparam$); $\omega \in [1/12,2]$ 1/day;  $\rho \in [0,0.013]$ 1/day per capita; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Only parameter sets where $\theta_c \geq \theta_w$ (confirmed-positive individuals isolate more effectively than waiting individuals) are shown; the alternative case, $\theta_w > \theta_c$, is unrealistic. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
 }
 \label{pan}
 \end{figure}
@@ -261,17 +262,16 @@ The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $
 \caption{}
 \end{subfigure}
 \caption{
-{\bf A comparison of effectiveness control on $\Rnum$ at high level of \percap testing intensity $\rho$.}
-We numerically evaluate the effectiveness control parameter, $\Delta$ (Eq.~\ref{eq:del4}), with respect to testing and isolation. We use the following parameters (see Table~\ref{tab:params} for a brief description):
-$\omega \in [1/5,2]$ 1/day, $1/\gamma= 6$ days, $\rho \in [0,1/5)$ 1/day, $\theta\_w$ and $\theta\_c$ vary between 0 and 1 with 0 for no effect and 1 for full effect of isolation on the transmission probability, $\beta=0.5$ 1/day, $p_S=0$, $p_I=1$ and $p_R=0.5$. Contours of $\Delta$ are plotted for two testing strategies identified by a set of relative testing weights; (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$. The baseline basic reproduction number $\Rnum$ and the doubling time $r$, i.e. $\beta/\gamma$ and $\beta-\gamma$ respectively, are 3 and 0.3 in this simulation.
+  {\bf Effectiveness of testing and isolation in reducing $\Rnum$ at high \percap testing intensity.}
+  Numerical evaluation of the effectiveness of control ($\Delta$: eq.~\ref{eq:del4}), over a range of testing and isolation parameters. Parameters as in \fref{pan} except: $\omega \in [1/5,2]$ 1/day, $\rho \in [0,1/5)$ 1/day. As in \fref{pan}, subplots show (a) random testing where $w_S=w_I=w_R=1$ and (b) targeted testing where $w_S=0.3$ and $w_I=w_R=1$.
 }
 \label{pan2}
 \end{figure}
 
-However, there are also two specific cases where $\Delta$ changes \emph{non-monotonically}, in counterintuitive directions, as a function of testing and isolation parameters.
+However, there are also two specific cases where $\Delta$ changes non-monotonically, in counterintuitive directions, as a function of testing and isolation parameters.
 
 \begin{itemize}
-\item We would generally expect increasing testing delays to increase \Rnum, thus decreasing effectiveness of control $\Delta$. This is in fact what we find when waiting individuals do not isolate ($\theta_w =0$, top row of \fref{pan}) --- as we move to the right within each plot in this row, $\Delta$ decreases.
+\item We would generally expect increasing testing delays to increase \Rnum, thus decreasing effectiveness of control $\Delta$. This is in fact what happens when waiting individuals do not isolate ($\theta_w =0$, top row of \fref{pan}) --- as we move to the right within each plot in this row, $\Delta$ decreases.
 However, when waiting individuals isolate ($\theta_w>0$), we more often see the opposite effect: longer testing delays lead to a greater control effect $\Delta$. This is because people waiting for negative tests are assumed to continue to isolate; this applies both to susceptibles and to people who became infected while waiting for negative test results. This effect outweighs the effect of confirmed individuals isolating except when this isolation parameter $\theta_c$ is substantially bigger than $\theta_w$. This result depends on the idea that, all else equal, people who have to wait longer for test results isolate at the same level (but for a longer time) as they would if the wait were shorter.
 \item \fref{pan} also shows that greater testing intensity (increasing $\rho$) generally increases the effectiveness of control (moving up in each panel). This relationship can be reversed, however, at very high testing intensities. This can only occur when testing is targeted, and $\theta_w$ is relatively small (\fref{pan2}(b), right three panels of top row). It is theoretically possible for increasing testing intensity to \emph{increase} \Rnum because more rapid testing leaves more susceptibles in the ``waiting-for-negative-results'' category at the DFE; if these people become infected while waiting, they will need to wait for their negative test result before they can be tested again, receive a positive test, and then begin self-isolating. This effect is usually weak compared to the beneficial effects of testing.
 
@@ -283,31 +283,27 @@ However, when waiting individuals isolate ($\theta_w>0$), we more often see the 
 
 In this paper, we have defined and analyzed a simple compartmental model that combines epidemiological dynamics (as defined by a simple SIR model) with the dynamics of testing and isolation. Our model is a caricature --- it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g. exposed, presymptomatic, and asymptomatic compartments [REFS]; time-varying testing rates [REFS?]; behavioural dynamics [REF Weitz/Park/Dushoff]). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between epidemiology and testing, rather than for making quantitative predictions or guiding pandemic responses.
 
-Many of the qualitative results we have derived are mathematical confirmations of simple, common-sense intuitions. In particular, we can decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g. symptomatic people or close contacts of known infections).
+Many of the qualitative results we have derived are mathematical confirmations of simple, common-sense intuitions. In particular, we can generally decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g. symptomatic people or close contacts of known infections).
 
-{\bf A potential advantage of slow test reporting $\omega$, result~\ref{p1:omega};}
+However, we did find two surprising trends: longer delays in returning tests can decrease the spread of the epidemic, and increasing testing rates can increase its spread.
 
-- Whether increasing $\omega$ lowers $\Rnum$ depends on the precise combination of model parameters  including $\rho$, testing strategies represented by compartment-specific testing weights, test sensitivity and specificity, and the level of isolation efficacy. 
-- The potential advantage of slow test reporting is in the individual level as opposed to the community level, but seems inapplicable as a strategy.
-- May be this mechanism combined with increasing testing intensity $\rho$ can be considered alongside other prevention methods, eg., social distancing etc, when the transmission is in the exponential-growth phase (in order to increase the generation interval).
-- One reason in favor of prolonging $1/\omega$ is that it is easy to manipulate while increasing $\rho$ can be limited to the resources.
+Over a broad range of parameter space (for random testing, approximately $\theta_w \geq 0.25$; for targeted testing, $\theta_w \geq 0.25$ and either $\theta_c \ge 0.5$ or $1/\omega > 5$), decreasing $\omega$ --- i.e., decreasing the rate at which tested people find out about their infection status --- decreases $\Rnum$. This result is counterintuitive; public health agencies have invested a lot of effort in increasing this rate. Dynamically, this effect occurs because speeding up test returns shortens the isolation period of uninfected individuals. For infected people it only shortens the time to progression to the isolation level of the confirmed-positive compartment. Slowing test returns increases $\Rnum$ only if the proportion of infectives in the tested population (test positivity), and the magnitude of increase in isolation effectiveness from the waiting to the confirmed-positive compartment, are large enough to outweigh the decrease in isolation of uninfected waiting individuals.
 
-{\bf The counter-vailing effect of \percap testing intensity, $\rho$, on $\Rnum$;}
-- The explanation here is that more rapid testing leaves more susceptibles in the ``waiting-for-no'' $S\_n$ category at the DFE and delay them to get to $I\_c$ where they are subject to a full isolation, thus no transmission.
-- We are missing out on community-level advantages of fast testing.
-- What is the explanation for having this counter-vailing effect of $\rho$ in targeted testing and not in the random one?
-- May because in the targeted testing more $I\_u$s are tested compared to $S\_u$s, given 
- that higher $\omega$ leaves more people in $S\_n$ and $I\_n$ which results in more transmission.
-- While targeted testing strategies, including targeting people with infection-like symptoms or the contacts of confirmed cases, are always more effective than random testing, as expected, we find that in some cases the direct effect of testing is that viral spread is greater for a slow test than for a fast test. This counter-intuitive effect can occur when people are cautious when awaiting a test result, and may not be robust to second-order effects of fast testing (such as better contact tracing).
+While slowing test returns does decrease $\Rnum$ over a broad range of parameter space in our model, there are several real-world processes missing from our model that make it implausible that slowing test returns would actually be an effective public health measure. First, our model is missing the components that would allow us to model the primary benefit of rapid testing, i.e. detecting and containing outbreaks while they are still in progress. This process could be modeled phenomenologically by making the testing focus an increasing function of the speed of test returns (i.e. $\partial w_I(\omega)/\partial \omega > 0$), because rapid testing allows more tests to be concentrated on infected individuals. Second, in the real world individuals become less likely to maintain isolation if they are required to do so for longer; phenomenologically, we could allow  effectiveness of isolation while waiting for test returns an increasing function of test return speed ($\partial \theta_W(\omega)/\partial \omega > 0$), or we could introduce a separate ``waiting, but no longer isolating'' compartment that individuals entered from the ``waiting, isolated'' compartment at a specified rate. Third and finally, if one wants to decrease the overall transmission rate of the population there are more effective methods than keeping tested people in limbo: masking, ventilation, distancing measures, retail and event closures, stay-at-home orders, \ldots
 
-{\bf Specifying the compartment-specific relative testing weights, Specifically $\frac{w_I}{w_S}$;}
+The other counterintuitive result from our analysis is that, for sufficiently high testing intensity $\rho$, increasing testing intensity can actually increase $\Rnum$ (e.g. \fref{pan2}(b), upper right panel [$\theta_c=1$, $\theta_w=0$]). This phenomenon occurs mainly because of a peculiar feature of the DFE in our model: we assume that testing is ongoing before the beginning of the epidemic, so that the starting point of the epidemic invasion is an equilibrium distribution of susceptibles between the $S\_n$ (untested) and $S\_u$ (waiting) compartments: in particular, $S\_u^* = \rho/(\rho + \omega)$. (In reality, testing intensity itself is a dynamic variable that will increase as the epidemic proceeds.) If isolation in the waiting compartment is low ($\theta_w \ll 1$), then waiting individuals can easily be infected once the epidemic starts. Once infected they can still infect others while in the waiting compartment, and cannot be tested again before they have returned to the untested compartment. Thus, under certain extreme conditions (low $\theta_w$, high $\theta_c$, low $\omega$, high $\rho$), $\Rnum$ becomes an increasing function of testing intensity. \bmb{This phenomenon occurs primarily (only??) for targeted testing, because \ldots CAN WE FIGURE OUT WHY? Targeting should be irrelevant to determining the DFE (because everyone is $S$ at that point), so what is the dynamical explanation? Is there a second order effect somewhere, e.g. testing is more effective overall (darker colours in Fig 3(b) upper-right panel than in Fig 3(a) upper panel), so we more quickly reach the point where the effect of increasing $S\_n^*$ outweighs the beneficial effects of testing?} However, this phenomenon is even more unrealistic than the possibility that slowing test returns increases $\Rnum$. It depends both on the assumption that regular testing is occurring before the epidemic starts, and on levels of testing that are unrealistically high (at least in large, general-population settings), i.e. at least 10\% of the population being tested per day.
 
-- More targeted testing is always good in viral control,
-- We incorporated the compartment-specific relative testing weights, $w_S$, $w_I$ and $w_R$, to model random testing and \emph{targeted} testing strategies. Here, in the case of targeted testing and for the simplicity and illustration purposes, we assumed that infected and recovered individuals are tested at three times the \percap rate of susceptible individuals, thus $w_I/w_S=3$ and $w_R=w_I$. Note that we have not specified a methodology to assign particular relative testing weights corresponding to a particular targeted testing scenario. 
-Modeling different targeted testing strategies, equivalently test-specific testing weights in our framework, requires prior information of the conditional probabilities of getting tested for people in a given compartment. 
-This can be implied when we would like to quantify and compare the effect of different levels of test focus for infectious people on the basic reproduction number $\Rnum$, and conclude about the disease spread management. For example, when people are tested for "screening", the individuals with potential higher mobility, eg. people who are getting on flights, get more tested and thus the corresponding heavier testing weight is assigned than people awaiting for a surgery and are probably going to stay in a long-term-care facility and consequently less mobile and more isolated to begin with. With our model, we would be able to compare the sensitivity of the disease dynamics, through $\Rnum$, with respect to testing different high-risk groups in the population. This part needs to be developed further in future work.
+Although we model the testing process in more detail than most mathematically focused epidemiological models, one place where more detail could be informative is in the processes determining the testing weights $\{w_S, w_I, w_R\}$. While random testing, as done for surveillance purposes, unambiguously leads to equal testing weights, making precise quantitative connections between public health practices and testing weights is difficult in other contexts. The testing weights reflect the correlation between an individual's risk of infection and their likelihood of being tested due to age, occupation, geographic location, etc.. This correlation is influenced, among many other factors, by the proportion of the uninfected population with COVID-like symptoms (e.g. due to seasonal upper respiratory tract infections); the concentration of transmission and testing in hot spots such as long-term care facilities and high-density workplaces; the overall testing intensity (and hence e.g. restriction to symptomatic individuals); and the proportion of COVID-infected people who are symptomatic. Future steps should explore mathematically tractable ways to model some of these factors more precisely. For example, separating the infected class into exposed, symptomatic, and a- or pre-symptomatic compartments and allowing the testing weights to vary across non-symptomatic (exposed/asymptomatic/presymptomatic) vs. symptomatic compartments could reflect the allocation of tests to diagnostic purposes (targeting symptomatic individuals) vs. contact-tracing (targeting infected but non-symptomatic individuals) vs. screening (relatively equal weights, depending on the venue). Alternatively, one could make the testing weights depend on the testing intensity or test return rate as suggested above. Whatever complexity is added would probably put the model beyond reach of the analytical methods we have used in this paper, but one could still use semi-numerical methods such as constructing the next-generation matrix and using it to evaluate the derivatives of $\Rnum$ with respect to the parameters numerically.
 
-What can we say in the context of strength and speed paradigm?
+Although testing and tracing is a key part of infection control strategy, mathematical epidemiologists have typically analyzed it with detailed models designed to inform particular public health efforts, rather than analyzing simple but general models of the feedback between testing and epidemic dynamics \bmb{can we back this statement up? more general citations to test-and-trace? HIV? Bergstrom et al might be a counterexample, although it's for a different context [repeated testing of an isolated population]}. We hope that this paper will inspire further explorations of the fundamental properties of dynamical systems that incorporate explicit testing models in an epidemiological context. \bmb{we could also talk about test and trace as a 'speed' intervention, but I'm tired}.
+
+\bmb{Leftover comments:
+\begin{itemize}
+\item should emphasize (at some appropriate point in text) that $\Delta$ is independent of $\beta$ (and hence of $\Rnum$ if we are thinking primarily of holding $\gamma$ constant and varying $\beta$) for the small-$\rho$ (Taylor-expansion) case, see eq. ...
+\item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
+\end{itemize}
+}
+
 
 
 % %%%%%%%
@@ -316,9 +312,8 @@ What can we say in the context of strength and speed paradigm?
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 % \widetext
-\begin{center}
-\textbf{\large Appendix}
-\end{center}
+\appendix
+\section{Appendix}
 \setcounter{equation}{0}
 \setcounter{figure}{0}
 \setcounter{table}{0}
@@ -351,18 +346,18 @@ The model in the form of a system of ordinary differential equations is
 \end{align}
 \end{subequations}
 %
-where parameters are specified in Table \ref{tab:params}. The next generation matrix for this model is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susceptible. 
+(see Table \ref{tab:params} for parameter definitions). The next generation matrix for this model is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susceptible. 
 Matrices $F$ and $V$ are
 \begin{align}
 \label{FV}
 F =& \beta/N_0 \left[ \begin {array}{cccc} 
-S\_u^* & (1-\theta\_w)\,S\_u^* & (1-\theta\_w)\,S\_u^* & (1-\theta\_c)\,S\_u^*\\
-(1-\theta\_w)S\_n^* & (1-\theta\_w)^2\,S\_n^* & (1-\theta\_w)^2\,S\_n^* & (1-\theta\_w)(1-\theta\_c)\,S\_n^* \\ 
+S\_u^* & (1-\theta\_w) S\_u^* & (1-\theta\_w) S\_u^* & (1-\theta\_c) S\_u^*\\
+(1-\theta\_w)S\_n^* & (1-\theta\_w)^2 S\_n^* & (1-\theta\_w)^2 S\_n^* & (1-\theta\_w)(1-\theta\_c) S\_n^* \\ 
 0&0&0&0\\
 0&0&0&0
  \end {array} \right] \\
  =&\beta/N_0 \left[ \begin {array}{c} S\_u^* \\ (1-\theta\_w)S\_n^* \\ 0 \\ 0 \end {array} \right]
-        \left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right], \text{and}\\  V=&
+        \left[ \begin {array}{cccc} 1,   1-\theta\_w,   1-\theta\_w,   1-\theta\_c \end {array} \right], \text{and}\\  V=&
  \left[ \begin {array}{cccc}  
 \hat F_I+\gamma&-\omega&0&0\\
 -(1-p_I)\hat F_I&\omega+\gamma&0&0\\
@@ -382,7 +377,7 @@ V^{-1} =&
 \omega(\omega+\gamma) p_I \hat F_I & \omega^2 p_I \hat F_I & C \omega/(\omega+\gamma) & C
 \end {array} \right],
 \end{align}
-where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I \big) (\omega+\gamma)$ and $\hat F_I$ is the \percap testing rate for the infected people and represented in Eq.\,\eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
+where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I \big) (\omega+\gamma)$ and $\hat F_I$ is the \percap testing rate for the infected people and represented in Eq.~\eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
 
 The particular form of $F$ with two rows of zeros at the bottom results in the following blocked form of matrix $G$.
 \begin{equation}
@@ -395,9 +390,9 @@ G_{11}&G_{12}\\
 where both blocked matrices $G_{11}$ and $G_{12}$ are 2 by 2. Given the upper triangular form of matrix $G$, the basic reproduction number $\Rnum$ (defined as the spectral radius of matrix $G$) is only determined by the blocked matrix $G_{11}$,
 \begin{equation}
 \label{G11}
-G_{11} = \frac{\beta}{\gamma \, C} 
+G_{11} = \frac{\beta}{\gamma   C} 
 \left[ \begin {array}{c} (\omega-\rho)/\omega \\ (1-\theta\_w)\rho/\omega \end {array} \right]
-\left[ \begin {array}{cccc} 1, \, 1-\theta\_w, \, 1-\theta\_w, \, 1-\theta\_c \end {array} \right]
+\left[ \begin {array}{cccc} 1,   1-\theta\_w,   1-\theta\_w,   1-\theta\_c \end {array} \right]
 \left[ \begin {array}{cc}
 \gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)\\ \noalign{\medskip}
 \gamma(\omega+\gamma)(1-p_I)\hat F_I & \gamma(\omega+\gamma)(\hat F_I+\gamma) \\ \noalign{\medskip}
@@ -423,49 +418,49 @@ In the next section we provide an equivalent representation of $\Rnum$ in order 
 % %%%%%%%
 \subsection{More testing intensity may decrease $\Rnum$}\label{app:rho}
 
-This section shows that $\pro{\Delta}$ can be positive or negative, with $\Delta$ defined in Eq.\,\eqref{eq:C12}, and thus $\pro{\Rnum} < 0$, where $\Rnum$ is given in Eq.~\eqref{R0}. We rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations:
+This section shows that $\pro{\Delta}$ can be positive or negative, with $\Delta$ defined in Eq.~\eqref{eq:C12}, and thus $\pro{\Rnum} < 0$, where $\Rnum$ is given in Eq.~\eqref{R0}. We rewrite matrix $G_{11}$ in \eqref{G11} in the following form to simplify the calculations:
 \begin{equation}
 \label{G112}
-G_{11} = \frac{\beta}{\gamma \, C} 
-\left[ \begin {array}{c}  S\_u^*/N_0 \\ (1-\theta\_w)\,S\_n^*/N_0  \end {array} \right]
+G_{11} = \frac{\beta}{\gamma   C} 
+\left[ \begin {array}{c}  S\_u^*/N_0 \\ (1-\theta\_w) S\_n^*/N_0  \end {array} \right]
 \left[ \begin {array}{cccc} 
 C-C_1, C-C_2\end {array} \right],
 \end{equation}
 where $C$ is the same as the one in Eq. \eqref{eq:C12}, i.e., 
-$$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega\,p_I+\gamma)\,\hat F_I),$$
+$$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega p_I+\gamma) \hat F_I),$$
 and $C_1$ and $C_2$ are 
 \begin{align*}
 % \label{eq:C12}
-C_1 =& (\omega+\gamma)(\theta\_w \, \gamma+\theta\_c\, \omega\, p_I) \hat F_I,\\
-C_2 =& \big( \omega\gamma(1+p_I)\hat F_I+\gamma^2\,(\omega+\gamma+\hat F_I)\big)\theta\_w + \omega^2\,p_I\,\hat F_I\,\theta\_c,
+C_1 =& (\omega+\gamma)(\theta\_w   \gamma+\theta\_c  \omega  p_I) \hat F_I,\\
+C_2 =& \big( \omega\gamma(1+p_I)\hat F_I+\gamma^2 (\omega+\gamma+\hat F_I)\big)\theta\_w + \omega^2 p_I \hat F_I \theta\_c,
 \end{align*}
-where $\hat F_I$ is given in Eq.\,\eqref{eq:fi}.
+where $\hat F_I$ is given in Eq.~\eqref{eq:fi}.
 Note that for analysis brevity, we let $N_0=1$, thus $S\_u^*$ and $S\_n^*$ are in the scale of 0 to 1.
 $\Rnum$ is in the same form as in Eq. \eqref{R0}  
 $$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
 where 
 \begin{equation*}
 \label{eq:del4}
-\Delta= \frac{1}{C}\big(C_1\,S\_u^*+(C_2(1-\theta\_w)+C\,\theta\_w)\,S\_n^*\big).
+\Delta= \frac{1}{C}\big(C_1 S\_u^*+(C_2(1-\theta\_w)+C \theta\_w) S\_n^*\big).
 \end{equation*}
 
 {\bf The first goal}
-is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder \Rnum{\theta\_w}$ and $\pder \Rnum{\theta\_c}$. We start with simplifying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.\,\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
+is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder \Rnum{\theta\_w}$ and $\pder \Rnum{\theta\_c}$. We start with simplifying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.~\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
 \begin{equation}
 \label{eq:del4_theta}
 \Delta= \frac{1}{C}\Big(
--D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
-\big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w}+
-(\omega+\gamma\,S\_u^*)\omega\,p_I\,\hat F_I\,\boldsymbol{\theta\_c}
+-D_1 S\_n^* \boldsymbol {\theta\_w^2}+
+\big(-\omega^2 p_I \hat F_I S\_n^* \boldsymbol{\theta\_c} + D_2 S\_n^* + \gamma \hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w}+
+(\omega+\gamma S\_u^*)\omega p_I \hat F_I \boldsymbol{\theta\_c}
 \Big),
 \end{equation}
 where
 \begin{align}
 \label{eq:del4_d1d2}
-D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega\,p_I)\gamma\,\hat F_I, \\
-D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega\,p_I)\gamma\,\hat F_I+(\gamma+p_I\,\hat F_I)\omega^2.
+D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega p_I)\gamma \hat F_I, \\
+D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega p_I)\gamma \hat F_I+(\gamma+p_I \hat F_I)\omega^2.
 \end{align}
-$\Delta$, Eq.\,\eqref{eq:del4_theta}, is linear in $\theta\_c$ with a positive coefficient. thus
+$\Delta$, Eq.~\eqref{eq:del4_theta}, is linear in $\theta\_c$ with a positive coefficient. thus
 \begin{equation}
 \label{eq:d_del4_thetac}
 \pder\Delta{\theta\_c}=1/C(\gamma S\_u^*+\omega(1-\theta\_w S\_n^*))\omega p_I \hat F_I.
@@ -475,21 +470,21 @@ This results in increasing $\Delta$, thus decreasing $\Rnum$ with respect to $\t
 With a similar logic, $\Delta$ \eqref{eq:del4_theta} is a concave-down quadratic equation in $\theta\_w$, given by
 \begin{equation}
 \label{eq:del4_thetaw}
-1/C\,\Big( -D_1\,S\_n^*\,\boldsymbol {\theta\_w^2}+
-\big(-\omega^2\,p_I\,\hat F_I\,S\_n^*\,\boldsymbol{\theta\_c}\,+\,D_2\,S\_n^*\,+\,\gamma\,\hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w} \Big).
+1/C \Big( -D_1 S\_n^* \boldsymbol {\theta\_w^2}+
+\big(-\omega^2 p_I \hat F_I S\_n^* \boldsymbol{\theta\_c} + D_2 S\_n^* + \gamma \hat F_I(\omega+\gamma) \big)\boldsymbol{\theta\_w} \Big).
 \end{equation}
 We show that the feasible range of $\theta\_w$ lies between 0 and the vertex of this parabola where the parabola is increasing in $\theta\_w$, and so does $\Delta$ which results in inferring $\pder\Rnum{\theta\_w}\leq 0$.
 It is enough to show that partial derivative of the expression \eqref{eq:del4_thetaw} with respect to $\theta\_w$ at $\theta\_w=1$ is non-negative. It follows that
 \begin{align}
 \label{eq:d_del4_thetaw}
 \pder\Delta{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
-1/C\Big( (D_2-2D_1-\omega^2\,p_I\,\hat F_I\,\theta\_c)\,S\_n^*+\gamma\,\hat F_I(\omega+\gamma) \Big) \\\notag
-=& 1/C\Big( (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2\,p_I\,\hat F_I )\,S\_n^*
-+\gamma(\omega+\gamma)\,\hat F_I\,(1-S\_n^*) \Big),
+1/C\Big( (D_2-2D_1-\omega^2 p_I \hat F_I \theta\_c) S\_n^*+\gamma \hat F_I(\omega+\gamma) \Big) \\\notag
+=& 1/C\Big( (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2 p_I \hat F_I ) S\_n^*
++\gamma(\omega+\gamma) \hat F_I (1-S\_n^*) \Big),
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
-{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\rho}$, which specifically depends on $\pder\Delta{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.\,\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparameterize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparameterized as 
+{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\rho}$, which specifically depends on $\pder\Delta{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.~\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparameterize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparameterized as 
 \begin{equation}
 \label{eq:phi}
 \rho=\frac{\omega \phi}{\omega+\phi}.
@@ -498,34 +493,34 @@ This one-to-one monotonic reparameterization enables us to simplify the mathemat
 The derivative is 
 \begin{align}
 \label{eq:dd3dr}
-\partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3\,\phi^2+b_3\,\phi+c_3),
+\partial\Delta/\partial\phi=& \frac{1}{d_3} (a_3 \phi^2+b_3 \phi+c_3),
 \end{align}
 where
 \begin{align}
 \label{eq:abcd2}
 a_3& = \frac{w_I}{w_S} \Bigg(
-&& (1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w\,\gamma^3 +(1-\theta\_c)\,p_I^2\,\theta\_w\,\frac{w_I}{w_S}\,\omega^3 \\ \notag
-& ~ &&+\Big( \big( (1-\theta\_w-\frac{w_I}{w_S})\,\theta\_c +(3-2\theta\_w)\,\theta\_w\frac{w_I}{w_S} \big)\,p_I +(1-\theta\_w)\,(1+\frac{w_I}{w_S})\theta\_w  \Big)\,\omega\,\gamma^2 \\ \notag
+&& (1-\theta\_w) (1+\frac{w_I}{w_S})\theta\_w \gamma^3 +(1-\theta\_c) p_I^2 \theta\_w \frac{w_I}{w_S} \omega^3 \\ \notag
+& ~ &&+\Big( \big( (1-\theta\_w-\frac{w_I}{w_S}) \theta\_c +(3-2\theta\_w) \theta\_w\frac{w_I}{w_S} \big) p_I +(1-\theta\_w) (1+\frac{w_I}{w_S})\theta\_w  \Big) \omega \gamma^2 \\ \notag
 & ~ &&+\Big(
-\big((1-\theta\_w-\theta\_w\,\frac{w_I}{w_S})\,\theta\_c+ (2-\theta\_w)\,\theta\_w\,\frac{w_I}{w_S} \big)\,p_I
-+(2\,\theta\_w-\theta\_w^2-\theta\_c)\,\frac{w_I}{w_S}\,p_I^2
-\Big)\,\omega^2\,\gamma \Bigg), \\ \notag
-b_3& = && \hspace{-1cm} 2\frac{w_I}{w_S}\,(\omega+\gamma)\gamma\Big(
-(\omega+\gamma+\omega\,p_I)(2-\theta\_w)\,\gamma\,\theta\_w+ (1-\theta\_w)\,\omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w
+\big((1-\theta\_w-\theta\_w \frac{w_I}{w_S}) \theta\_c+ (2-\theta\_w) \theta\_w \frac{w_I}{w_S} \big) p_I
++(2 \theta\_w-\theta\_w^2-\theta\_c) \frac{w_I}{w_S} p_I^2
+\Big) \omega^2 \gamma \Bigg), \\ \notag
+b_3& = && \hspace{-1cm} 2\frac{w_I}{w_S} (\omega+\gamma)\gamma\Big(
+(\omega+\gamma+\omega p_I)(2-\theta\_w) \gamma \theta\_w+ (1-\theta\_w) \omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w
 \Big) ,\\ \notag
-c_3& = && \hspace{-1cm} (\omega+\gamma)^2\,\gamma\Big(
-(2-\theta\_w)\,\gamma^2\,\theta\_w+
-(1+\frac{w_I}{w_S})\,\omega\,\gamma\,\theta\_w+
+c_3& = && \hspace{-1cm} (\omega+\gamma)^2 \gamma\Big(
+(2-\theta\_w) \gamma^2 \theta\_w+
+(1+\frac{w_I}{w_S}) \omega \gamma \theta\_w+
 \frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\ \notag
-d_3&  = && \hspace{-1cm} \frac{(\omega+\gamma)}{\omega}\, \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi\,+\,(\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2.
+d_3&  = && \hspace{-1cm} \frac{(\omega+\gamma)}{\omega}  \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi + (\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2.
 \end{align}
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
 If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. It is straight forward to show that $a_3\geq 0$ in case of random testing strategy, i.e., $w\_S=w\_I=1$. 
 If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. 
 
 An example of this counter-vailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occurs when $\theta\_w=0$ and $\theta\_c=1$.
-This is illustrated in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case, simplifying $a_3$ in Eq.~\eqref{eq:abcd2} gives $$a_3=\frac{w_I}{w_S}\,\omega\,\gamma\,p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega\,p_I+\gamma)).$$
-Specifically, in the case of targeted testing which is identified by $\frac{w_I}{w_S}> 1$, and using a perfect sensitive test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder\Rnum{\rho}\leq\,0$.  
+This is illustrated in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case, simplifying $a_3$ in Eq.~\eqref{eq:abcd2} gives $$a_3=\frac{w_I}{w_S} \omega \gamma p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega p_I+\gamma)).$$
+Specifically, in the case of targeted testing which is identified by $\frac{w_I}{w_S}> 1$, and using a perfect sensitive test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder\Rnum{\rho}\leq 0$.  
 Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial counter-vailing effect of these two parameters on $\Rnum$. 
 
 % %%%%%%%
@@ -534,15 +529,15 @@ Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get
 the linearization of $\Rnum$ around $\rho=0$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The Taylor expansion of $\Delta$ at $\rho=0$ is
 \begin{equation}
 \label{eq:lin}
-\Delta = \frac{\rho}{\omega\,\gamma(\omega+\gamma)} \Big(
-\frac{w_I}{w_S}\,\omega^2\,p_I\,\theta\_c+(\frac{w_I}{w_S}+1)\,\gamma\omega\theta\_w\,+\gamma^2\,\theta\_w(2-\theta\_w)
+\Delta = \frac{\rho}{\omega \gamma(\omega+\gamma)} \Big(
+\frac{w_I}{w_S} \omega^2 p_I \theta\_c+(\frac{w_I}{w_S}+1) \gamma\omega\theta\_w +\gamma^2 \theta\_w(2-\theta\_w)
 \Big). 
 \end{equation}
 This results in
 \begin{equation}
 \label{eq:dlindo}
-\pder\Delta{\omega} = \frac{\rho}{\omega^2\,(\omega+\gamma)^2} \Big(
-(p_I\,\frac{w_I}{w_S}\theta\_c\,-(1+\frac{w_I}{w_S})\theta\_w)\omega^2+2\theta_w\,\gamma(\theta_w-2)\,\omega+\theta_w\,\gamma^2\,(\theta_w-2)
+\pder\Delta{\omega} = \frac{\rho}{\omega^2 (\omega+\gamma)^2} \Big(
+(p_I \frac{w_I}{w_S}\theta\_c -(1+\frac{w_I}{w_S})\theta\_w)\omega^2+2\theta_w \gamma(\theta_w-2) \omega+\theta_w \gamma^2 (\theta_w-2)
 \Big),
 \end{equation}
 around $\rho=0$.
@@ -564,9 +559,9 @@ One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day)
 We define $w\_{IS}=\frac{w_I}{w_S}$.
 \begin{align}
 \label{eq:d_del_wis}
-\pder \Delta{w\_{IS}}= \dfrac{(\omega-\rho)\,(\omega(\omega-\rho\theta\_w)+\gamma(\omega-\rho))\,(\theta\_w\gamma+\theta\_c\omega\,p\_I)}
-{(-\omega^2\,\gamma+\omega\,\gamma\,\rho-\gamma\,\rho\,\omega\,w\_{IS}-
-\omega\,\gamma^2+\gamma^2\,\rho-\omega^2\,p_I\,\rho\,w\_{IS})^2},
+\pder \Delta{w\_{IS}}= \dfrac{(\omega-\rho) (\omega(\omega-\rho\theta\_w)+\gamma(\omega-\rho)) (\theta\_w\gamma+\theta\_c\omega p\_I)}
+{(-\omega^2 \gamma+\omega \gamma \rho-\gamma \rho \omega w\_{IS}-
+\omega \gamma^2+\gamma^2 \rho-\omega^2 p_I \rho w\_{IS})^2},
 \end{align}
 which is a positive quantity. Thus, $\pder \Rnum{w\_{IS}}\leq 0$. Therefore, increasing the focus of testing on the infectious people will result in less transmission.  
 
