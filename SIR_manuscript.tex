@@ -197,7 +197,7 @@ C_2 &= \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2(\omega+\gamma+\hat F_I)\Big)\t
 (Appendix~\ref{app:R0} gives a detailed derivation of these expressions).
 The explicit formula of $\Rnum$ enables us to study the effects of testing and isolation parameters on $\Rnum$ both analytically and via numerical solutions.
 We are specifically interested in parameters that could be manipulated by public health policy: isolation efficacy, $\theta\_c$ and $\theta\_w$; \percap testing intensity, $\rho$; and the rate of test return, $\omega$. In particular, we look at the partial derivatives of $\Delta$ with respect to these parameters (App.~\ref{app:rho}). 
-We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Rnum$ and $\omega$. 
+We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$, use the linear approximation with respect to $\rho$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Rnum$ and $\omega$. 
 
 The computations in this paper, specifically, calculation of the next-generation matrix and simplification of the $\Rnum$ expression, were performed in Maple\textsuperscript{\texttrademark} \citep{maple14}. We used R \citep{r} for numerical solutions, in particular for plotting the contours of $\Delta$ (Eq.~\eqref{eq:del4a}) over a range of parameters.
 We computed the values and contours of Delta at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
@@ -278,7 +278,7 @@ However, when waiting individuals isolate ($\theta_w>0$), we more often see the 
 %%%%%%%%%%%%
 \section{Discussion}
 
-In this paper, we have defined and analyzed a simple compartmental model that combines epidemiological dynamics (as defined by a simple SIR model) with the dynamics of testing and isolation. Our model is a caricature --- it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g. exposed, presymptomatic, and asymptomatic compartments [REFS]\ali{\citep{kain2021chopping} OK?}; time-varying testing rates [REFS?]\ali{\citep{jarvis2021temporal} OK?}; behavioural dynamics [REF Weitz/Park/Dushoff] \ali{\citep{weitz2020awareness} OK?}). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between epidemiology and testing, rather than for making quantitative predictions or guiding pandemic responses.
+In this paper, we have defined and analyzed a simple compartmental model that combines epidemiological dynamics (as defined by a simple SIR model) with the dynamics of testing and isolation. Our model is a caricature --- it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g. exposed, presymptomatic, and asymptomatic compartments [REFS]\ali{\citep{kain2021chopping} OK?}; time-varying testing rates [REFS?]; behavioural dynamics [REF Weitz/Park/Dushoff] \ali{\citep{weitz2020awareness} OK?}). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between epidemiology and testing, rather than for making quantitative predictions or guiding pandemic responses.
 
 Many of the qualitative results we have derived are mathematical confirmations of simple, common-sense intuitions. In particular, we can generally decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g. symptomatic people or close contacts of known infections).
 
@@ -296,12 +296,14 @@ Although testing and tracing is a key part of infection control strategy, mathem
 
 \bmb{Leftover comments:
 \begin{itemize}
-\item should emphasize (at some appropriate point in text) that $\Delta$ is independent of $\beta$ (and hence of $\Rnum$ if we are thinking primarily of holding $\gamma$ constant and varying $\beta$) for the small-$\rho$ (Taylor-expansion) case, see eq. ...
-\item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff \ali{\citep{friston2021testing} OK?} deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
+\item should emphasize (at some appropriate point in text) that $\Delta$ is independent of $\beta$ (and hence of $\Rnum$ if we are thinking primarily of holding $\gamma$ constant and varying $\beta$) for the small-$\rho$ (Taylor-expansion) case, see Eq.~\ref{eq:lin}.
+\item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
 \end{itemize}
 \ali{:}
-\cite{bergstrom2020frequency} modeled repeated random testing of isolated populations.
-\citep{friston2021testing} model the effects of self-isolation on testing and tracking. Their model is a dynamic causal model equipped with isolation state which is an extension of compartmental model SEIR. They found that there exists no testing strategy that can attenuate mortality rates, other than by deferring or delaying a second wave.
+Testing dynamics has been previously modeled in the context of epidemiology.
+\cite{bergstrom2020frequency} modeled repeated random testing of isolated populations and provided some analytical results.
+\citep{friston2021testing} model the effects of self-isolation on testing and tracking.  
+ Comparing to these works, our modeling execise is novel. 
 }
 
 
@@ -526,7 +528,7 @@ Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get
 % %%%%%%%
 \subsection{rate of returning tests} \label{app:omega}
 {\bf The third goal} is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\omega}$, which specifically depends on $\pder\Delta{\omega}$. We use
-the linearization of $\Rnum$ around $\rho=0$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The Taylor expansion of $\Delta$ at $\rho=0$ is
+the linearization of $\Delta$ around $\rho=0$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The linear term in the Taylor expansion of $\Delta$ at $\rho=0$ is
 \begin{equation}
 \label{eq:lin}
 \Delta = \frac{\rho}{\omega \gamma(\omega+\gamma)} \Big(
