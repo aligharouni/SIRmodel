@@ -199,7 +199,7 @@ The explicit formula of $\Rnum$ enables us to study the effects of testing and i
 We are specifically interested in parameters that could be manipulated by public health policy: isolation efficacy, $\theta\_c$ and $\theta\_w$; \percap testing intensity, $\rho$; and the rate of test return, $\omega$. In particular, we look at the partial derivatives of $\Delta$ with respect to these parameters (App.~\ref{app:rho}). 
 We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Rnum$ and $\omega$. 
 
-The analytical calculation of the next-generation matrix and simplification of the $\Rnum$ expression was carried out in Maple \citep{maple14}. We used R \citep{r} for numerical solutions, in particular for plotting the contours of $\Delta$ (Eq.~\eqref{eq:del4a}) over a range of parameters.
+The computations in this paper, specifically, calculation of the next-generation matrix and simplification of the $\Rnum$ expression, were performed in Maple\textsuperscript{\texttrademark} \citep{maple14}. We used R \citep{r} for numerical solutions, in particular for plotting the contours of $\Delta$ (Eq.~\eqref{eq:del4a}) over a range of parameters.
 We computed the values and contours of Delta at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
 
 The low-testing case \fref{pan} reflects the case where $\rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 10000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
@@ -297,8 +297,11 @@ Although testing and tracing is a key part of infection control strategy, mathem
 \bmb{Leftover comments:
 \begin{itemize}
 \item should emphasize (at some appropriate point in text) that $\Delta$ is independent of $\beta$ (and hence of $\Rnum$ if we are thinking primarily of holding $\gamma$ constant and varying $\beta$) for the small-$\rho$ (Taylor-expansion) case, see eq. ...
-\item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
+\item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff \ali{\citep{friston2021testing} OK?} deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
 \end{itemize}
+\ali{:}
+\cite{bergstrom2020frequency} modeled repeated random testing of isolated populations.
+\citep{friston2021testing} model the effects of self-isolation on testing and tracking. Their model is a dynamic causal model equipped with isolation state which is an extension of compartmental model SEIR. They found that there exists no testing strategy that can attenuate mortality rates, other than by deferring or delaying a second wave.
 }
 
 
