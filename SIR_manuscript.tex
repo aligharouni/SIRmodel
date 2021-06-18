@@ -81,8 +81,7 @@ If testing influences behavior, then epidemic dynamics will depend on who gets t
 The impacts of testing will depend both on testing intensity (tests performed per day) and on how strongly testing is focused on people who are infectious.
 This level of focus depends in turn on the purpose and design of testing programs. 
 When testing is done for the purposes of disease surveillance \citep{foddai2020base}
-tests are typically assigned randomly (or using a stratified random design) across the population in
-order to make an unbiased assessment of population prevalence.
+tests are typically assigned randomly (or using a stratified random design) across the population in order to make an unbiased assessment of population prevalence.
 
 Over the course of the \covid pandemic, however, the vast majority of testing has been done with other goals --
 primarily diagnostic (determining infection status for clinical purposes), or for control (determining  infection status in order to isolate cases that have been found by contact tracing), which we characterize as \emph{targeted} testing strategies.
@@ -93,18 +92,15 @@ Diagnostic testing focuses on people with infection-like symptoms; thus the rela
 As epidemiologists, we want to know whether an epidemic will initially grow exponentially following its introduction in a susceptible population. In mathematical epidemiology, we determine this outcome by studying the basic reproduction number $\Rnum$, defined as the expected number of secondary infections arising from a typical infective individual in a completely susceptible population \citep{dietz1993estimation}. 
 In the early stages of an epidemic the number of infected individuals is expected to grow exponentially over time when $\Rnum>1$.
 %% BMB left out the converse; don't think we have to be super-precise here
-Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model
-\citep{shaw2021what}, it does give a simple and widely accepted index for the difficulty of control, as well as an indication of the likely final size of an epidemic \citep{ma2006generality}.  
+Although the value of $\Rnum$ cannot completely characterize the dynamics of even the simplest epidemic model \citep{shaw2021what}, it does give a simple and widely accepted index for the difficulty of control, as well as an indication of the likely final size of an epidemic \citep{ma2006generality}.  
 
 In order to understand the effect of testing processes on an epidemic dynamics, we developed a mechanistic SIR-type model with epidemic and testing components. This model provides a sensible platform to link the modeling of epidemic and testing components and study their interaction. Here, we studied the the effect of testing intensity, rate of test return and the isolation efficacy in reduction of the probability of transmission on the epidemic dynamics when different levels of testing focus (from random to highly targeted) are in place.
-% Our model provides insights to the sensitivity of the epidemic dynamics, through $\Rnum$, with respect to the underlying testing and isolation parameters.
-%% BMB: last sentence seems to belong in conclusions
 
 % %%%%%%%
 \section{Methods}
 
 We developed a deterministic model which groups individuals based on disease status and testing status. Disease states include Susceptible, Infectious and Recovered; testing states include \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive} (\fref{fig:flowchart}). The testing status of an individual in  a given disease compartment $X$ (where $X \in \{S,I,R\}$) is denoted by a subscript, namely $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively.
-Two `accumulator' compartments, $N$ and $P$, are included in order to collect cumulative reported negative or positive tests. The model equations \eqref{model} and details of calculation of the basic reproduction number $\Rnum$ are presented in Sec. \appref{R0}.
+Two `accumulator' compartments, $N$ and $P$, are included in order to collect cumulative reported negative or positive tests. The model equations \eqref{model} and details of calculation of the basic reproduction number $\Rnum$ are presented in \appref{R0}.
 
 \begin{figure}
 \begin{center} 
@@ -128,7 +124,7 @@ Thus, the \percap testing rate for compartment $X \in \{S,I,R\}$ is
 \label{F}
 F_X=\sigma w_X.
 \end{equation}
-For a highly sensitive test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus not considered for further testing.  Over the course of the epidemic, a sufficiently large fixed testing rate as specified in \eqref{sigma} can exhaust the pool of people available for testing, leading to a singularity when too few people are left untested to support the specified rate. Although this phenomenon does not affect our analysis of $\Rnum$, it can affect model dynamics (we present an adjustment to the model that solves this problem in Sec \appref{singularity}).
+For a highly sensitive test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus not considered for further testing. Over the course of the epidemic, a sufficiently large fixed testing rate as specified in \eqref{sigma} can exhaust the pool of people available for testing, leading to a singularity when too few people are left untested to support the specified rate. Although this phenomenon does not affect our analysis of $\Rnum$, it can affect model dynamics (we present an adjustment to the model that solves this problem in \appref{singularity}).
 
 The classical SIR model assumes a well-mixed population; homogeneity of the population (i.e., all individuals are equally susceptible and equally infectious with the same recovery rate when infected); exponentially distributed duration of infection; and large population size \citep{keeling2011modeling}. In addition to these standard assumptions, our model assumes: 
 \begin{enumerate}[(i)]
@@ -198,15 +194,14 @@ C_2 &= \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2(\omega+\gamma+\hat F_I)\Big)\t
 (\appref{R0} gives a detailed derivation of these expressions).
 This explicit formula enables us to study the effects of testing and isolation parameters on $\Rnum$ both analytically and via numerical solutions.
 We are specifically interested in parameters that could be manipulated by public health policy: isolation efficacy, $\theta\_c$ and $\theta\_w$; \percap testing intensity, $\rho$; and the rate of test return, $\omega$. In particular, we look at the partial derivatives of $\Delta$ with respect to these parameters (\appref{rho}). 
-We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Rnum$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$, use the linear approximation with respect to $\rho$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Rnum$ and $\omega$. 
+We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Delta$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$, use the linear approximation with respect to $\rho$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Delta$ and $\omega$. 
 
 Analytic calculation of the next-generation matrix and simplification of the $\Rnum$ expression, were performed in Maple\textsuperscript{\texttrademark} \citep{maple14}; numerical calculation and contour plots were done in R \citep{r}.
-We computed the values and contours of Delta at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
+We computed the values and contours of $\Delta$ at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
 
-\jd{Why do we use a different range of $\omega$ for the two cases?}
+\jd{Why do we use a different range of $\omega$ for the two cases?}\ali{added a sentence to the end of this paragraph to address this (I hope).}
 The low-testing case \fref{pan} reflects the case where $\rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e. a maximum of 1.3\% of the population per day, giving a maximum of 13000 tests/day in a population of size $N_0=10^6$ (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
-In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university.
-  The critical contour of $\Delta=1-\frac{\gamma}{\beta}$, corresponding to the threshold $\Rnum=1$, is shown as a dotted line in \fref{pan} and \fref{pan2}; combinations of $\rho$ and $\omega$ that lie above this critical contour will control the epidemic. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$ in these figures is 3. 
+In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for some population undergoing focused testing, such as a sports league or university. The implied baseline value of $\Rnum=\frac{\beta}{\gamma}$, corresponds to a simple SIR model, in these figures is 3. Note that the different range of $\omega$ for the two cases of low and high testing intensities is due to the restriction $\rho<\omega$ which is a requirement for feasible DFE (\ref{dfe}).
   
 % %%%%%%%
 \section{Results}
@@ -282,7 +277,7 @@ However, when waiting individuals isolate ($\theta\_w>0$), we more often see the
 %%%%%%%%%%%%
 \section{Discussion}
 
-In this paper, we have defined and analyzed a simple compartmental model that combines epidemiological dynamics (as defined by a simple SIR model) with the dynamics of testing and isolation. Our model is a caricature --- it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g. exposed, presymptomatic, and asymptomatic compartments [REFS]\ali{\citep{kain2021chopping} OK?}; time-varying testing rates [REFS?]; behavioural dynamics [REF Weitz/Park/Dushoff] \ali{\citep{weitz2020awareness} OK?}). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between epidemiology and testing, rather than for making quantitative predictions or guiding pandemic responses.
+In this paper, we have defined and analyzed a simple compartmental model that combines epidemiological dynamics (as defined by a simple SIR model) with the dynamics of testing and isolation. Our model is a caricature --- it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g. exposed, presymptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates [REFS?]; behavioural dynamics \citep{weitz2020awareness}). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between epidemiology and testing, rather than for making quantitative predictions or guiding pandemic responses.
 
 Many of the qualitative results we have derived confirm simple, common-sense intuitions. In particular, we can generally decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g. symptomatic people or close contacts of known infections).
 
@@ -304,8 +299,7 @@ Although testing and tracing is a key part of infection control strategy, mathem
 \item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
 \end{itemize}
 }
-
-\ali{This belongs to introduction?}
+\ali{In respense to Ben's comment}
 There have been several modeling works of testing and tracing dynamics and their interaction with epidemiological dynamics. In the context of repeated screaning and random testing of isolated populations (such as a university setup), 
 \cite{bergstrom2020frequency} provided some analytical results, 
 \cite{rogers2021high} simulated a SEIR model with high-low testing intensity and sensitivity.
