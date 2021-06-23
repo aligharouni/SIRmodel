@@ -33,7 +33,9 @@
 \newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
 \newcommand{\covid}{COVID-19\xspace}
 \newcommand{\pro}[1]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
-\newcommand\pder[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder y{x}
+\newcommand{\pder}[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder y{x}
+\newcommand{\testing}[1]{\ensuremath{{\cal T}_{#1}}\xspace}
+\newcommand{\testinghat}[1]{\ensuremath{\hat{\cal T}_{#1}}\xspace}
 
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 %% Roman subscript
@@ -115,7 +117,7 @@ Our model groups individuals based on disease status (Susceptible, Infectious or
 \begin{figure}
 \begin{center} 
 \includegraphics[scale=1.5]{pix/sir_comp.pdf}
-\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model, \ref{model}. The disease-based status of a compartment $X$ ($X \in \{S,I,R\}$) is combined with the testing status including $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. The force of infection is denoted by $\Lambda$ (Eq.~\eqref{Lambda}); $\gamma$ is the recovery rate; $\omega$ is the rate of test return; and $F_X$ (Eq. \eqref{F}) and $p_X$ represent the \percap testing rate and the sensitivity (probability of positive tests), respectively, for compartment $X$. For further description of the parameters see \cref{tab:params}.
+\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model, \ref{model}. The disease-based status of a compartment $X$ ($X \in \{S,I,R\}$) is combined with the testing status including $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. The force of infection is denoted by $\Lambda$ (Eq.~\eqref{Lambda}); $\gamma$ is the recovery rate; $\omega$ is the rate of test return; and \testing{X} (Eq. \eqref{F}) and $p_X$ represent the \percap testing rate and the sensitivity (probability of positive tests), respectively, for compartment $X$. For further description of the parameters see \cref{tab:params}.
 Note that there is a slight mismatch in the top-to-bottom order of the testing-based compartments of each disease-based compartment $X$ between this flowchart and the model equations \eqref{model}; here we have switched  $X\_u$ and $X\_n$ for visual clarity.
 \label{fig:flowchart}}
 \end{center} 
@@ -133,14 +135,15 @@ where $\rho$ is the \percap testing intensity for the population, defined as the
 Thus, the \percap testing rate for compartment $X \in \{S,I,R\}$ is 
 \begin{equation}
 \label{F}
-F_X=\sigma w_X.
+\testing{X}=\sigma w_X.
 \end{equation}
 \david{$F$ isn't a natural symbol for ``testing rate''.  How about $\mathcal T_X$?}
+\bmb{mostly fixed, but needs to be fixed in the flow chart as well}
 For a highly sensitive test, infected people typically flow through to the ``confirmed positive'' ($I\_c$, $R\_c$) compartments and are thus not considered for further testing. Over the course of the epidemic, a sufficiently large fixed testing rate as specified in \eqref{sigma} can exhaust the pool of people available for testing, leading to a singularity when too few people are left untested to support the specified rate. Although this phenomenon does not affect our analysis of $\Rnum$, it can affect model dynamics (we present an adjustment to the model that solves this problem in \appref{singularity}).
 
 The classical SIR model assumes a well-mixed population; homogeneity of the population (i.e., all individuals are equally susceptible and equally infectious with the same recovery rate when infected); exponentially distributed duration of infection; and large population size \citep{keeling2011modeling}. In addition to these standard assumptions, our model assumes: 
 \begin{enumerate}[(i)]
-\item there is a single force of infection (new \david{infections} per unit time \david{per susceptible}), $\Lambda$, defined as
+\item there is a single force of infection (new infections per unit time per susceptible), $\Lambda$, defined as
   \begin{equation}
   \label{Lambda}
   \Lambda=\frac{\beta}{N_0} \big(I\_u + (1-\theta\_w)(I\_n+I\_p) + (1-\theta\_c)I\_c \big),
@@ -183,7 +186,7 @@ S\_n^*= \frac{\rho}{\omega} N_0, \ S\_u^*= N_0-S_n^*, \text{~and~} I_j=R_j=0 \ \
 The corresponding \percap testing rate (Eq.~\ref{F}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
 \begin{equation}
 \label{eq:fi}
-\hat F_I = (\omega\rho/(\omega-\rho))w_I/w_S \quad .
+\testinghat{I} = (\omega\rho/(\omega-\rho))w_I/w_S \quad .
 \end{equation}
 
 The basic reproduction number, $\Rnum$, was calculated by using the next-generation matrix method \citep{van2002reproduction}. We present $\Rnum$ as
@@ -199,9 +202,9 @@ where the term $\beta/\gamma$ is the classical basic reproduction number for a s
 where
 \begin{align}
 \label{eq:C12}
-C_{\phantom 1} &= (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I\Big),\\
-C_1 &= (\omega+\gamma)(\theta\_w \gamma+\theta\_c \omega p_I) \hat F_I,\\
-C_2 &= \Big( \omega\gamma(1+p_I)\hat F_I+\gamma^2(\omega+\gamma+\hat F_I)\Big)\theta\_w + \omega^2p_I\hat F_I\theta\_c.
+C_{\phantom 1} &= (\omega+\gamma) \Big(\gamma(\omega+\gamma)+(\gamma+\omega p_I)\testinghat{I}\Big),\\
+C_1 &= (\omega+\gamma)(\theta\_w \gamma+\theta\_c \omega p_I) \testinghat{I},\\
+C_2 &= \Big( \omega\gamma(1+p_I)\testinghat{I}+\gamma^2(\omega+\gamma+\testinghat{I})\Big)\theta\_w + \omega^2p_I \testinghat{I} \theta\_c.
 \end{align}
 (\appref{R0} gives a detailed derivation of these expressions.)
 This explicit formula enables us to study the effects of testing and isolation parameters on $\Rnum$ both analytically and via numerical solutions.
@@ -209,11 +212,10 @@ We are specifically interested in parameters that could be manipulated by public
 We derived general expressions for these derivatives. However, we analyzed the effect of $\omega$ on $\Delta$ for the special case of low testing intensity. Specifically, by making the restriction $\rho \ll 1$, we are able to Taylor-expand $\Delta$ at $\rho=0$, use the linear approximation with respect to $\rho$ and analyze the resulting simplified derivatives to illustrate a surprising non-monotonic relationship between $\Delta$ and $\omega$. 
 
 Analytic calculation of the next-generation matrix and simplification of the $\Rnum$ expression, were performed in Maple\textsuperscript{\texttrademark} \citep{maple14}; numerical calculation and contour plots were done in R \citep{r}.
-We computed the values and contours of $\Delta$ at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$).
+We computed the values and contours of $\Delta$ at both low (\fref{pan}) and high (\fref{pan2}) testing intensities, and for both random testing ($w_S=w_I=w_R=1$) and targeted testing ($w_S=0.3$; $w_I=w_R=1$). Because it is expressed as a proportion of $\Rnum$, the effectiveness of control $\Delta$ is (at least in the $\rho \ll 1$ case, Eq.~\ref{lin}) independent of the transmission rate $\beta$, and hence of $\Rnum$ in the case where we vary $\Rnum$ by changing the transmission rate for a fixed generation interval.
 
-\jd{Why do we use a different range of $\omega$ for the two cases?}\ali{added a sentence to the end of this paragraph to address this (I hope).}
-The low-testing case \fref{pan} reflects the case where testing intensity $\rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity reflects realistic testing rates during the \covid pandemic, i.e., a maximum of 1.3\% of the population per day \david{If it is 4x larger than Ontario, what makes it ``realistic''?} (this is approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
-In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for small populations undergoing focused testing, such as a sports league or university. In these figures, the implied baseline reproduction number (for the SIR model without testing) is $\Rnum=\frac{\beta}{\gamma}=3$. Note that the different range of test return rate $\omega$ for the two cases of low and high testing intensities is due to the restriction $\rho<\omega$ which is a requirement for feasible DFE (\ref{dfe}).
+The low-testing case \fref{pan} reflects the case where testing intensity $\rho$ is small relative to the population size. Specifically, $\rho \in [0,0.013]$, and test return rate $\omega\in [1/12,2]$. This testing intensity is of the correct order of magnitude (although typically larger than) testing rates during the \covid pandemic, i.e., a maximum of 1.3\% of the population per day (approximately four times the maximum testing rate in Ontario, Canada in mid-2021). The less realistic high-testing case \fref{pan2} is included to highlight the occurrence of non-monotonic changes in $\Rnum$ with respect to $\rho$.
+In \fref{pan2} the maximum capacity of $\rho$ is larger relative to the population size, $\rho \in [0,1/5)$ and the test return rate $\omega\in [1/5,2]$; these values are clearly unrealistic for a large population but might be relevant for small populations undergoing focused testing, such as a sports league or university. In these figures, the implied baseline reproduction number (for the SIR model without testing) is $\Rnum=\frac{\beta}{\gamma}=3$.  The different ranges of test return rates $\omega$ for the cases of low and high testing intensities is due to the restriction $\rho<\omega$, which is a requirement for a feasible DFE (\ref{dfe}).
   
 % %%%%%%%
 \section{Results}
@@ -249,7 +251,7 @@ testing is random (all $w_X$ equal) or testing intensity ($\rho$) is small (Eq.~
 \end{subfigure}
 \caption{
 {\bf Effectiveness of testing and isolation in reducing $\Rnum$ at low \percap testing intensity ($\rho$).}
-Numerical evaluation of the effectiveness of control ($\Delta$: eq.~\ref{eq:del4}\david{wrong eq ref}), over a range of testing and isolation parameters. Parameter values (Table~\ref{tab:params}):
+Numerical evaluation of the effectiveness of control ($\Delta$: eq.~\ref{eq:del4_theta}\david{wrong eq ref}\bmb{maybe fixed? check}), over a range of testing and isolation parameters. Parameter values (Table~\ref{tab:params}):
 $\beta=\betaparam/$day, $1/\gamma= \invgammaparam$ days (baseline $\Rnum=\Rnumparam$, $r=\rparam$); $\omega \in [1/12,2]/$day;  $\rho \in [0,0.013]/$day per capita; $\theta\_w$ and $\theta\_c$ vary between 0 (no effect of isolation) and 1 (complete elimination of transmission); $p_S=0$, $p_I=1$ and $p_R=0.5$. Only parameter sets where $\theta\_c \geq \theta\_w$ (confirmed-positive individuals isolate more effectively than waiting individuals) are shown; the alternative case, $\theta\_w > \theta\_c$, is unrealistic. Contours of $\Delta$ are plotted for (a) random testing ($w_S=w_I=w_R=1$) and (b) targeted testing ($w_S=0.3$; $w_I=w_R=1$). 
 }
 \label{pan}
@@ -302,11 +304,10 @@ The other counterintuitive result from our analysis is that, for sufficiently hi
 
 Although we model the testing process in more detail than most mathematically focused epidemiological models, one place where more detail could be informative is in the processes determining the testing weights $\{w_S, w_I, w_R\}$. While random testing, as done for surveillance purposes, unambiguously leads to equal testing weights, making precise quantitative connections between public health practices and testing weights is difficult in other contexts. The testing weights reflect the correlation between an individual's risk of infection and their likelihood of being tested due to age, occupation, geographic location, etc.. This correlation is influenced, among many other factors, by the proportion of the uninfected population with COVID-like symptoms (e.g. due to seasonal upper respiratory tract infections); the concentration of transmission and testing in hot spots such as long-term care facilities and high-density workplaces; the overall testing intensity (and hence e.g. restriction to symptomatic individuals); and the proportion of COVID-infected people who are symptomatic. Future steps should explore mathematically tractable ways to model some of these factors more precisely. For example, separating the infected class into exposed, symptomatic, and a- or pre-symptomatic compartments and allowing the testing weights to vary across non-symptomatic (exposed/asymptomatic/presymptomatic) vs. symptomatic compartments could reflect the allocation of tests to diagnostic purposes (targeting symptomatic individuals) vs. contact-tracing (targeting infected but non-symptomatic individuals) vs. screening (relatively equal weights, depending on the venue). Alternatively, one could make the testing weights depend on the testing intensity or test return rate as suggested above. Whatever complexity is added would probably put the model beyond reach of the analytical methods we have used in this paper, but one could still use semi-numerical methods such as constructing the next-generation matrix and using it to evaluate the derivatives of $\Rnum$ with respect to the parameters numerically.
 
-Although testing and tracing is a key part of infection control strategy, mathematical epidemiologists have typically analyzed it with detailed models designed to inform particular public health efforts, rather than analyzing simple but general models of the feedback between testing and epidemic dynamics \bmb{can we back this statement up? more general citations to test-and-trace? HIV? Bergstrom et al might be a counterexample, although it's for a different context [repeated testing of an isolated population]}. \ali{the following sentences added to address Ben' comment:} There have been several modeling works of testing and tracing dynamics and their interaction with epidemiological dynamics. In the context of repeated screaning and random testing of isolated populations (such as a university setup), \cite{bergstrom2020frequency} provided some analytical results, \cite{rogers2021high} simulated a SEIR model with high-low testing intensity and sensitivity. Further, \cite{friston2021testing} model the effects of self-isolation on testing and tracking. Our modeling approache is novel compared to these works. We hope that this paper will inspire further explorations of the fundamental properties of dynamical systems that incorporate explicit testing models in an epidemiological context. \bmb{we could also talk about test and trace as a 'speed' intervention, but I'm tired}.
+Although testing and tracing is a key part of infection control strategy, mathematical epidemiologists have typically analyzed it with detailed models designed to inform particular public health efforts, rather than analyzing simple but general models of the feedback between testing and epidemic dynamics \bmb{can we back this statement up? more general citations to test-and-trace? HIV? Bergstrom et al might be a counterexample, although it's for a different context [repeated testing of an isolated population]}. \ali{the following sentences added to address Ben' comment:} There have been several modeling works of testing and tracing dynamics and their interaction with epidemiological dynamics. In the context of repeated screening and random testing of isolated populations (such as a university setup), \cite{bergstrom2020frequency} provided some analytical results, \cite{rogers2021high} simulated a SEIR model with high-low testing intensity and sensitivity. Further, \cite{friston2021testing} model the effects of self-isolation on testing and tracking. Our modeling approach is novel compared to these works. We hope that this paper will inspire further explorations of the fundamental properties of dynamical systems that incorporate explicit testing models in an epidemiological context. \bmb{we could also talk about test and trace as a 'speed' intervention, but I'm tired}.
 
 \bmb{Leftover comments:
 \begin{itemize}
-\item should emphasize (at some appropriate point in text) that $\Delta$ is independent of $\beta$ (and hence of $\Rnum$ if we are thinking primarily of holding $\gamma$ constant and varying $\beta$) for the small-$\rho$ (Taylor-expansion) case, see Eq.~\ref{eq:lin}.
 \item it would be good to have a few more testing refs: Bergstrom et al., there might be some other stuff we can recycle from the lab meeting review; Friston's stuff deserves to be mentioned because it does have explicit testing flows too. We should try not to ignore/piss anyone off who has already done stuff
 \end{itemize}
 }
@@ -339,17 +340,17 @@ Although testing and tracing is a key part of infection control strategy, mathem
 The model in the form of a system of ordinary differential equations is 
 \begin{subequations}\label{model}
 \begin{align}
- d S\_u/dt &= -\Lambda S\_u - F_S S\_u + \omega S\_n, \\
- d S\_n/dt &= -(1-\theta\_w)\Lambda S\_n + (1-p_S) F_S S\_u - \omega S\_n, \\
- d S\_p/dt &= -(1-\theta\_w)\Lambda S\_p + p_S F_S S\_u - \omega S\_p, \\
+ d S\_u/dt &= -\Lambda S\_u - \testing{S} S\_u + \omega S\_n, \\
+ d S\_n/dt &= -(1-\theta\_w)\Lambda S\_n + (1-p_S) \testing{S} S\_u - \omega S\_n, \\
+ d S\_p/dt &= -(1-\theta\_w)\Lambda S\_p + p_S \testing{S} S\_u - \omega S\_p, \\
  d S\_c/dt &= -(1-\theta\_c)\Lambda S\_c + \omega S\_p, \\
- d I\_u/dt &= \Lambda S\_u - F_I I\_u + \omega I\_n  - \gamma I\_u, \\
- d I\_n/dt &= (1-\theta\_w)\Lambda S\_n + (1-p_I) F_I I\_u - \omega I\_n -\gamma I\_n, \\
- d I\_p/dt &= (1-\theta\_w)\Lambda S\_p + p_I F_I I\_u - \omega I\_p -\gamma I\_p, \\
+ d I\_u/dt &= \Lambda S\_u - \testing{I} I\_u + \omega I\_n  - \gamma I\_u, \\
+ d I\_n/dt &= (1-\theta\_w)\Lambda S\_n + (1-p_I) \testing{I} I\_u - \omega I\_n -\gamma I\_n, \\
+ d I\_p/dt &= (1-\theta\_w)\Lambda S\_p + p_I \testing{I} I\_u - \omega I\_p -\gamma I\_p, \\
  d I\_c/dt &= (1-\theta\_c)\Lambda S\_c + \omega I\_p - \gamma I\_c, \\
- d R\_u/dt &= \gamma I\_u - F_R R\_u + \omega R\_n, \\
- d R\_n/dt &= \gamma I\_n + (1-p_R) F_R R\_u - \omega R\_n, \\
- d R\_p/dt &= \gamma I\_p + p_R F_R R\_u  - \omega R\_p, \\
+ d R\_u/dt &= \gamma I\_u - \testing{R} R\_u + \omega R\_n, \\
+ d R\_n/dt &= \gamma I\_n + (1-p_R) \testing{R} R\_u - \omega R\_n, \\
+ d R\_p/dt &= \gamma I\_p + p_R \testing{R} R\_u  - \omega R\_p, \\
  d R\_c/dt&= \gamma I\_c + \omega R\_p, \\
  dN/dt &= \omega (S\_n + I\_n + R\_n),  \\
  dP/dt &= \omega(I\_p + R\_p) ,
@@ -369,9 +370,9 @@ S\_u^* & (1-\theta\_w) S\_u^* & (1-\theta\_w) S\_u^* & (1-\theta\_c) S\_u^*\\
  =&\beta/N_0 \left[ \begin {array}{c} S\_u^* \\ (1-\theta\_w)S\_n^* \\ 0 \\ 0 \end {array} \right]
         \left[ \begin {array}{cccc} 1,   1-\theta\_w,   1-\theta\_w,   1-\theta\_c \end {array} \right], \text{and}\\  V=&
  \left[ \begin {array}{cccc}  
-\hat F_I+\gamma&-\omega&0&0\\
--(1-p_I)\hat F_I&\omega+\gamma&0&0\\
--p_I \hat F_I&0&\omega+\gamma&0\\
+\testinghat{I}+\gamma&-\omega&0&0\\
+-(1-p_I)\testinghat{I}&\omega+\gamma&0&0\\
+-p_I \testinghat{I}&0&\omega+\gamma&0\\
 0&0&-\omega&\gamma
 \end {array} \right].
 \end{align}
@@ -382,12 +383,12 @@ V^{-1} =&
 \frac{1}{\gamma C}
 \left[ \begin {array}{cccc}
 \gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)&0&0\\ \noalign{\medskip}
-\gamma(\omega+\gamma)(1-p_I) \hat F_I & \gamma(\omega+\gamma)(\hat F_I+\gamma)&0&0 \\ \noalign{\medskip}
-\gamma(\omega+\gamma) p_I \hat F_I & \gamma\omega p_I \hat F_I & C \gamma/(\omega+\gamma) & 0 \\ \noalign{\medskip}
-\omega(\omega+\gamma) p_I \hat F_I & \omega^2 p_I \hat F_I & C \omega/(\omega+\gamma) & C
+\gamma(\omega+\gamma)(1-p_I) \testinghat{I} & \gamma(\omega+\gamma)(\testinghat{I}+\gamma)&0&0 \\ \noalign{\medskip}
+\gamma(\omega+\gamma) p_I \testinghat{I} & \gamma\omega p_I \testinghat{I} & C \gamma/(\omega+\gamma) & 0 \\ \noalign{\medskip}
+\omega(\omega+\gamma) p_I \testinghat{I} & \omega^2 p_I \testinghat{I} & C \omega/(\omega+\gamma) & C
 \end {array} \right],
 \end{align}
-where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\hat F_I \big) (\omega+\gamma)$ and $\hat F_I$ is the \percap testing rate for the infected people and represented in Eq.~\eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
+where $C= \big( \gamma(\omega+\gamma)+(\gamma+\omega p_I)\testinghat{I} \big) (\omega+\gamma)$ and $\testinghat{I}$ is the \percap testing rate for the infected people and represented in Eq.~\eqref{eq:fi}. Note that all the columns of matrix $V^{-1}$ summ up to $1/\gamma$.
 
 The particular form of $F$ with two rows of zeros at the bottom results in the following blocked form of matrix $G$.
 \begin{equation}
@@ -405,9 +406,9 @@ G_{11} = \frac{\beta}{\gamma   C}
 \left[ \begin {array}{cccc} 1,   1-\theta\_w,   1-\theta\_w,   1-\theta\_c \end {array} \right]
 \left[ \begin {array}{cc}
 \gamma(\omega+\gamma)^2 & \gamma\omega(\omega+\gamma)\\ \noalign{\medskip}
-\gamma(\omega+\gamma)(1-p_I)\hat F_I & \gamma(\omega+\gamma)(\hat F_I+\gamma) \\ \noalign{\medskip}
-\gamma(\omega+\gamma) p_I \hat F_I & \gamma\omega p_I \hat F_I \\ \noalign{\medskip}
-\omega(\omega+\gamma) p_I \hat F_I & \omega^2 p_I \hat F_I
+\gamma(\omega+\gamma)(1-p_I)\testinghat{I} & \gamma(\omega+\gamma)(\testinghat{I}+\gamma) \\ \noalign{\medskip}
+\gamma(\omega+\gamma) p_I \testinghat{I} & \gamma\omega p_I \testinghat{I} \\ \noalign{\medskip}
+\omega(\omega+\gamma) p_I \testinghat{I} & \omega^2 p_I \testinghat{I}
 \end {array} \right].
 \end{equation}
 It is notable that matrix $F$ \eqref{FV} has rank one and consequently $G_{11}$ does so. That is $G_{11}$ has only one non-zero eigenvalue which is $\Rnum$.
@@ -437,14 +438,14 @@ G_{11} = \frac{\beta}{\gamma C}
 C-C_1, C-C_2\end {array} \right],
 \end{equation}
 where $C$ is the same as the one in Eq. \eqref{eq:C12}, i.e., 
-$$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega p_I+\gamma) \hat F_I),$$
+$$C=(\omega+\gamma)(\gamma(\omega+\gamma)+(\omega p_I+\gamma) \testinghat{I}),$$
 and $C_1$ and $C_2$ are 
 \begin{align*}
 % \label{eq:C12}
-C_1 =& (\omega+\gamma)(\theta\_w   \gamma+\theta\_c  \omega  p_I) \hat F_I,\\
-C_2 =& \big( \omega\gamma(1+p_I)\hat F_I+\gamma^2 (\omega+\gamma+\hat F_I)\big)\theta\_w + \omega^2 p_I \hat F_I \theta\_c,
+C_1 =& (\omega+\gamma)(\theta\_w   \gamma+\theta\_c  \omega  p_I) \testinghat{I},\\
+C_2 =& \big( \omega\gamma(1+p_I)\testinghat{I}+\gamma^2 (\omega+\gamma+\testinghat{I})\big)\theta\_w + \omega^2 p_I \testinghat{I} \theta\_c,
 \end{align*}
-where $\hat F_I$ is given in Eq.~\eqref{eq:fi}.
+where $\testinghat{I}$ is given in Eq.~\eqref{eq:fi}.
 Note that for analysis brevity, we let $N_0=1$, thus $S\_u^*$ and $S\_n^*$ are in the scale of 0 to 1.
 $\Rnum$ is in the same form as in Eq. \eqref{R0}  
 $$\Rnum= \frac{\beta}{\gamma} (1-\Delta),$$
@@ -454,26 +455,26 @@ where
 \Delta= \frac{1}{C}\big(C_1 S\_u^*+(C_2(1-\theta\_w)+C \theta\_w) S\_n^*\big).
 \end{equation*}
 
-{\bf The first goal}
+The first goal
 is to explore how changes in isolation, $\theta\_w$ and $\theta\_c$, affects $\Rnum$. Mathematically we would like to verify the sign of $\pder \Rnum{\theta\_w}$ and $\pder \Rnum{\theta\_c}$. We start with simplifying $\Delta$ \eqref{eq:del4} by factoring $\theta\_w$ and $\theta\_c$ in Eq.~\eqref{eq:del4}. Thus, $\Delta$ can be rewritten as
 \begin{equation}
 \label{eq:del4_theta}
 \Delta= \frac{1}{C}\Big(
--D_1 S\_n^* \boldsymbol {\theta\_w^2}+
-\big(-\omega^2 p_I \hat F_I S\_n^*\theta\_c+ D_2 S\_n^*+\gamma \hat F_I(\omega+\gamma) \big)\theta\_w+
-(\omega+\gamma S\_u^*)\omega p_I \hat F_I \theta\_c
+-D_1 S\_n^* \theta\_w^2 +
+\big(-\omega^2 p_I \testinghat{I} S\_n^*\theta\_c+ D_2 S\_n^*+\gamma \testinghat{I}(\omega+\gamma) \big)\theta\_w+
+(\omega+\gamma S\_u^*)\omega p_I \testinghat{I} \theta\_c
 \Big),
 \end{equation}
 where
 \begin{align}
 \label{eq:del4_d1d2}
-D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega p_I)\gamma \hat F_I, \\
-D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega p_I)\gamma \hat F_I+(\gamma+p_I \hat F_I)\omega^2.
+D_1=& (\omega+\gamma)\gamma^2+(\omega+\gamma+\omega p_I)\gamma \testinghat{I}, \\
+D_2=& (3\omega+2\gamma)\gamma^2+(\omega+\gamma+2\omega p_I)\gamma \testinghat{I}+(\gamma+p_I \testinghat{I})\omega^2.
 \end{align}
 $\Delta$, Eq.~\eqref{eq:del4_theta}, is linear in $\theta\_c$ with a positive coefficient. thus
 \begin{equation}
 \label{eq:d_del4_thetac}
-\pder\Delta{\theta\_c}=1/C(\gamma S\_u^*+\omega(1-\theta\_w S\_n^*))\omega p_I \hat F_I.
+\pder\Delta{\theta\_c}=1/C(\gamma S\_u^*+\omega(1-\theta\_w S\_n^*))\omega p_I \testinghat{I}.
 \end{equation}
 This results in increasing $\Delta$, thus decreasing $\Rnum$ with respect to $\theta\_c$, that is $\pder \Rnum{\theta\_c}\leq 0$. Note that $C$ is independent of $\theta\_c$ and $\theta\_w$. 
 
@@ -481,20 +482,20 @@ With a similar logic, $\Delta$ \eqref{eq:del4_theta} is a concave-down quadratic
 \begin{equation}
 \label{eq:del4_thetaw}
 1/C \Big( -D_1 S\_n^*\theta\_w^2+
-\big(-\omega^2 p_I \hat F_I S\_n^*\theta\_c+D_2 S\_n^*+\gamma \hat F_I(\omega+\gamma) \big)\theta\_w\Big).
+\big(-\omega^2 p_I \testinghat{I} S\_n^*\theta\_c+D_2 S\_n^*+\gamma \testinghat{I}(\omega+\gamma) \big)\theta\_w\Big).
 \end{equation}
 We show that the feasible range of $\theta\_w$ lies between 0 and the vertex of this parabola where the parabola is increasing in $\theta\_w$, and so does $\Delta$ which results in inferring $\pder\Rnum{\theta\_w}\leq 0$.
 It is enough to show that partial derivative of the expression \eqref{eq:del4_thetaw} with respect to $\theta\_w$ at $\theta\_w=1$ is non-negative. It follows that
 \begin{align}
 \label{eq:d_del4_thetaw}
 \pder\Delta{\theta\_w}\bigg\rvert_{\theta\_w=1} =&
-1/C\Big( (D_2-2D_1-\omega^2 p_I \hat F_I \theta\_c) S\_n^*+\gamma \hat F_I(\omega+\gamma) \Big) \\\notag
-=& 1/C\Big( (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2 p_I \hat F_I ) S\_n^*
-+\gamma(\omega+\gamma) \hat F_I (1-S\_n^*) \Big),
+1/C\Big( (D_2-2D_1-\omega^2 p_I \testinghat{I} \theta\_c) S\_n^*+\gamma \testinghat{I}(\omega+\gamma) \Big) \\\notag
+=& 1/C\Big( (\gamma(\omega+\gamma)+\gamma\omega^2+(1-\theta\_c)\omega^2 p_I \testinghat{I} ) S\_n^*
++\gamma(\omega+\gamma) \testinghat{I} (1-S\_n^*) \Big),
 \end{align}
 which is a positive quantity, given that $\theta\_c$ and $S\_n^*$ vary between 0 and 1.
 
-{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\rho}$, which specifically depends on $\pder\Delta{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.~\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \hat F_S = \frac{\rho \omega}{\omega-\rho}$, to reparameterize $\rho$. This is mainly to avoid singularity in $\hat F_I$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparameterized as 
+{\bf The second goal} is to explore how changes in \percap testing intensity $\rho$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\rho}$, which specifically depends on $\pder\Delta{\rho}$. We use the derived expressions for $S\_u^*$ and $S\_n^*$, given by Eqs.~\eqref{dfe}, in $\Delta$ \eqref{eq:del4}. Also, we define $\phi = \testinghat{S} = \frac{\rho \omega}{\omega-\rho}$, to reparameterize $\rho$. This is mainly to avoid singularity in $\testinghat{I}$ \eqref{eq:fi}, when testing intensity $\rho$ is very close to the rate of test return $\omega$. Thus, $\rho$ is reparameterized as 
 \begin{equation}
 \label{eq:phi}
 \rho=\frac{\omega \phi}{\omega+\phi}.
@@ -535,7 +536,7 @@ Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get
 
 % %%%%%%%
 \subsection{Rate of returning tests} \label{app:omega}
-{\bf The third goal} is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\omega}$, which specifically depends on $\pder\Delta{\omega}$. We use
+The third goal is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\omega}$, which specifically depends on $\pder\Delta{\omega}$. We use
 the linearization of $\Delta$ when $\rho \ll 1$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The linear term in the Taylor expansion of $\Delta$ when $\rho \ll 1$ is
 \begin{equation}
 \label{eq:lin}
@@ -570,19 +571,20 @@ We begin with a \textbf{proof of Case I}. Suppose that $b_4 \geq a_4$. If the ro
 
 We now turn our attention to a \textbf{proof of Case II}. Suppose that $b_4 < a_4$. It follows that $\omega^*_+$ and $\omega^*_-$ are real since $c_4 > 0 > b_4-a_4$. Next, note that $\omega^*_-$ is positive since both the numerator and denominator are negative. On the other hand, $\omega^*_+$ is negative since the denominator is negative but the numerator is positive (because $c_4 > b_4-a_4$). Thus, our task is to understand the sign of $\pder\Delta{\omega}$ around the root $\omega^*_-$. Checking the sign of \ref{eq:dlindo} for arbitrarily large $\omega$ shows that it is positive (since the $(a_4-b_4)\omega^2$ term dominates and is positive). Likewise, checking the sign for values of $\omega$ close to $0$ shows that it is negative. Thus, $\Rnum$ is increasing with respect to $\omega$ when $\omega < \omega^*_-$, and is decreasing $\omega > \omega^*_-$. 
 
-Having presented the formal analysis, we now concern ourselves with its \textbf{biological interpretations.} We begin by interpreting \ref{case_1_ineq}, under which returning tests more rapidly is \emph{always} harmful. Notice that the ratio $\frac{\theta\_c}{\theta\_w}$ is simply a measure of how much more strongly individuals self-isolate when they test positive compared to when waiting for tests. Since the rate of test return directly influences the rate at which individuals change from a waiting state to a confirmed-positive state, it is intuitive that $\frac{\theta\_c}{\theta\_w}$ would appear in \ref{case_1_ineq}. Next, note that the left-hand side increases when test sensitivity decreases and when targeting of positive individuals is poor. This is consistent with our intuition: a false negative that is returned more rapidly may encourage an infectious individual to not carefully self-isolate, thus increasing transmission. Likewise, if individuals tested are mainly susceptible (rather than infectious), then returning tests more slowly would encourage them to self-isolate for longer while awaiting test results. Having understood the role of each of the parameters in \ref{case_1_ineq}, a holistic interpretation of this inequality is that returning tests more slowly is helpful when the benefit of extended self-isolation (due to awaiting test results) outweighs the benefit of identifying positive cases. 
+Having presented the formal analysis, we now concern ourselves with its biological interpretations. We begin by interpreting \ref{case_1_ineq}, under which returning tests more rapidly is \emph{always} harmful. Notice that the ratio $\frac{\theta\_c}{\theta\_w}$ is simply a measure of how much more strongly individuals self-isolate when they test positive compared to when waiting for tests. Since the rate of test return directly influences the rate at which individuals change from a waiting state to a confirmed-positive state, it is intuitive that $\frac{\theta\_c}{\theta\_w}$ would appear in \ref{case_1_ineq}. Next, note that the left-hand side increases when test sensitivity decreases and when targeting of positive individuals is poor. This is consistent with our intuition: a false negative that is returned more rapidly may encourage an infectious individual to not carefully self-isolate, thus increasing transmission. Likewise, if individuals tested are mainly susceptible (rather than infectious), then returning tests more slowly would encourage them to self-isolate for longer while awaiting test results. Having understood the role of each of the parameters in \ref{case_1_ineq}, a holistic interpretation of this inequality is that returning tests more slowly is helpful when the benefit of extended self-isolation (due to awaiting test results) outweighs the benefit of identifying positive cases. 
 
 Now we interpret \textbf{Case II}.  In this case, $\Rnum$ will have a global maximum with respect to $\omega$ at $\omega^*_-$. Note that our model assumption that $\rho < \omega$ plays an important role here: if $\omega^*_- < \rho$, then $\Rnum$ will be always decreasing with respect to $\omega$. On the other hand, if $\rho < \omega^*_-$, then $\Rnum$ will be increasing with respect to $\omega$ on $(\rho, \omega^*_-)$ and decreasing beyond that.
 
 % %%%%%%%
 \subsection{On Testing Rate and Numerical Singularity} \label{app:singularity}
 
-In this work, we didn't do any numerical solutions for the trajectories in our analysis. However, if one tries to do so there would be a singularity issue to deal with. 
-Specifically, the numerical singularity issue with the chosen $\sigma$ \eqref{sigma} is that the population in $S$ compartments appeared to blow up when the DFE is achieved. This is once the only untested people are susceptibles, the FOI will become $\Lambda=0$, testing rate $F_s=\rho N_0/S\_u$. Thus, the first equation of the model \eqref{model} will become
-$d S\_u/dt = - \rho N_0 + \omega S\_n$. Thus changes in $S\_u$ will be no longer dependent on $S\_u$ with a linear rate of leaving the $S\_u$ compartment.
-IN fact the testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there.
-One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This alteration in $\sigma$, does not change any results related to $\Rnum$, thus we only impose it in the simulation of the epidemic dynamic.
-
+In this work, we do not present any numerical solutions of the ODEs to investigate typical trajectories.
+However, attempting to do so quickly reveals a problem in the way the model is posed;
+with the scaling of testing ($\sigma$) defined as in the body of the paper (Eq.~\eqref{sigma}), the population in the $S$ compartments appeared to blow up when the DFE is achieved \bmb{clarify??}. This occurs because once the only untested people are susceptibles, the FOI approaches $\Lambda=0$, and the testing rate $\testing{S} \to \rho N_0/S\_u$. Thus, the first equation of the model \eqref{model} will become
+$d S\_u/dt = - \rho N_0 + \omega S\_n$. Thus changes in $S\_u$ will be independent on $S\_u$, and the decay of the $S\_u$
+population becomes linear rather than exponential --- allowing $S\_u$ to become negative!
+To avoid this problem the testing rate, $\sigma$, should be formulated such that people from the untested compartments will not be tested if they are not there.
+One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N_0}{\tau W + \rho N_0}$, with the assumption that $\tau \gg \rho$. This modification of $\sigma$ does not affect any of the results we have derived about the invasion of the epidemic from the DFE (i.e., results on $\Rnum$ and $\Delta$).
 
 % %%%%%%%
 \subsection{The effect of testing focus parameter $\frac{w_I}{w_S}$ on $\Rnum$} \label{app:w}

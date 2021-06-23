@@ -24,7 +24,7 @@ Ignore += $(alldirs)
 
 Sources += $(wildcard *.tex *.bib)
 
-SIR_manuscript.pdf: SIR_manuscript.tex
+SIR_manuscript.pdf: SIR_manuscript.tex codes/modeldefs.tex
 
 ## compartmental flowchart in ipe
 ## sudo apt-get install ipe

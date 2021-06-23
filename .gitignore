@@ -322,3 +322,4 @@ cpdir/
 \#*
 .#*
 modeldefs.tex
+*.bak
