@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70212" creator="Ipe 7.2.13">
-<info created="D:20201024050019" modified="D:20210624102243"/>
+<info created="D:20201024050019" modified="D:20210624154016"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -324,7 +324,7 @@ h
 48 736 l
 </path>
 <text matrix="1.163 0 0 0.998164 57.0891 0.272724" transformations="translations" pos="64 796" stroke="black" type="label" width="36.996" height="3.74" depth="2.68" valign="top" size="tiny" style="math">(1-p_{_R}){\cal T}_R</text>
-<text matrix="66.6749 3.3431 -0.0615064 0.903599 -4139.42 -138.404" transformations="translations" pos="64 796" stroke="black" type="label" width="33.727" height="3.74" depth="2.68" valign="top" size="tiny" style="math">(1-p_{_I}){\cal T}_I</text>
+<text matrix="66.6749 3.3431 -0.0615064 0.903599 -4139.42 -138.404" transformations="translations" pos="64 796" stroke="darkgray" type="label" width="33.727" height="3.74" depth="2.68" valign="top" size="tiny" style="math">(1-p_{_I}){\cal T}_I</text>
 <path matrix="1.163 0 0 0.998164 46.2411 -30.4408" stroke="black" fill="white" arrow="normal/small">
 60 800 m
 60 784 l
@@ -445,7 +445,7 @@ h
 </path>
 <text matrix="1.163 0 0 0.998164 -22.6872 -91.1076" transformations="translations" pos="80 808" stroke="darkgray" type="label" width="34.758" height="5.98" depth="1.99" valign="baseline" size="footnote" style="math">(1-\theta_{\rm{c}})\Lambda</text>
 <text matrix="1.163 0 0 0.998164 66.2322 5.4935" transformations="translations" pos="48 792" stroke="black" type="minipage" width="11.856" height="4.206" depth="0" valign="top" size="footnote">$\omega$</text>
-<path matrix="1.163 0 0 0.998164 56.5968 49.569" stroke="black" rarrow="normal/small">
+<path matrix="1.163 0 0 0.998164 56.5968 49.569" stroke="darkgray" rarrow="normal/small">
 48 752 m
 48 736 l
 </path>
