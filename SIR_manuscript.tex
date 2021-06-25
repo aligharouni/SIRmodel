@@ -80,15 +80,16 @@
 
 Testing individuals for pathogens can affect the spread of epidemics. 
 Understanding how individual-level processes of sampling and reporting test results can effect comunity- or population-level spread is a dynamical modeling question.
-The effect of testing processes on epidemic dynamics depends on factors underlying implementation, particularly testing intensity and how testing is focused.
-Here, we use a simple model to ask how the individual-level effects of testing might directly impact population-level spread.
-We construct a simple framework and derive an analytic expression for the relative reduction in the basic reproductive number due to testing, test-reporting and related isolation behaviours.
+The effect of testing processes on epidemic dynamics depends on factors underlying implementation, particularly testing intensity and on whom testing is focused.
+Here, we use a simple model to explore how the individual-level effects of testing might directly impact population-level spread.
+Our model development was motivated by the \covid epidemic, but has generic epidemiological and testing structures. 
+To the classic SIR framework we have added a \percap testing intensity, and compartment-specific testing weights, which can be adjusted to reflect different testing emphases --- surveillance, diagnosis, or control. 
+We derive an analytic expression for the relative reduction in the basic reproductive number due to testing, test-reporting and related isolation behaviours.
 Intensive testing and fast test reporting are expected to be beneficial at the community level because they can provide a rapid assessment of the situation, identify hot spots, and may enable rapid contact-tracing. 
-The direct effects of fast testing at the individual level are less clear, and may depend on how individuals' behaviour is affected by testing information.
+Direct effects of fast testing at the individual level are less clear, and may depend on how individuals' behaviour is affected by testing information.
 Our simple model shows that under some circumstances both increased testing intensity and faster test reporting can \emph{reduce} the effectiveness of control, and allows us to explore the conditions under which this occurs.
-Conversely, we find that increasing testing \emph{focus} always acts to increase effectiveness of control.
-Although our model development was motivated by the \covid epidemic, the model has general epidemiological and testing structures. 
-To the classic framework we have added a \percap testing intensity,  and compartment-specific testing weights, which can be adjusted to reflect different testing emphases --- surveillance, diagnosis, or control. 
+Conversely, we find that focussing testing on infected individuals always acts to increase effectiveness of control.
+\david{It would be better to say ``symptomatic'' rather than ``infected'' in the last sentence, but we can't claim the model really captures that.}
 
 % %%%%%%%
 \section{Introduction}
