@@ -20,9 +20,12 @@ Ignore += $(alldirs)
 
 ######################################################################
 
-## Ali et all manuscript
+## Manuscript
 
-Sources += $(wildcard *.tex *.bib)
+Sources += $(wildcard *.tex *.bib *.R)
+
+authors.Rout: authors.R
+	$(pipeR)
 
 SIR_manuscript.pdf: SIR_manuscript.tex codes/modeldefs.tex
 
