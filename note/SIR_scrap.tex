@@ -498,12 +498,19 @@ relatively controlled with effective testing, isolation, contract tracing and qu
 \citep{tuite2020mathematical} used an age-structured compartmental model of \covid transmission in the population of Ontario, Canada. We compared a base case with limited testing, isolation and quarantine to different scenarios. 
 % %%%%%%%
 \subsubsection{Other maybe-related works}
+
+paper: Roques, Lionel, et al. "Impact of lockdown on the epidemic dynamics of COVID-19 in France." Frontiers in medicine 7 (2020): 274.
+RT-PCR tests have been used and existing data indicate that the sensitivity of this test using pharyngeal and nasal swabs is about 63−72\% (25). We assumed here σ = 0.7 (70\% sensitivity).
+(25) is this paper: 
+Wang, Wenling, et al. "Detection of SARS-CoV-2 in different types of clinical specimens." Jama 323.18 (2020): 1843-1844.
+
 \citep{arino2020simple} developed a SLIAR compartmental model to study the spread of an epidemic, specifically COVID, in a population. The model incorporates an Erlang distribution of times of sojourn in incubating, symptomatically and asymptomatically infectious compartments. Basic reproduction number is derived. Also, sensitivity analysis with respect to the underlying parameters for the following two outputs was carried out; (i) the number of observable cases during the course of the epidemic and at the peak, and (ii) the timing of the peak of the outbreak. Sensitivity analysis is performed using the R package multisensi.
 
 \citep{ruszkiewicz2020diagnosis} novel with-in-a-minute breath testing with 80\% accuracy. 
 
 \citep{friston2021testing} model the effects of self-isolation on testing and tracking. Their model is a dynamic causal model equipped with isolation state which is an extension of compartmental model SEIR. They found that there exists no testing strategy that can attenuate mortality rates, other than by deferring or delaying a second wave.
 
+% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%
 \section{Unused Scripts}
 # Conditional stop for ODE desolver
 # rootfun <- function (time, state,params) {
