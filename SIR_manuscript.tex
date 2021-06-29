@@ -35,7 +35,7 @@
 \newcommand{\pder}[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder y{x}
 \newcommand{\testing}[1]{\ensuremath{{\cal T}_{#1}}\xspace}
 \newcommand{\testinghat}[1]{\ensuremath{\hat{\cal T}_{#1}}\xspace}
-
+\newcommand{\testtarget}{\ensuremath{\frac{w_I}{w_S}}\xspace}
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 %% Roman subscript
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
@@ -79,7 +79,7 @@
 \section{Abstract}
 
 Testing individuals for pathogens can affect the spread of epidemics. 
-Understanding how individual-level processes of sampling and reporting test results can effect comunity- or population-level spread is a dynamical modeling question.
+Understanding how individual-level processes of sampling and reporting test results can affect community- or population-level spread is a dynamical modeling question.
 The effect of testing processes on epidemic dynamics depends on factors underlying implementation, particularly testing intensity and on whom testing is focused.
 Here, we use a simple model to explore how the individual-level effects of testing might directly impact population-level spread.
 Our model development was motivated by the \covid epidemic, but has generic epidemiological and testing structures. 
@@ -88,7 +88,7 @@ We derive an analytic expression for the relative reduction in the basic reprodu
 Intensive testing and fast test reporting are expected to be beneficial at the community level because they can provide a rapid assessment of the situation, identify hot spots, and may enable rapid contact-tracing. 
 Direct effects of fast testing at the individual level are less clear, and may depend on how individuals' behaviour is affected by testing information.
 Our simple model shows that under some circumstances both increased testing intensity and faster test reporting can \emph{reduce} the effectiveness of control, and allows us to explore the conditions under which this occurs.
-Conversely, we find that focussing testing on infected individuals always acts to increase effectiveness of control.
+Conversely, we find that focusing testing on infected individuals always acts to increase effectiveness of control.
 \david{It would be better to say ``symptomatic'' rather than ``infected'' in the last sentence, but we can't claim the model really captures that.}
 
 % %%%%%%%
@@ -194,7 +194,7 @@ The basic reproduction number, $\Rnum$, was calculated by using the next-generat
 \label{R0}
 \Rnum= \frac{\beta}{\gamma} \left(1-\Delta\right), 
 \end{equation}
-where $\beta/\gamma$ is the classical value for a simple model \citep{keeling2011modeling}, and $1-\Delta$ is the proportional reduction due to testing and isolation processes. $\Delta$ therefore measureness the ``effectiveness of control'': how much these processes in reducing spread from low levels, and is in turn given by:
+where $\beta/\gamma$ is the classical value for a simple model \citep{keeling2011modeling}, and $1-\Delta$ is the proportional reduction due to testing and isolation processes. $\Delta$ therefore measures the ``effectiveness of control'': how much these processes in reducing spread from low levels, and is in turn given by:
 \begin{equation}
   \label{eq:del4a}
   \Delta= \frac{1}{C N}\big(C_1 S\_u^*+(C_2(1-\theta\_w)+C \theta\_w)S\_n^*\big),
@@ -355,6 +355,8 @@ The model in the form of a system of ordinary differential equations is
 %
 (see Table \ref{tab:params} for parameter definitions). The next generation matrix for this model is $G = F V^{-1}$, where matrix $F$ represents the inflow of new infection to the infected compartments and matrix $V$ represents the flow in the infected compartments when the population is totally susceptible. 
 Matrices $F$ and $V$ are
+\bmb{eqs A2 and A3 can be in the same array environment, but sticking the ``and'' in there is ugly.
+  ``and'' should be in text, with A4 set as a separate equation (it doesn't need to be aligned).}
 \begin{align}
 \label{FV}
 F =& \beta/N \left[ \begin {array}{cccc} 
@@ -417,7 +419,7 @@ It remains hard to show that the reproduction number $\Rnum$ is decreasing with 
 & \omega>0, \\
 & 0 \leq \rho<\omega,\\ 
 & 0 \leq \theta\_w \leq \theta\_c \leq 1, \\
-& \frac{w_I}{w_S}\geq 1.
+& \testtarget\geq 1.
 \end{align}
 In realistic cases the testing rate $\rho$ is very small (i.e., only a small fraction of the population can be tested every day); it is thus reasonable to use a linear approximation of $\Rnum$ for $\rho \ll 1$ to analyze the behaviour of $\Rnum$ with respect to $\omega$ (see section \appref{omega}). 
 In the next section we provide an equivalent representation of $\Rnum$ in order to show that increasing testing intensity typically decreases $\Rnum$.
@@ -505,46 +507,57 @@ The derivative is
 where
 \begin{align}
 \label{eq:abcd2}
-a_3& = \frac{w_I}{w_S} \Bigg(
-&& (1-\theta\_w) (1+\frac{w_I}{w_S})\theta\_w \gamma^3 +(1-\theta\_c) p_I^2 \theta\_w \frac{w_I}{w_S} \omega^3 \\ \notag
-& ~ &&+\Big( \big( (1-\theta\_w-\frac{w_I}{w_S}) \theta\_c +(3-2\theta\_w) \theta\_w\frac{w_I}{w_S} \big) p_I +(1-\theta\_w) (1+\frac{w_I}{w_S})\theta\_w  \Big) \omega \gamma^2 \\ \notag
+a_3& = \testtarget \Bigg(
+&& (1-\theta\_w) (1+\testtarget)\theta\_w \gamma^3 +(1-\theta\_c) p_I^2 \theta\_w \testtarget \omega^3 \\ \notag
+& ~ &&+\Big( \big( (1-\theta\_w-\testtarget) \theta\_c +(3-2\theta\_w) \theta\_w\testtarget \big) p_I +(1-\theta\_w) (1+\testtarget)\theta\_w  \Big) \omega \gamma^2 \\ \notag
 & ~ &&+\Big(
-\big((1-\theta\_w-\theta\_w \frac{w_I}{w_S}) \theta\_c+ (2-\theta\_w) \theta\_w \frac{w_I}{w_S} \big) p_I
-+(2 \theta\_w-\theta\_w^2-\theta\_c) \frac{w_I}{w_S} p_I^2
+\big((1-\theta\_w-\theta\_w \testtarget) \theta\_c+ (2-\theta\_w) \theta\_w \testtarget \big) p_I
++(2 \theta\_w-\theta\_w^2-\theta\_c) \testtarget p_I^2
 \Big) \omega^2 \gamma \Bigg), \\ \notag
-b_3& = && \hspace{-1cm} 2\frac{w_I}{w_S} (\omega+\gamma)\gamma\Big(
+b_3& = && \hspace{-1cm} 2\testtarget (\omega+\gamma)\gamma\Big(
 (\omega+\gamma+\omega p_I)(2-\theta\_w) \gamma \theta\_w+ (1-\theta\_w) \omega^2 p_I\theta\_c+\omega^2 p_I\theta\_w
 \Big) ,\\ \notag
 c_3& = && \hspace{-1cm} (\omega+\gamma)^2 \gamma\Big(
 (2-\theta\_w) \gamma^2 \theta\_w+
-(1+\frac{w_I}{w_S}) \omega \gamma \theta\_w+
-\frac{w_I}{w_S} \omega^2 p_I\theta\_c \Big),\\ \notag
-d_3&  = && \hspace{-1cm} \frac{(\omega+\gamma)}{\omega}  \Big((\omega p_I+\gamma)\frac{w_I}{w_S}\phi + (\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2.
+(1+\testtarget) \omega \gamma \theta\_w+
+\testtarget \omega^2 p_I\theta\_c \Big),\\ \notag
+d_3&  = && \hspace{-1cm} \frac{(\omega+\gamma)}{\omega}  \Big((\omega p_I+\gamma)\testtarget\phi + (\omega+\gamma)\gamma \Big)^2(\omega+\phi)^2.
 \end{align}
 Note that $\phi\geq 0$, also $b_3$, $c_3$ and $d_3$ are all positive. However $a_3$ can be positive or negative.
 If $a_3\geq 0$, $\partial\Delta/\partial\phi \geq 0$ for all feasible range of parameters, thus $\pro\Rnum \leq 0$. It is straight forward to show that $a_3\geq 0$ in case of random testing strategy, i.e., $w\_S=w\_I=1$. 
 If $a_3 < 0$, then the quadratic expression in the numerator of \eqref{eq:dd3dr} has a positive root, $\phi^*$, such that for $\phi>\phi^*$, $\partial\Delta/\partial\phi < 0$. 
 
-An example of this counter-vailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occurs when $\theta\_w=0$ and $\theta\_c=1$.
-This is illustrated in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case, simplifying $a_3$ in Eq.~\eqref{eq:abcd2} gives $$a_3=\frac{w_I}{w_S} \omega \gamma p_I((\omega+\gamma)-\frac{w_I}{w_S}(\omega p_I+\gamma)).$$
-Specifically, in the case of targeted testing which is identified by $\frac{w_I}{w_S}> 1$, and using a perfect sensitive test, thus $p_I=1$, there exists a range for $\rho$ over which $\pder\Rnum{\rho}\leq 0$.  
-Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial counter-vailing effect of these two parameters on $\Rnum$. 
+An example of this countervailing effect of $\phi$, and consequently $\rho$, on $\Rnum$ occurs when $\theta\_w=0$ and $\theta\_c=1$.
+This is illustrated in the top-right panel of the \fref{pan2} panel (b), where the strength of isolation for awaiting people is the least, but the most for the confirmed cases. In this case, simplifying $a_3$ in Eq.~\eqref{eq:abcd2} gives
+\begin{equation}
+  \begin{split}
+    a_3 & =\testtarget \omega \gamma p_I\left((\omega+\gamma)-\testtarget(\omega p_I+\gamma)\right)  \\
+    & \propto  \omega \left( 1- \testtarget p_I \right) + \gamma \left( 1- \testtarget \right)  .
+  \end{split}
+\end{equation}
+If $p_I>0$, then $a_3<0$ for sufficiently targeted testing (i.e. when $\testtarget p_I >1$; because
+$p_I \leq 1$, \testtarget is always $\geq \testtarget p_I$).
+%% this LOOKS like we can get a3<0 even if pI=0 for targeting > 1 and sufficiently large gamma/omega,
+%% but that seems crazy so I'm probably missing something
+When the test is perfectly sensitive ($p_I=1$), $a_3<0$ as long as $\testtarget>1$.
+Under either of these conditions, there exists a range for $\rho$ over which $\pder\Rnum{\rho}\leq 0$.  
+Note that $\rho$ and $\omega$ have a similar mechanism in delaying people to get into $I\_c$, thus we would expect to see the non-trivial countervailing effect of these two parameters on $\Rnum$. \bmb{I don't understand the last sentence}
 
 % %%%%%%%
 \subsection{Rate of returning tests} \label{app:omega}
-The third goal is to explore how changes in the rate of test return $\omega$ affects $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\omega}$, which specifically depends on $\pder\Delta{\omega}$. We use
+The third goal is to explore how changes in the rate of test return $\omega$ affect $\Rnum$. Mathematically we would like to verify the sign of $\pder\Rnum{\omega}$, which specifically depends on $\pder\Delta{\omega}$. We use
 the linearization of $\Delta$ when $\rho \ll 1$ to show that there a non-monotonic relationship between $\Rnum$  and $\omega$. The linear term in the Taylor expansion of $\Delta$ when $\rho \ll 1$ is
 \begin{equation}
 \label{eq:lin}
 \Delta = \frac{\rho}{\omega \gamma(\omega+\gamma)} \Big(
-\frac{w_I}{w_S} \omega^2 p_I \theta\_c+(\frac{w_I}{w_S}+1) \gamma\omega\theta\_w +\gamma^2 \theta\_w(2-\theta\_w)
+\testtarget \omega^2 p_I \theta\_c+(\testtarget+1) \gamma\omega\theta\_w +\gamma^2 \theta\_w(2-\theta\_w)
 \Big). 
 \end{equation}
 This results in
 \begin{equation}
 \label{eq:dlindo}
 \pder\Delta{\omega} = \frac{\rho}{\omega^2 (\omega+\gamma)^2} \Big(
-(p_I \frac{w_I}{w_S}\theta\_c -(1+\frac{w_I}{w_S})\theta\_w)\omega^2-2\theta\_w \gamma(2-\theta\_w) \omega+\theta\_w \gamma^2 (\theta\_w-2)
+(p_I \testtarget\theta\_c -(1+\testtarget)\theta\_w)\omega^2-2\theta\_w \gamma(2-\theta\_w) \omega+\theta\_w \gamma^2 (\theta\_w-2)
 \Big).
 \end{equation}
 % ALi & Faddy's stuff
@@ -554,14 +567,14 @@ The latter expression has two roots
 \omega^*_{+} &= \frac{\gamma\Big(-c_4 + \sqrt{c_4^2 + (a_4-b_4)c_4}\Big)}{b_4-a_4} \\
 \omega^*_{-} &= \frac{\gamma\Big(-c_4 - \sqrt{c_4^2 + (a_4-b_4)c_4}\Big)}{b_4-a_4},
 \end{align}
-where $a_4 = p_I\frac{w_I}{w_S}\theta\_c$, $b_4 = (1+\frac{w_I}{w_S})\theta\_w$, $c_4 = \theta\_w(2-\theta\_w)$. This enables us to describe the behaviour of $\Rnum$ with respect to $\omega$ in the foolowing two cases.
+where $a_4 = p_I\testtarget\theta\_c$, $b_4 = (1+\testtarget)\theta\_w$, $c_4 = \theta\_w(2-\theta\_w)$. This enables us to describe the behaviour of $\Rnum$ with respect to $\omega$ in the following two cases.
 \begin{itemize}
 \item \textbf{Case I:} If $b_4 \geq a_4$, $\pder\Delta{\omega} < 0$, so $\Rnum$ is always increasing with respect to $\omega$ (i.e., it is always harmful to return tests more rapidly). 
 \item \textbf{Case II:} If $b_4 < a_4$, $\Rnum$ will be decreasing with respect to $\omega$ (i.e., returning tests more rapidly is beneficial) only when $\omega > \omega^*_-.$
 \end{itemize}
 Note that $b_4 \geq a_4$ is characterized by
 \begin{equation}\label{case_1_ineq}
-\Big(\frac{w_I}{w_S}+1\Big)\theta\_w \geq \frac{w_I}{w_S}p_I\theta\_c \Longleftrightarrow \Big(\frac{w_S}{w_I}+1\Big)\frac{1}{p_I} \geq \frac{\theta\_c}{\theta\_w}.
+\Big(\testtarget+1\Big)\theta\_w \geq \testtarget p_I\theta\_c \Longleftrightarrow \Big(\frac{w_S}{w_I}+1\Big)\frac{1}{p_I} \geq \frac{\theta\_c}{\theta\_w}.
 \end{equation}
 We begin with a \textbf{proof of Case I}. Suppose that $b_4 \geq a_4$. If the roots of $\pder\Delta{\omega}$ are not complex, then we must have $c_4 \geq b_4-a_4$. Note that $\omega^*_{-}$ must be negative since the numerator is clearly negative but the denominator is positive. Next, note that since $c_4 \geq b_4-a_4$, the numerator of $\omega^*_{+}$ must also be negative, so $\omega^*_{+}$ is negative. Thus, in this case, $\pder\Rnum{\omega}$ does not change sign on $(0,\infty)$. Checking the sign of \ref{eq:dlindo} for arbitrarily large $\omega$ shows that it is negative (since the $(a_4-b_4)\omega^2$ term dominates and is negative). So $\Rnum$ is increasing with respect to $\omega$ on all of $(0,\infty)$.
 
@@ -583,9 +596,9 @@ To avoid this problem the testing rate, $\sigma$, should be formulated such that
 One way to fix this issue, is to consider a maximum testing rate, $\tau$ (1/day). In general, we want to test at a rate of $\rho$ across the whole population. This won't always be possible, so we impose a maximum rate of $\tau$ per testable person and redefine $\sigma = \frac{\tau \rho N}{\tau W + \rho N}$, with the assumption that $\tau \gg \rho$. This modification of $\sigma$ does not affect any of the results we have derived about the invasion of the epidemic from the DFE (i.e., results on $\Rnum$ and $\Delta$).
 
 % %%%%%%%
-\subsection{The effect of testing focus parameter $\frac{w_I}{w_S}$ on $\Rnum$} \label{app:w}
+\subsection{The effect of testing focus parameter $\testtarget$ on $\Rnum$} \label{app:w}
 
-We define $w\_{IS}=\frac{w_I}{w_S}$.
+We define $w\_{IS}=\testtarget$. \bmb{shouldn't we use this simplified notation \textbf{throughout} the paper???}
 \begin{align}
 \label{eq:d_del_wis}
 \pder \Delta{w\_{IS}}= \dfrac{(\omega-\rho) (\omega(\omega-\rho\theta\_w)+\gamma(\omega-\rho)) (\theta\_w\gamma+\theta\_c\omega p\_I)}
