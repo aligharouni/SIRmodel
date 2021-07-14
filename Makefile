@@ -29,6 +29,8 @@ authors.Rout: authors.R
 
 SIR_manuscript.pdf: SIR_manuscript.tex codes/modeldefs.tex
 
+cover.pdf: cover.tex
+
 ## compartmental flowchart in ipe
 ## sudo apt-get install ipe
 Ignore += pix/sir_comp.pdf
