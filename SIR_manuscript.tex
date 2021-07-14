@@ -55,6 +55,12 @@
 \newcommand{\new}[1]{\comment{red}{NEW}{#1}}
 \newcommand{\needref}{\textcolor{red}{(REFS?)}}
 
+%% DE: table stuff
+\renewcommand{\arraystretch}{1.5} % more interline spacing
+%% https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
+\usepackage{ragged2e}
+\usepackage{array} % for m{...}
+
 \theoremstyle{definition} % amsthm only
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
@@ -158,8 +164,11 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
 
 \begin{table}[htp]
 \centering
-\begin{tabular}{|c|L{2in}cc|} \hline
-  Symbol & Description & Unit & Value \\ \hline
+%%\begin{tabular}{|c|L{2in}cc|} \hline
+%% making use of ragged2e and array packages:
+{\RaggedRight
+\begin{tabular}{ c | m{6cm} | c | c }
+  \textbf{Symbol} & \textbf{Description} & \textbf{Unit} & \textbf{Value} \\ \hline
   $N$     & Total population size & people & $10^6$ \\ \hline
   $\omega$  & Rate of test return, i.e., rate of onward flow from ``waiting'' to ``confirmed'' or ``untested'' compartments  & 1/day & - \\ \hline
   $\gamma$ & Recovery rate & 1/day & 1/6 \\ \hline 
@@ -173,11 +182,12 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
   $p_R$ & Probability of positive tests for $R$ ($= 1-\textrm{specificity}$) & - & 0.5 \\ \hline
   $w_S, w_I, w_R$ & Relative testing weights & - &
   \begin{minipage}[t]{0.21\columnwidth}%
-    Random: $\{1,1,1\}$ \\ Targeted: $\{0.3,1,1\}$
+    Random:~$\{1,1,1\}$ \\ Targeted:~$\{0.3,1,1\}$
   \end{minipage} \\
-  \hline
-  \end{tabular}
-\caption{\label{tab:params} Parameters of the model specified in \eqref{model}; see also \fref{fig:flowchart}.}
+  %%\hline
+\end{tabular}
+} % end \RaggedRight
+\caption{\label{tab:params}Parameters of the model specified  by the flow chart in \fref{fig:flowchart} and equations~\eqref{model}.}
 \end{table}
 
 The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
