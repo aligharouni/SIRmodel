@@ -1,7 +1,7 @@
 
-ali <- XX
-david <- XX
-ben <- XX
+ali <- 330
+david <- 8128
+ben <- 1037
 
 set.seed(ali+ben+david)
 
