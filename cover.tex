@@ -1,0 +1,172 @@
+\documentclass[12pt,letterpaper]{letter}
+
+%% layout
+\usepackage[margin=1.25in]{geometry}
+\usepackage{multicol}
+
+%% colours
+\usepackage{xcolor}
+\definecolor{linkcolor}{HTML}{0f87ff} % green
+\definecolor{irena}{HTML}{c9657d} % blush
+\definecolor{de}{HTML}{5681c4} % blue
+
+\usepackage[colorlinks=true, allcolors=linkcolor]{hyperref}
+
+%% date format
+\usepackage{datetime}
+\newdateformat{mydate}{\twodigit{\THEDAY}{ }\shortmonthname[\THEMONTH] \THEYEAR}
+
+%% comment macros
+\newcommand{\irena}[1]{\textcolor{irena}{$\langle$\textbf{IP:} #1$\rangle$}}
+\newcommand{\de}[1]{\textcolor{de}{$\langle$\textbf{DE:} #1$\rangle$}}
+
+%% journal name macro
+\newcommand{\journalname}{\emph{BMC Public Health}}
+
+%% data macros
+\input{data_macros.tex}
+
+\setlength{\parskip}{0em}
+
+\begin{document}
+
+\begin{multicols}{2}
+\footnotesize
+\begin{flushleft}
+
+Dr. Natalie Pafitis
+
+Editor, \journalname{}
+
+\vfill
+
+{\normalsize \mydate
+\today}
+\end{flushleft}
+
+\columnbreak
+
+\begin{flushright}
+Irena Papst
+
+Center for Applied Mathematics, Cornell University
+
+657 Rhodes Hall
+
+136 Hoy Rd, Ithaca, NY, USA 14853
+
+\href{mailto:ip98@cornell.edu}{ip98@cornell.edu}
+\end{flushright}
+
+\end{multicols}
+
+\setlength{\parskip}{1em}
+\thispagestyle{empty}
+
+\vspace{-1em}
+
+Dear Dr.\ Pafitis,
+
+We are pleased to submit an original research article entitled
+``Age-dependence of healthcare interventions for COVID-19 in Ontario,
+Canada'' for your consideration for publication in \journalname{}. This study specifically aligns with the aims of \journalname{} to publish research related to the social determinants of health and adds new insight into the evolving COVID-19 pandemic.
+
+Age is the most salient clinical indicator of risk from COVID-19 for
+most patients. While age-specific distributions of known SARS-CoV-2
+infections and COVID-19-related deaths have been widely reported,
+relatively few sources present age distributions of hospitalizations
+and serious healthcare interventions administered to COVID-19
+patients. In our study, we analysed \nccmpresolved{} known SARS-CoV-2 infection
+records for the province of Ontario, and quantified the age-intervention associations
+for hospitalization, ICU admission, intubations, and ventilations. We
+quantified existing age-related impacts of COVID-19 and identified
+potential future risks should the healthcare system become overwhelmed
+with COVID-19 patients.
+
+Ontario has so far been able to offer and provide COVID-19 treatment
+to all that request it. Yet we find that the probability of survival
+given hospitalization for COVID-19 decreases substantially after age
+40. The distribution of COVID-19-related hospitalizations spans a much
+wider age range than deaths, which are concentrated in the extremely
+elderly. If prevalence of the virus were to increase in the general
+population (as is currently occurring), and ICUs or hospitals were to
+subsequently reach maximum capacity, the distribution of deaths might expand toward younger ages.
+
+While our work is specific to the Ontario SARS-CoV-2 epidemic, it has
+more general and important implications for COVID-19 outbreaks all
+over the world, in terms of both public health and clinical
+practice. Our study reveals a potentially serious mortality risk to
+middle-aged individuals from SARS-CoV-2 infection if the healthcare
+system were to be overwhelmed with COVID-19 patients; this risk is not
+captured by the widely available distributions of known SARS-CoV-2
+infections and COVID-19-related deaths.
+
+We have presented our study to the Ontario government's COVID-19
+science advisory panel (the Ontario Science Table,
+\url{https://covid19-sciencetable.ca/}), where it was received with
+great interest.  We believe that the readership of \journalname{}
+should be made aware of our findings as soon as possible.
+
+All authors have approved the manuscript for submission and declare no competing interests. A preprint of this work has been posted to medRxiv (\url{https://www.medrxiv.org/content/10.1101/2020.09.01.20186395v2}). The manuscript has not been published or submitted for publication elsewhere.
+
+Thank you very much for your consideration,
+
+\begin{multicols}{2}
+\begin{flushleft}
+\footnotesize
+
+Irena Papst, MSc
+\setlength{\parskip}{0em}
+
+PhD Candidate, Center for Applied Mathematics, Cornell University
+
+\vspace{1em}
+
+Michael Li, PhD
+
+Postdoctoral Fellow, Department of Biology, McMaster University
+
+Research Associate, South African Centre for Epidemiological Modelling and Analysis, University of Stellenbosch
+
+\vspace{1em}
+
+David Champredon, PhD
+
+Postdoctoral Associate, Department of Pathology and Laboratory Medicine,
+
+Western University
+
+\vspace{1em}
+
+\vfill\null
+\columnbreak
+
+Benjamin M.\ Bolker, PhD
+
+Professor, Departments of Mathematics \& Statistics and Biology, McMaster University
+
+Member, Michael G. DeGroote Institute for Infectious Disease Research, McMaster University
+
+\vspace{1em}
+
+Jonathan Dushoff, PhD
+
+Professor, Department of Biology, McMaster University
+
+Member, Michael G. DeGroote Institute for Infectious Disease Research, McMaster University
+
+\vspace{1em}
+
+David J.\,D.\ Earn, PhD
+
+Professor, Department of Mathematics \& Statistics, McMaster University
+
+Member, Michael G. DeGroote Institute for Infectious Disease Research, McMaster University
+
+Professor, Department of Mathematics, University of Toronto
+\end{flushleft}
+\end{multicols}
+
+\thispagestyle{empty}
+
+\end{document}
