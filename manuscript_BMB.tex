@@ -1,0 +1,162 @@
+\RequirePackage{fix-cm}
+
+\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+
+\smartqed  % flush right qed marks, e.g. at end of proof
+
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{grffile}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amssymb,amsmath}
+\usepackage{xcolor}
+\usepackage{xspace}
+% \usepackage[nameinlink,capitalize]{cleveref}
+% \usepackage{cleveref}
+\usepackage[margin=1in]{geometry}
+\usepackage{lineno}\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
+\usepackage{pdflscape}
+\usepackage{enumerate}
+% \usepackage{authblk}
+\usepackage{ragged2e}
+\usepackage{array}
+%
+\hyphenation{co-ro-na-vi-rus}
+\input{codes/modeldefs.tex}
+
+% please place your own definitions here and don't use \def but
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+\newcommand{\appref}[1]{Appendix~\ref{app:#1}}
+% \newcommand{\Rlogo}{R\xspace}
+\newcommand{\percap}{\emph{per capita}\xspace}
+\newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
+\newcommand{\covid}{COVID-19\xspace}
+\newcommand{\pro}[1]{\ensuremath{\frac{\partial #1}{\partial \rho}}}
+\newcommand{\pder}[2]{\ensuremath{\frac{\partial#1}{\partial#2}}} %\pder y{x}
+\newcommand{\testing}[1]{\ensuremath{{\cal T}_{#1}}\xspace}
+\newcommand{\testinghat}[1]{\ensuremath{\hat{\cal T}_{#1}}\xspace}
+\newcommand{\testtarget}{\ensuremath{w\_{IS}}}
+\newcommand{\oldtesttarget}{\ensuremath{\frac{w_I}{w_S}}\xspace}
+\newcommand*\subtxt[1]{_{\textnormal{#1}}}
+%% Roman subscript
+\DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
+
+%% table stuff
+\renewcommand{\arraystretch}{1.5}
+
+% Insert the name of "your journal" with
+\journalname{Bulletin of Mathematical Biology}
+
+\begin{document}
+
+\title{Testing and Isolation Efficacy:\\Insights from a Simple Epidemic Model
+\thanks{Grants or other notes
+about the article that should go on the front page should be
+placed here. General acknowledgments should be placed at the end of the article.}
+}
+% \subtitle{Do you have a subtitle?\\ If so, write it here}
+
+%\titlerunning{Short form of title}        % if too long for running head
+
+\author{Ali Gharouni         \and
+        F.M. Abdelmalek \and 
+        David J. D. Earn \and
+        Jonathan Dushoff \and
+        Benjamin M. Bolker
+}
+
+%\authorrunning{Short form of author list} % if too long for running head
+
+\institute{Ali Gharouni \at
+              Department of Mathematics and Statistics, McMaster University, Hamilton, Canada \\
+              Tel.: +100-00-000000\\
+              Fax: +100-00-000000\\
+              \email{agharoun@uottawa.ca}\\
+              \emph{Present address:}
+              Department of Mathematics and Statistics, University of Ottawa, Ottawa, Ontario \\%  if needed\\
+              \email{agharoun@uottawa.ca}\\
+           \and
+           F.M. Abdelmalek \at
+              Department of Mathematics and Statistics, McMaster University, Hamilton, Canada \\
+              \email{abdelf1@mcmaster.ca}\\  
+           \and
+           David J. D. Earn \at
+              Department of Mathematics and Statistics, McMaster University, Hamilton, Canada\\
+              Michael G. DeGroote Institute for Infectious Disease Research, McMaster University, Hamilton, Canada\\
+              \email{earn@math.mcmaster.ca}\\
+           \and
+          Jonathan Dushoff \at
+              Department of Biology, McMaster University, Hamilton, Canada\\
+              Michael G. DeGroote Institute for Infectious Disease Research, McMaster University, Hamilton, Canada\\
+              South African Centre for Epidemiological Modelling and Analysis, University of Stellenbosch, Stellenbosch,               South Africa\\
+              \email{dushoff@mcmaster.ca} \\
+           \and
+          Benjamin M. Bolker \at
+              Department of Mathematics and Statistics, McMaster University, Hamilton, Canada \\
+              Department of Biology, McMaster University, Hamilton, Canada\\
+              Michael G. DeGroote Institute for Infectious Disease Research, McMaster University, Hamilton, Canada\\
+              \email{bolker@mcmaster.ca}
+}
+
+\date{Received: date / Accepted: date}
+% The correct dates will be entered by the editor
+
+
+\maketitle
+
+\begin{abstract}
+\input{abstract.tex}
+\keywords{First keyword \and Second keyword \and More}
+% \PACS{PACS code1 \and PACS code2 \and more}
+\subclass{MSC code1 \and MSC code2 \and more}
+\end{abstract}
+
+\section{Introduction}
+\label{intro}
+\input{introduction.tex}
+
+\section{Methods}
+\label{meth}
+\input{methods.tex}
+
+\section{Results}
+\label{resu}
+\input{results.tex}
+
+\section{Discussion}
+\label{disc}
+\input{discussion.tex}
+
+%\begin{acknowledgements}
+%If you'd like to thank anyone, place your comments here
+%and remove the percent signs.
+%\end{acknowledgements}
+
+% Authors must disclose all relationships or interests that 
+% could have direct or potential influence or impart bias on 
+% the work: 
+%
+% \section*{Conflict of interest}
+%
+% The authors declare that they have no conflict of interest.
+
+
+% BibTeX users please use one of
+\bibliographystyle{spbasic}      % basic style, author-year citations
+%\bibliographystyle{spmpsci}      % mathematics and physical sciences
+%\bibliographystyle{spphys}       % APS-like style for physics
+\bibliography{SIRlibrary}   % name your BibTeX data base
+
+\clearpage
+\appendix
+\section{Appendix}
+\label{appe}
+\input{appendix.tex}
+
+\end{document}

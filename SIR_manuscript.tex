@@ -14,17 +14,16 @@
 \usepackage{pdflscape}
 \usepackage{enumerate}
 \usepackage{authblk}
+\usepackage{ragged2e}
+\usepackage{array}
 
 \hyphenation{co-ro-na-vi-rus}
 \input{codes/modeldefs.tex}
 
 % https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
-\usepackage{array}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
-\usepackage{xspace}
 
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
 \newcommand{\appref}[1]{Appendix~\ref{app:#1}}
@@ -58,8 +57,8 @@
 %% DE: table stuff
 \renewcommand{\arraystretch}{1.5} % more interline spacing
 %% https://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef
-\usepackage{ragged2e}
-\usepackage{array} % for m{...}
+% \usepackage{ragged2e}
+% \usepackage{array} % for m{...}
 
 \theoremstyle{definition} % amsthm only
 \newtheorem{proposition}{Proposition}
@@ -70,11 +69,11 @@
 \title{Testing and Isolation Efficacy:\\Insights from a Simple Epidemic Model}
 \author[1]{Ali Gharouni}
 \author[1]{F.M. Abdelmalek}
-\author[1,3,5]{David J. D. Earn}
-\author[2,4,3]{Jonathan Dushoff}
+\author[1,3]{David J. D. Earn}
+\author[2,3,4]{Jonathan Dushoff}
 \author[1,2,3]{Benjamin M. Bolker}
 
-\affil[1]{Department of Mathematics \& Statistics, McMaster University, Hamilton, Canada}
+\affil[1]{Department of Mathematics and Statistics, McMaster University, Hamilton, Canada}
 \affil[2]{Department of Biology, McMaster University, Hamilton, Canada}
 \affil[3]{Michael G. DeGroote Institute for Infectious Disease Research, McMaster University, Hamilton, Canada}
 \affil[4]{South African Centre for Epidemiological Modelling and Analysis, University of Stellenbosch, Stellenbosch, South Africa}
@@ -128,7 +127,7 @@ Our model groups individuals based on disease status (Susceptible, Infectious or
 \begin{figure}
 \begin{center} 
 \includegraphics[scale=1.5]{pix/sir_comp.pdf}
-\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model, \ref{model}. The disease-based status of a compartment $X$ ($X \in \{S,I,R\}$) is combined with the testing status including $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. The force of infection is denoted by $\Lambda$ (Eq.~\eqref{Lambda}); $\gamma$ is the recovery rate; $\omega$ is the rate of test return; and \testing{X} (Eq. \eqref{test}) and $p_X$ represent the \percap testing rate and the sensitivity (probability of positive tests), respectively, for compartment $X$. For further description of the parameters see \cref{tab:params}.
+\caption{\small Flowchart of the SIR (Susceptible-Infectious-Recovered) model, \ref{model}. The disease-based status of a compartment $X$ ($X \in \{S,I,R\}$) is combined with the testing status including $X\_u$, $X\_p$, $X\_n$ and $X\_c$, for \emph{untested}, waiting-for-\emph{positive}, waiting-for-\emph{negative}, or \emph{confirmed positive}, respectively. The force of infection is denoted by $\Lambda$ (Eq.~\eqref{Lambda}); $\gamma$ is the recovery rate; $\omega$ is the rate of test return; and \testing{X} (Eq. \eqref{test}) and $p_X$ represent the \percap testing rate and the sensitivity (probability of positive tests), respectively, for compartment $X$. For further description of the parameters see Table~ \ref{tab:params}.
 Note that there is a slight mismatch in the top-to-bottom order of the testing-based compartments of each disease-based compartment $X$ between this flowchart and the model equations \eqref{model}; here we have switched  $X\_u$ and $X\_n$ for visual clarity.
 \label{fig:flowchart}}
 \end{center} 
