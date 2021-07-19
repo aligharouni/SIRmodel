@@ -323,3 +323,5 @@ cpdir/
 .#*
 modeldefs.tex
 *.bak
+submBMB/*
+submArxiv/*
