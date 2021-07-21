@@ -44,6 +44,7 @@ cohort.pdf: cohort.tex
 ## submission to BMB
 
 manuscript_BMB.pdf: manuscript_BMB.tex abstract.tex introduction.tex methods.tex results.tex discussion.tex appendix.tex codes/modeldefs.tex
+
 ######################################################################
 
 ## Old and busted notes
