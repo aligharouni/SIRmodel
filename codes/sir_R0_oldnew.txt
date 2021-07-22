@@ -1,0 +1,1197 @@
+SIR model with testing and isolation mechanisms, (by Ali Gharouni)
+Note on 27 Apr 2021, we decided to consider a reduction scaler in S_n to I_n
+> 
+
+SIR old notation; R0 with isolation parameters eta[w] and eta[c]
+> restart: with(LinearAlgebra): with(linalg):
+Forming the next generation matrix G=FV^-1
+> F:= Matrix([ [beta*S_u/N_0, beta*eta[w]*S_u/N_0, beta*eta[w]*S_u/N_0,
+> beta*eta[c]*S_u/N_0], [beta*S_n*eta[w]/N_0, beta*eta[w]^2*S_n/N_0,
+> beta*eta[w]^2*S_n/N_0, beta*eta[c]*eta[w]*S_n/N_0], [beta*S_p/N_0,
+> beta*eta[w]*S_p/N_0, beta*eta[w]*S_p/N_0, beta*eta[c]*S_p/N_0], [beta*S_c/N_0,
+> beta*eta[w]*S_c/N_0, beta*eta[w]*S_c/N_0, beta*eta[c]*S_c/N_0] ]);
+
+> V:= Matrix([ [F_I+gamma, -omega, 0,0], [-(1-p_I)*F_I, omega+gamma,0,0],
+> [-p_I*F_I, 0,omega+gamma,0], [0,0,-omega,gamma] ]);
+
+> V^-1 Vi:=MatrixInverse(V);
+
+> Assumption: p_S=0, thus S_p=S_c=0
+> G:=subs([S_p=0,S_c=0],simplify(Multiply(F,Vi)));
+
+> Charactristic poly in x: collect(simplify(CharacteristicPolynomial(G,x)),x);
+                                     1                                       
+---------------------------------------------------------------------------- 
+                    /                               2                \       
+N_0 (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/ gamma 
+
+  //         2      2            2                        3      
+  \\N_0 gamma  omega  + N_0 gamma  omega F_I + 2 N_0 gamma  omega
+
+                    2                    3                4
+   + N_0 gamma omega  p_I F_I + N_0 gamma  F_I + N_0 gamma 
+
+              2              \  4\   
+   + N_0 gamma  omega F_I p_I/ x / + 
+
+                                       1                                       
+  ---------------------------------------------------------------------------- 
+                      /                               2                \       
+  N_0 (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/ gamma 
+
+  //                      2                                    2
+  \\-beta eta[w] S_n omega  gamma - beta eta[w] S_n omega gamma 
+
+                2          2                    2          2    
+   - beta eta[w]  S_n gamma  omega - beta eta[w]  S_n gamma  F_I
+
+                2          3              2                    
+   - beta eta[w]  S_n gamma  - beta eta[w]  S_n gamma omega F_I
+
+                2                        
+   - beta eta[w]  S_n p_I F_I omega gamma
+
+                                 2                         2      
+   - beta eta[c] eta[w] S_n omega  p_I F_I - beta S_u omega  gamma
+
+                           2                 3
+   - 2 beta S_u omega gamma  - beta S_u gamma 
+
+                                                            2    
+   - beta S_u eta[w] gamma omega F_I - beta S_u eta[w] gamma  F_I
+
+                          2                                              \  3\
+   - beta eta[c] S_u omega  p_I F_I - beta S_u eta[c] p_I F_I omega gamma/ x /
+Method1 (symbolically): R0 is given by
+> sol:=solve(CharacteristicPolynomial(G,x),x);
+         /     /                2                               2
+0, 0, 0, \beta \eta[w] S_n omega  gamma + eta[w] S_n omega gamma 
+
+           2          2               2          2             2          3
+   + eta[w]  S_n gamma  omega + eta[w]  S_n gamma  F_I + eta[w]  S_n gamma 
+
+           2                             2                        
+   + eta[w]  S_n gamma omega F_I + eta[w]  S_n p_I F_I omega gamma
+
+                            2                    2                          2
+   + eta[w] S_n eta[c] omega  p_I F_I + S_u omega  gamma + 2 S_u omega gamma 
+
+              3                                                2    
+   + S_u gamma  + S_u eta[w] gamma omega F_I + S_u eta[w] gamma  F_I
+
+                     2                                         \\//          
+   + S_u eta[c] omega  p_I F_I + S_u eta[c] p_I F_I omega gamma// \N_0 gamma 
+
+  /     2                                        2        2        
+  \omega  gamma + omega gamma F_I + 2 omega gamma  + omega  p_I F_I
+
+          2            3                      \\
+   + gamma  F_I + gamma  + gamma omega F_I p_I//
+Method 2 (component equation; derived by hand) check if the formula I derived
+for R0 is valid
+> A:=gamma*(omega+gamma+eta[w]*F_I)+omega*eta[c]*p_I*F_I;
+> B:=(gamma*(omega+gamma)*(omega+eta[w]*(gamma+F_I))+omega*p_I*F_I*(gamma*eta[w]
+> +omega*eta[c]))/(omega+gamma);
+> C:=(N_0*(gamma*(omega+gamma)+F_I*(gamma+omega*p_I)));
+          gamma (omega + gamma + eta[w] F_I) + eta[c] p_I F_I omega
+           1                                                            
+     ------------- (gamma (omega + gamma) (omega + eta[w] (F_I + gamma))
+     omega + gamma                                                      
+
+        + omega p_I F_I (eta[w] gamma + eta[c] omega))
+            N_0 (gamma (omega + gamma) + (gamma + omega p_I) F_I)
+R0; Basic reproduction number, note S_n is scaled by eta_w now
+> R0:=simplify(beta/gamma*(S_u*A+S_n*eta[w]*B)/C);
+                                     1                                       
+---------------------------------------------------------------------------- 
+                    /                               2                \       
+N_0 (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/ gamma 
+
+  /     /                2                               2
+  \beta \eta[w] S_n omega  gamma + eta[w] S_n omega gamma 
+
+           2          2               2          2             2          3
+   + eta[w]  S_n gamma  omega + eta[w]  S_n gamma  F_I + eta[w]  S_n gamma 
+
+           2                             2                        
+   + eta[w]  S_n gamma omega F_I + eta[w]  S_n p_I F_I omega gamma
+
+                            2                    2                          2
+   + eta[w] S_n eta[c] omega  p_I F_I + S_u omega  gamma + 2 S_u omega gamma 
+
+              3                                                2    
+   + S_u gamma  + S_u eta[w] gamma omega F_I + S_u eta[w] gamma  F_I
+
+                     2                                         \\
+   + S_u eta[c] omega  p_I F_I + S_u eta[c] p_I F_I omega gamma//
+Cheching if the symbolic computation of R0 and by hand one are the same
+> simplify(sol[4]-R0);
+                                      0
+> subs(N_0=1,simplify(sol[4]-R0));
+                                      0
+simplify and factor etas' from the numerator of R0
+> collect((S_u*A+S_n*eta[w]*B),[eta[w]]);
+                                                                      2   /    
+S_n ((omega + gamma) gamma (F_I + gamma) + gamma omega F_I p_I) eta[w]    |    
+----------------------------------------------------------------------- + |S_u 
+                             omega + gamma                                \    
+
+                  /                                          2        \\       
+              S_n \omega (omega + gamma) gamma + eta[c] omega  p_I F_I/|       
+  gamma F_I + ---------------------------------------------------------| eta[w]
+                                    omega + gamma                      /       
+
+   + S_u (gamma (omega + gamma) + eta[c] p_I F_I omega)
+> 
+> 
+
+> 
+
+Date 27 Apr 2021, isolation parameters
+The symbols are based on Appendix of manuscript.
+> this is C in the appendix
+> C0:=((omega+gamma)*(gamma*omega+gamma^2+F_I*gamma+omega*p_I*F_I));
+                      /                               2                \
+      (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/
+> C1:=(omega+gamma)*(theta[w]*gamma+theta[c]*omega*p_I)*F_I;
+          (omega + gamma) (theta[w] gamma + theta[c] omega p_I) F_I
+> C2:=(omega+gamma)*gamma^2*theta[w]+(theta[w]-theta[c])*gamma*omega*p_I*F_I;
+                      2                                                     
+ (omega + gamma) gamma  theta[w] + (theta[w] - theta[c]) gamma omega p_I F_I
+> collect(simplify(C1+C2),[gamma]);
+                         3                                        2
+           theta[w] gamma  + (F_I theta[w] + theta[w] omega) gamma 
+
+              + (F_I omega theta[w] + omega F_I p_I theta[w]) gamma
+
+                                  2    
+              + F_I theta[c] omega  p_I
+> C2_:=collect(simplify(C1+C2),[theta[w],theta[c]]);
+/                       2                  2        3                      \ 
+\omega gamma F_I + gamma  F_I + omega gamma  + gamma  + gamma omega F_I p_I/ 
+
+                               2    
+  theta[w] + F_I theta[c] omega  p_I
+> 
+> 
+> 
+> Delta4:=C1/C0*S_u+(C2_/C0*(1-theta[w])+theta[w])*S_n;
+ (theta[w] gamma + theta[c] omega p_I) F_I S_u     /
+------------------------------------------------ + |
+                               2                   |
+omega gamma + gamma F_I + gamma  + omega F_I p_I   \
+
+                                  1                                  ///      
+  ------------------------------------------------------------------ \\\omega 
+                  /                               2                \          
+  (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/          
+
+                   2                  2        3                      \        
+  gamma F_I + gamma  F_I + omega gamma  + gamma  + gamma omega F_I p_I/ theta[w
+
+                        2    \               \           \    
+  ] + F_I theta[c] omega  p_I/ (1 - theta[w])/ + theta[w]| S_n
+                                                         |    
+                                                         /    
+> R04:=beta/gamma*(1-Delta4);
+  1   /     /     (theta[w] gamma + theta[c] omega p_I) F_I S_u     /
+----- |beta |1 - ------------------------------------------------ - |
+gamma |     |                                   2                   |
+      \     \    omega gamma + gamma F_I + gamma  + omega F_I p_I   \
+
+                                  1                                  ///      
+  ------------------------------------------------------------------ \\\omega 
+                  /                               2                \          
+  (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/          
+
+                   2                  2        3                      \        
+  gamma F_I + gamma  F_I + omega gamma  + gamma  + gamma omega F_I p_I/ theta[w
+
+                        2    \               \           \    \\
+  ] + F_I theta[c] omega  p_I/ (1 - theta[w])/ + theta[w]| S_n||
+                                                         |    ||
+                                                         /    //
+> newR0:=simplify( algsubs(S_u+S_n=1,R04) );
+                                     1                                     /     
+- ------------------------------------------------------------------------ \beta 
+  /                               2                \                             
+  \omega gamma + gamma F_I + gamma  + omega F_I p_I/ (omega + gamma) gamma       
+
+  /      2                                                           
+  \-omega  p_I F_I - omega gamma F_I + 2 gamma omega F_I p_I theta[w]
+
+          2                                               2    
+   - gamma  F_I - gamma omega F_I p_I + F_I theta[c] omega  p_I
+
+                                                2        
+   + 2 F_I omega theta[w] gamma + theta[w] omega  p_I F_I
+
+                       2                             2
+   - F_I omega theta[w]  gamma + 2 F_I theta[w] gamma 
+
+                     2                         3           2      3
+   + 3 theta[w] gamma  omega + 2 theta[w] gamma  - theta[w]  gamma 
+
+                       2                                            2
+   - F_I theta[c] omega  p_I theta[w] - gamma omega F_I p_I theta[w] 
+
+                       2                                       
+   - S_u theta[w] omega  p_I F_I - S_u F_I omega theta[w] gamma
+
+                           2                     2      2
+   + S_u F_I omega theta[w]  gamma - F_I theta[w]  gamma 
+
+             2      2                       2      
+   - theta[w]  gamma  omega + theta[w] omega  gamma
+
+                           2                                                
+   + S_u F_I theta[c] omega  p_I theta[w] + S_u F_I gamma theta[c] omega p_I
+
+                                                                          2
+   - 2 S_u gamma omega F_I p_I theta[w] + S_u gamma omega F_I p_I theta[w] 
+
+                         3               2      3                         2
+   - 2 S_u theta[w] gamma  + S_u theta[w]  gamma  - S_u F_I theta[w] gamma 
+
+                     2      2                       2      
+   + S_u F_I theta[w]  gamma  - 3 S_u theta[w] gamma  omega
+
+                 2      2                           2              2      
+   + S_u theta[w]  gamma  omega - S_u theta[w] omega  gamma - omega  gamma
+
+                  2        3\\
+   - 2 omega gamma  - gamma //
+> R0_:=simplify(algsubs(eta[c]=1-theta[c],algsubs(eta[w]=1-theta[w],R0)));
+                                     1                                       
+---------------------------------------------------------------------------- 
+                    /                               2                \       
+N_0 (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/ gamma 
+
+  /     /         3            2                          2
+  \beta \S_u gamma  + S_u omega  gamma + 2 S_u omega gamma 
+
+                           2                                   
+   - S_u F_I theta[c] omega  p_I - S_u F_I omega theta[w] gamma
+
+   - S_u F_I gamma theta[c] omega p_I - 2 S_n p_I F_I omega gamma theta[w]
+
+                                     2            2                          
+   + S_n p_I F_I omega gamma theta[w]  + S_n omega  p_I F_I theta[w] theta[c]
+
+                           2                                            
+   - S_u F_I theta[w] gamma  + S_n gamma omega F_I + S_u gamma omega F_I
+
+                      2                       2             
+   - 3 S_n omega gamma  theta[w] - 2 S_n gamma  F_I theta[w]
+
+              2                                 2         2
+   - S_n omega  gamma theta[w] + S_n omega gamma  theta[w] 
+
+              2             2            2                          2
+   + S_n gamma  F_I theta[w]  + S_n omega  gamma + 2 S_n omega gamma 
+
+              2                2                  3         
+   + S_n gamma  F_I + S_u gamma  F_I - 2 S_n gamma  theta[w]
+
+              3         2            3                          
+   + S_n gamma  theta[w]  + S_n gamma  + S_n p_I F_I omega gamma
+
+                                                                  2
+   - 2 S_n gamma omega F_I theta[w] + S_n gamma omega F_I theta[w] 
+
+              2                    2                 
+   + S_n omega  p_I F_I - S_n omega  p_I F_I theta[w]
+
+              2                                                       2        
+   - S_n omega  p_I F_I theta[c] + S_u p_I F_I omega gamma + S_u omega  p_I F_I
+
+  \\
+  //
+> oldR0:=subs(N_0=1,algsubs(S_u+S_n=N_0,R0_));
+                                   1                                     /     
+------------------------------------------------------------------------ \beta 
+                /                               2                \             
+(omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/ gamma       
+
+  //                                             2
+  \\F_I omega theta[w] gamma + F_I theta[w] gamma 
+
+                                                      2      
+   - F_I gamma theta[c] omega p_I - F_I omega theta[w]  gamma
+
+                       2                            2      2
+   - F_I theta[c] omega  p_I theta[w] - F_I theta[w]  gamma 
+
+                     2                 2      2                         3
+   + 3 theta[w] gamma  omega - theta[w]  gamma  omega + 2 theta[w] gamma 
+
+             2      3                                 
+   - theta[w]  gamma  + 2 gamma omega F_I p_I theta[w]
+
+                                 2                 2      
+   - gamma omega F_I p_I theta[w]  + theta[w] omega  gamma
+
+                   2        \                       3                   2      
+   + theta[w] omega  p_I F_I/ S_u - 2 theta[w] gamma  - 3 theta[w] gamma  omega
+
+                       2                             2
+   + F_I omega theta[w]  gamma - 2 F_I theta[w] gamma 
+
+                                          2      3                 2        
+   - 2 F_I omega theta[w] gamma + theta[w]  gamma  - theta[w] omega  p_I F_I
+
+                                         2               2      2      
+   + omega gamma F_I - F_I theta[c] omega  p_I + theta[w]  gamma  omega
+
+          3               2      2                2        2        
+   + gamma  + F_I theta[w]  gamma  + 2 omega gamma  + omega  p_I F_I
+
+   + gamma omega F_I p_I - 2 gamma omega F_I p_I theta[w]
+
+                                 2                 2      
+   + gamma omega F_I p_I theta[w]  - theta[w] omega  gamma
+
+                       2                     2              2    \\
+   + F_I theta[c] omega  p_I theta[w] + omega  gamma + gamma  F_I//
+> simplify(oldR0-newR0);
+                                      0
+IN the new Delta4
+> simplify(Delta4);
+                                   1                                  /
+ - ------------------------------------------------------------------ \
+                   /                               2                \  
+   (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/  
+                                                       2    
+ -S_u F_I omega theta[w] gamma - S_u F_I theta[c] omega  p_I
+
+                            2                                   
+    - S_u F_I theta[w] gamma  - S_u F_I gamma theta[c] omega p_I
+
+                                                                   2
+    - 2 S_n gamma omega F_I theta[w] + S_n gamma omega F_I theta[w] 
+
+               2                             2                          
+    - S_n omega  p_I F_I theta[c] + S_n omega  p_I F_I theta[w] theta[c]
+
+                 2                         2             2
+    - 2 S_n gamma  F_I theta[w] + S_n gamma  F_I theta[w] 
+
+                       2                           2         2
+    - 3 S_n omega gamma  theta[w] + S_n omega gamma  theta[w] 
+
+                 3                     3         2
+    - 2 S_n gamma  theta[w] + S_n gamma  theta[w] 
+
+                                                                           2
+    - 2 S_n p_I F_I omega gamma theta[w] + S_n p_I F_I omega gamma theta[w] 
+
+               2                           2                 \
+    - S_n omega  gamma theta[w] - S_n omega  p_I F_I theta[w]/
+> C0;
+                      /                               2                \
+      (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/
+note that the negative will b etaken care of when using numer function on Delta4
+> numer(simplify(Delta4));
+                                                      2    
+ S_u F_I omega theta[w] gamma + S_u F_I theta[c] omega  p_I
+
+                            2                                   
+    + S_u F_I theta[w] gamma  + S_u F_I gamma theta[c] omega p_I
+
+                                                                   2
+    + 2 S_n gamma omega F_I theta[w] - S_n gamma omega F_I theta[w] 
+
+               2                             2                          
+    + S_n omega  p_I F_I theta[c] - S_n omega  p_I F_I theta[w] theta[c]
+
+                 2                         2             2
+    + 2 S_n gamma  F_I theta[w] - S_n gamma  F_I theta[w] 
+
+                       2                           2         2
+    + 3 S_n omega gamma  theta[w] - S_n omega gamma  theta[w] 
+
+                 3                     3         2
+    + 2 S_n gamma  theta[w] - S_n gamma  theta[w] 
+
+                                                                           2
+    + 2 S_n p_I F_I omega gamma theta[w] - S_n p_I F_I omega gamma theta[w] 
+
+               2                           2                 
+    + S_n omega  gamma theta[w] + S_n omega  p_I F_I theta[w]
+For some strange reason S_u+S_n=1 was not applied! So we reinforce it here:
+> algsubs(S_u+S_n=1,numer(simplify(Delta4)));
+/                                              2                               
+\-F_I omega theta[w] gamma - F_I theta[w] gamma  + F_I gamma theta[c] omega p_I
+
+                       2                           2             
+   + F_I omega theta[w]  gamma + F_I theta[c] omega  p_I theta[w]
+
+                 2      2                   2                 2      2      
+   + F_I theta[w]  gamma  - 3 theta[w] gamma  omega + theta[w]  gamma  omega
+
+                     3           2      3                                 
+   - 2 theta[w] gamma  + theta[w]  gamma  - 2 gamma omega F_I p_I theta[w]
+
+                                 2                 2      
+   + gamma omega F_I p_I theta[w]  - theta[w] omega  gamma
+
+                   2        \                                 
+   - theta[w] omega  p_I F_I/ S_u + 2 F_I omega theta[w] gamma
+
+                       2                           2    
+   - F_I omega theta[w]  gamma + F_I theta[c] omega  p_I
+
+                       2                                    2
+   - F_I theta[c] omega  p_I theta[w] + 2 F_I theta[w] gamma 
+
+                 2      2                   2                 2      2      
+   - F_I theta[w]  gamma  + 3 theta[w] gamma  omega - theta[w]  gamma  omega
+
+                     3           2      3                                 
+   + 2 theta[w] gamma  - theta[w]  gamma  + 2 gamma omega F_I p_I theta[w]
+
+                                 2                 2      
+   - gamma omega F_I p_I theta[w]  + theta[w] omega  gamma
+
+                   2        
+   + theta[w] omega  p_I F_I
+Verifying numerator of Delta4 wrt theta:
+> 
+> Delta4_theta:=collect(algsubs(S_u+S_n=1,numer(simplify(Delta4))),[theta[w],the
+> ta[c]]);
+/                              2        2                             /      
+\-omega gamma F_I - omega gamma  - gamma  F_I - gamma omega F_I p_I + \omega 
+
+                   2                  2        3                      \    
+  gamma F_I + gamma  F_I + omega gamma  + gamma  + gamma omega F_I p_I/ S_u
+
+          3\         2   //         2                2        \         
+   - gamma / theta[w]  + \\S_u omega  p_I F_I - omega  p_I F_I/ theta[c]
+
+          2                                  2           /                
+   + omega  gamma + 2 omega gamma F_I + omega  p_I F_I + \-omega gamma F_I
+
+          2                                    2                        2
+   - gamma  F_I - 2 gamma omega F_I p_I - omega  p_I F_I - 3 omega gamma 
+
+            3        2      \              3                        
+   - 2 gamma  - omega  gamma/ S_u + 2 gamma  + 2 gamma omega F_I p_I
+
+            2                    2\         
+   + 2 gamma  F_I + 3 omega gamma / theta[w]
+
+     /                               2        \         
+   + \S_u p_I F_I omega gamma + omega  p_I F_I/ theta[c]
+> coef2:=collect(factor(coeff(Delta4_theta,theta[w],2)),[F_I]);
+               (S_u - 1) gamma (gamma + omega + omega p_I) F_I
+
+                                    /                   2\
+                  + (S_u - 1) gamma \omega gamma + gamma /
+> coef1:=collect(coeff(Delta4_theta,theta[w],1),[theta[c],S_u,F_I]);
+/         2                2        \            //      2                  
+\S_u omega  p_I F_I - omega  p_I F_I/ theta[c] + \\-omega  p_I - omega gamma
+
+          2                    \                    2          3        2      
+   - gamma  - 2 gamma omega p_I/ F_I - 3 omega gamma  - 2 gamma  - omega  gamma
+
+  \       /                     2                                  2\    
+  / S_u + \2 omega gamma + omega  p_I + 2 gamma omega p_I + 2 gamma / F_I
+
+          2                      2          3
+   + omega  gamma + 3 omega gamma  + 2 gamma 
+Delta4 is face down quadratic in theta_w, with one root 0 and 1 root positive, I
+want to see if the vertex of this parabola lies beyond theta_w=1, if so there is
+a range for theta_w st diff Delta4 wrt theta_w becomes negative so more theta_w
+means more R0!!? PUZZELED!
+one trick is to consider diff of numer Delta4 wrt theta_w and evaluate it at
+theta_w=1, to see if it is pos or neg? it gives us a sense where theta_w=1 is
+located wrt vertex of parabola in theta_w...
+> collect(simplify(2*1*coef2+coef1),[S_u]);
+     /            2        2              2            2        
+     \-omega gamma  - omega  gamma + gamma  F_I - omega  p_I F_I
+
+                            2                      \            2        
+        + F_I theta[c] omega  p_I + omega gamma F_I/ S_u + omega  p_I F_I
+
+                     2                     2            2      
+        + omega gamma  - F_I theta[c] omega  p_I + omega  gamma
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+Date 5 May 2021, chnages in R0 wrt testing intensity rho
+Note that w=w_I/w_S, here for brevity I use w.
+> F_Ihat:=rho*omega/(omega-rho)*w;
+                                 rho omega w
+                                 -----------
+                                 omega - rho
+> F_Shat:=rho*omega/(omega-rho); this is phi
+                                  rho omega 
+                                 -----------
+                                 omega - rho
+> Delta4;
+ (theta[w] gamma + theta[c] omega p_I) F_I S_u     /
+------------------------------------------------ + |
+                               2                   |
+omega gamma + gamma F_I + gamma  + omega F_I p_I   \
+
+                                  1                                  ///      
+  ------------------------------------------------------------------ \\\omega 
+                  /                               2                \          
+  (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/          
+
+                   2                  2        3                      \        
+  gamma F_I + gamma  F_I + omega gamma  + gamma  + gamma omega F_I p_I/ theta[w
+
+                        2    \               \           \    
+  ] + F_I theta[c] omega  p_I/ (1 - theta[w])/ + theta[w]| S_n
+                                                         |    
+                                                         /    
+replace F_I and S_n and S_u at DFE in Delta:
+> 
+> Delta4_simp:=algsubs(F_I=F_Ihat,algsubs(S_n=rho/omega,algsubs(S_u=1-S_n,Delta4
+> ) ));
+  /    /         2                2                     3      
+- \rho \-theta[w]  gamma rho omega  w + 2 theta[w] gamma  omega
+
+                     3                     3                   
+   - 2 theta[w] gamma  rho - theta[c] omega  p_I theta[w] rho w
+
+             2      2      2           2      2          
+   - theta[w]  gamma  omega  + theta[w]  gamma  rho omega
+
+                         3                       3      
+   + gamma theta[c] omega  p_I w + theta[w] omega  gamma
+
+                   2                           2            
+   - theta[w] omega  gamma rho + theta[w] omega  gamma rho w
+
+                   4                       3          
+   + theta[c] omega  p_I w + theta[w] omega  p_I rho w
+
+                   3                                       2  
+   + theta[w] omega  gamma w - gamma theta[c] p_I rho omega  w
+
+             2      3                 2      3    
+   - theta[w]  gamma  omega + theta[w]  gamma  rho
+
+                   2                             2      2  
+   + theta[w] gamma  rho omega w + theta[w] gamma  omega  w
+
+             2      2                                             2  
+   - theta[w]  gamma  rho omega w + 2 gamma p_I theta[w] rho omega  w
+
+                     2      2                   2          
+   + 3 theta[w] gamma  omega  - 3 theta[w] gamma  rho omega
+
+                       2          2  \\//                      /      2      
+   - gamma p_I theta[w]  rho omega  w// \(omega + gamma) omega \-omega  gamma
+
+                                                      2        2    
+   + omega gamma rho - gamma rho omega w - omega gamma  + gamma  rho
+
+          2          \\
+   - omega  p_I rho w//
+Reparametrization of rho bt phi:
+> Delta4_repar:=simplify(subs(rho=omega*phi/(omega+phi),Delta4_simp));
+   /    /               2                         3           2      2      
+ - \phi \-theta[w] omega  gamma - 2 theta[w] gamma  + theta[w]  gamma  omega
+
+              2      3                   2                       3      
+    + theta[w]  gamma  - 3 theta[w] gamma  omega - theta[c] omega  p_I w
+
+                    2                         2        
+    - theta[w] omega  gamma w - theta[w] gamma  omega w
+
+                              2                   2                   
+    - gamma theta[c] p_I omega  w + theta[c] omega  p_I theta[w] phi w
+
+                                                           2            
+    - 2 gamma p_I theta[w] omega phi w + gamma p_I theta[w]  omega phi w
+
+              2                                                 
+    + theta[w]  gamma omega phi w - 2 theta[w] omega gamma phi w
+
+                    2                             2      
+    - theta[w] omega  p_I phi w - 2 theta[w] gamma  phi w
+
+              2      2                       2          \\//                
+    + theta[w]  gamma  phi w - theta[c] omega  p_I w phi// \(omega + gamma) 
+
+   /                                 2                  \              \
+   \omega gamma + gamma phi w + gamma  + omega p_I phi w/ (omega + phi)/
+> collect(numer(Delta4_repar),phi);
+/               2                                              
+\-theta[c] omega  p_I theta[w] w + 2 gamma p_I theta[w] omega w
+
+                       2                   2              
+   - gamma p_I theta[w]  omega w - theta[w]  gamma omega w
+
+                                              2                         2  
+   + 2 theta[w] omega gamma w + theta[w] omega  p_I w + 2 theta[w] gamma  w
+
+             2      2                   2      \    2   /              2      
+   - theta[w]  gamma  w + theta[c] omega  p_I w/ phi  + \theta[w] omega  gamma
+
+                     3           2      2                 2      3
+   + 2 theta[w] gamma  - theta[w]  gamma  omega - theta[w]  gamma 
+
+                     2                       3                       2        
+   + 3 theta[w] gamma  omega + theta[c] omega  p_I w + theta[w] omega  gamma w
+
+                   2                                   2  \    
+   + theta[w] gamma  omega w + gamma theta[c] p_I omega  w/ phi
+Simplifying K1:
+> K1:=factor(coeff(collect(numer(Delta4_repar),phi),phi,2));
+   /              2                                          
+-w \theta[c] omega  p_I theta[w] - 2 gamma p_I theta[w] omega
+
+                       2                 2                                     
+   + gamma p_I theta[w]  omega + theta[w]  gamma omega - 2 theta[w] omega gamma
+
+                   2                       2           2      2
+   - theta[w] omega  p_I - 2 theta[w] gamma  + theta[w]  gamma 
+
+                   2    \
+   - theta[c] omega  p_I/
+> K1/w;
+               2                                          
+-theta[c] omega  p_I theta[w] + 2 gamma p_I theta[w] omega
+
+                       2                 2                                     
+   - gamma p_I theta[w]  omega - theta[w]  gamma omega + 2 theta[w] omega gamma
+
+                   2                       2           2      2
+   + theta[w] omega  p_I + 2 theta[w] gamma  - theta[w]  gamma 
+
+                   2    
+   + theta[c] omega  p_I
+which factorization is better in K1/w?
+> collect(K1/w,[theta[c],theta[w]]);
+  /               2            2    \         
+  \-theta[w] omega  p_I + omega  p_I/ theta[c]
+
+       /                                      2\         2
+     + \-gamma omega p_I - omega gamma - gamma / theta[w] 
+
+       /                     2                                  2\         
+     + \2 omega gamma + omega  p_I + 2 gamma omega p_I + 2 gamma / theta[w]
+> collect(K1/w,[omega,gamma]);
+                                                              2
+  (-theta[c] p_I theta[w] + theta[w] p_I + theta[c] p_I) omega 
+
+       /                                          2           2\            
+     + \2 theta[w] + 2 theta[w] p_I - p_I theta[w]  - theta[w] / gamma omega
+
+       /                     2\      2
+     + \2 theta[w] - theta[w] / gamma 
+> 
+> K2:=factor(coeff(collect(numer(Delta4_repar),phi),phi,1));
+                  /                 2           2      2
+ -(omega + gamma) \-2 theta[w] gamma  + theta[w]  gamma 
+
+                                                                    2      \
+    - theta[w] omega gamma w - theta[w] omega gamma - theta[c] omega  p_I w/
+> K3:=factor(denom(Delta4_repar));
+                /                                 2                  \       
+(omega + gamma) \omega gamma + gamma phi w + gamma  + omega p_I phi w/ (omega
+
+   + phi)
+> #simplify(diff(Delta4_repar,phi));
+> dDelta4phi:=collect(simplify(diff(Delta4_repar,phi)),phi);
+   /      //        2            2  2    
+ - \omega \\theta[w]  gamma omega  w  p_I
+
+                    2               2                 2      2        
+    + theta[c] omega  p_I theta[w] w  gamma + theta[w]  gamma  omega w
+
+                      2        2                     2                     
+    - 2 theta[w] omega  gamma w  p_I + theta[c] omega  p_I theta[w] gamma w
+
+                                         2                 3    2           2
+    + theta[c] omega p_I theta[w] w gamma  + theta[c] omega  p_I  theta[w] w 
+
+             2                     2              2               2  2
+    - 3 gamma  p_I theta[w] omega w  - 2 gamma p_I  theta[w] omega  w 
+
+             2             2        2            2         2      2  2
+    + 2 gamma  p_I theta[w]  omega w  + gamma p_I  theta[w]  omega  w 
+
+              2      2        2                       2  2
+    + theta[w]  gamma  omega w  - theta[w] omega gamma  w 
+
+                    3    2  2                 2                         3  2
+    - theta[w] omega  p_I  w  - theta[w] gamma  omega w - theta[w] gamma  w 
+
+              2      3  2                 3             2      3  
+    + theta[w]  gamma  w  - theta[w] gamma  w + theta[w]  gamma  w
+
+                              2          2                     2
+    - gamma theta[c] p_I omega  w + gamma  theta[c] p_I omega w 
+
+                        2      2  2                             2\    2   /  
+    + gamma theta[c] p_I  omega  w  - theta[c] omega p_I w gamma / phi  + \2 
+
+           2      4                           3      
+   theta[w]  gamma  w - 2 gamma theta[c] omega  p_I w
+
+                2      2      2                     3            
+    + 2 theta[w]  gamma  omega  w - 4 theta[w] gamma  omega p_I w
+
+                2      3                     2      2      2      
+    + 4 theta[w]  gamma  omega w + 2 theta[w]  gamma  omega  p_I w
+
+             2                   2                     3                     
+    - 2 gamma  theta[c] p_I omega  w + 2 theta[c] omega  p_I theta[w] w gamma
+
+                      4                     3        
+    - 4 theta[w] gamma  w - 8 theta[w] gamma  omega w
+
+                2      3                               2      2      
+    + 2 theta[w]  gamma  omega p_I w - 6 theta[w] gamma  omega  w p_I
+
+                      2      2                     2                     2
+    - 4 theta[w] gamma  omega  w + 2 theta[c] omega  p_I theta[w] w gamma 
+
+                                3  \                     3      2  
+    - 2 gamma p_I theta[w] omega  w/ phi - theta[w] omega  gamma  w
+
+                      2      3                   4        
+    - 2 theta[w] omega  gamma  w - theta[w] gamma  omega w
+
+                    3      2                   2      3                   5
+    - theta[w] omega  gamma  - 4 theta[w] omega  gamma  - 2 theta[w] gamma 
+
+              2      5                   3            2
+    + theta[w]  gamma  - 2 theta[c] omega  p_I w gamma 
+
+           3                   2                     4      
+    - gamma  theta[c] p_I omega  w - 5 theta[w] gamma  omega
+
+                    4                       2      3      2
+    - theta[c] omega  p_I w gamma + theta[w]  gamma  omega 
+
+                2      4      \\//                
+    + 2 theta[w]  gamma  omega// |                
+                                 \(omega + gamma) 
+
+                                                       2               \
+   /                                                 2\               2|
+   \(gamma w + omega p_I w) phi + omega gamma + gamma /  (omega + phi) /
+Just look at the numer with omega factored
+> dDelta4phi_numer:=collect(numer(dDelta4phi)/omega,phi);
+ /         2            2  2                     2               2      
+ \-theta[w]  gamma omega  w  p_I - theta[c] omega  p_I theta[w] w  gamma
+
+              2      2                           2        2    
+    - theta[w]  gamma  omega w + 2 theta[w] omega  gamma w  p_I
+
+                    2                     
+    - theta[c] omega  p_I theta[w] gamma w
+
+                                         2                 3    2           2
+    - theta[c] omega p_I theta[w] w gamma  - theta[c] omega  p_I  theta[w] w 
+
+             2                     2              2               2  2
+    + 3 gamma  p_I theta[w] omega w  + 2 gamma p_I  theta[w] omega  w 
+
+             2             2        2            2         2      2  2
+    - 2 gamma  p_I theta[w]  omega w  - gamma p_I  theta[w]  omega  w 
+
+              2      2        2                       2  2
+    - theta[w]  gamma  omega w  + theta[w] omega gamma  w 
+
+                    3    2  2                 2                         3  2
+    + theta[w] omega  p_I  w  + theta[w] gamma  omega w + theta[w] gamma  w 
+
+              2      3  2                 3             2      3  
+    - theta[w]  gamma  w  + theta[w] gamma  w - theta[w]  gamma  w
+
+                              2          2                     2
+    + gamma theta[c] p_I omega  w - gamma  theta[c] p_I omega w 
+
+                        2      2  2                             2\    2   /
+    - gamma theta[c] p_I  omega  w  + theta[c] omega p_I w gamma / phi  + \
+            2      4                           3      
+ -2 theta[w]  gamma  w + 2 gamma theta[c] omega  p_I w
+
+                2      2      2                     3            
+    - 2 theta[w]  gamma  omega  w + 4 theta[w] gamma  omega p_I w
+
+                2      3                     2      2      2      
+    - 4 theta[w]  gamma  omega w - 2 theta[w]  gamma  omega  p_I w
+
+             2                   2                     3                     
+    + 2 gamma  theta[c] p_I omega  w - 2 theta[c] omega  p_I theta[w] w gamma
+
+                      4                     3        
+    + 4 theta[w] gamma  w + 8 theta[w] gamma  omega w
+
+                2      3                               2      2      
+    - 2 theta[w]  gamma  omega p_I w + 6 theta[w] gamma  omega  w p_I
+
+                      2      2                     2                     2
+    + 4 theta[w] gamma  omega  w - 2 theta[c] omega  p_I theta[w] w gamma 
+
+                                3  \                     3      2  
+    + 2 gamma p_I theta[w] omega  w/ phi + theta[w] omega  gamma  w
+
+                      2      3                   4        
+    + 2 theta[w] omega  gamma  w + theta[w] gamma  omega w
+
+                    3      2                   2      3                   5
+    + theta[w] omega  gamma  + 4 theta[w] omega  gamma  + 2 theta[w] gamma 
+
+              2      5                   3            2
+    - theta[w]  gamma  + 2 theta[c] omega  p_I w gamma 
+
+           3                   2                     4      
+    + gamma  theta[c] p_I omega  w + 5 theta[w] gamma  omega
+
+                    4                       2      3      2
+    + theta[c] omega  p_I w gamma - theta[w]  gamma  omega 
+
+                2      4      
+    - 2 theta[w]  gamma  omega
+> a3:=factor(coeff(dDelta4phi_numer,phi,2));
+   /          2            2                     2                     
+-w \w theta[w]  gamma omega  p_I + theta[c] omega  p_I theta[w] gamma w
+
+             2      2                           2          
+   + theta[w]  gamma  omega - 2 w theta[w] omega  gamma p_I
+
+                   2                                                       2
+   + theta[c] omega  p_I theta[w] gamma + theta[c] omega p_I theta[w] gamma 
+
+                     3    2                     2                   
+   + w theta[c] omega  p_I  theta[w] - 3 w gamma  p_I theta[w] omega
+
+                  2               2            2             2      
+   - 2 w gamma p_I  theta[w] omega  + 2 w gamma  p_I theta[w]  omega
+
+                2         2      2           2      2        
+   + w gamma p_I  theta[w]  omega  + theta[w]  gamma  omega w
+
+                   2                           3    2                 2      
+   - theta[w] gamma  omega w - w theta[w] omega  p_I  - theta[w] gamma  omega
+
+                   3             2      3                   3
+   - theta[w] gamma  w + theta[w]  gamma  w - theta[w] gamma 
+
+             2      3                           2                             2
+   + theta[w]  gamma  - gamma theta[c] p_I omega  + theta[c] omega p_I w gamma 
+
+                         2      2                           2\
+   + w gamma theta[c] p_I  omega  - theta[c] omega p_I gamma /
+Can we factor a3 more?
+> collect(a3/w,[gamma,omega,p_I,theta[c],theta[w]]);
+/                 2                   \      3   //                            
+\(-w - 1) theta[w]  + (w + 1) theta[w]/ gamma  + \\(-theta[w] - w + 1) theta[c]
+
+                              2  \                        2                   \       
+   + 3 theta[w] w - 2 theta[w]  w/ p_I + (-w - 1) theta[w]  + (w + 1) theta[w]/ omega 
+
+       2   //         2                              \    2
+  gamma  + \\-theta[w]  w + 2 theta[w] w - theta[c] w/ p_I 
+
+     /                                           2                 \    \ 
+   + \(1 + (-w - 1) theta[w]) theta[c] - theta[w]  w + 2 theta[w] w/ p_I/ 
+
+       2                                               2      3
+  omega  gamma + (theta[w] w - theta[c] theta[w] w) p_I  omega 
+> #collect(a3/(w),[w,omega,gamma]);
+check a3<0 if theta_w=0,theta_c=1 (ie the top right corner of panel b)
+> simplify(subs(theta[w]=0,theta[c]=1,a3/w));
+               2                    2              2      2                  2
+gamma p_I omega  - omega p_I w gamma  - w gamma p_I  omega  + omega p_I gamma 
+> 
+> #latex(%);
+Checking in the case of random testing, i.e., w_I=w_S which is equivalent ti
+w=1, results in a3>0? Yes, just look at the coef of gamma omega^2 and vary
+theta_c and p_I from 0 to 1. Realize that in the 4 extreme cases the coef is
+positive (see page 33 of my notes)
+> collect(subs(w=1,a3),[omega,gamma]);
+ /             2                        2\      3   /                        
+ \-theta[c] p_I  theta[1] + theta[1] p_I / omega  + \-2 theta[c] p_I theta[1]
+
+                          2         2                 2           2    
+    + 2 theta[1] p_I - p_I  theta[1]  + 2 theta[1] p_I  - theta[1]  p_I
+
+                  2               \            2   /           2
+    - theta[c] p_I  + theta[c] p_I/ gamma omega  + \-2 theta[1] 
+
+                                                                      2    \ 
+    + 3 theta[1] p_I - theta[c] p_I theta[1] + 2 theta[1] - 2 theta[1]  p_I/ 
+
+        2         /           2             \      3
+   gamma  omega + \-2 theta[1]  + 2 theta[1]/ gamma 
+check a3 when w=1 and p_I=1:
+> collect(subs([w=1,p_I=1],a3),[omega,gamma]);
+                                          3
+      (theta[1] - theta[c] theta[1]) omega 
+
+           /                                             2\            2
+         + \4 theta[1] - 2 theta[c] theta[1] - 2 theta[1] / gamma omega 
+
+           /           2                                 \      2      
+         + \-4 theta[1]  - theta[c] theta[1] + 5 theta[1]/ gamma  omega
+
+           /           2             \      3
+         + \-2 theta[1]  + 2 theta[1]/ gamma 
+> b3:=factor(coeff(dDelta4phi_numer,phi,1));
+                             /              2             
+  -2 gamma (omega + gamma) w \theta[c] omega  p_I theta[w]
+
+                                                      2      
+     - 2 gamma p_I theta[w] omega + gamma p_I theta[w]  omega
+
+               2                                                      2    
+     + theta[w]  gamma omega - 2 theta[w] omega gamma - theta[w] omega  p_I
+
+                       2           2      2                 2    \
+     - 2 theta[w] gamma  + theta[w]  gamma  - theta[c] omega  p_I/
+Note that b3 is positive
+> collect(b3/(2*gamma*(omega+gamma)*w),[theta[c],theta[w]]);
+  /               2            2    \         
+  \-theta[w] omega  p_I + omega  p_I/ theta[c]
+
+       /                                      2\         2
+     + \-gamma omega p_I - omega gamma - gamma / theta[w] 
+
+       /                     2                                  2\         
+     + \2 omega gamma + omega  p_I + 2 gamma omega p_I + 2 gamma / theta[w]
+> latex(%);
+\left( -\theta_{{w}}{\omega}^{2}{\it p\_I}+{\omega}^{2}{\it p\_I}
+\right) \theta_{{c}}+ \left( -\gamma\,\omega\,{\it p\_I}-\omega\,
+\gamma-{\gamma}^{2} \right) {\theta_{{w}}}^{2}+ \left( 2\,\omega\,
+\gamma+{\omega}^{2}{\it p\_I}+2\,\gamma\,\omega\,{\it p\_I}+2\,{\gamma }^{2}
+\right) \theta_{{w}}
+Note that c3 is positive
+> c3:=factor(coeff(dDelta4phi_numer,phi,0));
+                       2 /                 2           2      2
+ -gamma (omega + gamma)  \-2 theta[w] gamma  + theta[w]  gamma 
+
+                                                                    2      \
+    - theta[w] omega gamma w - theta[w] omega gamma - theta[c] omega  p_I w/
+what happens in theta_w=0 theta_c=1?
+> factor(subs(theta[c]=1,subs(theta[w]=0,a3)));
+         -w gamma omega p_I (-omega + gamma w + omega p_I w - gamma)
+Linearization of delta at rho=0, where R0=beta/gamma(1-Delta)
+> Delta4_simp;
+  /    /         2                2                     3      
+- \rho \-theta[w]  gamma rho omega  w + 2 theta[w] gamma  omega
+
+                     3                     3                   
+   - 2 theta[w] gamma  rho - theta[c] omega  p_I theta[w] rho w
+
+             2      2      2           2      2          
+   - theta[w]  gamma  omega  + theta[w]  gamma  rho omega
+
+                         3                       3      
+   + gamma theta[c] omega  p_I w + theta[w] omega  gamma
+
+                   2                           2            
+   - theta[w] omega  gamma rho + theta[w] omega  gamma rho w
+
+                   4                       3          
+   + theta[c] omega  p_I w + theta[w] omega  p_I rho w
+
+                   3                                       2  
+   + theta[w] omega  gamma w - gamma theta[c] p_I rho omega  w
+
+             2      3                 2      3    
+   - theta[w]  gamma  omega + theta[w]  gamma  rho
+
+                   2                             2      2  
+   + theta[w] gamma  rho omega w + theta[w] gamma  omega  w
+
+             2      2                                             2  
+   - theta[w]  gamma  rho omega w + 2 gamma p_I theta[w] rho omega  w
+
+                     2      2                   2          
+   + 3 theta[w] gamma  omega  - 3 theta[w] gamma  rho omega
+
+                       2          2  \\//                      /      2      
+   - gamma p_I theta[w]  rho omega  w// \(omega + gamma) omega \-omega  gamma
+
+                                                      2        2    
+   + omega gamma rho - gamma rho omega w - omega gamma  + gamma  rho
+
+          2          \\
+   - omega  p_I rho w//
+> tl_t:=simplify(taylor(Delta4_simp,rho=0,2)) assuming w>0, rho>0, omega>0;
+              1              /                 2           2      2
+---------------------------- \-2 theta[w] gamma  + theta[w]  gamma 
+ omega gamma (omega + gamma)                                       
+
+                                                                   2      \    
+   - theta[w] omega gamma w - theta[w] omega gamma - theta[c] omega  p_I w/ rho
+
+      /   2\
+   + O\rho /
+> collect(numer(convert(tl_t,polynom)),[rho,omega,gamma]);
+         /              2                                            
+         \theta[c] omega  p_I w + (theta[w] w + theta[w]) gamma omega
+
+              /                     2\      2\    
+            + \2 theta[w] - theta[w] / gamma / rho
+> collect(simplify(diff(convert(tl_t,polynom),omega)),omega);
+           1            /    /                                              2
+----------------------- \rho \(theta[c] p_I w - theta[w] w - theta[w]) omega 
+     2                2                                                      
+omega  (omega + gamma)                                                       
+
+     /          2                         \                         2
+   + \2 theta[w]  gamma - 4 theta[w] gamma/ omega - 2 theta[w] gamma 
+
+             2      2\\
+   + theta[w]  gamma //
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+R0 wrt w=w_I/w_S
+> Delta4;
+ (theta[w] gamma + theta[c] omega p_I) F_I S_u     /
+------------------------------------------------ + |
+                               2                   |
+omega gamma + gamma F_I + gamma  + omega F_I p_I   \
+
+                                  1                                  ///      
+  ------------------------------------------------------------------ \\\omega 
+                  /                               2                \          
+  (omega + gamma) \omega gamma + gamma F_I + gamma  + omega F_I p_I/          
+
+                   2                  2        3                      \        
+  gamma F_I + gamma  F_I + omega gamma  + gamma  + gamma omega F_I p_I/ theta[w
+
+                        2    \               \           \    
+  ] + F_I theta[c] omega  p_I/ (1 - theta[w])/ + theta[w]| S_n
+                                                         |    
+                                                         /    
+> Delta4_simp;
+  /    /         2                2                     3      
+- \rho \-theta[w]  gamma rho omega  w + 2 theta[w] gamma  omega
+
+                     3                     3                   
+   - 2 theta[w] gamma  rho - theta[c] omega  p_I theta[w] rho w
+
+             2      2      2           2      2          
+   - theta[w]  gamma  omega  + theta[w]  gamma  rho omega
+
+                         3                       3      
+   + gamma theta[c] omega  p_I w + theta[w] omega  gamma
+
+                   2                           2            
+   - theta[w] omega  gamma rho + theta[w] omega  gamma rho w
+
+                   4                       3          
+   + theta[c] omega  p_I w + theta[w] omega  p_I rho w
+
+                   3                                       2  
+   + theta[w] omega  gamma w - gamma theta[c] p_I rho omega  w
+
+             2      3                 2      3    
+   - theta[w]  gamma  omega + theta[w]  gamma  rho
+
+                   2                             2      2  
+   + theta[w] gamma  rho omega w + theta[w] gamma  omega  w
+
+             2      2                                             2  
+   - theta[w]  gamma  rho omega w + 2 gamma p_I theta[w] rho omega  w
+
+                     2      2                   2          
+   + 3 theta[w] gamma  omega  - 3 theta[w] gamma  rho omega
+
+                       2          2  \\//                      /      2      
+   - gamma p_I theta[w]  rho omega  w// \(omega + gamma) omega \-omega  gamma
+
+                                                      2        2    
+   + omega gamma rho - gamma rho omega w - omega gamma  + gamma  rho
+
+          2          \\
+   - omega  p_I rho w//
+> dD4dw:=simplify(diff(Delta4_simp,w));
+//     2             2                   2                           2      2
+\\gamma  theta[w] rho  - 2 theta[w] gamma  rho omega + theta[w] gamma  omega 
+
+                   2    2                       3      
+   + gamma theta[w]  rho  omega + theta[w] omega  gamma
+
+                           2                             3    
+   + gamma theta[c] p_I rho  omega + gamma theta[c] omega  p_I
+
+             2                2                                 2
+   - theta[w]  gamma rho omega  - 2 gamma theta[c] p_I rho omega 
+
+                   2                           3                 
+   - theta[w] omega  gamma rho - theta[c] omega  p_I theta[w] rho
+
+                   3                         4    
+   - theta[c] omega  p_I rho + theta[c] omega  p_I
+
+                   2                 2\          \///      2      
+   + theta[c] omega  p_I theta[w] rho / gamma rho/ \\-omega  gamma
+
+                                                      2        2    
+   + omega gamma rho - gamma rho omega w - omega gamma  + gamma  rho
+
+          2          \  \
+   - omega  p_I rho w/^2/
+> factor(numer(dD4dw)/(gamma*rho));
+               /                                      2              \         
+(-omega + rho) \gamma rho + theta[w] rho omega - omega  - omega gamma/ (theta[w
+
+  ] gamma + theta[c] omega p_I)
+Main point here is: The latter expression is always positive so D Delta/D w>0 so
+the more targeted testing the lower R0
+> 
+What is the denominator?
+> denom(dD4dw);
+     /      2                                                          2
+     \-omega  gamma + omega gamma rho - gamma rho omega w - omega gamma 
+
+               2            2          \  
+        + gamma  rho - omega  p_I rho w/^2
+> 
+> factor(-omega^2*gamma+omega*gamma*rho-gamma*rho*omega*w-omega*gamma^2+gamma^2*
+> rho-omega^2*p_I*rho*w);
+      2                                                          2        2    
+-omega  gamma + omega gamma rho - gamma rho omega w - omega gamma  + gamma  rho
+
+          2          
+   - omega  p_I rho w
+> latex(%);
+-{\omega}^{2}\gamma+\omega\,\gamma\,\rho-\gamma\,\rho\,\omega\,w-
+\omega\,{\gamma}^{2}+{\gamma}^{2}\rho-{\omega}^{2}{\it p\_I}\,\rho\,w
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
