@@ -37,7 +37,7 @@ Ignore += pix/sir_comp.pdf
 pix/sir_comp.pdf: pix/sir_comp.ipe
 	ipetoipe -pdf $< $@
 
-Sources += cohort.txt
+## Missing files .tex and/or .txt, probably doesn't matter 2021 Sep 13 (Mon)
 cohort.pdf: cohort.tex 
 
 ######################################################################
