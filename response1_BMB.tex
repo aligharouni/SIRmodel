@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{xcolor}
+
+\newcommand{\comment}{\showcomment}
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
+\newcommand{\nocomment}[3]{}
+
+\newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
+\newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
+\newcommand{\jd}[1]{\comment{blue}{JD}{#1}}
+\newcommand{\david}[1]{\comment{orange}{DJDE}{#1}}
+\newcommand{\bmb}[1]{\comment{red}{BMB}{#1}}
+\newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
+\newcommand{\new}[1]{\comment{red}{NEW}{#1}}
+\newcommand{\needref}{\textcolor{red}{(REFS?)}}
+\newcommand{\res}[1]{\comment{red}{Response}{#1}}
+
+\begin{document}
+
+COMMENTS TO THE AUTHOR:
+
+Reviewer \#1: The authors introduce a compartmental epidemic model exploring Susceptible-Infectious-Recovered (SIR) disease dynamics in the presence of a testing protocol that can identify and facilitate isolation of infectious individuals, exploring how factors including the daily intensity of testing, the delay between testing and the reporting of test results, and the degree of self-isolation practiced by individuals waiting for test results and with confirmed positive tests impact the early spread of the disease outbreak. Using the next-generation method, the authors characterize the basic reproduction number (R0) for their model, and employ a mix exact calculations and analytical approximations to study the comparative statics characterizing how this quantity depends on parameters characterizing testing and isolation practices. Some of the main results agree with intuitive expectations about testing and self-isolation, such as the observation that that R0 decreases with a reduction in social contacts in social contacts (i.e. increases in $theta_c$ and $theta_w$) for confirmed positives and individuals awaiting test results, as well the observation that focusing testing on infectious individuals helps to decrease R0 relative to a random testing protocol. On the other hand, some of the properties of the formula for R0 run counter to expectations, such as the possibility that increased testing intensity can increase R0 in the for the case in which individuals waiting for results do not decrease their social contacts, while R0 can decrease with increased delay times for test results for the case in which waiting individual greatly reduce their social contacts.
+
+Overall, this is a nice paper that illustrates a stylized model incorporating the effects of testing intensity, testing delays, and testing-based self-isolating behaviors impact the early spread of an infectious disease. Both the main paper and the appendix are well-written, and the results from the paper provide interesting insight into how the feedbacks between testing implementation and behavioral self-isolation can impact our ability to slow an outbreak. The analytical techniques used in the appendix provide a nice illustration on how combinations of the next-generation matrix and comparative statics on R0 can be used to understand a relatively large compartmental model, and both the biological subject matter and mathematical techniques are well suited for the audience of Bulletin of Mathematical Biology. In addition, the presence of surprising behaviors in this baseline model for testing may also serve as inspiration for further extensions exploring additional factors like exposed or asymptomatically- infectious disease compartments or to explore how testing regimes can work with dynamical feedback away from the disease-free equilibrium. As a result, I think that this would be a nice paper to publish in BMB, and will serve as an interesting jumping-off point for readers to explore the role of testing in disease outbreaks.
+
+
+
+In preparation for revising the paper, I have the following minor suggestions that may be helpful for further highlighting results or clarifying the model.
+
+* The main surprising results about the possibility of R0 increasing with increased testing intensity or decreasing with increased delays seem particularly intertwined with the behavior displayed by individuals who are waiting for their test results. In particular, having long delays can make versions of the model with high $\theta_w$ effectively treat these waiting individuals into a partially socially-distanced or quarantined compartment, while, in versions in which waiting individuals do not change their behavior, increased asymptomatic testing can provide extra time to miss new infectious. This connection between behavior of waiting and confirmed individuals and how testing impacts R0 makes me curious about a few aspects of combining testing with social distancing.
+
+- Does the case of R0 decreasing with increased testing delay provide some suggestion of the potential benefit of so-called "gateway testing" [1] in settings such as universities or athletic competitions?
+Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. While this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).
+
+\res{Yes, our result suggests the "gateway testing". We (will) add this point to the last paragraph of the discussion and the suggested paper [1] will be added to our references.}
+
+- Would similar effects on $theta_X$ occur if the model incorporated an exposed class into the model, and would that depend on the way in which positive test results correspond to time-period of infectiousness? With an exposed or asymptomatic and infectious, there may be interesting ways in which waiting for tests and the presence or lack of self-isolation while waiting could feed back on subsequent transmission and on changes in R0.
+
+While I think that the analysis already presented in the paper is sufficient for the current paper, I think that ideas related to these questions might be interesting for future research or as points for discussion.
+
+
+
+* Due to its important effects on R0, I think it could be useful to describe the rate $\omega$ for return of test results directly in the text (in addition to the table of parameters) before it appears in Equation 4 in the expression for the disease-free equilibrium.
+
+* In Section A.4 of the appendix, is the partial derivative of $\Delta$ being calculating for the exact expression from Equation 7, or from the approximate expression in Equation A22 obtained from a Taylor expansion when $\rho \ll 1$. From the expression in Equation A27, it seems like this is derived from Equation 7, but it would be helpful to clarifying which expression is used to highlight whether this result holds across the range of parameters or only in the limit of weak testing intensity.
+
+References
+[1] K. Muller and P. A. Muller, "Mathematical modelling of the spread of covid-19 on a university campus," Infectious Disease Modelling, vol. 6, pp. 1025-1045, 2021.
+
+
+Reviewer \#2: The idea underlying the paper is very simple but powerful: public health policies can impact behaviors and thus epidemiology. Even though the reality is much more complex (infectious spreading results from the complex, non-linear, multi-factorial array and subtle interplay between epidemiology, public health policies and behaviors), authors did a good job in developing their mathematical model, that, rightly, they define as a "caricature". They should add it is a "caricature" not only because it (purposely) does not incorporate sophisticated aspects of COVID-19 related epidemiology, but also because does not incorporate that array and interplay I previously mentioned (the array consisting of multidirectional feedbacks between epidemiology, behaviors and public health policies). Anyway, authors should add and discuss this point.
+Another point authors should discuss is future prospects, how their model can be further refined and what we can learn from this model in terms of public health policies (discussion is too succinct with this regard).
+
+
+
+
+\end{document}
+
+
