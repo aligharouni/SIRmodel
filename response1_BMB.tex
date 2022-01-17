@@ -15,9 +15,21 @@
 \newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
 \newcommand{\new}[1]{\comment{red}{NEW}{#1}}
 \newcommand{\needref}{\textcolor{red}{(REFS?)}}
+\newcommand{\com}[1]{\comment{red}{Comment}{#1}}
 \newcommand{\res}[1]{\comment{red}{Response}{#1}}
 
 \begin{document}
+
+Dear Dr. Hastings,
+
+Please find our responses to the reviewer comments below for our manuscript entitled
+``Testing and Isolation Efficacy:Insights from a Simple Epidemic Model''. The reviewer comments are in italics, and our comments/responses are in normal font. To address the concerns of the reviewers, we have added appropriate references to the manuscript to acknowledge previous known results in the field.
+
+We very much appreciate the time and feedback from the reviewers and editors.
+
+Sincerely,
+Ali Gharouni, PhD
+
 
 COMMENTS TO THE AUTHOR:
 
@@ -29,14 +41,20 @@ Overall, this is a nice paper that illustrates a stylized model incorporating th
 
 In preparation for revising the paper, I have the following minor suggestions that may be helpful for further highlighting results or clarifying the model.
 
-* The main surprising results about the possibility of R0 increasing with increased testing intensity or decreasing with increased delays seem particularly intertwined with the behavior displayed by individuals who are waiting for their test results. In particular, having long delays can make versions of the model with high $\theta_w$ effectively treat these waiting individuals into a partially socially-distanced or quarantined compartment, while, in versions in which waiting individuals do not change their behavior, increased asymptomatic testing can provide extra time to miss new infectious. This connection between behavior of waiting and confirmed individuals and how testing impacts R0 makes me curious about a few aspects of combining testing with social distancing.
+\com 1 {\it The main surprising results about the possibility of R0 increasing with increased testing intensity or decreasing with increased delays seem particularly intertwined with the behavior displayed by individuals who are waiting for their test results. In particular, having long delays can make versions of the model with high $\theta_w$ effectively treat these waiting individuals into a partially socially-distanced or quarantined compartment, while, in versions in which waiting individuals do not change their behavior, increased asymptomatic testing can provide extra time to miss new infectious. This connection between behavior of waiting and confirmed individuals and how testing impacts R0 makes me curious about a few aspects of combining testing with social distancing.
 
 - Does the case of R0 decreasing with increased testing delay provide some suggestion of the potential benefit of so-called "gateway testing" [1] in settings such as universities or athletic competitions?
-Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. While this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).
+Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. While this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).}
 
-\res{Yes, our result suggests the "gateway testing". We (will) add this point to the last paragraph of the discussion and the suggested paper [1] will be added to our references.}
+\res 1 
+We now have added several lines and the suggested reference [1] to the end of the discussion to acknowledge the "gateway testing" and the potential benefit of our modelling results.  
 
-- Would similar effects on $theta_X$ occur if the model incorporated an exposed class into the model, and would that depend on the way in which positive test results correspond to time-period of infectiousness? With an exposed or asymptomatic and infectious, there may be interesting ways in which waiting for tests and the presence or lack of self-isolation while waiting could feed back on subsequent transmission and on changes in R0.
+
+\com 2 {\it Would similar effects on $\theta_X$ occur if the model incorporated an exposed class into the model, and would that depend on the way in which positive test results correspond to time-period of infectiousness? With an exposed or asymptomatic and infectious, there may be interesting ways in which waiting for tests and the presence or lack of self-isolation while waiting could feed back on subsequent transmission and on changes in R0.
+} 
+
+\res 2
+Regarding the incorporation of an exposed class or asymptomatic and infectious compartment to the current model; I think
 
 While I think that the analysis already presented in the paper is sufficient for the current paper, I think that ideas related to these questions might be interesting for future research or as points for discussion.
 
