@@ -2,10 +2,16 @@
 
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{xcolor}
+\usepackage{xspace}
 
 \newcommand{\comment}{\showcomment}
 \newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
 \newcommand{\nocomment}[3]{}
+
+\newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
+\newcommand*\subtxt[1]{_{\textnormal{#1}}}
+\DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
+
 
 \newcommand{\fady}[1]{\comment{cyan}{Fady}{#1}}
 \newcommand{\ali}[1]{\comment{magenta}{Ali}{#1}}
@@ -19,27 +25,31 @@
 \newcommand{\res}[1]{\comment{red}{Response}{#1}}
 
 \begin{document}
-
+\noindent
 Dear Dr. Hastings,
 
 Please find our responses to the reviewer comments below for our manuscript entitled
-``Testing and Isolation Efficacy:Insights from a Simple Epidemic Model''. The reviewer comments are in italics, and our comments/responses are in normal font. To address the concerns of the reviewers, we have added appropriate references to the manuscript to acknowledge previous known results in the field.
+``Testing and Isolation Efficacy:Insights from a Simple Epidemic Model''. The reviewer comments are in italics, and our comments/responses are in normal font. To address the concerns of the reviewers, we have edited the manuscript and added the suggested appropriate reference to the manuscript to acknowledge previous known results in the field.
 
 We very much appreciate the time and feedback from the reviewers and editors.
 
+\noindent
+\\
 Sincerely,
+
+\noindent
+\\
 Ali Gharouni, PhD
 
 
-COMMENTS TO THE AUTHOR:
+\section*{REVIEWERS COMMENTS:}
 
-Reviewer \#1: The authors introduce a compartmental epidemic model exploring Susceptible-Infectious-Recovered (SIR) disease dynamics in the presence of a testing protocol that can identify and facilitate isolation of infectious individuals, exploring how factors including the daily intensity of testing, the delay between testing and the reporting of test results, and the degree of self-isolation practiced by individuals waiting for test results and with confirmed positive tests impact the early spread of the disease outbreak. Using the next-generation method, the authors characterize the basic reproduction number (R0) for their model, and employ a mix exact calculations and analytical approximations to study the comparative statics characterizing how this quantity depends on parameters characterizing testing and isolation practices. Some of the main results agree with intuitive expectations about testing and self-isolation, such as the observation that that R0 decreases with a reduction in social contacts in social contacts (i.e. increases in $theta_c$ and $theta_w$) for confirmed positives and individuals awaiting test results, as well the observation that focusing testing on infectious individuals helps to decrease R0 relative to a random testing protocol. On the other hand, some of the properties of the formula for R0 run counter to expectations, such as the possibility that increased testing intensity can increase R0 in the for the case in which individuals waiting for results do not decrease their social contacts, while R0 can decrease with increased delay times for test results for the case in which waiting individual greatly reduce their social contacts.
+\subsection*{ Reviewer \#1:} 
+{\it The authors introduce a compartmental epidemic model exploring Susceptible-Infectious-Recovered (SIR) disease dynamics in the presence of a testing protocol that can identify and facilitate isolation of infectious individuals, exploring how factors including the daily intensity of testing, the delay between testing and the reporting of test results, and the degree of self-isolation practiced by individuals waiting for test results and with confirmed positive tests impact the early spread of the disease outbreak. Using the next-generation method, the authors characterize the basic reproduction number (R0) for their model, and employ a mix exact calculations and analytical approximations to study the comparative statics characterizing how this quantity depends on parameters characterizing testing and isolation practices. Some of the main results agree with intuitive expectations about testing and self-isolation, such as the observation that that R0 decreases with a reduction in social contacts in social contacts (i.e. increases in $theta_c$ and $theta_w$) for confirmed positives and individuals awaiting test results, as well the observation that focusing testing on infectious individuals helps to decrease R0 relative to a random testing protocol. On the other hand, some of the properties of the formula for R0 run counter to expectations, such as the possibility that increased testing intensity can increase R0 in the for the case in which individuals waiting for results do not decrease their social contacts, while R0 can decrease with increased delay times for test results for the case in which waiting individual greatly reduce their social contacts.
 
 Overall, this is a nice paper that illustrates a stylized model incorporating the effects of testing intensity, testing delays, and testing-based self-isolating behaviors impact the early spread of an infectious disease. Both the main paper and the appendix are well-written, and the results from the paper provide interesting insight into how the feedbacks between testing implementation and behavioral self-isolation can impact our ability to slow an outbreak. The analytical techniques used in the appendix provide a nice illustration on how combinations of the next-generation matrix and comparative statics on R0 can be used to understand a relatively large compartmental model, and both the biological subject matter and mathematical techniques are well suited for the audience of Bulletin of Mathematical Biology. In addition, the presence of surprising behaviors in this baseline model for testing may also serve as inspiration for further extensions exploring additional factors like exposed or asymptomatically- infectious disease compartments or to explore how testing regimes can work with dynamical feedback away from the disease-free equilibrium. As a result, I think that this would be a nice paper to publish in BMB, and will serve as an interesting jumping-off point for readers to explore the role of testing in disease outbreaks.
 
-
-
-In preparation for revising the paper, I have the following minor suggestions that may be helpful for further highlighting results or clarifying the model.
+In preparation for revising the paper, I have the following minor suggestions that may be helpful for further highlighting results or clarifying the model.}
 
 \com 1 {\it The main surprising results about the possibility of R0 increasing with increased testing intensity or decreasing with increased delays seem particularly intertwined with the behavior displayed by individuals who are waiting for their test results. In particular, having long delays can make versions of the model with high $\theta_w$ effectively treat these waiting individuals into a partially socially-distanced or quarantined compartment, while, in versions in which waiting individuals do not change their behavior, increased asymptomatic testing can provide extra time to miss new infectious. This connection between behavior of waiting and confirmed individuals and how testing impacts R0 makes me curious about a few aspects of combining testing with social distancing.
 
@@ -55,31 +65,50 @@ We now have added several lines and the suggested reference [1] to the end of th
 
 \res 2
 [not sure here!] 
-Regarding the incorporation of an exposed class or asymptomatic and infectious compartment to the current model; the isolation efficacy parameter $\theta_X$ would have similar but stronger effects (result 1). 
+Regarding the incorporation of an exposed class or asymptomatic and infectious compartment to the current model; 
+Incorporating the extra compartments (exposed, asymptomatic and infectious) would effect the testing weights and isolation efficacy parameters. In particular, we know that people know something about their exposure (assuming we don't know about symptoms). We know that there is a bias towards testing infected people, due to having some knowledge of risk. Testing people of known exposures will increase testing weight $w_I$, this is testing and tracing. Also, exposed people presumably practice more isolation, thus $\theta\_w$ will increase and consequently $\Rnum$ will decrease. 
 
-While I think that the analysis already presented in the paper is sufficient for the current paper, I think that ideas related to these questions might be interesting for future research or as points for discussion.
 
+{\it While I think that the analysis already presented in the paper is sufficient for the current paper, I think that ideas related to these questions might be interesting for future research or as points for discussion.}
 
 \com 3 
-Due to its important effects on R0, I think it could be useful to describe the rate $\omega$ for return of test results directly in the text (in addition to the table of parameters) before it appears in Equation 4 in the expression for the disease-free equilibrium.
+{\it Due to its important effects on R0, I think it could be useful to describe the rate $\omega$ for return of test results directly in the text (in addition to the table of parameters) before it appears in Equation 4 in the expression for the disease-free equilibrium.}
  
 \res 3
 We now have added a line in the manuscript to describe the parameters involved in the DFE before Equation (4)
 
 \com 4
-In Section A.4 of the appendix, is the partial derivative of $\Delta$ being calculating for the exact expression from Equation 7, or from the approximate expression in Equation A22 obtained from a Taylor expansion when $\rho \ll 1$. From the expression in Equation A27, it seems like this is derived from Equation 7, but it would be helpful to clarifying which expression is used to highlight whether this result holds across the range of parameters or only in the limit of weak testing intensity.
+{\it In Section A.4 of the appendix, is the partial derivative of $\Delta$ being calculating for the exact expression from Equation 7, or from the approximate expression in Equation A22 obtained from a Taylor expansion when $\rho \ll 1$. From the expression in Equation A27, it seems like this is derived from Equation 7, but it would be helpful to clarifying which expression is used to highlight whether this result holds across the range of parameters or only in the limit of weak testing intensity.}
 
 \res 4
 We have added a line in the manuscript in Section A.4 of the appendix to clarify the fact that Eq. 27 is a direct result of differentiating $\Delta$ in Eq.7 with respect to $w_{IS}$.
 
-References
+{\bf References}
+
 [1] K. Muller and P. A. Muller, "Mathematical modelling of the spread of covid-19 on a university campus," Infectious Disease Modelling, vol. 6, pp. 1025-1045, 2021.
 
 
-Reviewer \#2: The idea underlying the paper is very simple but powerful: public health policies can impact behaviors and thus epidemiology. Even though the reality is much more complex (infectious spreading results from the complex, non-linear, multi-factorial array and subtle interplay between epidemiology, public health policies and behaviors), authors did a good job in developing their mathematical model, that, rightly, they define as a "caricature". They should add it is a "caricature" not only because it (purposely) does not incorporate sophisticated aspects of COVID-19 related epidemiology, but also because does not incorporate that array and interplay I previously mentioned (the array consisting of multidirectional feedbacks between epidemiology, behaviors and public health policies). Anyway, authors should add and discuss this point.
-Another point authors should discuss is future prospects, how their model can be further refined and what we can learn from this model in terms of public health policies (discussion is too succinct with this regard).
+\subsection*{Reviewer \#2:}
+\com 1 
+{\it The idea underlying the paper is very simple but powerful: public health policies can impact behaviors and thus epidemiology. Even though the reality is much more complex (infectious spreading results from the complex, non-linear, multi-factorial array and subtle interplay between epidemiology, public health policies and behaviors), authors did a good job in developing their mathematical model, that, rightly, they define as a "caricature". They should add it is a "caricature" not only because it (purposely) does not incorporate sophisticated aspects of COVID-19 related epidemiology, but also because does not incorporate that array and interplay I previously mentioned (the array consisting of multidirectional feedbacks between epidemiology, behaviors and public health policies). Anyway, authors should add and discuss this point.}
 
+\res 1
+We now have added a line in the manuscript (the first paragraph of the Discussion section) to clarify what we mean by the term ``caricature''. 
+[ali: note sure what we should discuss more than what we have in the manuscript!]
 
+\com 2 
+{\it Another point authors should discuss is future prospects, how their model can be further refined and what we can learn from this model in terms of public health policies (discussion is too succinct with this regard).}
+
+\res 2
+
+[This can be added to the manuscript?]
+The potential future work of this project include:
+\begin{enumerate}
+\item
+Incorporating the asymptomatic and symptomatic compartments to the model and verify the present results. 
+\item
+Quantify the testing weights, when we incorporate asymptomatic and symptomatic compartments to the model. In particular, We know that not all symptomatic people are the same. people know something about their exposure, and not necessarily about symptoms. We know that there is a bias towards testing infected people, due to having some knowledge of risk. It is harder to quantify that than quantifying symptom/no symptom but we can say that would shift if we have a policy of screening people of high risk areas will push things towards infected people. Also testing people of known exposures will increase testing weight for infected people $w_I$, this is exactly testing and tracing. It is much harder to quantify that. In principle if we knew enough of the case report, hospitalizations, test positivity, death, we could make an estimate of $w_X$'s. Also note that $w_X$'s don't stay the same because it is all bound up with capacity because we tend to bias towards testing people who are more likely be infected and the more testing capacity we have the more we are willing to test more people less likely to be infected. Thus there is a relationship between testing capacity and the $w_X$'s because our testing policy changes as the testing capacity changes. Except for the symptomatic example, it is very hard to quantify the effect of a particular testing policy on the $w_X$'s. In short, "test positivity tells a lot about testing weights"; It is hard to know exactly how much information there is and how much we can estimate that. 
+\end{enumerate}
 
 
 \end{document}

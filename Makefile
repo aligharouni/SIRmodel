@@ -45,6 +45,8 @@ cohort.pdf: cohort.tex
 
 manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
 
+##First round of responses to reviewers' comments
+response1_BMB.pdf: response1_BMB.tex
 ######################################################################
 
 ## Old and busted notes
