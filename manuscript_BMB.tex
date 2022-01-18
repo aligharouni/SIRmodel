@@ -48,7 +48,7 @@
 \newcommand{\testtarget}{\ensuremath{w\_{IS}}}
 \newcommand{\oldtesttarget}{\ensuremath{\frac{w_I}{w_S}}\xspace}
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
-\newcommand{\rev}[1]{\comment{red}{Revised}{#1}}
+% \newcommand{\rev}[1]{\comment{red}{Revised}{#1}}
 %% Roman subscript
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
 
@@ -224,7 +224,7 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
 \caption{\label{tab:params}Parameters of the model specified  by the flow chart in \fref{fig:flowchart} and equations~\eqref{model}.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. \rev {The DFE depends on \percap testing intensity $\rho$, the rate of test return $\omega$, and the population size $N$}. The DFE is 
+The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is 
 \begin{equation}
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega} N, \ S\_u^*= N-S_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
@@ -334,7 +334,7 @@ However, when waiting individuals isolate ($\theta\_w>0$), we more often see the
 \section{Discussion}
 \label{disc}
 
-In this paper, we have developed and analyzed a simple compartmental model that combines epidemiological dynamics---as defined by a simple SIR model---with the dynamics of testing and isolation. Our model is a caricature: it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g., exposed, pre-symptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates; behavioural dynamics \citep{weitz2020awareness}); \rev{the array consisting of multidirectional subtle interplay between epidemiology, behaviors and public health policies}. Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between transmission dynamics and testing, rather than for making quantitative predictions or guiding pandemic responses.
+In this paper, we have developed and analyzed a simple compartmental model that combines epidemiological dynamics---as defined by a simple SIR model---with the dynamics of testing and isolation. Our model is a caricature: it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g., exposed, pre-symptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates; behavioural dynamics \citep{weitz2020awareness}); Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between transmission dynamics and testing, rather than for making quantitative predictions or guiding pandemic responses.
 
 Many of the qualitative results we have derived confirm simple, common-sense intuitions. In particular, we can generally decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g., symptomatic people or close contacts of known infections).
 
@@ -353,7 +353,6 @@ Although testing and tracing is a key part of infection control strategies, math
 There have been several modeling studies of testing and tracing dynamics and their interaction with epidemiological dynamics. In the context of repeated screening and random testing of isolated populations (such as the members of a university), \cite{bergstrom2020frequency} provided analytical results quantifying the effects that proactive screening of asymptomatic individuals and isolation of confirmed-positive cases could have in reducing the spread of disease. 
 \cite{rogers2021high} simulated a SEIR model with testing and isolation; they similarly suggest a strategy of rapid testing with antigen tests and the subsequent isolation of confirmed-positive individuals.
 % reviewer1.com1
-\rev {\cite{muller2021mathematical} simulated a structured SEIR-type model. Their model incorporated different testing scenarios -- including gateway testing, surveillance testing, and contact tracing -- as well as individual level control measures such as mask wearing and social distancing. They indicate the benefit of gateway testing in conjunction with effective contact tracing or robust surveillance testing in controling the spread of the infection. Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. It is notable that while this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).}
 \cite{friston2021testing} model the effects of self-isolation on testing and tracing with a focus on projections under different testing and tracing scenarios. They conclude that the emergence of a second wave depends almost primarily on the rate at which immunity is lost and that it is necessary to track asymptomatic individuals in order to control the outbreak. 
 Our modeling approach differs from these previous efforts in that it examines the effects of test-return rates and of different levels of testing focus, from random to highly targeted. We hope this paper will inspire further explorations of the fundamental properties of epidemic models that incorporate explicit testing processes.
 
@@ -665,8 +664,6 @@ Now we interpret \textbf{Case II}.  In this case, $\Rnum$ will have a global max
 
 % %%%%%%%
 \subsection{The effect of testing focus parameter $\testtarget$ on $\Rnum$} \label{app:w}
-
-\rev{Using the expression for the effectiveness of control parameter $\Delta$ in eq.~\ref{eq:del4a}, gives}
 
 \begin{align}
 \label{eq:d_del_wis}

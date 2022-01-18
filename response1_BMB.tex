@@ -3,12 +3,16 @@
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{xcolor}
 \usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{natbib}
 
 \newcommand{\comment}{\showcomment}
 \newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}}
 \newcommand{\nocomment}[3]{}
 
+\newcommand{\percap}{\emph{per capita}\xspace}
 \newcommand{\Rnum}{\ensuremath{\mathcal{R}_0}\xspace}
+\newcommand{\covid}{COVID-19\xspace}
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
 
@@ -21,8 +25,9 @@
 \newcommand{\todo}[1]{\comment{red}{TODO}{#1}}
 \newcommand{\new}[1]{\comment{red}{NEW}{#1}}
 \newcommand{\needref}{\textcolor{red}{(REFS?)}}
-\newcommand{\com}[1]{\comment{red}{Comment}{#1}}
-\newcommand{\res}[1]{\comment{red}{Response}{#1}}
+\newcommand{\com}[1]{\comment{red}{Comment}{#1}} %reviewer's comment
+\newcommand{\res}[1]{\comment{red}{Response}{#1}} %our response
+\newcommand{\rev}[1]{\comment{red}{In the manuscript}{#1}} %manuscript edition
 
 \begin{document}
 \noindent
@@ -51,37 +56,42 @@ Overall, this is a nice paper that illustrates a stylized model incorporating th
 
 In preparation for revising the paper, I have the following minor suggestions that may be helpful for further highlighting results or clarifying the model.}
 
-\com 1 {\it The main surprising results about the possibility of R0 increasing with increased testing intensity or decreasing with increased delays seem particularly intertwined with the behavior displayed by individuals who are waiting for their test results. In particular, having long delays can make versions of the model with high $\theta_w$ effectively treat these waiting individuals into a partially socially-distanced or quarantined compartment, while, in versions in which waiting individuals do not change their behavior, increased asymptomatic testing can provide extra time to miss new infectious. This connection between behavior of waiting and confirmed individuals and how testing impacts R0 makes me curious about a few aspects of combining testing with social distancing.
+\com 1 {\it The main surprising results about the possibility of R0 increasing with increased testing intensity or decreasing with increased delays seem particularly intertwined with the behavior displayed by individuals who are waiting for their test results. In particular, having long delays can make versions of the model with high $\theta\_w$ effectively treat these waiting individuals into a partially socially-distanced or quarantined compartment, while, in versions in which waiting individuals do not change their behavior, increased asymptomatic testing can provide extra time to miss new infectious. This connection between behavior of waiting and confirmed individuals and how testing impacts R0 makes me curious about a few aspects of combining testing with social distancing.
 
 - Does the case of R0 decreasing with increased testing delay provide some suggestion of the potential benefit of so-called "gateway testing" [1] in settings such as universities or athletic competitions?
 Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. While this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).}
 
 \res 1 
-We now have added several lines and the suggested reference [1] to the end of the discussion to acknowledge the "gateway testing" and the potential benefit of our modelling results.  
+We now have added several lines and the suggested reference [1] to the end of the discussion to acknowledge the "gateway testing" and the potential benefit of our modelling results in controling the disease spread.  
 
+\rev {\cite{muller2021mathematical} simulated a structured SEIR-type model. Their model incorporated different testing scenarios -- including gateway testing, surveillance testing, and contact tracing -- as well as individual level control measures such as mask wearing and social distancing. They indicate the benefit of gateway testing in conjunction with effective contact tracing or robust surveillance testing in controling the spread of the infection. Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. It is notable that while this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $\theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).}
 
 \com 2 {\it Would similar effects on $\theta_X$ occur if the model incorporated an exposed class into the model, and would that depend on the way in which positive test results correspond to time-period of infectiousness? With an exposed or asymptomatic and infectious, there may be interesting ways in which waiting for tests and the presence or lack of self-isolation while waiting could feed back on subsequent transmission and on changes in R0.
 } 
 
 \res 2
 [not sure here!] 
-Regarding the incorporation of an exposed class or asymptomatic and infectious compartment to the current model; 
-Incorporating the extra compartments (exposed, asymptomatic and infectious) would effect the testing weights and isolation efficacy parameters. In particular, we know that people know something about their exposure (assuming we don't know about symptoms). We know that there is a bias towards testing infected people, due to having some knowledge of risk. Testing people of known exposures will increase testing weight $w_I$, this is testing and tracing. Also, exposed people presumably practice more isolation, thus $\theta\_w$ will increase and consequently $\Rnum$ will decrease. 
+
+\rev{ Regarding the incorporation of an exposed class or asymptomatic and infectious compartment to the current model; 
+Incorporating the extra compartments (exposed, asymptomatic and infectious) would effect the testing weights and isolation efficacy parameters. In particular, we know that people know something about their exposure (assuming we don't know about symptoms). We know that there is a bias towards testing infected people, due to having some knowledge of risk. Testing people of known exposures will increase testing weight $w_I$, this is testing and tracing. Also, exposed people presumably practice more isolation, thus $\theta\_w$ will increase and consequently $\Rnum$ will decrease. }
 
 
 {\it While I think that the analysis already presented in the paper is sufficient for the current paper, I think that ideas related to these questions might be interesting for future research or as points for discussion.}
-
 \com 3 
 {\it Due to its important effects on R0, I think it could be useful to describe the rate $\omega$ for return of test results directly in the text (in addition to the table of parameters) before it appears in Equation 4 in the expression for the disease-free equilibrium.}
  
 \res 3
-We now have added a line in the manuscript to describe the parameters involved in the DFE before Equation (4)
+We now have added a line in the manuscript to describe the parameters involved in the DFE before Equation (4).
+
+\rev {The DFE depends on \percap testing intensity $\rho$, the rate of test return $\omega$, and the population size $N$.}
 
 \com 4
 {\it In Section A.4 of the appendix, is the partial derivative of $\Delta$ being calculating for the exact expression from Equation 7, or from the approximate expression in Equation A22 obtained from a Taylor expansion when $\rho \ll 1$. From the expression in Equation A27, it seems like this is derived from Equation 7, but it would be helpful to clarifying which expression is used to highlight whether this result holds across the range of parameters or only in the limit of weak testing intensity.}
 
 \res 4
 We have added a line in the manuscript in Section A.4 of the appendix to clarify the fact that Eq. 27 is a direct result of differentiating $\Delta$ in Eq.7 with respect to $w_{IS}$.
+
+\rev{Using the expression for the effectiveness of control parameter $\Delta$ in eq.~\ref{eq:del4a}, gives}
 
 {\bf References}
 
@@ -94,22 +104,25 @@ We have added a line in the manuscript in Section A.4 of the appendix to clarify
 
 \res 1
 We now have added a line in the manuscript (the first paragraph of the Discussion section) to clarify what we mean by the term ``caricature''. 
-[ali: note sure what we should discuss more than what we have in the manuscript!]
+
+Our model is a caricature: it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g., exposed, pre-symptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates; behavioural dynamics \citep{weitz2020awareness}); \rev{the array consisting of multidirectional subtle interplay between epidemiology, behaviors and public health policies.} Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between transmission dynamics and testing, rather than for making quantitative predictions or guiding pandemic responses.
+
+\ali {note sure what we should discuss more than what we have in the manuscript!}
 
 \com 2 
 {\it Another point authors should discuss is future prospects, how their model can be further refined and what we can learn from this model in terms of public health policies (discussion is too succinct with this regard).}
 
 \res 2
+We have added some lines to the discussion section of the manuscript to include some potential future work.
 
-[This can be added to the manuscript?]
-The potential future work of this project include:
+\rev{ The potential future work of this project include:
 \begin{enumerate}
 \item
 Incorporating the asymptomatic and symptomatic compartments to the model and verify the present results. 
 \item
 Quantify the testing weights, when we incorporate asymptomatic and symptomatic compartments to the model. In particular, We know that not all symptomatic people are the same. people know something about their exposure, and not necessarily about symptoms. We know that there is a bias towards testing infected people, due to having some knowledge of risk. It is harder to quantify that than quantifying symptom/no symptom but we can say that would shift if we have a policy of screening people of high risk areas will push things towards infected people. Also testing people of known exposures will increase testing weight for infected people $w_I$, this is exactly testing and tracing. It is much harder to quantify that. In principle if we knew enough of the case report, hospitalizations, test positivity, death, we could make an estimate of $w_X$'s. Also note that $w_X$'s don't stay the same because it is all bound up with capacity because we tend to bias towards testing people who are more likely be infected and the more testing capacity we have the more we are willing to test more people less likely to be infected. Thus there is a relationship between testing capacity and the $w_X$'s because our testing policy changes as the testing capacity changes. Except for the symptomatic example, it is very hard to quantify the effect of a particular testing policy on the $w_X$'s. In short, "test positivity tells a lot about testing weights"; It is hard to know exactly how much information there is and how much we can estimate that. 
 \end{enumerate}
-
+}
 
 \end{document}
 
