@@ -224,7 +224,7 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
 \caption{\label{tab:params}Parameters of the model specified  by the flow chart in \fref{fig:flowchart} and equations~\eqref{model}.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
+The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. \rev {The DFE depends on \percap testing intensity $\rho$, the rate of test return $\omega$, and the population size $N$}. The DFE is 
 \begin{equation}
 \label{dfe}
 S\_n^*= \frac{\rho}{\omega} N, \ S\_u^*= N-S_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
@@ -665,6 +665,8 @@ Now we interpret \textbf{Case II}.  In this case, $\Rnum$ will have a global max
 
 % %%%%%%%
 \subsection{The effect of testing focus parameter $\testtarget$ on $\Rnum$} \label{app:w}
+
+\rev{Using the expression for the effectiveness of control parameter $\Delta$ in eq.~\ref{eq:del4a}, gives}
 
 \begin{align}
 \label{eq:d_del_wis}
