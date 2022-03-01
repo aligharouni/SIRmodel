@@ -1,4 +1,7 @@
 \RequirePackage{fix-cm}
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL manuscript_BMB.tex.b16a28171.oldfile   Mon Feb 28 22:04:37 2022
+%DIF ADD manuscript_BMB.tex                     Mon Feb 28 22:00:57 2022
 
 \documentclass[smallextended]{svjour3}       % onecolumn (second format)
 
@@ -31,6 +34,12 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
+%DIF 34a34-37
+\newcommand{\comment}{\showcomment} %DIF > 
+\newcommand{\showcomment}[3]{\textcolor{#1}{\textbf{[#2: }\textsl{#3}\textbf{]}}} %DIF > 
+\newcommand{\nocomment}[3]{} %DIF > 
+ %DIF > 
+%DIF -------
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
 \newcommand{\appref}[1]{Appendix~\ref{app:#1}}
 % \newcommand{\Rlogo}{R\xspace}
@@ -44,6 +53,9 @@
 \newcommand{\testtarget}{\ensuremath{w\_{IS}}}
 \newcommand{\oldtesttarget}{\ensuremath{\frac{w_I}{w_S}}\xspace}
 \newcommand*\subtxt[1]{_{\textnormal{#1}}}
+%DIF 47a51
+\newcommand{\rev}[1]{\comment{red}{Revised}{#1}} %DIF > 
+%DIF -------
 %% Roman subscript
 \DeclareRobustCommand\_{\ifmmode\expandafter\subtxt\else\textunderscore\fi}
 
@@ -52,10 +64,75 @@
 
 % Insert the name of "your journal" with
 \journalname{Bulletin of Mathematical Biology}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF HYPERREF PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{\texorpdfstring{\DIFaddtex{#1}}{#1}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{\texorpdfstring{\DIFdeltex{#1}}{}} %DIF PREAMBLE
+\newcommand{\DIFscaledelfig}{0.5}
+%DIF HIGHLIGHTGRAPHICS PREAMBLE %DIF PREAMBLE
+\RequirePackage{settobox} %DIF PREAMBLE
+\RequirePackage{letltxmacro} %DIF PREAMBLE
+\newsavebox{\DIFdelgraphicsbox} %DIF PREAMBLE
+\newlength{\DIFdelgraphicswidth} %DIF PREAMBLE
+\newlength{\DIFdelgraphicsheight} %DIF PREAMBLE
+% store original definition of \includegraphics %DIF PREAMBLE
+\LetLtxMacro{\DIFOincludegraphics}{\includegraphics} %DIF PREAMBLE
+\newcommand{\DIFaddincludegraphics}[2][]{{\color{blue}\fbox{\DIFOincludegraphics[#1]{#2}}}} %DIF PREAMBLE
+\newcommand{\DIFdelincludegraphics}[2][]{% %DIF PREAMBLE
+\sbox{\DIFdelgraphicsbox}{\DIFOincludegraphics[#1]{#2}}% %DIF PREAMBLE
+\settoboxwidth{\DIFdelgraphicswidth}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\settoboxtotalheight{\DIFdelgraphicsheight}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\scalebox{\DIFscaledelfig}{% %DIF PREAMBLE
+\parbox[b]{\DIFdelgraphicswidth}{\usebox{\DIFdelgraphicsbox}\\[-\baselineskip] \rule{\DIFdelgraphicswidth}{0em}}\llap{\resizebox{\DIFdelgraphicswidth}{\DIFdelgraphicsheight}{% %DIF PREAMBLE
+\setlength{\unitlength}{\DIFdelgraphicswidth}% %DIF PREAMBLE
+\begin{picture}(1,1)% %DIF PREAMBLE
+\thicklines\linethickness{2pt} %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,0){\framebox(1,1){}}}% %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,0){\line( 1,1){1}}}% %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,1){\line(1,-1){1}}}% %DIF PREAMBLE
+\end{picture}% %DIF PREAMBLE
+}\hspace*{3pt}}} %DIF PREAMBLE
+} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbegin}{\DIFaddbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddend}{\DIFaddend} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbegin}{\DIFdelbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelend}{\DIFdelend} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbegin}{\DIFOaddbegin \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbegin}{\DIFOdelbegin \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbeginFL}{\DIFaddbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddendFL}{\DIFaddendFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbeginFL}{\DIFdelbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelendFL}{\DIFdelendFL} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbeginFL}{\DIFOaddbeginFL \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbeginFL}{\DIFOdelbeginFL \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
 
 \begin{document}
 
-\title{Testing and Isolation Efficacy:\\Insights from a Simple Epidemic Model
+\DIFaddbegin \linenumbers
+
+\DIFaddend \title{Testing and Isolation Efficacy:\\Insights from a Simple Epidemic Model
 % \thanks{Grants or other notes
 % about the article that should go on the front page should be
 % placed here. General acknowledgments should be placed at the end of the article.}
@@ -65,7 +142,7 @@
 %\titlerunning{Short form of title}        % if too long for running head
 
 \author{Ali Gharouni         \and
-        F.M. Abdelmalek \and 
+        \DIFdelbegin \DIFdel{F.}\DIFdelend \DIFaddbegin \DIFadd{Fred }\DIFaddend M. Abdelmalek \and 
         David J. D. Earn \and
         Jonathan Dushoff \and
         Benjamin M. Bolker
@@ -82,7 +159,7 @@
               Department of Mathematics and Statistics, University of Ottawa, Ottawa, Ontario \\%  if needed\\
               \email{agharoun@uottawa.ca}\\
            \and
-           F.M. Abdelmalek \at
+           \DIFdelbegin \DIFdel{F}\DIFdelend \DIFaddbegin \DIFadd{Fred }\DIFaddend .M. Abdelmalek \at
               Department of Mathematics and Statistics, McMaster University, Hamilton, Canada \\
               \email{abdelf1@mcmaster.ca}\\  
            \and
@@ -109,11 +186,13 @@
 
 
 \maketitle
+\DIFdelbegin %DIFDELCMD < 
 
-\begin{abstract}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \linenumbers
+\DIFaddend \begin{abstract}
 
-Testing individuals for pathogens can affect the spread of epidemics. 
-Understanding how individual-level processes of sampling and reporting test results can affect community- or population-level spread is a dynamical modeling question.
+Testing individuals for pathogens can affect the spread of epidemics. Understanding how individual-level processes of sampling and reporting test results can affect community- or population-level spread is a dynamical modeling question.
 The effect of testing processes on epidemic dynamics depends on factors underlying implementation, particularly testing intensity and on whom testing is focused.
 Here, we use a simple model to explore how the individual-level effects of testing might directly impact population-level spread.
 Our model development was motivated by the \covid epidemic, but has generic epidemiological and testing structures. 
@@ -220,10 +299,12 @@ For simplicity we assume that tests are perfectly \emph{specific} --- uninfected
 \caption{\label{tab:params}Parameters of the model specified  by the flow chart in \fref{fig:flowchart} and equations~\eqref{model}.}
 \end{table}
 
-The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. The DFE is
+The Disease-Free Equilibrium (DFE) for the expanded SIR model (Eqs.~\ref{model}) is found by setting the infected compartments to 0 and solving for the unknowns. 
+%DIF >  reviewer1:com3 \rev{The DFE depends on \percap testing intensity $\rho$, the rate of test return $\omega$, and the population size $N$.} 
+The DFE is 
 \begin{equation}
 \label{dfe}
-S\_n^*= \frac{\rho}{\omega} N, \ S\_u^*= N-S_n^*, \text{~and~} I_j=R_j=0 \ \text{for all }j.
+S\_n^*= \frac{\rho}{\omega} N, \DIFdelbegin \DIFdel{\ }\DIFdelend \DIFaddbegin \quad \DIFaddend S\_u^*= N-S\DIFdelbegin \DIFdel{_n}\DIFdelend \DIFaddbegin \DIFadd{\_n}\DIFaddend ^*, \DIFdelbegin \DIFdel{\text{~and~} }\DIFdelend \DIFaddbegin \quad\DIFadd{\text{and}}\quad \DIFaddend I_j=R_j=0 \ \text{for all }j.
 \end{equation}
 The corresponding \percap testing rate (Eq.~\ref{test}) for the infected compartment $I$ at DFE is one of the key analysis parameters and can be simplified as 
 \begin{equation}
@@ -330,7 +411,9 @@ However, when waiting individuals isolate ($\theta\_w>0$), we more often see the
 \section{Discussion}
 \label{disc}
 
-In this paper, we have developed and analyzed a simple compartmental model that combines epidemiological dynamics---as defined by a simple SIR model---with the dynamics of testing and isolation. Our model is a caricature: it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g., exposed, pre-symptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates; behavioural dynamics \citep{weitz2020awareness}). Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between transmission dynamics and testing, rather than for making quantitative predictions or guiding pandemic responses.
+In this paper, we have developed and analyzed a simple compartmental model that combines epidemiological dynamics---as defined by a simple SIR model---with the dynamics of testing and isolation. Our model is a caricature: it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g., exposed, pre-symptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates; behavioural dynamics \citep{weitz2020awareness})\DIFdelbegin \DIFdel{. }\DIFdelend \DIFaddbegin \DIFadd{; 
+%DIF >  reviewer2:com1
+}\DIFaddend Thus, it is most appropriate for assessing the \emph{qualitative} phenomena that arise from the interactions between transmission dynamics and testing, rather than for making quantitative predictions or guiding pandemic responses.
 
 Many of the qualitative results we have derived confirm simple, common-sense intuitions. In particular, we can generally decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g., symptomatic people or close contacts of known infections).
 
@@ -348,8 +431,10 @@ Although we model the testing process in more detail than typical epidemiologica
 Although testing and tracing is a key part of infection control strategies, mathematical epidemiologists have typically analyzed it with detailed models designed to inform particular public health efforts \citep{endo2020implication,hellewell2020feasibility,jenness2020modeling}, rather than analyzing simple but general models of the feedback between testing and transmission dynamics.
 There have been several modeling studies of testing and tracing dynamics and their interaction with epidemiological dynamics. In the context of repeated screening and random testing of isolated populations (such as the members of a university), \cite{bergstrom2020frequency} provided analytical results quantifying the effects that proactive screening of asymptomatic individuals and isolation of confirmed-positive cases could have in reducing the spread of disease. 
 \cite{rogers2021high} simulated a SEIR model with testing and isolation; they similarly suggest a strategy of rapid testing with antigen tests and the subsequent isolation of confirmed-positive individuals.
+%DIF >  TODO reviewer1:com1 \rev {\cite{muller2021mathematical} simulated a structured SEIR-type model. Their model incorporated different testing scenarios -- including gateway testing \fady{what ``gateway testing'' is? ref?}, surveillance testing, and contact tracing -- as well as individual level control measures such as mask wearing and social distancing. They indicate the benefit of gateway testing in conjunction with effective contact tracing or robust surveillance testing in controling the spread of the infection. Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. It is notable that while this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $\theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).}
 \cite{friston2021testing} model the effects of self-isolation on testing and tracing with a focus on projections under different testing and tracing scenarios. They conclude that the emergence of a second wave depends almost primarily on the rate at which immunity is lost and that it is necessary to track asymptomatic individuals in order to control the outbreak. 
 Our modeling approach differs from these previous efforts in that it examines the effects of test-return rates and of different levels of testing focus, from random to highly targeted. We hope this paper will inspire further explorations of the fundamental properties of epidemic models that incorporate explicit testing processes.
+%DIF >  reviewer2:com2 future work...
 
 % \begin{acknowledgements}
 % If you'd like to thank anyone, place your comments here
@@ -660,6 +745,7 @@ Now we interpret \textbf{Case II}.  In this case, $\Rnum$ will have a global max
 % %%%%%%%
 \subsection{The effect of testing focus parameter $\testtarget$ on $\Rnum$} \label{app:w}
 
+%DIF >  reviewer1:com4 \rev{Using the expression for the effectiveness of control parameter $\Delta$ in eq.~\ref{eq:del4a}, gives}
 \begin{align}
 \label{eq:d_del_wis}
 \pder \Delta{w\_{IS}}= \dfrac{(\omega-\rho) (\omega(\omega-\rho\theta\_w)+\gamma(\omega-\rho)) (\theta\_w\gamma+\theta\_c\omega p\_I)}

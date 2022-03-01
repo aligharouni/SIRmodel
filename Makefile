@@ -45,6 +45,9 @@ cohort.pdf: cohort.tex
 
 manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
 
+## Submitted version: manuscript_BMB.tex.b16a28171.oldfile
+## manuscript_BMB_olddiff.pdf:
+
 ##First round of responses to reviewers' comments
 response1_BMB.pdf: response1_BMB.tex
 
