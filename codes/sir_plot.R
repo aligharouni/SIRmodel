@@ -1,10 +1,10 @@
+library(McMasterPandemic)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(directlabels)
 library(latex2exp)
 library(rootSolve)
-library(McMasterPandemic)
 library(cowplot) ## for ggdraw()/rectangle-hacking
 
 library(shellpipes)
