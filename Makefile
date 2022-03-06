@@ -43,6 +43,8 @@ cohort.pdf: cohort.tex
 ######################################################################
 ## submission to BMB
 
+allrev: submitted manuscript_BMB.pdf manuscript_BMB_olddiff.pdf
+
 manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
 
 ## Submitted version: manuscript_BMB.tex.b16a28171.oldfile
