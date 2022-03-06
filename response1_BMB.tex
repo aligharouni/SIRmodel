@@ -68,10 +68,7 @@ Under such approaches, individuals must practice increased levels of social dist
 
 \res 1 
 We now have added several lines and the suggested reference [1] to the end of the discussion to acknowledge the ``gateway testing'' and the potential benefit of our modelling results in controling the disease spread.    
-
-\david{I gather you have not edited the ms, but are making suggestions for edits.  It is not clear to me where you are suggesting that the following paragraph goes.  Please indicate precisely where you are suggesting this new text be included in the ms.  In any case, you can't include this paragraph in our ms because it is mostly a direct quote from the the referee's comments, which is not OK.  You do need to define ``gateway testing'' if you are using the term.}
-
-\rev {This goes in line 263 of pdf. \cite{muller2021mathematical} simulated a structured SEIR-type model. Their model incorporated different testing scenarios -- including gateway testing \fady{what ``gateway testing'' is? ref?}, surveillance testing, and contact tracing -- as well as individual level control measures such as mask wearing and social distancing. They indicate the benefit of gateway testing in conjunction with effective contact tracing or robust surveillance testing in controling the spread of the infection. Under such approaches, individuals must practice increased levels of social distancing or self- isolation until they have achieved a series of confirmed negative tests. It is notable that while this type of time- dependent testing and self-isolation protocol might not fit well within the framework of linear stability of a disease-free equilibrium, the relationship between increased $\theta_w$ and the benefits of a longer waiting period $1/\omega$ seems to indicate the possibility that combining waiting for results and self-isolation can help to stem early outbreaks (e.g. at the beginning of a university term).}
+% {search for reviewer1:com1 in the manuscript_BMB.tex}
 
 \com 2 {\it Would similar effects on $\theta_X$ occur if the model incorporated an exposed class into the model, and would that depend on the way in which positive test results correspond to time-period of infectiousness? With an exposed or asymptomatic and infectious, there may be interesting ways in which waiting for tests and the presence or lack of self-isolation while waiting could feed back on subsequent transmission and on changes in R0.
 } 
@@ -80,10 +77,7 @@ We now have added several lines and the suggested reference [1] to the end of th
 [not sure here!] 
 
 % JD try to write text
-\rev{ (this belongs to discussion) Regarding the incorporation of an exposed class or asymptomatic and infectious compartment to the current model; 
-Incorporating the extra compartments (exposed, asymptomatic and infectious) would effect the testing weights and isolation efficacy parameters. In particular, we know that people know something about their exposure (assuming we don't know about symptoms). We know that there is a bias towards testing infected people, due to having some knowledge of risk. Testing people of known exposures will increase testing weight $w_I$, this is testing and tracing. Also, exposed people presumably practice more isolation, thus $\theta\_w$ will increase and consequently $\Rnum$ will decrease. }
-\fady{In a less trivial sense, I think that the existence of an exposed class could make any difference in our model only if the testing and isolation parameters are different for the exposed class than the infected class. That is, I think that if we added an exposed class in our model but set the testing intensity and isolation strength to be the same as the infected class, then nothing would change in our model.}
-
+% {search for reviewer1:com2 in the manuscript_BMB.tex}
 
 {\it While I think that the analysis already presented in the paper is sufficient for the current paper, I think that ideas related to these questions might be interesting for future research or as points for discussion.}
 \com 3 
@@ -91,16 +85,14 @@ Incorporating the extra compartments (exposed, asymptomatic and infectious) woul
  
 \res 3
 We now have added a line in the manuscript to describe the parameters involved in the DFE before Equation (4).
-
-\rev {The DFE depends on \percap testing intensity $\rho$, the rate of test return $\omega$, and the population size $N$.}
+% {search for reviewer1:com3 in the manuscript_BMB.tex}
 
 \com 4
 {\it In Section A.4 of the appendix, is the partial derivative of $\Delta$ being calculating for the exact expression from Equation 7, or from the approximate expression in Equation A22 obtained from a Taylor expansion when $\rho \ll 1$. From the expression in Equation A27, it seems like this is derived from Equation 7, but it would be helpful to clarifying which expression is used to highlight whether this result holds across the range of parameters or only in the limit of weak testing intensity.}
 
 \res 4
 We have added a line in the manuscript in Section A.4 of the appendix to clarify the fact that Eq. 27 is a direct result of differentiating $\Delta$ in Eq.7 with respect to $w_{IS}$.
-
-\rev{Using the expression for the effectiveness of control parameter $\Delta$ in eq.~\ref{eq:del4a}, gives}
+% {search for reviewer1:com4 in the manuscript_BMB.tex}
 
 \subsubsection*{References}
 
@@ -114,35 +106,14 @@ We have added a line in the manuscript in Section A.4 of the appendix to clarify
 
 \res 1
 We now have added a line in the manuscript (the first paragraph of the Discussion section) to clarify what we mean by the term ``caricature''. 
-
-Our model is a caricature: it models the most basic feedbacks between epidemic and testing processes, but does not attempt to incorporate the many known complications of COVID-19 epidemiology (e.g., exposed, pre-symptomatic, and asymptomatic compartments \citep{kain2021chopping}; time-varying testing rates; behavioural dynamics \citep{weitz2020awareness}); 
-
-\rev{Our model ignores the fact that the testing and isolation parameters can change over time due to public health responses. In other words, our model makes an assumption of "independence": we assume that testing and isolation affect the epidemic progression, but we do not account for the fact that "in real life", the epidemic progression is also likely to affect the testing and isolation strategies.} 
-\david{I agree with Fred's comment and a brief comment along these lines could be included instead the quote you have above.}
+% {search for reviewer2:com2 in the manuscript_BMB.tex} 
 
 \com 2 
 {\it Another point authors should discuss is future prospects, how their model can be further refined and what we can learn from this model in terms of public health policies (discussion is too succinct with this regard).}
 
 \res 2
 We have added some lines to the discussion section of the manuscript to include some potential future work.
+% { search for reviewer2:com2 in the manuscript_BMB.tex}
 
-\david{The following suggested text is very rough and incomplete.  Point 3 just says ``test''.  You must have forgotten to write what you had in mind.  Point 2 is not clear or concise, and keeps referring to parameters without explanation.  When talking about future work, you need to make the text accessible to somebody who hasn't studied the paper carefully.  What directions would be useful to pursue? And why? i.e., what would you expect to learn from such work?  Trying to estimate testing weights might be interesting and useful, but I think the referee was probably trying to get us to describe further developments of the this modelling approach, not that we should try to estimate parameters.}
-
-\rev{ The potential future work of this project include:
-\begin{enumerate}
-\item
-Incorporating the asymptomatic and symptomatic compartments to the model and verify the present results. 
-\item
-Quantify the testing weights, when we incorporate asymptomatic and symptomatic compartments to the model. In particular, We know that not all symptomatic people are the same. people know something about their exposure, and not necessarily about symptoms. We know that there is a bias towards testing infected people, due to having some knowledge of risk. It is harder to quantify that than quantifying symptom/no symptom but we can say that would shift if we have a policy of screening people of high risk areas will push things towards infected people. Also testing people of known exposures will increase testing weight for infected people $w_I$, this is exactly testing and tracing. It is much harder to quantify that. In principle if we knew enough of the case report, hospitalizations, test positivity, death, we could make an estimate of $w_X$'s. Also note that $w_X$'s don't stay the same because it is all bound up with capacity because we tend to bias towards testing people who are more likely be infected and the more testing capacity we have the more we are willing to test more people less likely to be infected. Thus there is a relationship between testing capacity and the $w_X$'s because our testing policy changes as the testing capacity changes. Except for the symptomatic example, it is very hard to quantify the effect of a particular testing policy on the $w_X$'s. In short, "test positivity tells a lot about testing weights"; It is hard to know exactly how much information there is and how much we can estimate that.
-\end{enumerate}
-}
-
-\fady{
-our model makes the counterintuitive suggestion that increased testing rate could increase $\Rnum$. However, note that in our model, we made the assumption that once an individual is in the ``waiting'' compartment, they cannot be tested again until the test result returns. Thus, when the test return time is very long, this creates a massive time-delay where an individual may become infected while waiting for the test result, and then the test result comes back as negative, and so they believe they are negative when they are actually positive (and so they do not self-isolate at all, under the belief that they are negative).
-So, in this case, it would be beneficial to actually re-test people even if their first test result has not come back. In fact, one could probably conceive of ``testing breadth'' (which roughly corresponds to the number of different people you test over some period of time) vs. ``testing depth (which corresponds to the number of times you test a single person over a period of time). Note that testing breadth gives us granular information ``in space but not in time'' (i.e., it tells us how many people are or are not infected at a single point in time), whereas testing depth gives us granular information ``in time but not in space''. The pathological situation in our model can be viewed as an imbalance between testing depth and breadth, where the testing strategy is overly-broad but not sufficiently deep.
-In particular, one could build models that differentiate/partition ``testing intensity'' into ``testing breadth'' and ``testing depth''. In such a model, there should always exist some allocation of breadth and depth that makes it so that increasing the overall testing intensity is beneficial (i.e., if we choose the right strategy, more testing should always be good).
-The most important point of all this: while the exact effect we identified in our model (that more testing can increase $\Rnum$ if done incorrectly) is unlikely to happen in real life, a weaker ``sister effect'' probably happens in real life all the time: we may be allocating our testing resources in the wrong breadth vs. depth ratio. Our model ``proves'' that pure-breadth is not always the optimal strategy (because, in fact, it can increase $\Rnum$). So, a more realistic future question is: what is the optimal allocation between breadth and depth that decreases $\Rnum$ most sharply for a given overall testing intensity? For example, in our model, when we increase testing intensity, we are mostly increasing breadth. So, even on parameter sets in our model where increasing rho decreases $\Rnum$, we may still be ``missing out'' by focusing only on breadth and not depth.
-}
-\david{These are thoughtful ideas from Fred.  Perhaps they could be compressed to a couple of sentences describing a future direction worth pursuing.}
 
 \end{document}
