@@ -43,13 +43,13 @@ cohort.pdf: cohort.tex
 ######################################################################
 ## submission to BMB
 
-allrev: submitted manuscript_BMB.pdf manuscript_BMB_olddiff.pdf
+allrev: submitted manuscript_BMB.pdf manuscript_BMB_olddiff.pdf manuscript_BMB_olddiff.pdf.go
 
 manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
 
-## Submitted version: manuscript_BMB.tex.b16a28171.oldfile
-## manuscript_BMB_olddiff.pdf:
+submitted: manuscript_BMB.tex.b16a28171.oldfile ;
 
+## manuscript_BMB_olddiff.pdf: manuscript_BMB.tex
 manuscript_BMB_olddiff.pdf: manuscript_BMB.tex.b16a28171.oldfile
 
 ##First round of responses to reviewers' comments
