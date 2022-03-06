@@ -43,7 +43,7 @@ cohort.pdf: cohort.tex
 ######################################################################
 ## submission to BMB
 
-allrev: submitted manuscript_BMB.pdf manuscript_BMB_olddiff.pdf manuscript_BMB_olddiff.pdf.go
+allrev: submitted manuscript_BMB.pdf manuscript_BMB_olddiff.pdf manuscript_BMB_olddiff.pdf response1_BMB.pdf
 
 manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
 
