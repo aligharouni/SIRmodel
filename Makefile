@@ -6,7 +6,7 @@ current: target
 # -include makestuff/perl.def
 
 vim_session:
-	bash -cl "vmt"
+	bash -cl "vmt manuscript_BMB.tex response1_BMB.tex"
 
 ######################################################################
 
@@ -47,6 +47,8 @@ manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
 
 ## Submitted version: manuscript_BMB.tex.b16a28171.oldfile
 ## manuscript_BMB_olddiff.pdf:
+
+manuscript_BMB_olddiff.pdf: manuscript_BMB.tex.b16a28171.oldfile
 
 ##First round of responses to reviewers' comments
 response1_BMB.pdf: response1_BMB.tex
