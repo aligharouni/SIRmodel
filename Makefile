@@ -22,7 +22,7 @@ Ignore += $(alldirs)
 
 ## Manuscript
 
-Sources += $(wildcard *.tex *.bib *.R)
+Sources += $(wildcard *.tex *.bib *.R) README.md
 
 authors.Rout: authors.R
 	$(pipeR)
