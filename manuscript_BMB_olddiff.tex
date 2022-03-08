@@ -1,7 +1,7 @@
 \RequirePackage{fix-cm}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL manuscript_BMB.tex.b16a28171.oldfile   Mon Mar  7 15:04:59 2022
-%DIF ADD manuscript_BMB.tex                     Mon Mar  7 17:16:07 2022
+%DIF ADD manuscript_BMB.tex                     Tue Mar  8 09:51:53 2022
 
 \documentclass[smallextended]{svjour3}       % onecolumn (second format)
 
@@ -230,7 +230,11 @@ When testing is done for the purposes of disease surveillance \citep{foddai2020b
 tests are typically conducted randomly (or using a stratified random design) across the population in order to make an unbiased assessment of population prevalence.
 
 Over the course of the \covid pandemic, however, the vast majority of testing has been done with other goals --
-primarily diagnostic (determining infection status for clinical purposes) \citep{phua2020intensive,who2020global}, or for control (determining  infection status in order to isolate cases that have been found by contact tracing) \citep{aleta2020modelling,kucharski2020effectiveness,grassly2020comparison,smith2020adherence}, which we characterize as \emph{targeted} testing strategies.
+primarily diagnostic (determining infection status for clinical purposes) \citep{phua2020intensive,who2020global}, or for control (determining  infection status in order to isolate cases that have been found by contact tracing) \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep{aleta2020modelling,kucharski2020effectiveness,grassly2020comparison,smith2020adherence}}%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{aleta2020modelling,kucharski2020effectiveness,grassly2020comparison,smith2021adherence}}%DIFAUXCMD
+}\DIFaddend , which we characterize as \emph{targeted} testing strategies.
 In these situations, testing probabilities can differ sharply across epidemiological compartments; in our dynamical model, we will characterize these probabilities by assigning a testing weight to each compartment that determines the \emph{relative} probability that an individual in that compartment will be selected for testing (see Methods). 
 
 Diagnostic testing focuses on people with infection-like symptoms; thus the relative testing weights for infected people will depend on the relative probability of infected people having symptoms. For \covid infection, the testing weights will depend on the proportion of asymptomatic infections, the time spent pre-symptomatic vs.\ symptomatic during the course of an infection, and on the incidence of \covid-like symptoms among people in the population \emph{not} infected with \covid. Testing for epidemic control focuses on known contacts of infected people; in this case the testing weights for infected vs.\ uninfected people will depend on the probability of infection given contact, as well as the effectiveness of the system for identifying suspicious contacts.
@@ -454,7 +458,11 @@ We can show that this phenomenon occurs \emph{only} under targeted testing ($w_I
 %DIF >  reviewer1:com2
 \DIFaddend Future steps should explore mathematically tractable ways to model some of these factors more precisely. For example, separating the infected class into exposed, symptomatic, and a- or pre-symptomatic compartments and allowing the testing weights to vary across non-symptomatic (exposed/asymptomatic/presymptomatic) vs.\ symptomatic compartments could reflect the allocation of tests for diagnostic purposes (targeting symptomatic individuals) vs.\ contact-tracing (targeting infected but non-symptomatic individuals) vs.\ screening (relatively equal weights, depending on the venue). \DIFaddbegin \DIFadd{This could also allow exploration of different assumptions about individuals' likelihood of testing positive in different compartments, with implications for the questions about repeat testing discussed above. }\DIFaddend Alternatively, one could make the testing weights depend on the testing intensity or test-return rate as suggested above. Whatever complexity is added would probably put the model beyond reach of the analytical methods we have used in this paper, but one could still use semi-numerical methods such as constructing the next-generation matrix and using it to evaluate the derivatives of $\Rnum$ with respect to the parameters numerically.
 
-Although testing and tracing is a key part of infection control strategies, mathematical epidemiologists have typically analyzed it with detailed models designed to inform particular public health efforts \citep{endo2020implication,hellewell2020feasibility,jenness2020modeling}, rather than analyzing simple but general models of the feedback between testing and transmission dynamics.
+Although testing and tracing is a key part of infection control strategies, mathematical epidemiologists have typically analyzed it with detailed models designed to inform particular public health efforts \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep{endo2020implication,hellewell2020feasibility,jenness2020modeling}}%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{endo2020implication,hellewell2020feasibility,jenness2021modeling}}%DIFAUXCMD
+}\DIFaddend , rather than analyzing simple but general models of the feedback between testing and transmission dynamics.
 There have been several modeling studies of testing and tracing dynamics and their interaction with epidemiological dynamics. In the context of repeated screening and random testing of isolated populations (such as the members of a university), \cite{bergstrom2020frequency} provided analytical results quantifying the effects that proactive screening of asymptomatic individuals and isolation of confirmed-positive cases could have in reducing the spread of disease. 
 \cite{rogers2021high} simulated a SEIR model with testing and isolation; they similarly suggest a strategy of rapid testing with antigen tests and the subsequent isolation of confirmed-positive individuals.
 \cite{friston2021testing} model the effects of self-isolation on testing and tracing with a focus on projections under different testing and tracing scenarios. They conclude that the emergence of a second wave depends \DIFdelbegin \DIFdel{almost }\DIFdelend primarily on the rate at which immunity is lost and that it is necessary to track asymptomatic individuals in order to control the outbreak. 
