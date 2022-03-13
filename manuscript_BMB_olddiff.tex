@@ -1,7 +1,7 @@
 \RequirePackage{fix-cm}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL manuscript_BMB.tex.b16a28171.oldfile   Sun Mar 13 18:22:33 2022
-%DIF ADD manuscript_BMB.tex                     Sun Mar 13 18:40:24 2022
+%DIF ADD manuscript_BMB.tex                     Sun Mar 13 18:53:40 2022
 
 \documentclass[smallextended]{svjour3}       % onecolumn (second format)
 
@@ -434,18 +434,13 @@ In this paper, we have developed and analyzed a simple compartmental model that 
 
 Many of the qualitative results we have derived confirm simple, common-sense intuitions. In particular, \DIFaddbegin \DIFadd{it is not surprising that }\DIFaddend we can generally decrease $\Rnum$ by increasing isolation efficacy or testing intensity; returning tests faster, if individuals do not isolate while they are waiting for results; or increasing testing focus to target individuals who are likely to be infectious (e.g., symptomatic people or close contacts of known infections).
 
-
-
-
-
-
 However, we did find two surprising \DIFdelbegin \DIFdel{patterns}\DIFdelend \DIFaddbegin \DIFadd{phenomena}\DIFaddend : under some conditions longer delays in returning tests can reduce epidemic spread, and increasing testing rates can increase spread.
 
 Over broad regions of parameter space, decreasing $\omega$---i.e., \emph{slowing} the rate at which test results are returned---\emph{decreases} $\Rnum$ (for random testing, the parameter region is $\theta\_w \gtrsim 0.25$; for targeted testing, $\theta\_w \geq 0.25$ and either $\theta\_c \ge 0.5$ or $1/\omega > 5$; see Table~\ref{tab:params} for parameter definitions).  This result is counterintuitive and would not be expected by public health authorities \DIFdelbegin \DIFdel{that }\DIFdelend \DIFaddbegin \DIFadd{who }\DIFaddend have invested a great deal of effort in reducing delays from testing to results. Dynamically, this effect occurs because speeding up test returns shortens the isolation period of uninfected individuals (for infected people it only shortens the time to progression to the isolation level of the confirmed-positive compartment). Slowing test returns increases $\Rnum$ only if the proportion of infectives in the tested population is high and isolation is relatively strong among people waiting for test results. 
 
 While slowing test returns does decrease $\Rnum$ over broad regions of parameter space in our model, there are several real-world processes missing from our model that make it unlikely that slowing test returns would actually be an effective public health measure. First, we do not model the primary benefit of rapid testing, i.e., detecting and containing outbreaks while they are still in progress. This process could be modeled phenomenologically by making the testing focus more targeted as an increasing proportion of cases is detected, because finding infections allows tests to be concentrated on their connections. Second, individuals may become less likely to maintain isolation if they are required to do so for longer; phenomenologically, we could allow  effectiveness of isolation in the waiting population to be an increasing function of test-return speed, or we could introduce a separate ``waiting, but no longer isolating'' compartment that individuals entered from the ``waiting, isolated'' compartment at a specified rate. Finally, if one wants to decrease the overall transmission rate of the population there are more effective methods than keeping tested people in limbo; these include masking, ventilation, distancing measures, retail and event closures, and stay-at-home orders.
 
-%DIF >  reviewer1:com1
+%DIF >  reviewer2:com2
 \DIFaddbegin \DIFadd{This finding does, however, suggest that cautious behaviour by people waiting for test results might have appreciable effects on epidemic spread. This reinforces the idea that people waiting for test results should be urged to isolate and take other measures to prevent infecting other, or being infected. It also provides general support for the idea of institutional ``gateway'' testing which restricts individuals' contacts or access until one or more negative tests have been received \mbox{%DIFAUXCMD
 \citep{muller2021mathematical}}%DIFAUXCMD
 .%DIF > 
