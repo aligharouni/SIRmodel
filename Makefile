@@ -47,6 +47,7 @@ cohort.pdf: cohort.tex
 allrev: submitted manuscript_BMB.pdf manuscript_BMB_olddiff.pdf manuscript_BMB_olddiff.pdf response1_BMB.pdf
 
 manuscript_BMB.pdf: manuscript_BMB.tex codes/modeldefs.tex
+## manuscript_BMB.tex.blame:
 
 submitted: manuscript_BMB.tex.b16a28171.oldfile ;
 
